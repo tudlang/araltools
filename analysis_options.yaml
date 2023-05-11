@@ -1,0 +1,47 @@
+# Copyright (C) 2023 Tudlang
+# 
+# This file is part of AralTools.
+# 
+# AralTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# AralTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
+
+# This file configures the static analysis results for your project (errors,
+# warnings, and lints).
+#
+# This enables the 'recommended' set of lints from `package:lints`.
+# This set helps identify many issues that may lead to problems when running
+# or consuming Dart code, and enforces writing Dart using a single, idiomatic
+# style and format.
+#
+# If you want a smaller set of lints you can change this to specify
+# 'package:lints/core.yaml'. These are just the most critical lints
+# (the recommended set includes the core lints).
+# The core lints are also what is used by pub.dev for scoring packages.
+
+include: package:lints/recommended.yaml
+
+# Uncomment the following section to specify additional rules.
+
+# linter:
+#   rules:
+#     - camel_case_types
+
+# analyzer:
+#   exclude:
+#     - path/to/excluded/files/**
+
+# For more information about the core and recommended set of lints, see
+# https://dart.dev/go/core-lints
+
+# For additional information about configuring this file, see
+# https://dart.dev/guides/language/analysis-options
