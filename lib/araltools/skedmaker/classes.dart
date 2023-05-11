@@ -22,6 +22,7 @@ import 'dart:math';
 
 import 'package:vector_math/vector_math.dart';
 
+/// An offering for a particular subject
 class Offering implements Comparable {
   late String subject;
   late String section;
@@ -492,31 +493,6 @@ class ScheduleWeek {
 
       subjectsTemp.add(schedS.subject);
     }
-
-    //if (subjects != this.subjects) return false;
-/*
-    for (final schedH in thursday) {
-      if (schedH.scheduleDay.daycode != 'MH' &&
-          subjects.contains(schedH.subject))
-        return false;
-      else
-        subjects.add(schedH.subject);
-    }
-
-    for (final schedF in friday) {
-      if (schedF.scheduleDay.daycode != 'TF' &&
-          subjects.contains(schedF.subject))
-        return false;
-      else
-        subjects.add(schedF.subject);
-    }
-
-    for (final schedS in saturday) {
-      if (schedS.scheduleDay.daycode != 'WS' &&
-          subjects.contains(schedS.subject)) return false;
-      subjects.add(schedS.subject);
-    }
-*/
 
     if (!subjectsTemp.containsAll(this.subjects)) return false;
     return true;

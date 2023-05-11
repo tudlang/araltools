@@ -23,8 +23,8 @@
 | Term | Meaning | Example/Link
 | -- | -- | --
 | subject | a subject that you take; the course code | `CALENG1`, `GEUSELF`
-| offering | a possible offering for that subject, with a specific section, class number, day, modality, slots, etc.; the table row in the 'View Course Offerings' table in the DLSU MLS | [Offering](./classes.dart#L8) class
-| OfferingDay | a possible schedule for a particular day; a sequence of offerings that are possible and non-conflicting | [OfferingDay](./classes.dart#L570) class
+| offering | a possible offering for that subject, with a specific section, class number, day, modality, slots, etc.; the table row in the 'View Course Offerings' table in the DLSU MLS | [Offering](./classes.dart#L25) class
+| OfferingDay | a possible schedule for a particular day; a sequence of offerings that are possible and non-conflicting | [OfferingDay](./classes.dart#L588) class
 |M, T, W, H, F, S | corresponds to the days of the week; respectively: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday | -
 
 
