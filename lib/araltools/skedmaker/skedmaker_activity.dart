@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -27,6 +27,7 @@ import 'connection.dart';
 import 'functions.dart';
 import '/strings.g.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
+// ignore: unused_import
 import 'test_tables.dart';
 
 class SkedmakerActivity extends StatefulWidget {
@@ -43,10 +44,12 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
       create: (context) => SkedmakerModel(),
       child: MultiSplitViewTheme(
         data: MultiSplitViewThemeData(
-            dividerPainter: DividerPainters.grooved1(
-                backgroundColor: Colors.grey[350],
-                color: Colors.indigo[100]!,
-                highlightedColor: Colors.indigo[900]!)),
+          dividerPainter: DividerPainters.grooved1(
+            backgroundColor: Colors.grey[350],
+            color: Colors.indigo[100]!,
+            highlightedColor: Colors.indigo[900]!,
+          ),
+        ),
         child: MultiSplitView(
           initialAreas: [Area(weight: 0.3)],
           axis: Axis.horizontal,
@@ -86,7 +89,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           child: Row(
             children: [
               Text(
-                'Subjects (${context.watch<SkedmakerModel>().subjects.length})',
+                strings.skedmaker.subjects.title(number: context.watch<SkedmakerModel>().subjects.length),
                 style: textTheme.headlineSmall,
               ),
               Spacer(),
@@ -96,18 +99,18 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                   // UNCOMMENT TO ADD MLS FUNCTIONALITY
                   final list = await getSubject(context);
                   if (list == null) return;
-                  
+
                   context.read<SkedmakerModel>()
-                    // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                    ..addSubject(list.first.subject, list)   
-                    // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                    //..addSubject('CALENG2', parse(caleng2))
-                    //..addSubject('LBYMF1C', parse(lbymf1c))
-                    //..addSubject('LCLSONE', parse(lclsone))
-                    //..addSubject('LBYMF1D', parse(lbymf1d))
-                    ;
+                        // UNCOMMENT TO ADD MLS FUNCTIONALITY
+                        ..addSubject(list.first.subject, list)
+                      // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
+                      //..addSubject('CALENG2', parse(caleng2))
+                      //..addSubject('LBYMF1C', parse(lbymf1c))
+                      //..addSubject('LCLSONE', parse(lclsone))
+                      //..addSubject('LBYMF1D', parse(lbymf1d))
+                      ;
                 },
-                child: Text('Add'),
+                child: Text(strings.skedmaker.subjects.add),
               ),
               // TODO add more options
               //PopupMenuButton(
@@ -253,7 +256,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
           child: Row(
             children: [
               Text(
-                'Possible schedules (${context.watch<SkedmakerModel>().schedules.length})',
+                strings.skedmaker.schedules.title(number: context.watch<SkedmakerModel>().schedules.length),
                 style: textTheme.headlineSmall,
               ),
               Spacer(),
@@ -286,7 +289,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       context.read<SkedmakerModel>().isGenerating = false;
                     });
                   },
-                  child: Text('Generate'),
+                  child: Text(strings.skedmaker.schedules.generate),
                 )
             ],
           ),
@@ -420,6 +423,7 @@ class _TimetableFragmentState extends State<TimetableFragment> {
       minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"));
 }
 
+/// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
 class SkedmakerModel extends ChangeNotifier {
   Map<String, List<Offering>> subjects;
   Set<ScheduleWeek> _schedules;

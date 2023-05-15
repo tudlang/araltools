@@ -25,13 +25,14 @@ import 'classes.dart';
 
 Future<List<Offering>?> getSubject(BuildContext context) async {
   //return ;
-
+  // TODO add platform checking here
   Webview window = await WebviewWindow.create(
       configuration: CreateConfiguration(
     titleBarHeight:
         0, // I wish there was a way to customize the title bar (supposed to be appbar) further
     title: 'View course offerings',
   ));
+  // TODO add setting for this later
   window.launch('https://enroll.dlsu.edu.ph/dlsu/view_course_offerings');
 
   return await showDialog<List<Offering>>(
@@ -46,6 +47,7 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
           actions: [
             TextButton(
               onPressed: () async {
+                // Javascript code to get the HTML of the table
                 final table = await window.evaluateJavaScript(
                     "document.querySelector('td>form>table').outerHTML");
                 try {

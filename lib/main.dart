@@ -142,6 +142,8 @@ enum AralTools {
     required this.icon,
   });
 
+  /// Gets the translated name
   String get localizedName => strings["$name.info.name"];
+  /// Gets the translated description
   String get localizedDesc => strings["$name.info.description"];
 }
