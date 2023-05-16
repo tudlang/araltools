@@ -97,7 +97,7 @@ class Offering implements Comparable {
 
   @override
   String toString() =>
-      "$subject-$section-$room $scheduleTimeStart-$scheduleTimeEnd";
+      "$subject-$section-$room ${scheduleDay.daycode}-$scheduleTimeStart-$scheduleTimeEnd";
 
   bool isAfter(Offering other) =>
       this.scheduleTimeStart > other.scheduleTimeEnd;
