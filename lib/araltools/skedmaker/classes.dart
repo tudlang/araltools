@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -175,108 +175,71 @@ enum ScheduleDay {
     required String remarks,
   }) {
     remarks = remarks.toLowerCase();
-    switch (code) {
-      case 'M':
-        if (remarks == 'hybrid' || (remarks.isEmpty && hasRoom)) {
-          return ScheduleDay.mondayHybrid;
-        } else if (remarks == 'full online') {
-          return ScheduleDay.mondayOnline;
-        } else if (remarks == 'f2f' || hasRoom) {
-          return ScheduleDay.mondayFace;
-        } else {
-          return ScheduleDay.mondayUnknown;
-        }
-      case 'T':
-        if (remarks == 'hybrid' || (remarks.isEmpty && hasRoom)) {
-          return ScheduleDay.tuesdayHybrid;
-        } else if (remarks == 'full online') {
-          return ScheduleDay.tuesdayOnline;
-        } else if (remarks == 'f2f' || hasRoom) {
-          return ScheduleDay.tuesdayFace;
-        } else {
-          return ScheduleDay.tuesdayUnknown;
-        }
-      case 'W':
-        if (remarks == 'hybrid' || (remarks.isEmpty && hasRoom)) {
-          return ScheduleDay.wednesdayHybrid;
-        } else if (remarks == 'full online') {
-          return ScheduleDay.wednesdayOnline;
-        } else if (remarks == 'f2f' || hasRoom) {
-          return ScheduleDay.wednesdayFace;
-        } else {
-          return ScheduleDay.wednesdayUnknown;
-        }
-      case 'H':
-        if (remarks == 'hybrid' || (remarks.isEmpty && hasRoom)) {
-          return ScheduleDay.thursdayHybrid;
-        } else if (remarks == 'full online') {
-          return ScheduleDay.thursdayOnline;
-        } else if (remarks == 'f2f' || hasRoom) {
-          return ScheduleDay.thursdayFace;
-        } else {
-          return ScheduleDay.thursdayUnknown;
-        }
-      case 'F':
-        if (remarks == 'hybrid' || (remarks.isEmpty && hasRoom)) {
-          return ScheduleDay.fridayHybrid;
-        } else if (remarks == 'full online') {
-          return ScheduleDay.fridayOnline;
-        } else if (remarks == 'f2f' || hasRoom) {
-          return ScheduleDay.fridayFace;
-        } else {
-          return ScheduleDay.fridayUnknown;
-        }
-      default:
-        return ScheduleDay.unknown;
-    }
+    return switch (code) {
+      'M' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.mondayHybrid,
+      'M' when remarks == 'full online' => ScheduleDay.mondayOnline,
+      'M' when remarks == 'f2f' || hasRoom => ScheduleDay.mondayFace,
+      'M' => ScheduleDay.mondayUnknown,
+      'T' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.tuesdayHybrid,
+      'T' when remarks == 'full online' => ScheduleDay.tuesdayOnline,
+      'T' when remarks == 'f2f' || hasRoom => ScheduleDay.tuesdayFace,
+      'T' => ScheduleDay.tuesdayUnknown,
+      'W' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.wednesdayHybrid,
+      'W' when remarks == 'full online' => ScheduleDay.wednesdayOnline,
+      'W' when remarks == 'f2f' || hasRoom => ScheduleDay.wednesdayFace,
+      'W' => ScheduleDay.wednesdayUnknown,
+      'H' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.thursdayHybrid,
+      'H' when remarks == 'full online' => ScheduleDay.thursdayOnline,
+      'H' when remarks == 'f2f' || hasRoom => ScheduleDay.thursdayFace,
+      'H' => ScheduleDay.thursdayUnknown,
+      'F' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.fridayHybrid,
+      'F' when remarks == 'full online' => ScheduleDay.fridayOnline,
+      'F' when remarks == 'f2f' || hasRoom => ScheduleDay.fridayFace,
+      'F' => ScheduleDay.fridayUnknown,
+      _ => ScheduleDay.unknown
+    };
   }
 
   factory ScheduleDay.refine(
     ScheduleDay old, {
     required String code,
     bool hasRoom = false,
-  }) {
-    switch (code) {
-      case 'H':
-        if (old == ScheduleDay.mondayFace && hasRoom) {
-          return ScheduleDay.mondaythursdayFace;
-        } else if (old == ScheduleDay.mondayHybrid && !hasRoom) {
-          return ScheduleDay.mondaythursdayFaceonline;
-        } else if (old == ScheduleDay.mondayHybrid && hasRoom) {
-          return ScheduleDay.mondaythursdayOnlineface;
-        } else if (old == ScheduleDay.mondayOnline) {
-          return ScheduleDay.mondaythursdayOnline;
-        } else {
-          return ScheduleDay.mondaythursdayUnknown;
-        }
-      case 'F':
-        if (old == ScheduleDay.tuesdayFace && hasRoom) {
-          return ScheduleDay.tuesdayfridayFace;
-        } else if (old == ScheduleDay.tuesdayHybrid && !hasRoom) {
-          return ScheduleDay.tuesdayfridayFaceonline;
-        } else if (old == ScheduleDay.tuesdayHybrid && hasRoom) {
-          return ScheduleDay.tuesdayfridayOnlineface;
-        } else if (old == ScheduleDay.tuesdayOnline) {
-          return ScheduleDay.tuesdayfridayOnline;
-        } else {
-          return ScheduleDay.tuesdayfridayUnknown;
-        }
-      case 'S':
-        if (old == ScheduleDay.wednesdayFace && hasRoom) {
-          return ScheduleDay.wednesdaysaturdayFace;
-        } else if (old == ScheduleDay.wednesdayHybrid && !hasRoom) {
-          return ScheduleDay.wednesdaysaturdayFaceonline;
-        } else if (old == ScheduleDay.wednesdayHybrid && hasRoom) {
-          return ScheduleDay.wednesdaysaturdayOnlineface;
-        } else if (old == ScheduleDay.wednesdayOnline) {
-          return ScheduleDay.wednesdaysaturdayOnline;
-        } else {
-          return ScheduleDay.wednesdaysaturdayUnknown;
-        }
-      default:
-        return old;
-    }
-  }
+  }) =>
+      switch (code) {
+        'H' when old == ScheduleDay.mondayFace && hasRoom =>
+          ScheduleDay.mondaythursdayFace,
+        'H' when old == ScheduleDay.mondayHybrid && !hasRoom =>
+          ScheduleDay.mondaythursdayFaceonline,
+        'H' when old == ScheduleDay.mondayHybrid && hasRoom =>
+          ScheduleDay.mondaythursdayOnlineface,
+        'H' when old == ScheduleDay.mondayOnline =>
+          ScheduleDay.mondaythursdayOnline,
+        'H' => ScheduleDay.mondaythursdayUnknown,
+        'F' when old == ScheduleDay.tuesdayFace && hasRoom =>
+          ScheduleDay.tuesdayfridayFace,
+        'F' when old == ScheduleDay.tuesdayHybrid && !hasRoom =>
+          ScheduleDay.tuesdayfridayFaceonline,
+        'F' when old == ScheduleDay.tuesdayHybrid && hasRoom =>
+          ScheduleDay.tuesdayfridayOnlineface,
+        'F' when old == ScheduleDay.tuesdayOnline =>
+          ScheduleDay.tuesdayfridayOnline,
+        'F' => ScheduleDay.tuesdayfridayUnknown,
+        'S' when old == ScheduleDay.wednesdayFace && hasRoom =>
+          ScheduleDay.wednesdaysaturdayFace,
+        'S' when old == ScheduleDay.wednesdayHybrid && !hasRoom =>
+          ScheduleDay.wednesdaysaturdayFaceonline,
+        'S' when old == ScheduleDay.wednesdayHybrid && hasRoom =>
+          ScheduleDay.wednesdaysaturdayOnlineface,
+        'S' when old == ScheduleDay.wednesdayOnline =>
+          ScheduleDay.wednesdaysaturdayOnline,
+        'S' => ScheduleDay.wednesdaysaturdayUnknown,
+        _ => old
+      };
 }
 /*
 const distances = {
