@@ -19,7 +19,6 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:directed_graph/directed_graph.dart';
-import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart';
 
 import 'classes.dart';
@@ -88,6 +87,8 @@ Stream<ScheduleWeek> generageSchedules(
   for (final offering in all) {
     final vertices = all
         .where((e) {
+          // If [e] is a different day 
+          if (!offering.scheduleDay.daycode.contains(e.scheduleDay.daycode)) return true;
 
           return !offering.isConflicting(e) &&
             !e.isBefore(offering) &&
@@ -104,6 +105,7 @@ Stream<ScheduleWeek> generageSchedules(
     summation: (a, b) => a + b,
     zero: 0,
   );
+  print("Generated graph: ${graph.length}");
 
   for (final startpoint in graph) {
     print("---For startpoint $startpoint");
