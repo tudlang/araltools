@@ -79,55 +79,51 @@ List<Offering> parse(String htmlTable) {
 
 
 Stream<ScheduleWeek> generageSchedules(
-    List<Offering> all, Set<String> subjects) {
-  final graphData = <Offering, Map<Offering, double>>{};
+    Map<String, List<Offering>> subjects) {
+  
+late final StreamController<ScheduleWeek> controller;
 
-  print(subjects);
+  void generateCombination(Map<String, List<Offering>> currentMap,
+      List<Offering> currentCombination) {
+    if (currentMap.isEmpty) {
+      // Base case: All entries processed, add the combination to the list
 
-  for (final offering in all) {
-    final vertices = all
-        .where((e) {
-          // If [e] is a different day 
-          if (!offering.scheduleDay.daycode.contains(e.scheduleDay.daycode)) return true;
-
-          return !offering.isConflicting(e) &&
-            !e.isBefore(offering) &&
-            (offering.subject != e.subject ||
-                offering.classNumber == e.classNumber);
-        })
-        .map((e) => MapEntry(e, offering.getWeight(e)));
-
-    graphData[offering] = Map.fromEntries(vertices);
-  }
-
-  final graph = WeightedDirectedGraph<Offering, double>(
-    graphData,
-    summation: (a, b) => a + b,
-    zero: 0,
-  );
-  print("Generated graph: ${graph.length}");
-
-  for (final startpoint in graph) {
-    print("---For startpoint $startpoint");
-    for (final path in graph.crawler.tree(startpoint)) {
-      //
-      final pathSubjects = <String>[];
-      var willSkip = false;
-      for (final e in path) {
-        if (!subjects.contains(e.subject) || pathSubjects.contains(e.subject)) {
-          willSkip = true;
-          break;
-        } else {
-          pathSubjects.add(e.subject);
+      try {
+        final week = ScheduleWeek();
+        for (final offering in currentCombination) {
+          week.add(offering);
         }
+        controller.add(week);
+      } catch (e) {
+        return;
       }
-      if (willSkip) continue;
-      // Weird that subjects.containsAll() doesn't work but this does
-      if (!subjects.toList().equals(pathSubjects)) continue;
+      return;
+    }
 
-      print(path);
+    String currentKey = currentMap.keys.first;
+    List<Offering> currentValues = currentMap[currentKey]!;
+
+    // Iterate over each Offering in the current entry
+    for (final currentOffering in currentValues) {
+      // Create a copy of the current combination
+      final updatedCombination = List<Offering>.from(currentCombination);
+      updatedCombination.add(currentOffering);
+
+      // Create a copy of the current map without the processed entry
+      final updatedMap = Map<String, List<Offering>>.from(currentMap);
+      updatedMap.remove(currentKey);
+
+      // Recursively generate combinations for the updated map and combination
+      generateCombination(updatedMap, updatedCombination);
     }
   }
 
-  return Stream.empty();
+  controller = StreamController(
+    onListen: () {
+      generateCombination(subjects, []);
+    },
+  );
+  return controller.stream;
+
+
 }

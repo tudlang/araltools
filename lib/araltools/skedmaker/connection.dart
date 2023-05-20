@@ -73,6 +73,7 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
 
 // Currently an unused function
 /// Shows a dialog box that loads the possible schedules. Returns a [Future] that completes when the schedule generation is done.
+/*
 Future<List<ScheduleWeek>?> loadSchedules(
     BuildContext context, List<Offering> all, Set<String> subjects) {
   return showDialog<List<ScheduleWeek>>(
@@ -141,3 +142,4 @@ Future<List<ScheduleWeek>?> loadSchedules(
     },
   );
 }
+*/

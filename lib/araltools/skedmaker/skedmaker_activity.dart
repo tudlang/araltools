@@ -275,8 +275,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     // count execution time
                     final stopwatch = Stopwatch()..start();
 
-                    generageSchedules([for (final i in subjects.values) ...i],
-                            subjects.keys.toSet())
+                    generageSchedules(subjects)
                         .listen((event) {
                       final model = context.read<SkedmakerModel>();
                       if (!model.schedules.contains(event)) {
@@ -400,7 +399,8 @@ class _TimetableFragmentState extends State<TimetableFragment> {
               LaneEvents(
                   lane: Lane(name: day, laneIndex: 1),
                   events: data
-                      .from(day)
+                  .daysOfferings[ScheduleWeek.dayFromCode(day)]!
+
                       .map((e) => TableEvent(
                           location: "${e.scheduleDay.daycode} ${e.room}\n",
                           title: "${e.subject} - ${e.section} \n",

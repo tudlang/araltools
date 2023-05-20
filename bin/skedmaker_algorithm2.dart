@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -6,6 +7,7 @@ import 'package:araltools/araltools/skedmaker/classes.dart' hide ScheduleWeek;
 import 'package:araltools/araltools/skedmaker/functions.dart';
 import 'package:araltools/araltools/skedmaker/test_tables.dart';
 import 'package:collection/collection.dart';
+import 'package:directed_graph/directed_graph.dart';
 
 int factorial(int n) => n == 0 ? 1 : n * factorial(n - 1);
 
@@ -22,34 +24,65 @@ void main() {
 
   //List<Offering> all = [for (final i in subjects.values) ...i];
 
-  Set<ScheduleWeek> schedules = {};
-
-  add(Map<String, List<Offering>> subjects){
-    if (subjects.length==1){
-      
-    }
-  }
-
-  for (final entry in subjects.entries){
-
-    
-
-
-  }
-
-
-  stopwatch.stop();
+  create(subjects).listen((event) {
+    print(event.daysOfferingsString);
   print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
+  });
+  //stopwatch.stop();
 }
 
 // set the weights AFTER
 
-final days = ["M", "T", "W", "H", "F", "S"];
+Stream<ScheduleWeek> create(Map<String, List<Offering>> subjects) {
+  late final StreamController<ScheduleWeek> controller;
+
+  void generateCombination(Map<String, List<Offering>> currentMap,
+      List<Offering> currentCombination) {
+    if (currentMap.isEmpty) {
+      // Base case: All entries processed, add the combination to the list
+
+      try {
+        final week = ScheduleWeek();
+        for (final offering in currentCombination) {
+          week.add(offering);
+        }
+        controller.add(week);
+      } catch (e) {
+        return;
+      }
+      return;
+    }
+
+    String currentKey = currentMap.keys.first;
+    List<Offering> currentValues = currentMap[currentKey]!;
+
+    // Iterate over each Offering in the current entry
+    for (final currentOffering in currentValues) {
+      // Create a copy of the current combination
+      final updatedCombination = List<Offering>.from(currentCombination);
+      updatedCombination.add(currentOffering);
+
+      // Create a copy of the current map without the processed entry
+      final updatedMap = Map<String, List<Offering>>.from(currentMap);
+      updatedMap.remove(currentKey);
+
+      // Recursively generate combinations for the updated map and combination
+      generateCombination(updatedMap, updatedCombination);
+    }
+  }
+
+  controller = StreamController(
+    onListen: () {
+      generateCombination(subjects, []);
+    },
+  );
+  return controller.stream;
+}
 
 class ScheduleWeek {
   Map<int, BigInt> daysBytes;
   Map<int, List<Offering>> daysOfferings;
-  Set<(String, int)> subjects;
+  Set<String> subjects;
 
   ScheduleWeek()
       : daysBytes = {
@@ -67,12 +100,13 @@ class ScheduleWeek {
           3: [],
           4: [],
           5: [],
-        }, subjects={};
+        },
+        subjects = {};
 
-  BigInt toByte(int start, int end) =>
-      BigInt.from(2).pow(end - start) - BigInt.one << start;
+  static BigInt toByte(int start, int end) =>
+      BigInt.two.pow(end - start) - BigInt.one << start;
 
-  bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
+  static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
   addByte({required int daycode, required int start, required int end}) {
     final toAdd = toByte(start, end);
@@ -86,6 +120,8 @@ class ScheduleWeek {
   }
 
   add(Offering offering) {
+    if (subjects.contains(offering.subject)) throw Error();
+
     final start = offering.scheduleTimeStart;
     final end = offering.scheduleTimeEnd;
 
@@ -108,7 +144,7 @@ class ScheduleWeek {
       );
       daysOfferings[dayFromCode(daycode)]!.add(offering);
     }
-
+    subjects.add(offering.subject);
   }
 
   String get daysOfferingsString => JsonEncoder.withIndent("  ").convert(

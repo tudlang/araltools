@@ -18,6 +18,7 @@
 // ignore_for_file: unnecessary_this, curly_braces_in_flow_control_structures
 
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:vector_math/vector_math.dart';
@@ -293,12 +294,8 @@ extension StringExtensions on String {
 }
 
 class ScheduleWeek {
-  OfferingDay monday;
-  OfferingDay tuesday;
-  OfferingDay wednesday;
-  OfferingDay thursday;
-  OfferingDay friday;
-  OfferingDay saturday;
+  Map<int, BigInt> daysBytes;
+  Map<int, List<Offering>> daysOfferings;
 
   Set<String> subjects;
 
@@ -307,220 +304,82 @@ class ScheduleWeek {
   double weight;
 
   ScheduleWeek()
-      : monday = OfferingDay('M'),
-        tuesday = OfferingDay('T'),
-        wednesday = OfferingDay('W'),
-        thursday = OfferingDay('H'),
-        friday = OfferingDay('F'),
-        saturday = OfferingDay('S'),
+      :  daysBytes = {
+          0: BigInt.zero,
+          1: BigInt.zero,
+          2: BigInt.zero,
+          3: BigInt.zero,
+          4: BigInt.zero,
+          5: BigInt.zero,
+        },
+        daysOfferings = {
+          0: [],
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: [],
+        },
         name = '',
         subjects = {},
         weight = 0;
 
-  factory ScheduleWeek.fromList(
-    List<OfferingDay> list, {
-    double weight = 0,
-  }) {
-    if (list.length > 6) throw ArgumentError();
-
-    final output = ScheduleWeek();
-    output.weight = weight;
-    final subjects = <String>{};
-    for (OfferingDay day in list) {
-      output
-        ..monday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('M');
-        }))
-            ? day
-            : output.monday
-        ..tuesday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('T');
-        }))
-            ? day
-            : output.tuesday
-        ..wednesday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('W');
-        }))
-            ? day
-            : output.wednesday
-        ..thursday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('H');
-        }))
-            ? day
-            : output.thursday
-        ..friday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('F');
-        }))
-            ? day
-            : output.friday
-        ..saturday = (day.every((e) {
-          subjects.add(e.subject);
-          return e.scheduleDay.daycode.contains('S');
-        }))
-            ? day
-            : output.saturday;
-    }
-
-    return output..subjects = subjects;
-  }
-
-  OfferingDay from(String daycode) {
-    switch (daycode) {
-      case 'M':
-        return monday;
-      case 'T':
-        return tuesday;
-      case 'W':
-        return wednesday;
-      case 'H':
-        return thursday;
-      case 'F':
-        return friday;
-      case 'S':
-        return saturday;
-      default:
-        throw ArgumentError(daycode);
-    }
-  }
-
-  bool get isValid {
-    if (monday.isEmpty &&
-        tuesday.isEmpty &&
-        wednesday.isEmpty &&
-        thursday.isEmpty &&
-        friday.isEmpty &&
-        saturday.isEmpty) return false;
-
-    final subjectsTemp = <String>{};
-
-    late bool sameClass;
-
-    for (final schedM in monday) {
-      sameClass = thursday.any((e) => e.classNumber == schedM.classNumber);
-
-      if (schedM.scheduleDay.daycode == 'MH' && !sameClass) return false;
-
-      if (subjectsTemp.contains(schedM.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedM.subject);
-    }
-    for (final schedT in tuesday) {
-      sameClass = friday.any((e) => e.classNumber == schedT.classNumber);
-
-      if (schedT.scheduleDay.daycode == 'TF' && !sameClass) return false;
-      if (subjectsTemp.contains(schedT.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedT.subject);
-    }
-
-    for (final schedW in wednesday) {
-      sameClass = saturday.any((e) => e.classNumber == schedW.classNumber);
-
-      if (schedW.scheduleDay.daycode == 'WS' && !sameClass) return false;
-
-      if (subjectsTemp.contains(schedW.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedW.subject);
-    }
-
-    for (final schedH in thursday) {
-      sameClass = monday.any((e) => e.classNumber == schedH.classNumber);
-      if (schedH.scheduleDay.daycode == 'MH' && !sameClass) return false;
-
-      if (subjectsTemp.contains(schedH.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedH.subject);
-    }
-
-    for (final schedF in friday) {
-      sameClass = tuesday.any((e) => e.classNumber == schedF.classNumber);
-
-      if (schedF.scheduleDay.daycode == 'TF' && !sameClass) return false;
-
-      if (subjectsTemp.contains(schedF.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedF.subject);
-    }
-
-    for (final schedS in saturday) {
-      sameClass = wednesday.any((e) => e.classNumber == schedS.classNumber);
-
-      if (schedS.scheduleDay.daycode == 'WS' && !sameClass) return false;
-
-      if (subjectsTemp.contains(schedS.subject) && !sameClass) return false;
-
-      subjectsTemp.add(schedS.subject);
-    }
-
-    if (!subjectsTemp.containsAll(this.subjects)) return false;
-    return true;
-  }
-
   String get identifierString =>
-      "${monday.isNotEmpty ? '🄼' : ''}${tuesday.isNotEmpty ? ' 🅃' : ''}${wednesday.isNotEmpty ? ' 🅆' : ''}${thursday.isNotEmpty ? ' 🄷' : ''}${friday.isNotEmpty ? ' 🄵' : ''}${saturday.isNotEmpty ? ' 🅂' : ''}";
+      "${daysOfferings[0]!.isNotEmpty ? '🄼' : ''}${daysOfferings[1]!.isNotEmpty ? ' 🅃' : ''}${daysOfferings[2]!.isNotEmpty ? ' 🅆' : ''}${daysOfferings[3]!.isNotEmpty ? ' 🄷' : ''}${daysOfferings[4]!.isNotEmpty ? ' 🄵' : ''}${daysOfferings[5]!.isNotEmpty ? ' 🅂' : ''}";
 
   static const List<String> daycodes = ["M", "T", "W", "H", "F", "S"];
 
-  @override
-  String toString() => {
-        'm': monday,
-        't': tuesday,
-        'w': wednesday,
-        'h': thursday,
-        'f': friday,
-        's': saturday
-      }.toString();
+  static int dayFromCode(String code) => switch (code) {
+          'M' => 0,
+          'T' => 1,
+          'W' => 2,
+          'H' => 3,
+          'F' => 4,
+          'S' => 5,
+          _ => throw ArgumentError()
+        };
+  
+  static BigInt toByte(int start, int end) =>
+      BigInt.two.pow(end - start) - BigInt.one << start;
 
-  Map toMap() => {
-        'm': monday.toMap(),
-        't': tuesday.toMap(),
-        'w': wednesday.toMap(),
-        'h': thursday.toMap(),
-        'f': friday.toMap(),
-        's': saturday.toMap(),
-        'name': name,
-        'subjects': subjects,
-        'weight': weight,
-      };
+  static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
-  factory ScheduleWeek.fromMap(Map map) => ScheduleWeek()
-    ..monday = OfferingDay.fromMap(map['m'])
-    ..tuesday = OfferingDay.fromMap(map['t'])
-    ..wednesday = OfferingDay.fromMap(map['w'])
-    ..thursday = OfferingDay.fromMap(map['h'])
-    ..friday = OfferingDay.fromMap(map['f'])
-    ..saturday = OfferingDay.fromMap(map['s'])
-    ..name = map['name']
-    ..subjects = map['subjects']
-    ..weight = map['weight'];
+  addByte({required int daycode, required int start, required int end}) {
+    final toAdd = toByte(start, end);
+    final byteOfDay = daysBytes[daycode]!;
 
-  @override
-  operator ==(Object other) {
-    if (other is! ScheduleWeek) return false;
+    if (isByteConflicting(byteOfDay, toAdd)) {
+      throw Error();
+    }
 
-    return this.monday.containsAll(other.monday) &&
-        this.tuesday.containsAll(other.tuesday) &&
-        this.wednesday.containsAll(other.wednesday) &&
-        this.thursday.containsAll(other.thursday) &&
-        this.friday.containsAll(other.friday) &&
-        this.saturday.containsAll(other.saturday) &&
-        this.name == other.name &&
-        this.subjects.containsAll(other.subjects);
+    daysBytes[daycode] = byteOfDay | toAdd;
   }
 
-  @override
-  int get hashCode =>
-      monday.hashCode +
-      tuesday.hashCode +
-      wednesday.hashCode +
-      thursday.hashCode +
-      friday.hashCode +
-      saturday.hashCode;
+  add(Offering offering) {
+    if (subjects.contains(offering.subject)) throw Error();
+
+    final start = offering.scheduleTimeStart;
+    final end = offering.scheduleTimeEnd;
+
+    // make it a for loop so that the multiple days are allowed
+    for (final daycode in offering.scheduleDay.daycode.split('')) {
+      addByte(
+        daycode: dayFromCode(daycode),
+        start: start,
+        end: end,
+      );
+      daysOfferings[dayFromCode(daycode)]!.add(offering);
+    }
+    subjects.add(offering.subject);
+  }
+
+  String get daysOfferingsString => JsonEncoder.withIndent("  ").convert(
+      daysOfferings.map((key, value) => MapEntry(
+          key.toString() + " ${value.length}",
+          value.map((key) => key.toString()).toList())));
+
+
+    
 }
 
 /// A list of [Offering] that's on the same day
