@@ -21,27 +21,27 @@ void main() {
   //subjects['LBYMF1D'] = parse(lbymf1d);
 
   //List<Offering> all = [for (final i in subjects.values) ...i];
-  
-  while (subjects.values.any((element) => element.isNotEmpty)){
-    final week = ScheduleWeek();
-    final _subjects = Map.of(subjects);
 
-    for (final entry in  subjects.keys){
-      try {
-        week.add(_subjects[entry]!.last);
-        _subjects[entry]!.removeLast();
-      } catch (e){
-        continue;
-      }
+  Set<ScheduleWeek> schedules = {};
+
+  add(Map<String, List<Offering>> subjects){
+    if (subjects.length==1){
+      
     }
-    
-    print(week.daysOfferingsString);
   }
+
+  for (final entry in subjects.entries){
+
+    
+
+
+  }
+
 
   stopwatch.stop();
   print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
 }
-//Set<ScheduleWeek> schedules;
+
 // set the weights AFTER
 
 final days = ["M", "T", "W", "H", "F", "S"];
