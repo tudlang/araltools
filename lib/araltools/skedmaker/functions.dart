@@ -81,21 +81,17 @@ List<Offering> parse(String htmlTable) {
   return out;
 }
 
-// actual type: 
+// actual type:
 // Stream<Map> generageSchedulesIsolate(Map<String, List<Map>> subjectsEncoded)
 void generageSchedulesIsolate(dynamic subjectsEncoded) {
-
   final sendPort = (subjectsEncoded['sendport'] as SendPort);
   subjectsEncoded.remove('sendport');
 
-  //late final StreamController<Map> controller;
-
   // Recursive function
   // The [List<Map>] is an encoded [List<Offering>]
-  // types: 
+  // types:
   // Map<String, List<Map>> subjectsCurrent, List<Map> offeringsCurrent
-  void generateCombination(
-      Map subjectsCurrent, List<Map> offeringsCurrent) {
+  void generateCombination(Map subjectsCurrent, List<Map> offeringsCurrent) {
     if (subjectsCurrent.isEmpty) {
       // Base case: All entries processed, add combination to list
 
@@ -132,49 +128,25 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
 
   generateCombination(subjectsEncoded, []);
 
+  //processing is done
+  sendPort.send(null);
 
-/*
-  controller = StreamController(
-    onListen: () {
-      generateCombination(subjectsEncoded, []);
-      controller.close();
-    },
-  );
-
-  return controller.stream;
-  */
 }
 
-Stream<ScheduleWeek> generageSchedules(Map<String, List<Offering>> subjects) async*{
-
+Stream<ScheduleWeek> generageSchedules(
+    Map<String, List<Offering>> subjects) async* {
   final subjectsEncoded = subjects.map<String, dynamic>(
-        (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList()));
- 
-final p = ReceivePort();
-await Isolate.spawn(generageSchedulesIsolate, subjectsEncoded..['sendport']=p.sendPort);
+      (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList()));
 
-// recieve decoded Map
-await for (final map in p){
-  final week = ScheduleWeek.fromMap(map);
-  yield week;
-}
+  final p = ReceivePort();
+  await Isolate.spawn(
+      generageSchedulesIsolate, subjectsEncoded..['sendport'] = p.sendPort);
 
-/*
-  late final StreamController<ScheduleWeek> controller;
+  // recieve decoded Map
+  await for (final map in p) {
+    if (map == null) return; //stop the stream if done
+    final week = ScheduleWeek.fromMap(map);
+    yield week;
+  }
 
-  final isolate = StreamIsolate.spawn<Map>(
-    generageSchedulesIsolate,
-    argument: subjects.map(
-        (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList())),
-  );
-
-  controller = StreamController(
-    onListen: () async{
-      
-    await controller.addStream((await isolate).stream.map(ScheduleWeek.fromMap));
-    controller.close();
-    },
-  );
-  return controller.stream;
-  */
 }
