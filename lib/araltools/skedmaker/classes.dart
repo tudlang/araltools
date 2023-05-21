@@ -294,25 +294,22 @@ extension StringExtensions on String {
 }
 
 class ScheduleWeek {
-  Map<int, BigInt> daysBytes;
+  final _daysBytes = {
+    0: BigInt.zero,
+    1: BigInt.zero,
+    2: BigInt.zero,
+    3: BigInt.zero,
+    4: BigInt.zero,
+    5: BigInt.zero,
+  };
   Map<int, List<Offering>> daysOfferings;
 
   Set<String> subjects;
 
   String name;
 
-  double weight;
-
   ScheduleWeek()
-      :  daysBytes = {
-          0: BigInt.zero,
-          1: BigInt.zero,
-          2: BigInt.zero,
-          3: BigInt.zero,
-          4: BigInt.zero,
-          5: BigInt.zero,
-        },
-        daysOfferings = {
+      : daysOfferings = {
           0: [],
           1: [],
           2: [],
@@ -321,8 +318,7 @@ class ScheduleWeek {
           5: [],
         },
         name = '',
-        subjects = {},
-        weight = 0;
+        subjects = {};
 
   String get identifierString =>
       "${daysOfferings[0]!.isNotEmpty ? '🄼' : ''}${daysOfferings[1]!.isNotEmpty ? ' 🅃' : ''}${daysOfferings[2]!.isNotEmpty ? ' 🅆' : ''}${daysOfferings[3]!.isNotEmpty ? ' 🄷' : ''}${daysOfferings[4]!.isNotEmpty ? ' 🄵' : ''}${daysOfferings[5]!.isNotEmpty ? ' 🅂' : ''}";
@@ -330,29 +326,29 @@ class ScheduleWeek {
   static const List<String> daycodes = ["M", "T", "W", "H", "F", "S"];
 
   static int dayFromCode(String code) => switch (code) {
-          'M' => 0,
-          'T' => 1,
-          'W' => 2,
-          'H' => 3,
-          'F' => 4,
-          'S' => 5,
-          _ => throw ArgumentError()
-        };
-  
+        'M' => 0,
+        'T' => 1,
+        'W' => 2,
+        'H' => 3,
+        'F' => 4,
+        'S' => 5,
+        _ => throw ArgumentError()
+      };
+
   static BigInt toByte(int start, int end) =>
       BigInt.two.pow(end - start) - BigInt.one << start;
 
   static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
-  addByte({required int daycode, required int start, required int end}) {
+  _addByte({required int daycode, required int start, required int end}) {
     final toAdd = toByte(start, end);
-    final byteOfDay = daysBytes[daycode]!;
+    final byteOfDay = _daysBytes[daycode]!;
 
     if (isByteConflicting(byteOfDay, toAdd)) {
       throw Error();
     }
 
-    daysBytes[daycode] = byteOfDay | toAdd;
+    _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
   add(Offering offering) {
@@ -363,7 +359,7 @@ class ScheduleWeek {
 
     // make it a for loop so that the multiple days are allowed
     for (final daycode in offering.scheduleDay.daycode.split('')) {
-      addByte(
+      _addByte(
         daycode: dayFromCode(daycode),
         start: start,
         end: end,
@@ -378,200 +374,17 @@ class ScheduleWeek {
           key.toString() + " ${value.length}",
           value.map((key) => key.toString()).toList())));
 
-
-    
-}
-
-/// A list of [Offering] that's on the same day
-class OfferingDay implements Set<Offering> {
-  //SplayTreeSet since we want to sort it by time
-  SplayTreeSet<Offering> list;
-  String daycode;
-
-  OfferingDay(this.daycode, {Iterable? list})
-      : list = SplayTreeSet.from(list ?? const [], (a, b) {
-          return a.classNumber.compareTo(b.classNumber);
-        });
-
-  OfferingDay.single(this.daycode, Offering offering)
-      : list = SplayTreeSet.from([offering], (a, b) {
-          return a.classNumber.compareTo(b.classNumber);
-        });
-
-  Set<String> get subjects =>
-      list.fold({}, (previous, element) => previous..add(element.subject));
-
-  Offering getSubject(String subject) =>
-      list.singleWhere((element) => element.subject == subject);
-
-  bool conflictsWith(OfferingDay other) {
-    try {
-      // Different offerings of same subject remover
-      final sameSubjects = this.subjects.intersection(other.subjects);
-      for (final subject in sameSubjects) {
-        if (this.getSubject(subject).classNumber !=
-            other.getSubject(subject).classNumber) return true;
-      }
-    } catch (e) {
-      return true;
-    }
-    return false;
-  }
-
-  @override
-  String toString() => "$daycode $list";
-
   Map toMap() => {
-        'list': list.map((e) => e.toMap()).toList(),
-        'daycode': daycode,
+        'daysOfferings': daysOfferings
+            .map((key, value) => MapEntry(key, value.map((e) => e.toMap()).toList())),
+        'subjects': subjects,
+        'name': name
       };
 
-  factory OfferingDay.fromMap(Map map) => OfferingDay(map['daycode'],
-      list: (map['list'] as Iterable<Map>).map(Offering.fromMap));
+  ScheduleWeek.fromMap(Map map)
+      : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map((key, value) => MapEntry(key, value.map(Offering.fromMap).toList())),
+        subjects = map['subjects'],
+        name = map['name'];
 
-  @override
-  bool any(bool Function(Offering element) test) => list.any(test);
-
-  @override
-  Set<R> cast<R>() => list.cast<R>();
-
-  @override
-  bool contains(Object? element) => list.contains(element);
-
-  @override
-  Offering elementAt(int index) => list.elementAt(index);
-
-  @override
-  bool every(bool Function(Offering element) test) => list.every(test);
-
-  @override
-  Iterable<T> expand<T>(Iterable<T> Function(Offering element) toElements) =>
-      list.expand(toElements);
-
-  @override
-  Offering get first => list.first;
-
-  @override
-  Offering firstWhere(bool Function(Offering element) test,
-          {Offering Function()? orElse}) =>
-      list.firstWhere(test, orElse: orElse);
-
-  @override
-  T fold<T>(T initialValue,
-          T Function(T previousValue, Offering element) combine) =>
-      list.fold(initialValue, combine);
-
-  @override
-  Iterable<Offering> followedBy(Iterable<Offering> other) => followedBy(other);
-
-  @override
-  void forEach(void Function(Offering element) action) => list.forEach(action);
-
-  @override
-  bool get isEmpty => list.isEmpty;
-
-  @override
-  bool get isNotEmpty => list.isNotEmpty;
-
-  @override
-  Iterator<Offering> get iterator => list.iterator;
-
-  @override
-  String join([String separator = ""]) => list.join(separator);
-
-  @override
-  Offering get last => list.last;
-
-  @override
-  Offering lastWhere(bool Function(Offering element) test,
-          {Offering Function()? orElse}) =>
-      list.lastWhere(test, orElse: orElse);
-
-  @override
-  int get length => list.length;
-
-  @override
-  Iterable<T> map<T>(T Function(Offering e) toElement) => list.map(toElement);
-
-  @override
-  Offering reduce(
-          Offering Function(Offering value, Offering element) combine) =>
-      list.reduce(combine);
-
-  @override
-  Offering get single => list.single;
-
-  @override
-  Offering singleWhere(bool Function(Offering element) test,
-          {Offering Function()? orElse}) =>
-      list.singleWhere(test, orElse: orElse);
-
-  @override
-  Iterable<Offering> skip(int count) => list.skip(count);
-
-  @override
-  Iterable<Offering> skipWhile(bool Function(Offering value) test) =>
-      list.skipWhile(test);
-
-  @override
-  Iterable<Offering> take(int count) => list.take(count);
-
-  @override
-  Iterable<Offering> takeWhile(bool Function(Offering value) test) =>
-      list.takeWhile(test);
-
-  @override
-  List<Offering> toList({bool growable = true}) =>
-      list.toList(growable: growable);
-
-  @override
-  Set<Offering> toSet() => list.toSet();
-
-  @override
-  Iterable<Offering> where(bool Function(Offering element) test) =>
-      list.where(test);
-
-  @override
-  Iterable<T> whereType<T>() => list.whereType<T>();
-
-  @override
-  bool add(Offering element) => list.add(element);
-
-  @override
-  void addAll(Iterable<Offering> elements) => list.addAll(elements);
-
-  @override
-  void clear() => list.clear();
-
-  @override
-  bool containsAll(Iterable<Object?> other) => list.containsAll(other);
-
-  @override
-  Set<Offering> difference(Set<Object?> other) => list.difference(other);
-
-  @override
-  Set<Offering> intersection(Set<Object?> other) => list.intersection(other);
-
-  @override
-  Offering? lookup(Object? object) => list.lookup(object);
-
-  @override
-  bool remove(Object? object) => list.remove(object);
-
-  @override
-  void removeAll(Iterable<Object?> elements) => list.removeAll(elements);
-
-  @override
-  void removeWhere(bool Function(Offering element) test) =>
-      list.removeWhere(test);
-
-  @override
-  void retainAll(Iterable<Object?> elements) => list.removeAll(elements);
-
-  @override
-  void retainWhere(bool Function(Offering element) test) =>
-      list.retainWhere(test);
-
-  @override
-  Set<Offering> union(Set<Offering> other) => list.union(other);
+  double get weight => 0;
 }

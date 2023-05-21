@@ -89,26 +89,33 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           child: Row(
             children: [
               Text(
-                strings.skedmaker.subjects.title(number: context.watch<SkedmakerModel>().subjects.length),
+                strings.skedmaker.subjects.title(
+                    number: context.watch<SkedmakerModel>().subjects.length),
                 style: textTheme.headlineSmall,
               ),
               Spacer(),
               OutlinedButton(
                 onPressed: () async {
-
                   // UNCOMMENT TO ADD MLS FUNCTIONALITY
                   //final list = await getSubject(context);
                   //if (list == null) return;
 
                   context.read<SkedmakerModel>()
-                        // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                        //..addSubject(list.first.subject, list)
-                      // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                      ..addSubject('CALENG2', parse(caleng2))
-                      ..addSubject('LBYMF1C', parse(lbymf1c))
-                      ..addSubject('LCLSONE', parse(lclsone))
-                      ..addSubject('LBYMF1D', parse(lbymf1d))
-                      ;
+                    // UNCOMMENT TO ADD MLS FUNCTIONALITY
+                    //..addSubject(list.first.subject, list)
+                    // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
+                    ..addSubject('CALENG2', parse(caleng2))
+                    ..addSubject('LBYMF1C', parse(lbymf1c))
+                    ..addSubject('LCLSONE', parse(lclsone))
+                    ..addSubject('LBYMF1D', parse(lbymf1d))
+                    ..addSubject('GEUSELF', parse(geuself))
+                    ..addSubject('LCFAITH', parse(lcfaith))
+                    ..addSubject('LCFILIA', parse(lcfilia))
+                    ..addSubject('MFMCPR1', parse(mfmcpr1))
+                    ..addSubject('LBBCH1A', parse(lbbch1a))
+                    ..addSubject('ENGCHEM', parse(engchem))
+                    ..addSubject('NSTPRO2', nstpro2)
+                    ;
                 },
                 child: Text(strings.skedmaker.subjects.add),
               ),
@@ -244,9 +251,18 @@ class SchedulesFragment extends StatefulWidget {
 }
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
+  late Set<ScheduleWeek> _schedules;
+
+  @override
+  void initState() {
+    super.initState();
+    _schedules = {};
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final model = context.watch<SkedmakerModel>();
     var i = 0;
 
     return Column(
@@ -256,12 +272,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
           child: Row(
             children: [
               Text(
-                strings.skedmaker.schedules.title(number: context.watch<SkedmakerModel>().schedules.length),
+                strings.skedmaker.schedules.title(number: model.schedules.length),
                 style: textTheme.headlineSmall,
               ),
               Spacer(),
-              if (context.watch<SkedmakerModel>().subjects.isNotEmpty &&
-                  !context.watch<SkedmakerModel>().isGenerating)
+              if (model.subjects.isNotEmpty &&
+                  !model.isGenerating)
                 OutlinedButton(
                   onPressed: () {
                     // Generates possible schedules
@@ -275,12 +291,9 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     // count execution time
                     final stopwatch = Stopwatch()..start();
 
-                    generageSchedules(subjects)
-                        .listen((event) {
+                    generageSchedules(subjects).listen((event) {
                       final model = context.read<SkedmakerModel>();
-                      if (!model.schedules.contains(event)) {
-                        model.addSchedule(event);
-                      }
+                      model.addSchedule(event);
                     }).onDone(() {
                       stopwatch.stop();
                       print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
@@ -293,46 +306,69 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             ],
           ),
         ),
-        if (context.watch<SkedmakerModel>().isGenerating)
+        if (model.isGenerating)
           LinearProgressIndicator(),
         Expanded(
-          child: SingleChildScrollView(
-            // TODO add tabs on the TimetableFragment so that we can view multiple scheds
-            child: DataTable(
-              headingRowHeight: 30,
-              dataRowHeight: 36,
-              columns: [
-                DataColumn(label: Text(strings.skedmaker.schedules.table.name)),
-                DataColumn(label: Text(strings.skedmaker.schedules.table.days)),
-                DataColumn(
-                    label: Text(strings.skedmaker.schedules.table.weight),
-                    numeric: true),
-              ],
-              rows: [
-                for (final schedule
-                    in context.watch<SkedmakerModel>().schedules)
-                  DataRow(
-                    selected:
-                        context.watch<SkedmakerModel>().schedulesSelected ==
-                            schedule,
-                    cells: [
-                      DataCell(
-                        Text(schedule.name.isEmpty
-                            ? 'Schedule ${++i}'
-                            : schedule.name),
-                      ),
-                      DataCell(Text(schedule.identifierString)),
-                      DataCell(Text(schedule.weight.round().toString()))
-                    ],
-                    onSelectChanged: (isSelected) {
-                      context.read<SkedmakerModel>().schedulesSelected =
-                          schedule;
-                    },
-                  )
-              ],
-            ),
+          child: ListView.builder(
+            itemCount: model.schedules.length,
+            itemBuilder: (context, index) {
+              final current = model.schedules.elementAt(index);
+              return ListTile(
+                selected: model.schedulesSelected ==
+                    current,
+                title: Text(
+                    "${current.name.isEmpty ? 'Schedule $index' : current.name} ${current.identifierString}"),
+                dense: true,
+                leading: Text((index + 1).toString()),
+                onTap: () {
+                  context.read<SkedmakerModel>().schedulesSelected = current;
+                },
+              );
+            },
           ),
-          /*
+        ),
+        /*
+          Expanded(
+            child: SingleChildScrollView(
+              // TODO add tabs on the TimetableFragment so that we can view multiple scheds
+              child: DataTable(
+                headingRowHeight: 30,
+                dataRowHeight: 36,
+                columns: [
+                  DataColumn(
+                      label: Text(strings.skedmaker.schedules.table.name)),
+                  DataColumn(
+                      label: Text(strings.skedmaker.schedules.table.days)),
+                  DataColumn(
+                      label: Text(strings.skedmaker.schedules.table.weight),
+                      numeric: true),
+                ],
+                rows: [
+                  for (final schedule
+                      in context.watch<SkedmakerModel>().schedules)
+                    DataRow(
+                      selected:
+                          context.watch<SkedmakerModel>().schedulesSelected ==
+                              schedule,
+                      cells: [
+                        DataCell(
+                          Text(schedule.name.isEmpty
+                              ? 'Schedule ${++i}'
+                              : schedule.name),
+                        ),
+                        DataCell(Text(schedule.identifierString)),
+                        DataCell(Text(schedule.weight.round().toString()))
+                      ],
+                      onSelectChanged: (isSelected) {
+                        context.read<SkedmakerModel>().schedulesSelected =
+                            schedule;
+                      },
+                    )
+                ],
+              ),
+            ),
+            */
+            /*
           child: ListView.builder(
             itemCount: context.watch<SkedmakerModel>().schedules.length,
             itemBuilder: (context, index) {
@@ -350,7 +386,6 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               );
             },
           ),*/
-        ),
       ],
     );
   }
@@ -365,6 +400,8 @@ class TimetableFragment extends StatefulWidget {
 }
 
 class _TimetableFragmentState extends State<TimetableFragment> {
+  Offering? offeringSelected;
+
   @override
   Widget build(BuildContext context) {
     var data = widget.data ?? context.watch<SkedmakerModel>().schedulesSelected;
@@ -392,15 +429,13 @@ class _TimetableFragmentState extends State<TimetableFragment> {
             laneWidth: 150,
             timeItemHeight: 50,
             startHour: 7,
-            endHour: 20,
+            endHour: 21,
           ),
           laneEventsList: [
             for (final day in ScheduleWeek.daycodes)
               LaneEvents(
                   lane: Lane(name: day, laneIndex: 1),
-                  events: data
-                  .daysOfferings[ScheduleWeek.dayFromCode(day)]!
-
+                  events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
                       .map((e) => TableEvent(
                           location: "${e.scheduleDay.daycode} ${e.room}\n",
                           title: "${e.subject} - ${e.section} \n",
@@ -421,6 +456,26 @@ class _TimetableFragmentState extends State<TimetableFragment> {
   TableEventTime t(int time24) => TableEventTime(
       hour: (time24 / 100).floor(),
       minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"));
+}
+
+class SchedulesDataTable extends DataTableSource {
+  @override
+  DataRow? getRow(int index) {
+    // TODO: implement getRow
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement isRowCountApproximate
+  bool get isRowCountApproximate => throw UnimplementedError();
+
+  @override
+  // TODO: implement rowCount
+  int get rowCount => throw UnimplementedError();
+
+  @override
+  // TODO: implement selectedRowCount
+  int get selectedRowCount => throw UnimplementedError();
 }
 
 /// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
