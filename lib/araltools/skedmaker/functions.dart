@@ -51,7 +51,8 @@ List<Offering> parse(String htmlTable) {
           code: tr.children[3].text.trim(),
           remarks: tr.children[8].text.trim(),
           hasRoom: tr.children[5].text.trim().isNotEmpty,
-        );
+        )
+        ..isClosed = tr.querySelector('font[color="#0099CC"]')!=null;
 
       out.add(offering);
     } else if (tr.children[0].text.trim().isEmpty) {

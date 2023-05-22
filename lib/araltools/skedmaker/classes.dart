@@ -35,20 +35,25 @@ class Offering implements Comparable {
   late int scheduleTimeStart;
   late int scheduleTimeEnd;
   late int classNumber;
+  bool isClosed;
 
   Offering()
       : slotTaken = 0,
-        teacher = '';
+        teacher = '',
+        isClosed = false;
 
   /// Expected input: `1245 - 1415`
   set scheduleTime(String time) {
     scheduleTimeStart = time.substring(0, 4).toInt();
     scheduleTimeEnd = time.substring(7).toInt();
   }
+  String get scheduleTime => "$scheduleTimeStart - $scheduleTimeEnd";
 
   String get building => RegExp(r'[A-Z]+').stringMatch(room) ?? '';
   int get roomCode => int.parse(RegExp(r'[0-9]+').stringMatch(room) ?? '0');
   int get floor => (roomCode / 100).floor();
+
+  String get slots => "$slotTaken / $slotCapacity";
 
   /// A vector representing the distance of the room location
   Vector3 get location {

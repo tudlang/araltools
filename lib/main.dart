@@ -1,19 +1,21 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
+
+import 'dart:io';
 
 import 'package:araltools/strings.g.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -38,7 +40,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       routerConfig: _router,
-      debugShowCheckedModeBanner: false,
     );
   }
 
@@ -61,10 +62,11 @@ class MyApp extends StatelessWidget {
                       ),
                       accountName: Text(
                         strings.general.app.name,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontFamily: 'Raleway',
-                          color: Colors.white
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                                fontFamily: 'Raleway', color: Colors.white),
                       ),
                       accountEmail: Container(),
                     ),
@@ -125,9 +127,10 @@ class MyApp extends StatelessWidget {
 /// An enum containing all of the different AralTools
 enum AralTools {
   skedmaker(
-      route: '/skedmaker',
-      widget: SkedmakerActivity(),
-      icon: MdiIcons.calendarStar),
+    route: '/skedmaker',
+    widget: SkedmakerActivity(),
+    icon: MdiIcons.calendarStar,
+  ),
   ;
 
   final String route;
@@ -144,6 +147,7 @@ enum AralTools {
 
   /// Gets the translated name
   String get localizedName => strings["$name.info.name"];
+
   /// Gets the translated description
   String get localizedDesc => strings["$name.info.description"];
 }

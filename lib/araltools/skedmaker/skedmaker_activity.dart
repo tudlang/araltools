@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:io';
+
+import 'package:araltools/araltools/skedmaker/skedmaker_activity_windows.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
@@ -42,7 +45,15 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SkedmakerModel>(
       create: (context) => SkedmakerModel(),
-      child: MultiSplitViewTheme(
+      child: switch(Platform.operatingSystem){
+        'windows'=>SkedmakerActivityWindows(),
+        _=>throw UnsupportedError("OS unsupported")
+      }
+    );
+  }
+}
+/*
+ MultiSplitViewTheme(
         data: MultiSplitViewThemeData(
           dividerPainter: DividerPainters.grooved1(
             backgroundColor: Colors.grey[350],
@@ -65,10 +76,7 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
             TimetableFragment(),
           ],
         ),
-      ),
-    );
-  }
-}
+      ), */
 
 class SubjectsFragment extends StatefulWidget {
   const SubjectsFragment({super.key});
