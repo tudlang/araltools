@@ -18,6 +18,7 @@
 import 'dart:io';
 
 import 'package:araltools/strings.g.dart';
+import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'araltools/skedmaker/skedmaker_activity.dart';
@@ -127,22 +128,24 @@ class MyApp extends StatelessWidget {
 /// An enum containing all of the different AralTools
 enum AralTools {
   skedmaker(
-    route: '/skedmaker',
-    widget: SkedmakerActivity(),
-    icon: MdiIcons.calendarStar,
-  ),
+      route: '/skedmaker',
+      widget: SkedmakerActivity(),
+      icon: MdiIcons.calendarStar,
+      platforms: ["windows"]),
   ;
 
   final String route;
   final bool enabled;
   final Widget widget;
   final IconData icon;
+  final List<String> platforms;
 
   const AralTools({
     required this.route,
     this.enabled = true,
     required this.widget,
     required this.icon,
+    required this.platforms,
   });
 
   /// Gets the translated name
@@ -151,3 +154,25 @@ enum AralTools {
   /// Gets the translated description
   String get localizedDesc => strings["$name.info.description"];
 }
+
+
+T onPlatform<T>({
+    required T all,
+    T? web,
+    T? android,
+    T? ios,
+    T? windows,
+    T? macos,
+    T? linux,
+    T? fuchsia,
+  }) =>
+      switch (kIsWeb ? 'web' : Platform.operatingSystem) {
+        'web' => web ?? all,
+        'android' => android ?? all,
+        'ios' => ios ?? all,
+        'windows' => windows ?? all,
+        'macos' => macos ?? all,
+        'linux' => linux ?? all,
+        'fuchsia' => fuchsia ?? all,
+        _ => all,
+      };

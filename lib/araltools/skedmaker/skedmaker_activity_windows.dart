@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide IconButton, ListTile;
 
 import 'functions.dart';
 import 'skedmaker_activity.dart';
@@ -165,8 +165,18 @@ class SubjectsFragmentEdit extends StatefulWidget {
 class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "${widget.subject} - ${widget.offerings.length + 1} offerings",
+            textAlign: TextAlign.start,
+            style: textTheme.headlineSmall,
+          ),
+        ),
         CommandBarCard(
           child: CommandBar(
             overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
@@ -189,15 +199,52 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                 onPressed: () {},
                 label: Text("Add section"),
               ),
-              CommandBarButton(
-                icon: Icon(MdiIcons.deleteClockOutline),
-                onPressed: null,
-                label: Text("Delete section"),
-              ),
-              CommandBarButton(
-                icon: Icon(MdiIcons.deleteClockOutline),
-                onPressed: () {},
-                label: Text("Delete closed sections"),
+              CommandBarBuilderItem(
+                builder: (context, displayMode, child) {
+                  final controller = FlyoutController();
+
+                  return Row(mainAxisSize: MainAxisSize.min, children: [
+                    child,
+                    FlyoutTarget(
+                        controller: controller,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_drop_down),
+                          onPressed: () async {
+                            controller.showFlyout(
+                              builder: (context2) {
+                                return MenuFlyout(
+                                  items: [
+                                    MenuFlyoutItem(
+                                      leading:
+                                          Icon(MdiIcons.deleteClockOutline),
+                                      text: Text('Delete closed sections'),
+                                      onPressed: () {
+                                        // TODO ADD
+                                      },
+                                    ),
+                                    MenuFlyoutItem(
+                                      leading:
+                                          Icon(MdiIcons.deleteClockOutline),
+                                      text: Text(
+                                          'Delete sections with full slots'),
+                                      onPressed: () {
+                                        // TODO ADD
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                              placementMode: FlyoutPlacementMode.bottomCenter,
+                            );
+                          },
+                        ))
+                  ]);
+                },
+                wrappedItem: CommandBarButton(
+                  icon: Icon(MdiIcons.deleteClockOutline),
+                  onPressed: null,
+                  label: Text("Delete section"),
+                ),
               ),
             ],
           ),
@@ -277,6 +324,34 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
+
+    return Row(children: [
+      Button(
+          child: Text('sdf'),
+          onPressed: () {
+            generate(context);
+          }),
+      SizedBox(
+        width: 200,
+        child: ListView.builder(
+          itemCount: model.schedules.length,
+          itemBuilder: (context, index) {
+            final week = model.schedules.elementAt(index);
+            return ListTile.selectable(
+              title: Text(week.identifierString),
+              onPressed: () {},
+            );
+          },
+        ),
+      ),
+      VerticalDivider(),
+      Expanded(
+          child: TabView(
+        currentIndex: 0,
+        tabs: [],
+      )),
+    ]);
+/*
     return NavigationView(
       pane: NavigationPane(
         selected: indexSelected,
@@ -302,17 +377,18 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             body: Placeholder(),
             title: Text("Generate"),
             onTap: () {
-              asd(context);
+              generate(context);
             },
           ),
         ],
       ),
     );
+  */
   }
 }
 
-asd(BuildContext context) {
-  context.read<SkedmakerModel>()
+generate(BuildContext context) {
+  final model = context.read<SkedmakerModel>()
     ..schedules = {}
     ..isGenerating = true;
 
@@ -322,7 +398,6 @@ asd(BuildContext context) {
   final stopwatch = Stopwatch()..start();
 
   generageSchedules(subjects).listen((event) {
-    final model = context.read<SkedmakerModel>();
     model.addSchedule(event);
   }).onDone(() {
     stopwatch.stop();
