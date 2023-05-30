@@ -18,6 +18,7 @@
 import 'dart:io';
 
 import 'package:araltools/araltools/skedmaker/skedmaker_activity_windows.dart';
+import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
@@ -44,12 +45,11 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SkedmakerModel>(
-      create: (context) => SkedmakerModel(),
-      child: switch(Platform.operatingSystem){
-        'windows'=>SkedmakerActivityWindows(),
-        _=>throw UnsupportedError("OS unsupported")
-      }
-    );
+        create: (context) => SkedmakerModel(),
+        child: switch (Platform.operatingSystem) {
+          'windows' => SkedmakerActivityWindows(),
+          _ => throw UnsupportedError("OS unsupported")
+        });
   }
 }
 /*
@@ -122,8 +122,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                     ..addSubject('MFMCPR1', parse(mfmcpr1))
                     ..addSubject('LBBCH1A', parse(lbbch1a))
                     ..addSubject('ENGCHEM', parse(engchem))
-                    ..addSubject('NSTPRO2', nstpro2)
-                    ;
+                    ..addSubject('NSTPRO2', nstpro2);
                 },
                 child: Text(strings.skedmaker.subjects.add),
               ),
@@ -280,12 +279,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
           child: Row(
             children: [
               Text(
-                strings.skedmaker.schedules.title(number: model.schedules.length),
+                strings.skedmaker.schedules
+                    .title(number: model.schedules.length),
                 style: textTheme.headlineSmall,
               ),
               Spacer(),
-              if (model.subjects.isNotEmpty &&
-                  !model.isGenerating)
+              if (model.subjects.isNotEmpty && !model.isGenerating)
                 OutlinedButton(
                   onPressed: () {
                     // Generates possible schedules
@@ -314,16 +313,14 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             ],
           ),
         ),
-        if (model.isGenerating)
-          LinearProgressIndicator(),
+        if (model.isGenerating) LinearProgressIndicator(),
         Expanded(
           child: ListView.builder(
             itemCount: model.schedules.length,
             itemBuilder: (context, index) {
               final current = model.schedules.elementAt(index);
               return ListTile(
-                selected: model.schedulesSelected ==
-                    current,
+                selected: model.schedulesSelected == current,
                 title: Text(
                     "${current.name.isEmpty ? 'Schedule $index' : current.name} ${current.identifierString}"),
                 dense: true,
@@ -376,7 +373,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               ),
             ),
             */
-            /*
+        /*
           child: ListView.builder(
             itemCount: context.watch<SkedmakerModel>().schedules.length,
             itemBuilder: (context, index) {
@@ -491,6 +488,8 @@ class SkedmakerModel extends ChangeNotifier {
   Map<String, List<Offering>> subjects;
   Set<ScheduleWeek> _schedules;
   ScheduleWeek? _schedulesSelected;
+  List<ScheduleWeek> _tabs;
+  int _tabsIndex;
 
   void addSubject(String code, List<Offering> list) {
     subjects[code] = list;
@@ -502,13 +501,12 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Set<ScheduleWeek> get schedules => _schedules;
   set schedules(Set<ScheduleWeek> a) {
     _schedules = a;
     _schedulesSelected = null;
     notifyListeners();
   }
-
-  Set<ScheduleWeek> get schedules => _schedules;
 
   void addSchedule(ScheduleWeek a) {
     // the [none] function is used since [!contains] doesn't actually filter out duplicates
@@ -516,22 +514,54 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  ScheduleWeek? get schedulesSelected => _schedulesSelected;
   set schedulesSelected(ScheduleWeek? a) {
     _schedulesSelected = a;
     notifyListeners();
   }
 
-  ScheduleWeek? get schedulesSelected => _schedulesSelected;
-
   bool _isGenerating = false;
+  bool get isGenerating => _isGenerating;
   set isGenerating(bool a) {
     _isGenerating = a;
     notifyListeners();
   }
 
-  bool get isGenerating => _isGenerating;
+  List<ScheduleWeek> get tabs => _tabs;
+
+  void addTab(ScheduleWeek? week) {
+    _tabs.add(week ?? _tabs[_tabsIndex]);
+    _tabsIndex = _tabs.length - 1;
+    notifyListeners();
+  }
+
+  void removeTab(ScheduleWeek week) {
+    if (_tabs.length == 1) return;
+    if (_tabsIndex == _tabs.length - 1) _tabsIndex = _tabs.length - 2;
+    _tabs.remove(week);
+    notifyListeners();
+  }
+
+  void updateTab(ScheduleWeek week){
+    _tabs[_tabsIndex]=week;
+    notifyListeners();
+  }
+
+  void reorderTab(int from, int to){
+    _tabs.move(from, to);
+    _tabsIndex = to-1;
+    notifyListeners();
+  }
+
+  int get tabsIndex => _tabsIndex;
+  set tabsIndex(int a) {
+    _tabsIndex = a;
+    notifyListeners();
+  }
 
   SkedmakerModel()
       : subjects = {},
-        _schedules = {};
+        _schedules = {},
+        _tabs = [],
+        _tabsIndex = -1;
 }

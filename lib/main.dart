@@ -154,25 +154,3 @@ enum AralTools {
   /// Gets the translated description
   String get localizedDesc => strings["$name.info.description"];
 }
-
-
-T onPlatform<T>({
-    required T all,
-    T? web,
-    T? android,
-    T? ios,
-    T? windows,
-    T? macos,
-    T? linux,
-    T? fuchsia,
-  }) =>
-      switch (kIsWeb ? 'web' : Platform.operatingSystem) {
-        'web' => web ?? all,
-        'android' => android ?? all,
-        'ios' => ios ?? all,
-        'windows' => windows ?? all,
-        'macos' => macos ?? all,
-        'linux' => linux ?? all,
-        'fuchsia' => fuchsia ?? all,
-        _ => all,
-      };

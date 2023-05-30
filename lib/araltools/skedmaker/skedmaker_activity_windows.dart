@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'package:flutter/material.dart' hide IconButton, ListTile;
+import 'package:flutter/material.dart' hide IconButton, ListTile, Tab;
 
 import 'functions.dart';
 import 'skedmaker_activity.dart';
@@ -325,32 +325,77 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
 
-    return Row(children: [
-      Button(
-          child: Text('sdf'),
-          onPressed: () {
-            generate(context);
-          }),
-      SizedBox(
-        width: 200,
-        child: ListView.builder(
-          itemCount: model.schedules.length,
-          itemBuilder: (context, index) {
-            final week = model.schedules.elementAt(index);
-            return ListTile.selectable(
-              title: Text(week.identifierString),
-              onPressed: () {},
-            );
-          },
-        ),
-      ),
-      VerticalDivider(),
-      Expanded(
-          child: TabView(
-        currentIndex: 0,
-        tabs: [],
-      )),
-    ]);
+    return model.schedules.isEmpty
+        ? Button(
+            child: Text('sdf'),
+            onPressed: () {
+              generate(context);
+            })
+        : Row(children: [
+            SizedBox(
+              width: 200,
+              child: Column(
+                children: [
+                  Button(
+                    child: Text('sdf'),
+                    onPressed: () {
+                      generate(context);
+                    },
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: model.schedules.length,
+                    itemBuilder: (context, index) {
+                      final week = model.schedules.elementAt(index);
+                      return ListTile.selectable(
+                        selected:
+                            !(model.tabsIndex<0) && week == model.tabs.elementAtOrNull(model.tabsIndex),
+                        title: Text(week.name),
+                        onPressed: () {
+                          final model = context.read<SkedmakerModel>();
+                          if (model.tabs.isEmpty)
+                            model.addTab(week);
+                          else
+                            model.updateTab(week);
+                        },
+                      );
+                    },
+                  )),
+                ],
+              ),
+            ),
+            VerticalDivider(),
+            Expanded(
+                child: TabView(
+              tabWidthBehavior: TabWidthBehavior.sizeToContent,
+              currentIndex: model.tabsIndex,
+              tabs: model.tabs.map((e) {
+                final model = context.watch<SkedmakerModel>();
+                return Tab(
+                  text: Text(e.name),
+                  body: TimetableFragment(data: e),
+                  closeIcon: model.tabs.length == 1
+                      ? IconData(0xFEFF)
+                      : FluentIcons.chrome_close,
+                  onClosed: model.tabs.length == 1
+                      ? null
+                      : () {
+                          context.read<SkedmakerModel>().removeTab(e);
+                        },
+                );
+              }).toList(),
+              onReorder: (oldIndex, newIndex) {
+                context.read<SkedmakerModel>()
+                .reorderTab(oldIndex, newIndex);
+              },
+              onNewPressed: () {
+                context.read<SkedmakerModel>().addTab(null);
+              },
+              onChanged: (index) {
+                model.tabsIndex = index;
+              },
+            )),
+          ]);
 /*
     return NavigationView(
       pane: NavigationPane(

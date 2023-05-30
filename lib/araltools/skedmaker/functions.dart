@@ -144,9 +144,11 @@ Stream<ScheduleWeek> generageSchedules(
       generageSchedulesIsolate, subjectsEncoded..['sendport'] = p.sendPort);
 
   // recieve decoded Map
+  int outputtedWeeks = 0;
   await for (final map in p) {
     if (map == null) return; //stop the stream if done
     final week = ScheduleWeek.fromMap(map);
+    week.name = "Schedule ${++outputtedWeeks}";
     yield week;
   }
 
