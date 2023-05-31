@@ -46,6 +46,8 @@ class HomeActivity extends StatelessWidget {
                   name: araltool.localizedName,
                   description: araltool.localizedDesc,
                   route: araltool.route,
+                  extras: 
+                            araltool.extras,
                 ),
               HomeCard(
                 icon: Icons.add,
@@ -65,12 +67,14 @@ class HomeCard extends StatelessWidget {
   final String name;
   final String description;
   final String route;
+  final Map<String, dynamic> extras;
   const HomeCard({
     super.key,
     this.icon,
     this.name = '',
     this.description = '',
     this.route = '',
+    this.extras = const{},
   });
 
   @override
@@ -101,6 +105,7 @@ class HomeCard extends StatelessWidget {
                   onPressed: () {
                     GoRouter.of(context).go(route, extra: {
                       'title': name,
+                      ...extras
                     });
                   },
                   child: Padding(

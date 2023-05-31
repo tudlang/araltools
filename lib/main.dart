@@ -18,6 +18,9 @@
 import 'dart:io';
 
 import 'package:araltools/strings.g.dart';
+import 'package:araltools/utils.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    show FluentLocalizations, FluentTheme, FluentThemeData;
 import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -27,6 +30,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // add this
+  LocaleSettings.useDeviceLocale(); // and this
   runApp(MyApp());
 }
 
@@ -40,6 +45,28 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
+      localizationsDelegates: [
+        ...onPlatform(
+          all: const [],
+          windows: [
+            FluentLocalizations.delegate,
+          ],
+        )
+      ],
+      builder: (context, child) {
+        return onPlatform(
+            all: child!,
+            windows: FluentTheme(
+              data: FluentThemeData(),
+              child: child,
+            ));
+      },
+      supportedLocales: [
+        ...onPlatform(
+          all: const [],
+          windows: FluentLocalizations.supportedLocales,
+        ),
+      ],
       routerConfig: _router,
     );
   }
@@ -48,12 +75,20 @@ class MyApp extends StatelessWidget {
     routes: [
       ShellRoute(
           builder: (context, state, child) {
-            Map<String, String> extra =
-                state.extra != null ? state.extra as Map<String, String> : {};
+            final extra = state.extra != null
+                ? state.extra as Map<String, dynamic>
+                : <String, dynamic>{};
+            print(extra);
             return Scaffold(
-              appBar: AppBar(
-                title: Text(extra['title'] ?? strings.general.app.name),
-              ),
+              appBar: (extra['noAppbar'] == true)
+                  ? null
+                  : AppBar(
+                      title: Row(
+                        children: [
+                          Text(extra['title'] ?? strings.general.app.name),
+                        ],
+                      ),
+                    ),
               drawer: Drawer(
                 child: ListView(
                   children: [
@@ -100,6 +135,7 @@ class MyApp extends StatelessWidget {
                         onTap: () {
                           GoRouter.of(context).go(araltool.route, extra: {
                             'title': araltool.localizedName,
+                            ...araltool.extras
                           });
                           Navigator.pop(context);
                         },
@@ -128,10 +164,12 @@ class MyApp extends StatelessWidget {
 /// An enum containing all of the different AralTools
 enum AralTools {
   skedmaker(
-      route: '/skedmaker',
-      widget: SkedmakerActivity(),
-      icon: MdiIcons.calendarStar,
-      platforms: ["windows"]),
+    route: '/skedmaker',
+    widget: SkedmakerActivity(),
+    icon: MdiIcons.calendarStar,
+    platforms: ["windows"],
+    extras: {'noAppbar': true},
+  ),
   ;
 
   final String route;
@@ -139,6 +177,7 @@ enum AralTools {
   final Widget widget;
   final IconData icon;
   final List<String> platforms;
+  final Map<String, dynamic> extras;
 
   const AralTools({
     required this.route,
@@ -146,6 +185,7 @@ enum AralTools {
     required this.widget,
     required this.icon,
     required this.platforms,
+    this.extras = const {},
   });
 
   /// Gets the translated name

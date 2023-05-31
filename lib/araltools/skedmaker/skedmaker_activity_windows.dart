@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:math';
+
+import 'package:araltools/main.dart';
 import 'package:flutter/material.dart' hide IconButton, ListTile, Tab;
 
 import 'functions.dart';
@@ -46,10 +49,29 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return FluentApp(
       debugShowCheckedModeBanner: false,
       home: NavigationView(
         pane: NavigationPane(
+          header: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(AralTools.skedmaker.icon),
+            SizedBox(width: 8),
+            Text(
+              'SkedMaker',
+              style: textTheme.titleLarge?.copyWith(
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ]),
+          leading: IconButton(
+            icon: Icon(MdiIcons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            iconButtonMode: IconButtonMode.large,
+          ),
           selected: paneIndex,
           onChanged: (index) {
             setState(() {
@@ -66,8 +88,13 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
             PaneItem(
               icon: Icon(MdiIcons.filterOutline),
               title: Text('Filters'),
-              body: Placeholder(),
+              body: FiltersFrgment(),
             ),
+            /*PaneItem(
+              icon: Icon(MdiIcons.filterOutline),
+              title: Text('Professors'),
+              body: Placeholder(),
+            ),*/ //TODO new feature, add professors
             PaneItem(
               icon: Icon(MdiIcons.calendarBlankMultiple),
               title: Text('Schedules'),
@@ -197,7 +224,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               CommandBarButton(
                 icon: Icon(MdiIcons.plus),
                 onPressed: () {},
-                label: Text("Add section"),
+                label: Text("Add offering"),
               ),
               CommandBarBuilderItem(
                 builder: (context, displayMode, child) {
@@ -217,7 +244,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                                     MenuFlyoutItem(
                                       leading:
                                           Icon(MdiIcons.deleteClockOutline),
-                                      text: Text('Delete closed sections'),
+                                      text: Text('Delete closed offerings'),
                                       onPressed: () {
                                         // TODO ADD
                                       },
@@ -226,7 +253,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                                       leading:
                                           Icon(MdiIcons.deleteClockOutline),
                                       text: Text(
-                                          'Delete sections with full slots'),
+                                          'Delete offerings with full slots'),
                                       onPressed: () {
                                         // TODO ADD
                                       },
@@ -243,7 +270,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                 wrappedItem: CommandBarButton(
                   icon: Icon(MdiIcons.deleteClockOutline),
                   onPressed: null,
-                  label: Text("Delete section"),
+                  label: Text("Delete offering"),
                 ),
               ),
             ],
@@ -286,14 +313,30 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               for (final offering in widget.offerings)
                 DataRow(
                   cells: [
-                    DataCell(Text(offering.isClosed ? 'Closed' : 'Open')),
+                    DataCell(Icon(offering.isClosed
+                        ? MdiIcons.checkCircleOutline
+                        : MdiIcons.closeCircleOutline)),
                     DataCell(Text(offering.classNumber.toString())),
                     DataCell(Text(offering.section)),
                     DataCell(Text(offering.room)),
                     DataCell(Text(offering.scheduleDay.name)),
                     DataCell(Text(offering.scheduleTime)),
                     DataCell(Text(offering.teacher)),
-                    DataCell(Text(offering.slots)),
+                    DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text(offering.slots),
+                      SizedBox(width: 8),
+                      SizedBox.square(
+                        dimension: 25,
+                        child: ProgressRing(
+                          // min because the slot taken might be greater than capacity
+                          value: min(
+                              100,
+                              (offering.slotTaken / offering.slotCapacity) *
+                                  100),
+                          strokeWidth: 3,
+                        ),
+                      )
+                    ])),
                   ],
                   onSelectChanged: (value) {},
                 )
@@ -301,6 +344,40 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
           ),
         ))
       ],
+    );
+  }
+}
+
+class FiltersFrgment extends StatefulWidget {
+  const FiltersFrgment({super.key});
+
+  @override
+  State<FiltersFrgment> createState() => _FiltersFrgmentState();
+}
+
+class _FiltersFrgmentState extends State<FiltersFrgment> {
+  @override
+  Widget build(BuildContext context) {
+    return NavigationView(
+      pane: NavigationPane(
+        items: [
+          PaneItem(
+            icon: Icon(MdiIcons.schoolOutline),
+            title: Text('Offerings'),
+            body: Placeholder(),
+          ),
+          PaneItem(
+            icon: Icon(MdiIcons.calendarTodayOutline),
+            title: Text('Day-specific rules'),
+            body: Placeholder(),
+          ),
+          PaneItem(
+            icon: Icon(MdiIcons.mapMarkerOutline),
+            title: Text('Location'),
+            body: Placeholder(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -342,14 +419,15 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       generate(context);
                     },
                   ),
+                  if (model.isGenerating) ProgressBar(),
                   Expanded(
                       child: ListView.builder(
                     itemCount: model.schedules.length,
                     itemBuilder: (context, index) {
                       final week = model.schedules.elementAt(index);
                       return ListTile.selectable(
-                        selected:
-                            !(model.tabsIndex<0) && week == model.tabs.elementAtOrNull(model.tabsIndex),
+                        selected: !(model.tabsIndex < 0) &&
+                            week == model.tabs.elementAtOrNull(model.tabsIndex),
                         title: Text(week.name),
                         onPressed: () {
                           final model = context.read<SkedmakerModel>();
@@ -385,8 +463,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 );
               }).toList(),
               onReorder: (oldIndex, newIndex) {
-                context.read<SkedmakerModel>()
-                .reorderTab(oldIndex, newIndex);
+                context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
               },
               onNewPressed: () {
                 context.read<SkedmakerModel>().addTab(null);
