@@ -32,328 +32,328 @@ import 'classes.dart';
 import 'test_tables.dart';
 
 class SkedmakerActivityWindows extends StatefulWidget {
-  const SkedmakerActivityWindows({super.key});
+const SkedmakerActivityWindows({super.key});
 
-  @override
-  State<SkedmakerActivityWindows> createState() =>
-      _SkedmakerActivityWindowsState();
+@override
+State<SkedmakerActivityWindows> createState() =>
+_SkedmakerActivityWindowsState();
 }
 
 class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
-  late int paneIndex;
+late int paneIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    paneIndex = 0;
-  }
+@override
+void initState() {
+super.initState();
+paneIndex = 0;
+}
 
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return FluentApp(
-      debugShowCheckedModeBanner: false,
-      home: NavigationView(
-        pane: NavigationPane(
-          header: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(AralTools.skedmaker.icon),
-            SizedBox(width: 8),
-            Text(
-              'SkedMaker',
-              style: textTheme.titleLarge?.copyWith(
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ]),
-          leading: IconButton(
-            icon: Icon(MdiIcons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-            iconButtonMode: IconButtonMode.large,
-          ),
-          selected: paneIndex,
-          onChanged: (index) {
-            setState(() {
-              paneIndex = index;
-            });
-          },
-          displayMode: PaneDisplayMode.top,
-          items: [
-            PaneItem(
-              icon: Icon(MdiIcons.schoolOutline),
-              title: Text('Subjects'),
-              body: SubjectsFragment(),
-            ),
-            PaneItem(
-              icon: Icon(MdiIcons.filterOutline),
-              title: Text('Filters'),
-              body: FiltersFrgment(),
-            ),
-            /*PaneItem(
+@override
+Widget build(BuildContext context) {
+final textTheme = Theme.of(context).textTheme;
+return FluentApp(
+debugShowCheckedModeBanner: false,
+home: NavigationView(
+pane: NavigationPane(
+header: Row(mainAxisSize: MainAxisSize.min, children: [
+Icon(AralTools.skedmaker.icon),
+SizedBox(width: 8),
+Text(
+'SkedMaker',
+style: textTheme.titleLarge?.copyWith(
+fontFamily: 'Raleway',
+fontWeight: FontWeight.bold,
+),
+),
+]),
+leading: IconButton(
+icon: Icon(MdiIcons.menu),
+onPressed: () {
+Scaffold.of(context).openDrawer();
+},
+iconButtonMode: IconButtonMode.large,
+),
+selected: paneIndex,
+onChanged: (index) {
+setState(() {
+paneIndex = index;
+});
+},
+displayMode: PaneDisplayMode.top,
+items: [
+PaneItem(
+icon: Icon(MdiIcons.schoolOutline),
+title: Text('Subjects'),
+body: SubjectsFragment(),
+),
+PaneItem(
+icon: Icon(MdiIcons.filterOutline),
+title: Text('Filters'),
+body: FiltersFrgment(),
+),
+/*PaneItem(
               icon: Icon(MdiIcons.filterOutline),
               title: Text('Professors'),
               body: Placeholder(),
             ),*/ //TODO new feature, add professors
-            PaneItem(
-              icon: Icon(MdiIcons.calendarBlankMultiple),
-              title: Text('Schedules'),
-              body: SchedulesFragment(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+PaneItem(
+icon: Icon(MdiIcons.calendarBlankMultiple),
+title: Text('Schedules'),
+body: SchedulesFragment(),
+),
+],
+),
+),
+);
+}
 }
 
 class SubjectsFragment extends StatefulWidget {
-  const SubjectsFragment({super.key});
+const SubjectsFragment({super.key});
 
-  @override
-  State<SubjectsFragment> createState() => _SubjectsFragmentState();
+@override
+State<SubjectsFragment> createState() => _SubjectsFragmentState();
 }
 
 class _SubjectsFragmentState extends State<SubjectsFragment> {
-  late int indexSubject;
+late int indexSubject;
 
-  @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+super.initState();
 
-    indexSubject = 0;
-  }
+indexSubject = 0;
+}
 
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SkedmakerModel>();
+@override
+Widget build(BuildContext context) {
+final model = context.watch<SkedmakerModel>();
 
-    return NavigationView(
-      pane: NavigationPane(
-        header: Text('asdsad'),
-        selected: indexSubject,
-        items: [
-          for (final subject in model.subjects.entries)
-            PaneItem(
-              icon: Icon(MdiIcons.schoolOutline),
-              title: Text(subject.key),
-              body: SubjectsFragmentEdit(
-                offerings: subject.value,
-                subject: subject.key,
-              ),
-            ),
-        ],
-        onChanged: (index) {
-          setState(() {
-            indexSubject = index;
-          });
-        },
-        footerItems: [
-          PaneItem(
-              icon: Icon(MdiIcons.plus),
-              title: Text('Add'),
-              body: Placeholder(),
-              onTap: () {
-                context.read<SkedmakerModel>()
-                  // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                  //..addSubject(list.first.subject, list)
-                  // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                  ..addSubject('CALENG2', parse(caleng2))
-                  ..addSubject('LBYMF1C', parse(lbymf1c))
-                  ..addSubject('LCLSONE', parse(lclsone))
-                  ..addSubject('LBYMF1D', parse(lbymf1d))
-                  ..addSubject('GEUSELF', parse(geuself))
-                  ..addSubject('LCFAITH', parse(lcfaith))
-                  ..addSubject('LCFILIA', parse(lcfilia))
-                  ..addSubject('MFMCPR1', parse(mfmcpr1))
-                  ..addSubject('LBBCH1A', parse(lbbch1a))
-                  ..addSubject('ENGCHEM', parse(engchem))
-                  ..addSubject('NSTPRO2', nstpro2);
-              }),
-        ],
-      ),
-    );
-  }
+return NavigationView(
+pane: NavigationPane(
+header: Text('asdsad'),
+selected: indexSubject,
+items: [
+for (final subject in model.subjects.entries)
+PaneItem(
+icon: Icon(MdiIcons.schoolOutline),
+title: Text(subject.key),
+body: SubjectsFragmentEdit(
+offerings: subject.value,
+subject: subject.key,
+),
+),
+],
+onChanged: (index) {
+setState(() {
+indexSubject = index;
+});
+},
+footerItems: [
+PaneItem(
+icon: Icon(MdiIcons.plus),
+title: Text('Add'),
+body: Placeholder(),
+onTap: () {
+context.read<SkedmakerModel>()
+// UNCOMMENT TO ADD MLS FUNCTIONALITY
+//..addSubject(list.first.subject, list)
+// THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
+..addSubject('CALENG2', parse(caleng2))
+..addSubject('LBYMF1C', parse(lbymf1c))
+..addSubject('LCLSONE', parse(lclsone))
+..addSubject('LBYMF1D', parse(lbymf1d))
+..addSubject('GEUSELF', parse(geuself))
+..addSubject('LCFAITH', parse(lcfaith))
+..addSubject('LCFILIA', parse(lcfilia))
+..addSubject('MFMCPR1', parse(mfmcpr1))
+..addSubject('LBBCH1A', parse(lbbch1a))
+..addSubject('ENGCHEM', parse(engchem))
+..addSubject('NSTPRO2', nstpro2);
+}),
+],
+),
+);
+}
 }
 
 class SubjectsFragmentEdit extends StatefulWidget {
-  final List<Offering> offerings;
-  final String subject;
-  const SubjectsFragmentEdit({
-    super.key,
-    required this.offerings,
-    required this.subject,
-  });
+final List<Offering> offerings;
+final String subject;
+const SubjectsFragmentEdit({
+super.key,
+required this.offerings,
+required this.subject,
+});
 
-  @override
-  State<SubjectsFragmentEdit> createState() => _SubjectsFragmentEditState();
+@override
+State<SubjectsFragmentEdit> createState() => _SubjectsFragmentEditState();
 }
 
 class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "${widget.subject} - ${widget.offerings.length + 1} offerings",
-            textAlign: TextAlign.start,
-            style: textTheme.headlineSmall,
-          ),
-        ),
-        CommandBarCard(
-          child: CommandBar(
-            overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
-            primaryItems: [
-              CommandBarButton(
-                icon: Icon(Icons.drive_file_rename_outline_outlined),
-                onPressed: () {},
-                label: Text("Rename subject"),
-              ),
-              CommandBarButton(
-                icon: Icon(MdiIcons.deleteOutline),
-                onPressed: () {
-                  context.read<SkedmakerModel>().removeSubject(widget.subject);
-                },
-                label: Text("Delete subject"),
-              ),
-              CommandBarSeparator(),
-              CommandBarButton(
-                icon: Icon(MdiIcons.plus),
-                onPressed: () {},
-                label: Text("Add offering"),
-              ),
-              CommandBarBuilderItem(
-                builder: (context, displayMode, child) {
-                  final controller = FlyoutController();
+@override
+Widget build(BuildContext context) {
+final textTheme = Theme.of(context).textTheme;
+return Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+Padding(
+padding: const EdgeInsets.all(8.0),
+child: Text(
+"${widget.subject} - ${widget.offerings.length + 1} offerings",
+textAlign: TextAlign.start,
+style: textTheme.headlineSmall,
+),
+),
+CommandBarCard(
+child: CommandBar(
+overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
+primaryItems: [
+CommandBarButton(
+icon: Icon(Icons.drive_file_rename_outline_outlined),
+onPressed: () {},
+label: Text("Rename subject"),
+),
+CommandBarButton(
+icon: Icon(MdiIcons.deleteOutline),
+onPressed: () {
+context.read<SkedmakerModel>().removeSubject(widget.subject);
+},
+label: Text("Delete subject"),
+),
+CommandBarSeparator(),
+CommandBarButton(
+icon: Icon(MdiIcons.plus),
+onPressed: () {},
+label: Text("Add offering"),
+),
+CommandBarBuilderItem(
+builder: (context, displayMode, child) {
+final controller = FlyoutController();
 
-                  return Row(mainAxisSize: MainAxisSize.min, children: [
-                    child,
-                    FlyoutTarget(
-                        controller: controller,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_drop_down),
-                          onPressed: () async {
-                            controller.showFlyout(
-                              builder: (context2) {
-                                return MenuFlyout(
-                                  items: [
-                                    MenuFlyoutItem(
-                                      leading:
-                                          Icon(MdiIcons.deleteClockOutline),
-                                      text: Text('Delete closed offerings'),
-                                      onPressed: () {
-                                        // TODO ADD
-                                      },
-                                    ),
-                                    MenuFlyoutItem(
-                                      leading:
-                                          Icon(MdiIcons.deleteClockOutline),
-                                      text: Text(
-                                          'Delete offerings with full slots'),
-                                      onPressed: () {
-                                        // TODO ADD
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                              placementMode: FlyoutPlacementMode.bottomCenter,
-                            );
-                          },
-                        ))
-                  ]);
-                },
-                wrappedItem: CommandBarButton(
-                  icon: Icon(MdiIcons.deleteClockOutline),
-                  onPressed: null,
-                  label: Text("Delete offering"),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-            child: SingleChildScrollView(
-          child: DataTable(
-            dataRowMinHeight: 36,
-            dataRowMaxHeight: 36,
-            showCheckboxColumn: true,
-            columnSpacing: 6,
-            columns: [
-              DataColumn(
-                label: Text('Status'),
-              ),
-              DataColumn(
-                label: Text('Class #'),
-              ),
-              DataColumn(
-                label: Text('Section'),
-              ),
-              DataColumn(
-                label: Text('Room'),
-              ),
-              DataColumn(
-                label: Text('Day'),
-              ),
-              DataColumn(
-                label: Text('Time'),
-              ),
-              DataColumn(
-                label: Text('Teacher'),
-              ),
-              DataColumn(
-                label: Text('Slots'),
-              ),
-            ],
-            rows: [
-              for (final offering in widget.offerings)
-                DataRow(
-                  cells: [
-                    DataCell(Icon(offering.isClosed
-                        ? MdiIcons.checkCircleOutline
-                        : MdiIcons.closeCircleOutline)),
-                    DataCell(Text(offering.classNumber.toString())),
-                    DataCell(Text(offering.section)),
-                    DataCell(Text(offering.room)),
-                    DataCell(Text(offering.scheduleDay.name)),
-                    DataCell(Text(offering.scheduleTime)),
-                    DataCell(Text(offering.teacher)),
-                    DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
-                      Text(offering.slots),
-                      SizedBox(width: 8),
-                      SizedBox.square(
-                        dimension: 25,
-                        child: ProgressRing(
-                          // min because the slot taken might be greater than capacity
-                          value: min(
-                              100,
-                              (offering.slotTaken / offering.slotCapacity) *
-                                  100),
-                          strokeWidth: 3,
-                        ),
-                      )
-                    ])),
-                  ],
-                  onSelectChanged: (value) {},
-                )
-            ],
-          ),
-        ))
-      ],
-    );
-  }
+return Row(mainAxisSize: MainAxisSize.min, children: [
+child,
+FlyoutTarget(
+controller: controller,
+child: IconButton(
+icon: Icon(Icons.arrow_drop_down),
+onPressed: () async {
+controller.showFlyout(
+builder: (context2) {
+return MenuFlyout(
+items: [
+MenuFlyoutItem(
+leading:
+Icon(MdiIcons.deleteClockOutline),
+text: Text('Delete closed offerings'),
+onPressed: () {
+// TODO ADD
+},
+),
+MenuFlyoutItem(
+leading:
+Icon(MdiIcons.deleteClockOutline),
+text: Text(
+'Delete offerings with full slots'),
+onPressed: () {
+// TODO ADD
+},
+),
+],
+);
+},
+placementMode: FlyoutPlacementMode.bottomCenter,
+);
+},
+))
+]);
+},
+wrappedItem: CommandBarButton(
+icon: Icon(MdiIcons.deleteClockOutline),
+onPressed: null,
+label: Text("Delete offering"),
+),
+),
+],
+),
+),
+Expanded(
+child: SingleChildScrollView(
+child: DataTable(
+dataRowMinHeight: 36,
+dataRowMaxHeight: 36,
+showCheckboxColumn: true,
+columnSpacing: 6,
+columns: [
+DataColumn(
+label: Text('Status'),
+),
+DataColumn(
+label: Text('Class #'),
+),
+DataColumn(
+label: Text('Section'),
+),
+DataColumn(
+label: Text('Room'),
+),
+DataColumn(
+label: Text('Day'),
+),
+DataColumn(
+label: Text('Time'),
+),
+DataColumn(
+label: Text('Teacher'),
+),
+DataColumn(
+label: Text('Slots'),
+),
+],
+rows: [
+for (final offering in widget.offerings)
+DataRow(
+cells: [
+DataCell(Icon(offering.isClosed
+? MdiIcons.checkCircleOutline
+: MdiIcons.closeCircleOutline)),
+DataCell(Text(offering.classNumber.toString())),
+DataCell(Text(offering.section)),
+DataCell(Text(offering.room)),
+DataCell(Text(offering.scheduleDay.name)),
+DataCell(Text(offering.scheduleTime)),
+DataCell(Text(offering.teacher)),
+DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
+Text(offering.slots),
+SizedBox(width: 8),
+SizedBox.square(
+dimension: 25,
+child: ProgressRing(
+// min because the slot taken might be greater than capacity
+value: min(
+100,
+(offering.slotTaken / offering.slotCapacity) *
+100),
+strokeWidth: 3,
+),
+)
+])),
+],
+onSelectChanged: (value) {},
+)
+],
+),
+))
+],
+);
+}
 }
 
 class FiltersFrgment extends StatefulWidget {
-  const FiltersFrgment({super.key});
+const FiltersFrgment({super.key});
 
-  @override
-  State<FiltersFrgment> createState() => _FiltersFrgmentState();
+@override
+State<FiltersFrgment> createState() => _FiltersFrgmentState();
 }
 
 class _FiltersFrgmentState extends State<FiltersFrgment> {  late int paneIndex;
@@ -397,24 +397,24 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {  late int paneIndex;
 }
 
 class SchedulesFragment extends StatefulWidget {
-  const SchedulesFragment({super.key});
+const SchedulesFragment({super.key});
 
-  @override
-  State<SchedulesFragment> createState() => _SchedulesFragmentState();
+@override
+State<SchedulesFragment> createState() => _SchedulesFragmentState();
 }
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
-  late int indexSelected;
+late int indexSelected;
 
-  @override
-  void initState() {
-    super.initState();
-    indexSelected = 0;
-  }
+@override
+void initState() {
+super.initState();
+indexSelected = 0;
+}
 
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SkedmakerModel>();
+@override
+Widget build(BuildContext context) {
+final model = context.watch<SkedmakerModel>();
 
     return model.schedules.isEmpty
         ? Button(
@@ -547,7 +547,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
       ),
     );
   */
-  }
+}
 }
 
 generate(BuildContext context) {
@@ -555,17 +555,17 @@ generate(BuildContext context) {
     ..schedules = const {}
     ..isGenerating = true;
 
-  final subjects = context.read<SkedmakerModel>().subjects;
+final subjects = context.read<SkedmakerModel>().subjects;
 
-  // count execution time
-  final stopwatch = Stopwatch()..start();
+// count execution time
+final stopwatch = Stopwatch()..start();
 
-  generageSchedules(subjects).listen((event) {
-    model.addSchedule(event);
-  }).onDone(() {
-    stopwatch.stop();
-    print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
+generageSchedules(subjects).listen((event) {
+model.addSchedule(event);
+}).onDone(() {
+stopwatch.stop();
+print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
 
-    context.read<SkedmakerModel>().isGenerating = false;
-  });
+context.read<SkedmakerModel>().isGenerating = false;
+});
 }
