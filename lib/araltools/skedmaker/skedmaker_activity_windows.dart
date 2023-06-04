@@ -18,7 +18,8 @@
 import 'dart:math';
 
 import 'package:araltools/main.dart';
-import 'package:flutter/material.dart' hide IconButton, ListTile, Tab;
+import 'package:flutter/material.dart'
+    hide IconButton, ListTile, Tab, Divider, DividerThemeData;
 
 import 'functions.dart';
 import 'skedmaker_activity.dart';
@@ -355,11 +356,24 @@ class FiltersFrgment extends StatefulWidget {
   State<FiltersFrgment> createState() => _FiltersFrgmentState();
 }
 
-class _FiltersFrgmentState extends State<FiltersFrgment> {
+class _FiltersFrgmentState extends State<FiltersFrgment> {  late int paneIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    paneIndex = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return NavigationView(
       pane: NavigationPane(
+        selected: paneIndex,
+        onChanged: (value) {
+          setState(() {
+            paneIndex = value;
+          });
+        },
         items: [
           PaneItem(
             icon: Icon(MdiIcons.schoolOutline),
@@ -425,18 +439,37 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     itemCount: model.schedules.length,
                     itemBuilder: (context, index) {
                       final week = model.schedules.elementAt(index);
-                      return ListTile.selectable(
-                        selected: !(model.tabsIndex < 0) &&
-                            week == model.tabs.elementAtOrNull(model.tabsIndex),
-                        title: Text(week.name),
-                        onPressed: () {
-                          final model = context.read<SkedmakerModel>();
-                          if (model.tabs.isEmpty)
-                            model.addTab(week);
-                          else
-                            model.updateTab(week);
-                        },
-                      );
+                      bool isHovered = false;
+                      bool isSelected = !(model.tabsIndex < 0) &&
+                                week ==
+                                    model.tabs.elementAtOrNull(model.tabsIndex);
+                      return StatefulBuilder(builder: (context, setState) {
+                        return MouseRegion(
+                          onEnter: (event) {
+                            setState(() {
+                              isHovered = true;
+                            });
+                          },
+                          onExit: (event) {
+                            setState(() {
+                              isHovered = false;
+                            });
+                          },
+                          child: ListTile.selectable(
+                            trailing: isHovered || isSelected ? IconButton(icon:Icon(MdiIcons.dotsVertical), onPressed: (){},) : null,
+                            selected: isSelected,
+                            title: Text(week.name),
+                            onPressed: () {
+                              final model = context.read<SkedmakerModel>();
+                              if (model.tabs.isEmpty) {
+                                model.addTab(week);
+                              } else {
+                                model.updateTab(week);
+                              }
+                            },
+                          ),
+                        );
+                      });
                     },
                   )),
                 ],
@@ -447,21 +480,29 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 child: TabView(
               tabWidthBehavior: TabWidthBehavior.sizeToContent,
               currentIndex: model.tabsIndex,
-              tabs: model.tabs.map((e) {
-                final model = context.watch<SkedmakerModel>();
-                return Tab(
-                  text: Text(e.name),
-                  body: TimetableFragment(data: e),
-                  closeIcon: model.tabs.length == 1
-                      ? IconData(0xFEFF)
-                      : FluentIcons.chrome_close,
-                  onClosed: model.tabs.length == 1
-                      ? null
-                      : () {
-                          context.read<SkedmakerModel>().removeTab(e);
-                        },
-                );
-              }).toList(),
+              tabs: model.tabs
+                  .map((e) => Tab(
+                        text: Text(e.name),
+                        body: Column(
+                          children: [
+                            Divider(
+                                style: DividerThemeData(
+                              thickness: 3,
+                              horizontalMargin: EdgeInsets.only(),
+                            )),
+                            Expanded(child: TimetableFragment(data: e)),
+                          ],
+                        ),
+                        closeIcon: model.tabs.length == 1
+                            ? IconData(0xFEFF)
+                            : FluentIcons.chrome_close,
+                        onClosed: model.tabs.length == 1
+                            ? null
+                            : () {
+                                context.read<SkedmakerModel>().removeTab(e);
+                              },
+                      ))
+                  .toList(),
               onReorder: (oldIndex, newIndex) {
                 context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
               },
@@ -511,7 +552,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
 
 generate(BuildContext context) {
   final model = context.read<SkedmakerModel>()
-    ..schedules = {}
+    ..schedules = const {}
     ..isGenerating = true;
 
   final subjects = context.read<SkedmakerModel>().subjects;

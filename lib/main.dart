@@ -53,14 +53,13 @@ class MyApp extends StatelessWidget {
           ],
         )
       ],
-      builder: (context, child) {
-        return onPlatform(
-            all: child!,
-            windows: FluentTheme(
-              data: FluentThemeData(),
-              child: child,
-            ));
-      },
+      builder: (context, child) => onPlatform(
+        all: child!,
+        windows: FluentTheme(
+          data: FluentThemeData(),
+          child: child,
+        ),
+      ),
       supportedLocales: [
         ...onPlatform(
           all: const [],
