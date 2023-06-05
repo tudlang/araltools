@@ -47,8 +47,7 @@ class SkedmakerModel extends ChangeNotifier {
   }
 
   void addSchedule(ScheduleWeek a) {
-    // the [none] function is used since [!contains] doesn't actually filter out duplicates
-    if (_schedules.none((element) => element == a)) _schedules.add(a);
+    _schedules.add(a);
     notifyListeners();
   }
 

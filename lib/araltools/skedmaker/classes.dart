@@ -393,3 +393,8 @@ class ScheduleWeek {
 
   double get weight => 0;
 }
+
+class ScheduleFilters{
+  
+
+}

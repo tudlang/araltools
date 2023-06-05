@@ -558,10 +558,10 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
 
 generate(BuildContext context) {
   final model = context.read<SkedmakerModel>()
-    ..schedules = const {}
+    ..schedules.clear()
     ..isGenerating = true;
 
-  final subjects = context.read<SkedmakerModel>().subjects;
+  final subjects = model.subjects;
 
 // count execution time
   final stopwatch = Stopwatch()..start();
