@@ -22,6 +22,7 @@ import 'package:flutter/material.dart'
     hide IconButton, ListTile, Tab, Divider, DividerThemeData;
 
 import 'functions.dart';
+import 'models.dart';
 import 'skedmaker_activity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluent_ui/fluent_ui.dart';

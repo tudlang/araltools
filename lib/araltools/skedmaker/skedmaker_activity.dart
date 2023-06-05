@@ -32,6 +32,7 @@ import 'functions.dart';
 import '/strings.g.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
 // ignore: unused_import
+import 'models.dart';
 import 'test_tables.dart';
 
 class SkedmakerActivity extends StatefulWidget {
@@ -463,105 +464,3 @@ class _TimetableFragmentState extends State<TimetableFragment> {
       minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"));
 }
 
-class SchedulesDataTable extends DataTableSource {
-  @override
-  DataRow? getRow(int index) {
-    // TODO: implement getRow
-    throw UnimplementedError();
-  }
-
-  @override
-  // TODO: implement isRowCountApproximate
-  bool get isRowCountApproximate => throw UnimplementedError();
-
-  @override
-  // TODO: implement rowCount
-  int get rowCount => throw UnimplementedError();
-
-  @override
-  // TODO: implement selectedRowCount
-  int get selectedRowCount => throw UnimplementedError();
-}
-
-/// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
-class SkedmakerModel extends ChangeNotifier {
-  Map<String, List<Offering>> subjects;
-  Set<ScheduleWeek> _schedules;
-  ScheduleWeek? _schedulesSelected;
-  List<ScheduleWeek> _tabs;
-  int _tabsIndex;
-
-  void addSubject(String code, List<Offering> list) {
-    subjects[code] = list;
-    notifyListeners();
-  }
-
-  void removeSubject(String code) {
-    subjects.remove(code);
-    notifyListeners();
-  }
-
-  Set<ScheduleWeek> get schedules => _schedules;
-  set schedules(Set<ScheduleWeek> a) {
-    _schedules = a;
-    _schedulesSelected = null;
-    notifyListeners();
-  }
-
-  void addSchedule(ScheduleWeek a) {
-    // the [none] function is used since [!contains] doesn't actually filter out duplicates
-    if (_schedules.none((element) => element == a)) _schedules.add(a);
-    notifyListeners();
-  }
-
-  ScheduleWeek? get schedulesSelected => _schedulesSelected;
-  set schedulesSelected(ScheduleWeek? a) {
-    _schedulesSelected = a;
-    notifyListeners();
-  }
-
-  bool _isGenerating = false;
-  bool get isGenerating => _isGenerating;
-  set isGenerating(bool a) {
-    _isGenerating = a;
-    notifyListeners();
-  }
-
-  List<ScheduleWeek> get tabs => _tabs;
-
-  void addTab(ScheduleWeek? week) {
-    _tabs.add(week ?? _tabs[_tabsIndex]);
-    _tabsIndex = _tabs.length - 1;
-    notifyListeners();
-  }
-
-  void removeTab(ScheduleWeek week) {
-    if (_tabs.length == 1) return;
-    if (_tabsIndex == _tabs.length - 1) _tabsIndex = _tabs.length - 2;
-    _tabs.remove(week);
-    notifyListeners();
-  }
-
-  void updateTab(ScheduleWeek week){
-    _tabs[_tabsIndex]=week;
-    notifyListeners();
-  }
-
-  void reorderTab(int from, int to){
-    _tabs.move(from, to);
-    _tabsIndex = to-1;
-    notifyListeners();
-  }
-
-  int get tabsIndex => _tabsIndex;
-  set tabsIndex(int a) {
-    _tabsIndex = a;
-    notifyListeners();
-  }
-
-  SkedmakerModel()
-      : subjects = {},
-        _schedules = {},
-        _tabs = [],
-        _tabsIndex = -1;
-}
