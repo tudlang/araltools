@@ -96,10 +96,18 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  ScheduleFilters _filters;
+  ScheduleFilters get filters => _filters;
+  updateFilter<T>(String category, String key, T value){
+    _filters.values[category]![key] = value;
+    notifyListeners();
+  }
+
   SkedmakerModel()
       : subjects = {},
         _schedules = {},
         _tabs = [],
-        _tabsIndex = -1;
+        _tabsIndex = -1,
+        _filters = ScheduleFilters();
 }
 

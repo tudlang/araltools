@@ -15,11 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:araltools/main.dart';
 import 'package:flutter/material.dart'
-    hide IconButton, ListTile, Tab, Divider, DividerThemeData;
+    hide IconButton, ListTile, Tab, Divider, DividerThemeData, Card;
 
 import 'functions.dart';
 import 'models.dart';
@@ -370,13 +371,41 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
   Widget build(BuildContext context) {
     return NavigationView(
       pane: NavigationPane(
-        selected: paneIndex,
-        onChanged: (value) {
-          setState(() {
-            paneIndex = value;
-          });
-        },
-        items: [
+          selected: paneIndex,
+          onChanged: (value) {
+            setState(() {
+              paneIndex = value;
+            });
+          },
+          items: [
+            ...ScheduleFilters.filters.entries.map((entry) => PaneItem(
+                  icon: Text('a'),
+                  body: FiltersFragmentCategory(
+                    category: entry.key,
+                  ),
+                  title: Text(entry.key),
+                )),
+            PaneItem(
+              icon: Icon(MdiIcons.schoolOutline),
+              title: Text('Custom'),
+              body: Placeholder(),
+            ),
+          ],
+          footerItems: [
+            PaneItem(
+              icon: Text('s'),
+              body: Placeholder(),
+              onTap: () {
+                final model = context.read<SkedmakerModel>();
+                final a = JsonEncoder.withIndent("     ")
+                    .convert(model.filters.toMap());
+                print(a);
+              },
+            ),
+          ]
+
+          /*
+        [
           PaneItem(
             icon: Icon(MdiIcons.schoolOutline),
             title: Text('Offerings'),
@@ -392,8 +421,112 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
             title: Text('Location'),
             body: Placeholder(),
           ),
-        ],
-      ),
+        ],*/
+          ),
+    );
+  }
+}
+
+class FiltersFragmentCategory extends StatefulWidget {
+  const FiltersFragmentCategory({
+    super.key,
+    required this.category,
+  });
+
+  final String category;
+
+  @override
+  State<FiltersFragmentCategory> createState() =>
+      _FiltersFragmentCategoryState();
+}
+
+class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
+  late List<ScheduleFilter> filters;
+
+  @override
+  void initState() {
+    super.initState();
+    filters = ScheduleFilters.filters[widget.category]!;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<SkedmakerModel>();
+
+    final filterValues = model.filters.values;
+
+    return ListView(
+      children: [
+        Text(widget.category),
+        for (final filter in filters)
+          if (filter.valueDefault == null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Text(filter.key),
+            )
+          else if (filter.valueDefault is (int, int))
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Row(children: [
+                  Text(filter.key),
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: Container(),
+                  ),
+                ]),
+              ),
+            )
+          else if (filter.valueDefault is num)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Row(children: [
+                  Text(filter.key),
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: NumberBox<num>(
+                      value: filterValues[widget.category]![filter.key] ??
+                          filter.valueDefault,
+                      onChanged: (value) {
+                        if (value == null) return;
+                        final model = context.read<SkedmakerModel>();
+                        model.updateFilter(widget.category, filter.key,
+                            filter.valueDefault is int ? value.toInt() : value);
+                      },
+                      min: filter.valueLeast,
+                      max: filter.valueMost,
+                      clearButton: false,
+                      mode: SpinButtonPlacementMode.inline,
+                    ),
+                  ),
+                ]),
+              ),
+            )
+          else if (filter.valueDefault is bool)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Row(children: [
+                  Text(filter.key),
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: ToggleSwitch(
+                      checked: filterValues[widget.category]![filter.key] ??
+                          filter.valueDefault,
+                      onChanged: (value) {
+                        final model = context.read<SkedmakerModel>();
+                        model.updateFilter(widget.category, filter.key, value);
+                      },
+                    ),
+                  ),
+                ]),
+              ),
+            )
+      ],
     );
   }
 }

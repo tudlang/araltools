@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-// ignore_for_file: unnecessary_this, curly_braces_in_flow_control_structures
+// ignore_for_file: unnecessary_this, curly_braces_in_flow_control_structures, constant_identifier_names
 
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// An offering for a particular subject
@@ -47,6 +48,7 @@ class Offering implements Comparable {
     scheduleTimeStart = time.substring(0, 4).toInt();
     scheduleTimeEnd = time.substring(7).toInt();
   }
+
   String get scheduleTime => "$scheduleTimeStart - $scheduleTimeEnd";
 
   String get building => RegExp(r'[A-Z]+').stringMatch(room) ?? '';
@@ -380,21 +382,118 @@ class ScheduleWeek {
           value.map((key) => key.toString()).toList())));
 
   Map toMap() => {
-        'daysOfferings': daysOfferings
-            .map((key, value) => MapEntry(key, value.map((e) => e.toMap()).toList())),
+        'daysOfferings': daysOfferings.map((key, value) =>
+            MapEntry(key, value.map((e) => e.toMap()).toList())),
         'subjects': subjects,
         'name': name
       };
 
   ScheduleWeek.fromMap(Map map)
-      : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map((key, value) => MapEntry(key, value.map(Offering.fromMap).toList())),
+      : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map(
+            (key, value) =>
+                MapEntry(key, value.map(Offering.fromMap).toList())),
         subjects = map['subjects'],
         name = map['name'];
 
   double get weight => 0;
 }
 
-class ScheduleFilters{
-  
+class ScheduleFilter<T> {
+  final String key;
+  final T valueDefault;
+  final T? valueMost;
+  final T? valueLeast;
+  final List<T>? valueChoices;
 
+  ScheduleFilter({
+    required this.key,
+    required this.valueDefault,
+    this.valueMost,
+    this.valueLeast,
+    this.valueChoices,
+  });
+}
+
+class ScheduleFilters {
+  Map<String, Map<String, dynamic>> values;
+
+  ScheduleFilters._({
+    this.values = const {},
+  });
+
+  factory ScheduleFilters() {
+    return ScheduleFilters._(
+      values: filters.map((key, value) => MapEntry(key, {})),
+    );
+  }
+
+  static final filters = <String, List<ScheduleFilter>>{
+    'offerings': [
+      ScheduleFilter<bool>(
+        key: 'includeClosed',
+        valueDefault: false,
+      ),
+      ScheduleFilter<bool>(
+        key: 'includeFullSlots',
+        valueDefault: false,
+      ),
+      ScheduleFilter<bool>(
+        key: 'includeUnknownModality',
+        valueDefault: false,
+      ),
+      ScheduleFilter<bool>(
+        key: 'includeNoProfs',
+        valueDefault: true,
+      ),
+    ],
+    'day': [
+      for (final day in const [
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday'
+      ]) ...[
+        ScheduleFilter(
+          key: '${day}Name',
+          valueDefault: null,
+        ),
+        ScheduleFilter<bool>(
+          key: '${day}IsFreeDay',
+          valueDefault: false,
+        ),
+        ScheduleFilter<(int,int)>(
+          key: '${day}TimeStartEnd',
+          valueDefault: (730,2100),
+        ),
+      ]
+    ],
+    ('location'): [
+      ScheduleFilter<int>(
+        key: 'checkingDistanceMinutes',
+        valueDefault: 20,
+        valueLeast: 0,
+      ),
+      ScheduleFilter<int>(
+        key: 'maxAllowedDistanceMeters',
+        valueDefault: 150,
+        valueLeast: 0,
+      ),
+    ],
+  };
+
+  //factory ScheduleFilters.fromMap(Map map) {}
+
+  Map toMap() => filters.map(
+        (key, value) => MapEntry(
+          key,
+          Map.fromEntries(value.map(
+            (e) => MapEntry(
+              e.key,
+              values[key]![e.key],
+            ),
+          )),
+        ),
+      );
 }
