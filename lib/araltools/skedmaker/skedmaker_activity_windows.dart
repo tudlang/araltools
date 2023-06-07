@@ -19,8 +19,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:araltools/main.dart';
+import 'package:araltools/strings.g.dart';
 import 'package:flutter/material.dart'
-    hide IconButton, ListTile, Tab, Divider, DividerThemeData, Card;
+    hide IconButton, ListTile, Tab, Divider, DividerThemeData, Card, showDialog;
 import 'package:flutter/services.dart';
 
 import 'functions.dart';
@@ -134,7 +135,6 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
 
     return NavigationView(
       pane: NavigationPane(
-        header: Text('asdsad'),
         selected: indexSubject,
         items: [
           for (final subject in model.subjects.entries)
@@ -209,10 +209,23 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "${widget.subject} - ${widget.offerings.length + 1} offerings",
-            textAlign: TextAlign.start,
-            style: textTheme.headlineSmall,
+          child: Row(
+            children: [
+              Container(
+                decoration: ShapeDecoration(
+                  shape: CircleBorder(),
+                  color: widget.offerings.first.color,
+                ),
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(width: 8),
+              Text(
+                "${widget.subject} - ${widget.offerings.length + 1} offerings",
+                textAlign: TextAlign.start,
+                style: textTheme.headlineSmall,
+              ),
+            ],
           ),
         ),
         CommandBarCard(
@@ -298,7 +311,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
             dataRowMinHeight: 36,
             dataRowMaxHeight: 36,
             showCheckboxColumn: true,
-            columnSpacing: 6,
+            columnSpacing: 10,
             columns: [
               DataColumn(
                 label: Text('Status'),
@@ -330,12 +343,12 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                 DataRow(
                   cells: [
                     DataCell(Icon(offering.isClosed
-                        ? MdiIcons.checkCircleOutline
-                        : MdiIcons.closeCircleOutline)),
+                        ? MdiIcons.closeCircleOutline
+                        : MdiIcons.checkCircleOutline)),
                     DataCell(Text(offering.classNumber.toString())),
                     DataCell(Text(offering.section)),
                     DataCell(Text(offering.room)),
-                    DataCell(Text(offering.scheduleDay.name)),
+                    DataCell(Text(offering.scheduleDay.nameShort)),
                     DataCell(Text(offering.scheduleTime)),
                     DataCell(Text(offering.teacher)),
                     DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
@@ -391,13 +404,15 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
             });
           },
           items: [
-            ...ScheduleFilters.filters.entries.map((entry) => PaneItem(
-                  icon: Icon(entry.key.$2),
+            ...ScheduleFilters.filters.entries.map((category) => PaneItem(
+                  icon: Icon(category.key.$2),
                   body: FiltersFragmentCategory(
-                    category: entry.key.$1,
-                    icon: entry.key.$2,
+                    category: category.key.$1,
+                    icon: category.key.$2,
                   ),
-                  title: Text(entry.key.$1),
+                  title: Text(strings[
+                          "skedmaker.filters.categories.${category.key.$1}.name"] ??
+                      category.key.$1),
                 )),
             //PaneItem(
             //  icon: Icon(MdiIcons.schoolOutline),
@@ -407,7 +422,17 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
           ],
           footerItems: [
             PaneItem(
-              icon: Text('s'),
+              icon: Text('map'),
+              body: Placeholder(),
+              onTap: () {
+                final model = context.read<SkedmakerModel>();
+                final a = JsonEncoder.withIndent("     ")
+                    .convert(model.filters.toMap());
+                print(a);
+              },
+            ),
+            PaneItem(
+              icon: Text('val'),
               body: Placeholder(),
               onTap: () {
                 final model = context.read<SkedmakerModel>();
@@ -465,20 +490,35 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
     filters = ScheduleFilters.filters[(widget.category, widget.icon)]!;
   }
 
+  filterText(String filterKey) => Text(strings[
+          'skedmaker.filters.categories.${widget.category}.${filterKey}.name'] ??
+      filterKey);
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
+    final textTheme = Theme.of(context).textTheme;
 
     final filterValues = model.filters.values;
 
     return ListView(
       children: [
-        Text(widget.category),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            strings["skedmaker.filters.categories.${widget.category}.name"] ??
+                widget.category,
+            textAlign: TextAlign.start,
+            style: textTheme.headlineSmall,
+          ),
+        ),
         for (final filter in filters)
           if (filter.valueDefault == null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
-              child: Text(filter.key),
+              child: Text(strings[
+                      'skedmaker.filters.categories.${widget.category}.${filter.key}'] ??
+                  filter.key),
             )
           else if (filter.valueDefault is List<int> &&
               filter.valueLeast is int &&
@@ -487,7 +527,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  Text(filter.key),
+                  filterText(filter.key),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
@@ -560,7 +600,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  Text(filter.key),
+                  filterText(filter.key),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 150),
@@ -576,7 +616,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                       min: filter.valueLeast,
                       max: filter.valueMost,
                       clearButton: false,
-                      mode: SpinButtonPlacementMode.inline,
+                      mode: SpinButtonPlacementMode.none,
                     ),
                   ),
                 ]),
@@ -587,7 +627,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  Text(filter.key),
+                  filterText(filter.key),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
@@ -609,7 +649,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  Text(filter.key),
+                  filterText(filter.key),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
@@ -618,7 +658,9 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                           filter.valueDefault,
                       items: filter.valueChoices!
                           .map((e) => ComboBoxItem(
-                                child: Text(e),
+                                child: Text(strings[
+                                        "skedmaker.filters.categories.${widget.category}.${filter.key}.$e"] ??
+                                    e),
                                 value: e,
                               ))
                           .toList(),
@@ -632,6 +674,22 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                 ]),
               ),
             ),
+
+        if (widget.category == 'location')
+          Container(
+          width: 200,
+          padding: EdgeInsets.all(8),
+          child: Button(
+            child: Text('Open distance viewer'),
+            onPressed: () {
+              showDialog(context: context, builder: (context){
+                return ContentDialog(
+                  
+                );
+              });
+            },
+          ),
+        ),
         Container(
           width: 200,
           padding: EdgeInsets.all(8),
@@ -657,11 +715,15 @@ class SchedulesFragment extends StatefulWidget {
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
   late int indexSelected;
+  late FocusNode focusnode;
+  late ScrollController controllerList;
 
   @override
   void initState() {
     super.initState();
     indexSelected = 0;
+    focusnode = FocusNode();
+    controllerList = ScrollController();
   }
 
   @override
@@ -674,102 +736,129 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             onPressed: () {
               generate(context);
             })
-        : Row(children: [
-            SizedBox(
-              width: 200,
-              child: Column(
-                children: [
-                  Button(
-                    child: Text('sdf'),
-                    onPressed: () {
-                      generate(context);
-                    },
-                  ),
-                  if (model.isGenerating) ProgressBar(),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: model.schedules.length,
-                    itemBuilder: (context, index) {
-                      final week = model.schedules.elementAt(index);
-                      bool isHovered = false;
-                      bool isSelected = !(model.tabsIndex < 0) &&
-                          week == model.tabs.elementAtOrNull(model.tabsIndex);
-                      return StatefulBuilder(builder: (context, setState) {
-                        return MouseRegion(
-                          onEnter: (event) {
-                            setState(() {
-                              isHovered = true;
-                            });
-                          },
-                          onExit: (event) {
-                            setState(() {
-                              isHovered = false;
-                            });
-                          },
-                          child: ListTile.selectable(
-                            trailing: isHovered || isSelected
-                                ? IconButton(
-                                    icon: Icon(MdiIcons.dotsVertical),
-                                    onPressed: () {},
-                                  )
-                                : null,
-                            selected: isSelected,
-                            title: Text(week.name),
-                            onPressed: () {
-                              final model = context.read<SkedmakerModel>();
-                              if (model.tabs.isEmpty) {
-                                model.addTab(week);
-                              } else {
-                                model.updateTab(week);
-                              }
+        : RawKeyboardListener(
+            focusNode: focusnode,
+            onKey: (value) {
+              if (value is RawKeyDownEvent &&
+                  value.logicalKey == LogicalKeyboardKey.arrowDown) {
+                model.nextWeekInTab(indexSelected, 1);
+                setState(() {
+                  indexSelected++;
+                });
+              }
+              if (value is RawKeyDownEvent &&
+                  value.logicalKey == LogicalKeyboardKey.arrowUp) {
+                model.nextWeekInTab(indexSelected, -1);
+                setState(() {
+                  indexSelected--;
+                });
+              }
+            },
+            child: Row(children: [
+              SizedBox(
+                width: 200,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Button(
+                        child: Text('Generate'),
+                        onPressed: () {
+                          generate(context);
+                        },
+                      ),
+                    ),
+                    Text("${model.schedules.length} schedules found"),
+                    if (model.isGenerating) ProgressBar(),
+                    Divider(),
+                    Expanded(
+                        child: ListView.builder(
+                      controller: controllerList,
+                      itemCount: model.schedules.length,
+                      itemBuilder: (context, index) {
+                        final week = model.schedules.elementAt(index);
+                        bool isHovered = false;
+                        bool isSelected = index == indexSelected;
+                        return StatefulBuilder(builder: (context, setState2) {
+                          return MouseRegion(
+                            onEnter: (event) {
+                              setState2(() {
+                                isHovered = true;
+                              });
                             },
-                          ),
-                        );
-                      });
-                    },
-                  )),
-                ],
-              ),
-            ),
-            VerticalDivider(),
-            Expanded(
-                child: TabView(
-              tabWidthBehavior: TabWidthBehavior.sizeToContent,
-              currentIndex: model.tabsIndex,
-              tabs: model.tabs
-                  .map((e) => Tab(
-                        text: Text(e.name),
-                        body: Column(
-                          children: [
-                            Divider(
-                                style: DividerThemeData(
-                              thickness: 3,
-                              horizontalMargin: EdgeInsets.only(),
-                            )),
-                            Expanded(child: TimetableFragment(data: e)),
-                          ],
-                        ),
-                        closeIcon: model.tabs.length == 1
-                            ? IconData(0xFEFF)
-                            : FluentIcons.chrome_close,
-                        onClosed: model.tabs.length == 1
-                            ? null
-                            : () {
-                                context.read<SkedmakerModel>().removeTab(e);
+                            onExit: (event) {
+                              setState2(() {
+                                isHovered = false;
+                              });
+                            },
+                            child: ListTile.selectable(
+                              trailing: isHovered || isSelected
+                                  ? IconButton(
+                                      icon: Icon(MdiIcons.dotsVertical),
+                                      onPressed: () {},
+                                    )
+                                  : null,
+                              selected: isSelected,
+                              title: Text(week.name),
+                              onPressed: () {
+                                setState(() {
+                                  indexSelected = index;
+                                });
+                                final model = context.read<SkedmakerModel>();
+                                if (model.tabs.isEmpty) {
+                                  model.addTab(week);
+                                } else {
+                                  model.updateTab(week);
+                                }
                               },
-                      ))
-                  .toList(),
-              onReorder: (oldIndex, newIndex) {
-                context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
-              },
-              onNewPressed: () {
-                context.read<SkedmakerModel>().addTab(null);
-              },
-              onChanged: (index) {
-                model.tabsIndex = index;
-              },
-            )),
-          ]);
+                            ),
+                          );
+                        });
+                      },
+                    )),
+                  ],
+                ),
+              ),
+              VerticalDivider(),
+              Expanded(
+                  child: TabView(
+                tabWidthBehavior: TabWidthBehavior.sizeToContent,
+                currentIndex: model.tabsIndex,
+                tabs: model.tabs
+                    .map((e) => Tab(
+                          text: Text(e.name),
+                          body: Column(
+                            children: [
+                              Divider(
+                                  style: DividerThemeData(
+                                thickness: 3,
+                                horizontalMargin: EdgeInsets.only(),
+                              )),
+                              Expanded(child: TimetableFragment(data: e)),
+                            ],
+                          ),
+                          closeIcon: model.tabs.length == 1
+                              ? IconData(0xFEFF)
+                              : FluentIcons.chrome_close,
+                          onClosed: model.tabs.length == 1
+                              ? null
+                              : () {
+                                  context.read<SkedmakerModel>().removeTab(e);
+                                },
+                        ))
+                    .toList(),
+                onReorder: (oldIndex, newIndex) {
+                  context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
+                },
+                onNewPressed: () {
+                  context.read<SkedmakerModel>().addTab(null);
+                },
+                onChanged: (index) {
+                  model.tabsIndex = index;
+                },
+              )),
+            ]),
+          );
 /*
     return NavigationView(
       pane: NavigationPane(
@@ -811,12 +900,13 @@ generate(BuildContext context) {
     ..schedules.clear()
     ..isGenerating = true;
 
-  final subjects = model.subjects;
-
 // count execution time
   final stopwatch = Stopwatch()..start();
 
-  generageSchedules(subjects).listen((event) {
+  generageSchedules(
+    subjects: model.subjects,
+    filters: model.filters,
+  ).listen((event) {
     model.addSchedule(event);
   }).onDone(() {
     stopwatch.stop();

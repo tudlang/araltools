@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 15
+/// Strings: 146
 ///
-/// Built on 2023-05-10 at 23:27 UTC
+/// Built on 2023-06-07 at 09:34 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -172,6 +172,8 @@ class _StringsSkedmakerEn {
 	late final _StringsSkedmakerInfoEn info = _StringsSkedmakerInfoEn._(_root);
 	late final _StringsSkedmakerSubjectsEn subjects = _StringsSkedmakerSubjectsEn._(_root);
 	late final _StringsSkedmakerSchedulesEn schedules = _StringsSkedmakerSchedulesEn._(_root);
+	late final _StringsSkedmakerFiltersEn filters = _StringsSkedmakerFiltersEn._(_root);
+	late final _StringsSkedmakerScheduleDayEn scheduleDay = _StringsSkedmakerScheduleDayEn._(_root);
 }
 
 // Path: general.app
@@ -241,6 +243,66 @@ class _StringsSkedmakerSchedulesEn {
 	late final _StringsSkedmakerSchedulesTableEn table = _StringsSkedmakerSchedulesTableEn._(_root);
 }
 
+// Path: skedmaker.filters
+class _StringsSkedmakerFiltersEn {
+	_StringsSkedmakerFiltersEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Filters';
+	late final _StringsSkedmakerFiltersCategoriesEn categories = _StringsSkedmakerFiltersCategoriesEn._(_root);
+}
+
+// Path: skedmaker.scheduleDay
+class _StringsSkedmakerScheduleDayEn {
+	_StringsSkedmakerScheduleDayEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerScheduleDayMondayFaceEn mondayFace = _StringsSkedmakerScheduleDayMondayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondayOnlineEn mondayOnline = _StringsSkedmakerScheduleDayMondayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondayHybridEn mondayHybrid = _StringsSkedmakerScheduleDayMondayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondayUnknownEn mondayUnknown = _StringsSkedmakerScheduleDayMondayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayFaceEn tuesdayFace = _StringsSkedmakerScheduleDayTuesdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayOnlineEn tuesdayOnline = _StringsSkedmakerScheduleDayTuesdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayHybridEn tuesdayHybrid = _StringsSkedmakerScheduleDayTuesdayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayUnknownEn tuesdayUnknown = _StringsSkedmakerScheduleDayTuesdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdayFaceEn wednesdayFace = _StringsSkedmakerScheduleDayWednesdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdayOnlineEn wednesdayOnline = _StringsSkedmakerScheduleDayWednesdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdayHybridEn wednesdayHybrid = _StringsSkedmakerScheduleDayWednesdayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdayUnknownEn wednesdayUnknown = _StringsSkedmakerScheduleDayWednesdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayThursdayFaceEn thursdayFace = _StringsSkedmakerScheduleDayThursdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayThursdayOnlineEn thursdayOnline = _StringsSkedmakerScheduleDayThursdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayThursdayHybridEn thursdayHybrid = _StringsSkedmakerScheduleDayThursdayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDayThursdayUnknownEn thursdayUnknown = _StringsSkedmakerScheduleDayThursdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayFridayFaceEn fridayFace = _StringsSkedmakerScheduleDayFridayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayFridayOnlineEn fridayOnline = _StringsSkedmakerScheduleDayFridayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayFridayHybridEn fridayHybrid = _StringsSkedmakerScheduleDayFridayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDayFridayUnknownEn fridayUnknown = _StringsSkedmakerScheduleDayFridayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDaySaturdayFaceEn saturdayFace = _StringsSkedmakerScheduleDaySaturdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDaySaturdayOnlineEn saturdayOnline = _StringsSkedmakerScheduleDaySaturdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDaySaturdayHybridEn saturdayHybrid = _StringsSkedmakerScheduleDaySaturdayHybridEn._(_root);
+	late final _StringsSkedmakerScheduleDaySaturdayUnknownEn saturdayUnknown = _StringsSkedmakerScheduleDaySaturdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondaythursdayFaceEn mondaythursdayFace = _StringsSkedmakerScheduleDayMondaythursdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondaythursdayOnlineEn mondaythursdayOnline = _StringsSkedmakerScheduleDayMondaythursdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn mondaythursdayOnlineface = _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn mondaythursdayFaceonline = _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayMondaythursdayUnknownEn mondaythursdayUnknown = _StringsSkedmakerScheduleDayMondaythursdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayfridayFaceEn tuesdayfridayFace = _StringsSkedmakerScheduleDayTuesdayfridayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn tuesdayfridayOnline = _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn tuesdayfridayOnlineface = _StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn tuesdayfridayFaceonline = _StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayTuesdayfridayUnknownEn tuesdayfridayUnknown = _StringsSkedmakerScheduleDayTuesdayfridayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn wednesdaysaturdayFace = _StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn wednesdaysaturdayOnline = _StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn wednesdaysaturdayOnlineface = _StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn wednesdaysaturdayFaceonline = _StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn._(_root);
+	late final _StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn wednesdaysaturdayUnknown = _StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn._(_root);
+	late final _StringsSkedmakerScheduleDayUnknownEn unknown = _StringsSkedmakerScheduleDayUnknownEn._(_root);
+}
+
 // Path: skedmaker.schedules.table
 class _StringsSkedmakerSchedulesTableEn {
 	_StringsSkedmakerSchedulesTableEn._(this._root);
@@ -251,6 +313,775 @@ class _StringsSkedmakerSchedulesTableEn {
 	String get name => 'Name';
 	String get days => 'Days';
 	String get weight => 'Weight';
+}
+
+// Path: skedmaker.filters.categories
+class _StringsSkedmakerFiltersCategoriesEn {
+	_StringsSkedmakerFiltersCategoriesEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerFiltersCategoriesOfferingsEn offerings = _StringsSkedmakerFiltersCategoriesOfferingsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayEn day = _StringsSkedmakerFiltersCategoriesDayEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesLocationEn location = _StringsSkedmakerFiltersCategoriesLocationEn._(_root);
+}
+
+// Path: skedmaker.scheduleDay.mondayFace
+class _StringsSkedmakerScheduleDayMondayFaceEn {
+	_StringsSkedmakerScheduleDayMondayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday (face-to-face)';
+	String get nameShort => 'M (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.mondayOnline
+class _StringsSkedmakerScheduleDayMondayOnlineEn {
+	_StringsSkedmakerScheduleDayMondayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday (online)';
+	String get nameShort => 'M (online)';
+}
+
+// Path: skedmaker.scheduleDay.mondayHybrid
+class _StringsSkedmakerScheduleDayMondayHybridEn {
+	_StringsSkedmakerScheduleDayMondayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday (hybrid)';
+	String get nameShort => 'M (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.mondayUnknown
+class _StringsSkedmakerScheduleDayMondayUnknownEn {
+	_StringsSkedmakerScheduleDayMondayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday';
+	String get nameShort => 'M';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayFace
+class _StringsSkedmakerScheduleDayTuesdayFaceEn {
+	_StringsSkedmakerScheduleDayTuesdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Tuesday (face-to-face)';
+	String get nameShort => 'T (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayOnline
+class _StringsSkedmakerScheduleDayTuesdayOnlineEn {
+	_StringsSkedmakerScheduleDayTuesdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Tuesday (online)';
+	String get nameShort => 'T (online)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayHybrid
+class _StringsSkedmakerScheduleDayTuesdayHybridEn {
+	_StringsSkedmakerScheduleDayTuesdayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Tuesday (hybrid)';
+	String get nameShort => 'T (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayUnknown
+class _StringsSkedmakerScheduleDayTuesdayUnknownEn {
+	_StringsSkedmakerScheduleDayTuesdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Tuesday';
+	String get nameShort => 'T';
+}
+
+// Path: skedmaker.scheduleDay.wednesdayFace
+class _StringsSkedmakerScheduleDayWednesdayFaceEn {
+	_StringsSkedmakerScheduleDayWednesdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday (face-to-face)';
+	String get nameShort => 'W (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdayOnline
+class _StringsSkedmakerScheduleDayWednesdayOnlineEn {
+	_StringsSkedmakerScheduleDayWednesdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday (online)';
+	String get nameShort => 'W (online)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdayHybrid
+class _StringsSkedmakerScheduleDayWednesdayHybridEn {
+	_StringsSkedmakerScheduleDayWednesdayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday (hybrid)';
+	String get nameShort => 'W (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdayUnknown
+class _StringsSkedmakerScheduleDayWednesdayUnknownEn {
+	_StringsSkedmakerScheduleDayWednesdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday';
+	String get nameShort => 'W';
+}
+
+// Path: skedmaker.scheduleDay.thursdayFace
+class _StringsSkedmakerScheduleDayThursdayFaceEn {
+	_StringsSkedmakerScheduleDayThursdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday (face-to-face)';
+	String get nameShort => 'H (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.thursdayOnline
+class _StringsSkedmakerScheduleDayThursdayOnlineEn {
+	_StringsSkedmakerScheduleDayThursdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday (online)';
+	String get nameShort => 'H (online)';
+}
+
+// Path: skedmaker.scheduleDay.thursdayHybrid
+class _StringsSkedmakerScheduleDayThursdayHybridEn {
+	_StringsSkedmakerScheduleDayThursdayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday (hybrid)';
+	String get nameShort => 'H (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.thursdayUnknown
+class _StringsSkedmakerScheduleDayThursdayUnknownEn {
+	_StringsSkedmakerScheduleDayThursdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday';
+	String get nameShort => 'H';
+}
+
+// Path: skedmaker.scheduleDay.fridayFace
+class _StringsSkedmakerScheduleDayFridayFaceEn {
+	_StringsSkedmakerScheduleDayFridayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Friday (face-to-face)';
+	String get nameShort => 'F (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.fridayOnline
+class _StringsSkedmakerScheduleDayFridayOnlineEn {
+	_StringsSkedmakerScheduleDayFridayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Friday (online)';
+	String get nameShort => 'F (online)';
+}
+
+// Path: skedmaker.scheduleDay.fridayHybrid
+class _StringsSkedmakerScheduleDayFridayHybridEn {
+	_StringsSkedmakerScheduleDayFridayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Friday (hybrid)';
+	String get nameShort => 'F (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.fridayUnknown
+class _StringsSkedmakerScheduleDayFridayUnknownEn {
+	_StringsSkedmakerScheduleDayFridayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Friday';
+	String get nameShort => 'F';
+}
+
+// Path: skedmaker.scheduleDay.saturdayFace
+class _StringsSkedmakerScheduleDaySaturdayFaceEn {
+	_StringsSkedmakerScheduleDaySaturdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Saturday (face-to-face)';
+	String get nameShort => 'S (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.saturdayOnline
+class _StringsSkedmakerScheduleDaySaturdayOnlineEn {
+	_StringsSkedmakerScheduleDaySaturdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Saturday (online)';
+	String get nameShort => 'S (online)';
+}
+
+// Path: skedmaker.scheduleDay.saturdayHybrid
+class _StringsSkedmakerScheduleDaySaturdayHybridEn {
+	_StringsSkedmakerScheduleDaySaturdayHybridEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Saturday (hybrid)';
+	String get nameShort => 'S (hybrid)';
+}
+
+// Path: skedmaker.scheduleDay.saturdayUnknown
+class _StringsSkedmakerScheduleDaySaturdayUnknownEn {
+	_StringsSkedmakerScheduleDaySaturdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Saturday';
+	String get nameShort => 'S';
+}
+
+// Path: skedmaker.scheduleDay.mondaythursdayFace
+class _StringsSkedmakerScheduleDayMondaythursdayFaceEn {
+	_StringsSkedmakerScheduleDayMondaythursdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday and Thursday (both face-to-face)';
+	String get nameShort => 'M & T (both f2f)';
+}
+
+// Path: skedmaker.scheduleDay.mondaythursdayOnline
+class _StringsSkedmakerScheduleDayMondaythursdayOnlineEn {
+	_StringsSkedmakerScheduleDayMondaythursdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday and Thursday (both online)';
+	String get nameShort => 'M & T (both online)';
+}
+
+// Path: skedmaker.scheduleDay.mondaythursdayOnlineface
+class _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn {
+	_StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday (online) and Thursday (face-to-face)';
+	String get nameShort => 'M (online) & T (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.mondaythursdayFaceonline
+class _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn {
+	_StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday (face-to-face) and Thursday (online)';
+	String get nameShort => 'M (f2f) & T (online)';
+}
+
+// Path: skedmaker.scheduleDay.mondaythursdayUnknown
+class _StringsSkedmakerScheduleDayMondaythursdayUnknownEn {
+	_StringsSkedmakerScheduleDayMondaythursdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Monday and Thursday';
+	String get nameShort => 'M & T';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayfridayFace
+class _StringsSkedmakerScheduleDayTuesdayfridayFaceEn {
+	_StringsSkedmakerScheduleDayTuesdayfridayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday and Friday (both face-to-face)';
+	String get nameShort => 'T & F (both f2f)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayfridayOnline
+class _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn {
+	_StringsSkedmakerScheduleDayTuesdayfridayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday and Friday (both face-to-face)';
+	String get nameShort => 'T & F (both online)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayfridayOnlineface
+class _StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn {
+	_StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday (online) and Friday (face-to-face)';
+	String get nameShort => 'T (online) & F (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayfridayFaceonline
+class _StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn {
+	_StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday (face-to-face) and Friday (online)';
+	String get nameShort => 'T (f2f) & F (online)';
+}
+
+// Path: skedmaker.scheduleDay.tuesdayfridayUnknown
+class _StringsSkedmakerScheduleDayTuesdayfridayUnknownEn {
+	_StringsSkedmakerScheduleDayTuesdayfridayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Thursday and Friday';
+	String get nameShort => 'T & F';
+}
+
+// Path: skedmaker.scheduleDay.wednesdaysaturdayFace
+class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn {
+	_StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday and Saturday (both face-to-face)';
+	String get nameShort => 'W & S (both f2f)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdaysaturdayOnline
+class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn {
+	_StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday and Saturday (both online)';
+	String get nameShort => 'W & S (both online)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdaysaturdayOnlineface
+class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn {
+	_StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday (online) and Saturday (face-to-face)';
+	String get nameShort => 'W (online) & S (f2f)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdaysaturdayFaceonline
+class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn {
+	_StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday (face-to-face) and Saturday (online)';
+	String get nameShort => 'W (f2f) & S (online)';
+}
+
+// Path: skedmaker.scheduleDay.wednesdaysaturdayUnknown
+class _StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn {
+	_StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Wednesday and Saturday';
+	String get nameShort => 'W & S';
+}
+
+// Path: skedmaker.scheduleDay.unknown
+class _StringsSkedmakerScheduleDayUnknownEn {
+	_StringsSkedmakerScheduleDayUnknownEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Unknown';
+}
+
+// Path: skedmaker.filters.categories.offerings
+class _StringsSkedmakerFiltersCategoriesOfferingsEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Offerings';
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn includeClosed = _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn includeFullSlots = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn includeNoProfessors = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn._(_root);
+}
+
+// Path: skedmaker.filters.categories.day
+class _StringsSkedmakerFiltersCategoriesDayEn {
+	_StringsSkedmakerFiltersCategoriesDayEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Day-specific';
+	String get mondayName => 'Monday';
+	late final _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn mondayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn mondayTimeInterval = _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayMondayModalityEn mondayModality = _StringsSkedmakerFiltersCategoriesDayMondayModalityEn._(_root);
+	String get tuesdayName => 'Tuesday';
+	late final _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn tuesdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn tuesdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn tuesdayModality = _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn._(_root);
+	String get wednesdayName => 'Wednesday';
+	late final _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn wednesdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn wednesdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn wednesdayModality = _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn._(_root);
+	String get thursdayName => 'Thursday';
+	late final _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn thursdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn thursdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn thursdayModality = _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn._(_root);
+	String get fridayName => 'Friday';
+	late final _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn fridayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn fridayTimeInterval = _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayFridayModalityEn fridayModality = _StringsSkedmakerFiltersCategoriesDayFridayModalityEn._(_root);
+	String get saturdayName => 'Saturday';
+	late final _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn saturdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn saturdayTimeInterval = _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn saturdayModality = _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn._(_root);
+}
+
+// Path: skedmaker.filters.categories.location
+class _StringsSkedmakerFiltersCategoriesLocationEn {
+	_StringsSkedmakerFiltersCategoriesLocationEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Location';
+	late final _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn checkingDistanceMinutes = _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn maxAllowedDistanceMeters = _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(_root);
+}
+
+// Path: skedmaker.filters.categories.offerings.includeClosed
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Include closed offerings';
+}
+
+// Path: skedmaker.filters.categories.offerings.includeFullSlots
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Include offerings with full slots';
+}
+
+// Path: skedmaker.filters.categories.offerings.includeUnknownModality
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Include offerings with unknown modality';
+}
+
+// Path: skedmaker.filters.categories.offerings.includeNoProfessors
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Include offerings with no professors';
+}
+
+// Path: skedmaker.filters.categories.day.mondayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Monday';
+}
+
+// Path: skedmaker.filters.categories.day.mondayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Monday';
+}
+
+// Path: skedmaker.filters.categories.day.mondayModality
+class _StringsSkedmakerFiltersCategoriesDayMondayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayMondayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Monday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.day.tuesdayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Tuesday';
+}
+
+// Path: skedmaker.filters.categories.day.tuesdayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Tuesday';
+}
+
+// Path: skedmaker.filters.categories.day.tuesdayModality
+class _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Tuesday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.day.wednesdayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Wednesday';
+}
+
+// Path: skedmaker.filters.categories.day.wednesdayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Wednesday';
+}
+
+// Path: skedmaker.filters.categories.day.wednesdayModality
+class _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Wednesday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.day.thursdayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Thursday';
+}
+
+// Path: skedmaker.filters.categories.day.thursdayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Thursday';
+}
+
+// Path: skedmaker.filters.categories.day.thursdayModality
+class _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayThursdayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Thursday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.day.fridayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Friday';
+}
+
+// Path: skedmaker.filters.categories.day.fridayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Friday';
+}
+
+// Path: skedmaker.filters.categories.day.fridayModality
+class _StringsSkedmakerFiltersCategoriesDayFridayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayFridayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Friday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.day.saturdayMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum number of subjects for Saturday';
+}
+
+// Path: skedmaker.filters.categories.day.saturdayTimeInterval
+class _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Only have subjects at this time interval on Saturday';
+}
+
+// Path: skedmaker.filters.categories.day.saturdayModality
+class _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn {
+	_StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Subjects for Saturday should only be this modality';
+	String get hybrid => 'Online or face-to-face';
+	String get online => 'Online';
+	String get f2f => 'Face-to-face';
+}
+
+// Path: skedmaker.filters.categories.location.checkingDistanceMinutes
+class _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn {
+	_StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Minutes after a subject to check for distance to the next subject';
+}
+
+// Path: skedmaker.filters.categories.location.maxAllowedDistanceMeters
+class _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn {
+	_StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Maximum distance (in meters) from one subject to the next';
 }
 
 /// Flat map(s) containing all translations.
@@ -274,6 +1105,137 @@ extension on _StringsEn {
 			case 'skedmaker.schedules.table.name': return 'Name';
 			case 'skedmaker.schedules.table.days': return 'Days';
 			case 'skedmaker.schedules.table.weight': return 'Weight';
+			case 'skedmaker.filters.title': return 'Filters';
+			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
+			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
+			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
+			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
+			case 'skedmaker.filters.categories.offerings.includeNoProfessors.name': return 'Include offerings with no professors';
+			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
+			case 'skedmaker.filters.categories.day.mondayName': return 'Monday';
+			case 'skedmaker.filters.categories.day.mondayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Monday';
+			case 'skedmaker.filters.categories.day.mondayTimeInterval.name': return 'Only have subjects at this time interval on Monday';
+			case 'skedmaker.filters.categories.day.mondayModality.name': return 'Subjects for Monday should only be this modality';
+			case 'skedmaker.filters.categories.day.mondayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.mondayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.mondayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.tuesdayName': return 'Tuesday';
+			case 'skedmaker.filters.categories.day.tuesdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Tuesday';
+			case 'skedmaker.filters.categories.day.tuesdayTimeInterval.name': return 'Only have subjects at this time interval on Tuesday';
+			case 'skedmaker.filters.categories.day.tuesdayModality.name': return 'Subjects for Tuesday should only be this modality';
+			case 'skedmaker.filters.categories.day.tuesdayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.tuesdayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.tuesdayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.wednesdayName': return 'Wednesday';
+			case 'skedmaker.filters.categories.day.wednesdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Wednesday';
+			case 'skedmaker.filters.categories.day.wednesdayTimeInterval.name': return 'Only have subjects at this time interval on Wednesday';
+			case 'skedmaker.filters.categories.day.wednesdayModality.name': return 'Subjects for Wednesday should only be this modality';
+			case 'skedmaker.filters.categories.day.wednesdayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.wednesdayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.wednesdayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.thursdayName': return 'Thursday';
+			case 'skedmaker.filters.categories.day.thursdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Thursday';
+			case 'skedmaker.filters.categories.day.thursdayTimeInterval.name': return 'Only have subjects at this time interval on Thursday';
+			case 'skedmaker.filters.categories.day.thursdayModality.name': return 'Subjects for Thursday should only be this modality';
+			case 'skedmaker.filters.categories.day.thursdayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.thursdayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.thursdayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.fridayName': return 'Friday';
+			case 'skedmaker.filters.categories.day.fridayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Friday';
+			case 'skedmaker.filters.categories.day.fridayTimeInterval.name': return 'Only have subjects at this time interval on Friday';
+			case 'skedmaker.filters.categories.day.fridayModality.name': return 'Subjects for Friday should only be this modality';
+			case 'skedmaker.filters.categories.day.fridayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.fridayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.fridayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.saturdayName': return 'Saturday';
+			case 'skedmaker.filters.categories.day.saturdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Saturday';
+			case 'skedmaker.filters.categories.day.saturdayTimeInterval.name': return 'Only have subjects at this time interval on Saturday';
+			case 'skedmaker.filters.categories.day.saturdayModality.name': return 'Subjects for Saturday should only be this modality';
+			case 'skedmaker.filters.categories.day.saturdayModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.saturdayModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.saturdayModality.f2f': return 'Face-to-face';
+			case 'skedmaker.filters.categories.location.name': return 'Location';
+			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Minutes after a subject to check for distance to the next subject';
+			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance (in meters) from one subject to the next';
+			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
+			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';
+			case 'skedmaker.scheduleDay.mondayOnline.name': return 'Monday (online)';
+			case 'skedmaker.scheduleDay.mondayOnline.nameShort': return 'M (online)';
+			case 'skedmaker.scheduleDay.mondayHybrid.name': return 'Monday (hybrid)';
+			case 'skedmaker.scheduleDay.mondayHybrid.nameShort': return 'M (hybrid)';
+			case 'skedmaker.scheduleDay.mondayUnknown.name': return 'Monday';
+			case 'skedmaker.scheduleDay.mondayUnknown.nameShort': return 'M';
+			case 'skedmaker.scheduleDay.tuesdayFace.name': return 'Tuesday (face-to-face)';
+			case 'skedmaker.scheduleDay.tuesdayFace.nameShort': return 'T (f2f)';
+			case 'skedmaker.scheduleDay.tuesdayOnline.name': return 'Tuesday (online)';
+			case 'skedmaker.scheduleDay.tuesdayOnline.nameShort': return 'T (online)';
+			case 'skedmaker.scheduleDay.tuesdayHybrid.name': return 'Tuesday (hybrid)';
+			case 'skedmaker.scheduleDay.tuesdayHybrid.nameShort': return 'T (hybrid)';
+			case 'skedmaker.scheduleDay.tuesdayUnknown.name': return 'Tuesday';
+			case 'skedmaker.scheduleDay.tuesdayUnknown.nameShort': return 'T';
+			case 'skedmaker.scheduleDay.wednesdayFace.name': return 'Wednesday (face-to-face)';
+			case 'skedmaker.scheduleDay.wednesdayFace.nameShort': return 'W (f2f)';
+			case 'skedmaker.scheduleDay.wednesdayOnline.name': return 'Wednesday (online)';
+			case 'skedmaker.scheduleDay.wednesdayOnline.nameShort': return 'W (online)';
+			case 'skedmaker.scheduleDay.wednesdayHybrid.name': return 'Wednesday (hybrid)';
+			case 'skedmaker.scheduleDay.wednesdayHybrid.nameShort': return 'W (hybrid)';
+			case 'skedmaker.scheduleDay.wednesdayUnknown.name': return 'Wednesday';
+			case 'skedmaker.scheduleDay.wednesdayUnknown.nameShort': return 'W';
+			case 'skedmaker.scheduleDay.thursdayFace.name': return 'Thursday (face-to-face)';
+			case 'skedmaker.scheduleDay.thursdayFace.nameShort': return 'H (f2f)';
+			case 'skedmaker.scheduleDay.thursdayOnline.name': return 'Thursday (online)';
+			case 'skedmaker.scheduleDay.thursdayOnline.nameShort': return 'H (online)';
+			case 'skedmaker.scheduleDay.thursdayHybrid.name': return 'Thursday (hybrid)';
+			case 'skedmaker.scheduleDay.thursdayHybrid.nameShort': return 'H (hybrid)';
+			case 'skedmaker.scheduleDay.thursdayUnknown.name': return 'Thursday';
+			case 'skedmaker.scheduleDay.thursdayUnknown.nameShort': return 'H';
+			case 'skedmaker.scheduleDay.fridayFace.name': return 'Friday (face-to-face)';
+			case 'skedmaker.scheduleDay.fridayFace.nameShort': return 'F (f2f)';
+			case 'skedmaker.scheduleDay.fridayOnline.name': return 'Friday (online)';
+			case 'skedmaker.scheduleDay.fridayOnline.nameShort': return 'F (online)';
+			case 'skedmaker.scheduleDay.fridayHybrid.name': return 'Friday (hybrid)';
+			case 'skedmaker.scheduleDay.fridayHybrid.nameShort': return 'F (hybrid)';
+			case 'skedmaker.scheduleDay.fridayUnknown.name': return 'Friday';
+			case 'skedmaker.scheduleDay.fridayUnknown.nameShort': return 'F';
+			case 'skedmaker.scheduleDay.saturdayFace.name': return 'Saturday (face-to-face)';
+			case 'skedmaker.scheduleDay.saturdayFace.nameShort': return 'S (f2f)';
+			case 'skedmaker.scheduleDay.saturdayOnline.name': return 'Saturday (online)';
+			case 'skedmaker.scheduleDay.saturdayOnline.nameShort': return 'S (online)';
+			case 'skedmaker.scheduleDay.saturdayHybrid.name': return 'Saturday (hybrid)';
+			case 'skedmaker.scheduleDay.saturdayHybrid.nameShort': return 'S (hybrid)';
+			case 'skedmaker.scheduleDay.saturdayUnknown.name': return 'Saturday';
+			case 'skedmaker.scheduleDay.saturdayUnknown.nameShort': return 'S';
+			case 'skedmaker.scheduleDay.mondaythursdayFace.name': return 'Monday and Thursday (both face-to-face)';
+			case 'skedmaker.scheduleDay.mondaythursdayFace.nameShort': return 'M & T (both f2f)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnline.name': return 'Monday and Thursday (both online)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnline.nameShort': return 'M & T (both online)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnlineface.name': return 'Monday (online) and Thursday (face-to-face)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnlineface.nameShort': return 'M (online) & T (f2f)';
+			case 'skedmaker.scheduleDay.mondaythursdayFaceonline.name': return 'Monday (face-to-face) and Thursday (online)';
+			case 'skedmaker.scheduleDay.mondaythursdayFaceonline.nameShort': return 'M (f2f) & T (online)';
+			case 'skedmaker.scheduleDay.mondaythursdayUnknown.name': return 'Monday and Thursday';
+			case 'skedmaker.scheduleDay.mondaythursdayUnknown.nameShort': return 'M & T';
+			case 'skedmaker.scheduleDay.tuesdayfridayFace.name': return 'Thursday and Friday (both face-to-face)';
+			case 'skedmaker.scheduleDay.tuesdayfridayFace.nameShort': return 'T & F (both f2f)';
+			case 'skedmaker.scheduleDay.tuesdayfridayOnline.name': return 'Thursday and Friday (both face-to-face)';
+			case 'skedmaker.scheduleDay.tuesdayfridayOnline.nameShort': return 'T & F (both online)';
+			case 'skedmaker.scheduleDay.tuesdayfridayOnlineface.name': return 'Thursday (online) and Friday (face-to-face)';
+			case 'skedmaker.scheduleDay.tuesdayfridayOnlineface.nameShort': return 'T (online) & F (f2f)';
+			case 'skedmaker.scheduleDay.tuesdayfridayFaceonline.name': return 'Thursday (face-to-face) and Friday (online)';
+			case 'skedmaker.scheduleDay.tuesdayfridayFaceonline.nameShort': return 'T (f2f) & F (online)';
+			case 'skedmaker.scheduleDay.tuesdayfridayUnknown.name': return 'Thursday and Friday';
+			case 'skedmaker.scheduleDay.tuesdayfridayUnknown.nameShort': return 'T & F';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayFace.name': return 'Wednesday and Saturday (both face-to-face)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayFace.nameShort': return 'W & S (both f2f)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayOnline.name': return 'Wednesday and Saturday (both online)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayOnline.nameShort': return 'W & S (both online)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayOnlineface.name': return 'Wednesday (online) and Saturday (face-to-face)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayOnlineface.nameShort': return 'W (online) & S (f2f)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayFaceonline.name': return 'Wednesday (face-to-face) and Saturday (online)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayFaceonline.nameShort': return 'W (f2f) & S (online)';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayUnknown.name': return 'Wednesday and Saturday';
+			case 'skedmaker.scheduleDay.wednesdaysaturdayUnknown.nameShort': return 'W & S';
+			case 'skedmaker.scheduleDay.unknown.name': return 'Unknown';
 			default: return null;
 		}
 	}

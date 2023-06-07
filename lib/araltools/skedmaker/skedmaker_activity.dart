@@ -290,17 +290,18 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   onPressed: () {
                     // Generates possible schedules
 
-                    context.read<SkedmakerModel>()
+                    final model = context.read<SkedmakerModel>()
                       ..schedules = {}
                       ..isGenerating = true;
-
-                    final subjects = context.read<SkedmakerModel>().subjects;
 
                     // count execution time
                     final stopwatch = Stopwatch()..start();
 
-                    generageSchedules(subjects).listen((event) {
-                      final model = context.read<SkedmakerModel>();
+                    generageSchedules(
+                      subjects: model.subjects,
+                      filters: model.filters,
+                    ).listen((event) {
+                      context.read<SkedmakerModel>();
                       model.addSchedule(event);
                     }).onDone(() {
                       stopwatch.stop();

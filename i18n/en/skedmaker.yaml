@@ -31,3 +31,206 @@ schedules:
     name: Name
     days: Days
     weight: Weight
+
+filters:
+  title: Filters
+  categories:
+    offerings:
+      name: Offerings
+      includeClosed:
+        name: Include closed offerings
+      includeFullSlots:
+        name: Include offerings with full slots
+      includeUnknownModality:
+        name: Include offerings with unknown modality
+      includeNoProfessors:
+        name: Include offerings with no professors
+    day:
+      name: Day-specific
+      mondayName: Monday
+      mondayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Monday
+      mondayTimeInterval:
+        name: Only have subjects at this time interval on Monday
+      mondayModality: 
+        name: Subjects for Monday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      tuesdayName: Tuesday
+      tuesdayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Tuesday
+      tuesdayTimeInterval:
+        name: Only have subjects at this time interval on Tuesday
+      tuesdayModality: 
+        name: Subjects for Tuesday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      wednesdayName: Wednesday
+      wednesdayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Wednesday
+      wednesdayTimeInterval:
+        name: Only have subjects at this time interval on Wednesday
+      wednesdayModality: 
+        name: Subjects for Wednesday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      thursdayName: Thursday
+      thursdayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Thursday
+      thursdayTimeInterval:
+        name: Only have subjects at this time interval on Thursday
+      thursdayModality: 
+        name: Subjects for Thursday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      fridayName: Friday
+      fridayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Friday
+      fridayTimeInterval:
+        name: Only have subjects at this time interval on Friday
+      fridayModality: 
+        name: Subjects for Friday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      saturdayName: Saturday
+      saturdayMaxNumberOfSubjects: 
+        name: Maximum number of subjects for Saturday
+      saturdayTimeInterval:
+        name: Only have subjects at this time interval on Saturday
+      saturdayModality: 
+        name: Subjects for Saturday should only be this modality
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+    location:
+      name: Location
+      checkingDistanceMinutes:
+        name: Minutes after a subject to check for distance to the next subject
+      maxAllowedDistanceMeters:
+        name: Maximum distance (in meters) from one subject to the next
+
+scheduleDay:
+  mondayFace: 
+    name: Monday (face-to-face)
+    nameShort: M (f2f)
+  mondayOnline: 
+    name: Monday (online)
+    nameShort: M (online)
+  mondayHybrid: 
+    name: Monday (hybrid)
+    nameShort: M (hybrid)
+  mondayUnknown: 
+    name: Monday
+    nameShort: M
+  tuesdayFace: 
+    name: Tuesday (face-to-face)
+    nameShort: T (f2f)
+  tuesdayOnline: 
+    name: Tuesday (online)
+    nameShort: T (online)
+  tuesdayHybrid: 
+    name: Tuesday (hybrid)
+    nameShort: T (hybrid)
+  tuesdayUnknown: 
+    name: Tuesday
+    nameShort: T
+  wednesdayFace: 
+    name: Wednesday (face-to-face)
+    nameShort: W (f2f)
+  wednesdayOnline: 
+    name: Wednesday (online)
+    nameShort: W (online)
+  wednesdayHybrid: 
+    name: Wednesday (hybrid)
+    nameShort: W (hybrid)
+  wednesdayUnknown: 
+    name: Wednesday
+    nameShort: W
+  thursdayFace: 
+    name: Thursday (face-to-face)
+    nameShort: H (f2f)
+  thursdayOnline: 
+    name: Thursday (online)
+    nameShort: H (online)
+  thursdayHybrid: 
+    name: Thursday (hybrid)
+    nameShort: H (hybrid)
+  thursdayUnknown: 
+    name: Thursday
+    nameShort: H
+  fridayFace: 
+    name: Friday (face-to-face)
+    nameShort: F (f2f)
+  fridayOnline: 
+    name: Friday (online)
+    nameShort: F (online)
+  fridayHybrid: 
+    name: Friday (hybrid)
+    nameShort: F (hybrid)
+  fridayUnknown: 
+    name: Friday
+    nameShort: F
+  saturdayFace: 
+    name: Saturday (face-to-face)
+    nameShort: S (f2f)
+  saturdayOnline: 
+    name: Saturday (online)
+    nameShort: S (online)
+  saturdayHybrid: 
+    name: Saturday (hybrid)
+    nameShort: S (hybrid)
+  saturdayUnknown: 
+    name: Saturday
+    nameShort: S
+  mondaythursdayFace: 
+    name: Monday and Thursday (both face-to-face)
+    nameShort: M & T (both f2f)
+  mondaythursdayOnline: 
+    name: Monday and Thursday (both online)
+    nameShort: M & T (both online)
+  mondaythursdayOnlineface: 
+    name: Monday (online) and Thursday (face-to-face)
+    nameShort: M (online) & T (f2f)
+  mondaythursdayFaceonline: 
+    name: Monday (face-to-face) and Thursday (online)
+    nameShort: M (f2f) & T (online)
+  mondaythursdayUnknown: 
+    name: Monday and Thursday
+    nameShort: M & T
+  tuesdayfridayFace: 
+    name: Thursday and Friday (both face-to-face)
+    nameShort: T & F (both f2f)
+  tuesdayfridayOnline: 
+    name: Thursday and Friday (both face-to-face)
+    nameShort: T & F (both online)
+  tuesdayfridayOnlineface: 
+    name: Thursday (online) and Friday (face-to-face)
+    nameShort: T (online) & F (f2f)
+  tuesdayfridayFaceonline: 
+    name: Thursday (face-to-face) and Friday (online)
+    nameShort: T (f2f) & F (online)
+  tuesdayfridayUnknown: 
+    name: Thursday and Friday
+    nameShort: T & F
+  wednesdaysaturdayFace: 
+    name: Wednesday and Saturday (both face-to-face)
+    nameShort: W & S (both f2f)
+  wednesdaysaturdayOnline: 
+    name: Wednesday and Saturday (both online)
+    nameShort: W & S (both online)
+  wednesdaysaturdayOnlineface: 
+    name: Wednesday (online) and Saturday (face-to-face)
+    nameShort: W (online) & S (f2f)
+  wednesdaysaturdayFaceonline: 
+    name: Wednesday (face-to-face) and Saturday (online)
+    nameShort: W (f2f) & S (online)
+  wednesdaysaturdayUnknown: 
+    name: Wednesday and Saturday
+    nameShort: W & S
+  unknown: 
+    name: Unknown

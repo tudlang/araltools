@@ -101,6 +101,10 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
   final sendPort = (subjectsEncoded['sendport'] as SendPort);
   subjectsEncoded.remove('sendport');
 
+  final filters =
+      (subjectsEncoded['filters'] as Map<String, Map<String, dynamic>>);
+  subjectsEncoded.remove('filters');
+
   // Recursive function
   // The [List<Map>] is an encoded [List<Offering>]
   // types:
@@ -114,7 +118,6 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
         for (final offering in offeringsCurrent) {
           week.add(Offering.fromMap(offering));
         }
-        //controller.add(week.toMap());
         sendPort.send(week.toMap());
         print(week.identifierString);
       } catch (e) {
@@ -126,7 +129,58 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
     String subject = subjectsCurrent.keys.first;
 
     // Iterate over each Offering in the current entry
-    for (final currentOffering in subjectsCurrent[subject]!) {
+    for (Map currentOffering in subjectsCurrent[subject]!) {
+      // ===== Check for filters here
+
+      
+      if ((filters['offerings']!['includeClosed'] == false &&
+              currentOffering['isClosed'] == true) ||
+          (filters['offerings']!['includeFullSlots'] == false &&
+              currentOffering['slotTaken'] >=
+                  currentOffering['slotCapacity']) ||
+          (filters['offerings']!['includeUnknownModality'] == false &&
+              currentOffering['scheduleDay'].contains('nknown')) ||
+          (filters['offerings']!['includeNoProfessors'] == false &&
+              currentOffering['teacher'].isEmpty)) {
+        continue;
+      }
+
+      // day-specific checker
+      // this uses a try-catch block to immediately skip to `continue` if something is filtered
+      try {
+        final scheduleDay =
+            ScheduleDay.values.byName(currentOffering['scheduleDay']);
+
+        for (final day in const [
+          ('monday', 'M'),
+          ('tuesday', 'T'),
+          ('wednesday', 'W'),
+          ('thursday', 'H'),
+          ('friday', 'F'),
+          ('saturday', 'S'),
+        ]) {
+          // skips if `currentOffering` is not `day`
+          if (!scheduleDay.daycode.contains(day.$2)) continue;
+          
+          //modality checker
+          if (filters['day']!['${day.$1}Modality'] != 'hybrid') {
+            // todo add modality checker
+            //if (!scheduleDay.name
+            //    .toLowerCase()
+            //    .contains(filters['day']!["${day.$1}Modality"])) {
+            //  throw Error();
+            //}
+          }
+
+
+          
+        }
+      } catch (e) {
+        continue;
+      }
+
+      // ===== All filters passed
+
       // Create a copy of the current combination
       final updatedCombination = List<Map>.from(offeringsCurrent);
       updatedCombination.add(currentOffering);
@@ -146,14 +200,20 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
   sendPort.send(null);
 }
 
-Stream<ScheduleWeek> generageSchedules(
-    Map<String, List<Offering>> subjects) async* {
+Stream<ScheduleWeek> generageSchedules({
+  required Map<String, List<Offering>> subjects,
+  required ScheduleFilters filters,
+}) async* {
   final subjectsEncoded = subjects.map<String, dynamic>(
       (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList()));
 
   final p = ReceivePort();
   await Isolate.spawn(
-      generageSchedulesIsolate, subjectsEncoded..['sendport'] = p.sendPort);
+    generageSchedulesIsolate,
+    subjectsEncoded
+      ..['sendport'] = p.sendPort
+      ..['filters'] = filters.toMap(),
+  );
 
   // recieve decoded Map
   int outputtedWeeks = 0;

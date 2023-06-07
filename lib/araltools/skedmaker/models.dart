@@ -90,6 +90,11 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void nextWeekInTab(int indexSelected, int increment){
+    _tabs[_tabsIndex] = _schedules.elementAt(indexSelected+increment);
+    notifyListeners();
+  }
+
   int get tabsIndex => _tabsIndex;
   set tabsIndex(int a) {
     _tabsIndex = a;

@@ -21,6 +21,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:araltools/strings.g.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
@@ -99,6 +100,7 @@ class Offering implements Comparable {
           'b': color.blue,
           'a': color.alpha,
         },
+        'isClosed': isClosed,
       };
   factory Offering.fromMap(Map map) => Offering()
     ..classNumber = map['classNumber']
@@ -116,7 +118,8 @@ class Offering implements Comparable {
       map['color']['r'],
       map['color']['g'],
       map['color']['b'],
-    );
+    )
+    ..isClosed = map['isClosed'];
 
   @override
   String toString() =>
@@ -185,6 +188,11 @@ enum ScheduleDay {
   const ScheduleDay(this.daycode);
 
   bool get isMultipleDays => daycode.length > 1;
+
+  String get nameLocalized =>
+      strings['skedmaker.scheduleDay.$name.name'] ?? name;
+  String get nameShort =>
+      strings['skedmaker.scheduleDay.$name.nameShort'] ?? name;
 
   /// This is meant to be executed once for the initial reading of the <tr>. If there is a second <tr>, call [ScheduleDay.refine()].
   factory ScheduleDay.fromRow({
@@ -452,7 +460,7 @@ class ScheduleFilters {
         valueDefault: false,
       ),
       ScheduleFilter<bool>(
-        key: 'includeNoProfs',
+        key: 'includeNoProfessors',
         valueDefault: true,
       ),
     ],
@@ -489,7 +497,7 @@ class ScheduleFilters {
         ScheduleFilter<String>(
           key: '${day}Modality',
           valueDefault: 'hybrid',
-          valueChoices: ['hybrid', 'online', 'f2f'],
+          valueChoices: ['hybrid', 'online', 'face'],
         ),
       ]
     ],
@@ -497,25 +505,30 @@ class ScheduleFilters {
       ScheduleFilter<int>(
         key: 'checkingDistanceMinutes',
         valueDefault: 20,
-        valueLeast: 0,
+        valueLeast: -1,
       ),
       ScheduleFilter<int>(
         key: 'maxAllowedDistanceMeters',
         valueDefault: 150,
-        valueLeast: 0,
+        valueLeast: -1,
+      ),
+      ScheduleFilter<int>(
+        key: 'maxDisplacementMeters',
+        valueDefault: -1,
+        valueLeast: -1,
       ),
     ],
   };
 
   //factory ScheduleFilters.fromMap(Map map) {}
 
-  Map toMap() => filters.map(
+  Map<String, Map<String, dynamic>> toMap() => filters.map(
         (key, value) => MapEntry(
-          key,
+          key.$1,
           Map.fromEntries(value.map(
             (e) => MapEntry(
               e.key,
-              values[key]![e.key],
+              values[key.$1]?[e.key] ?? e.valueDefault,
             ),
           )),
         ),
