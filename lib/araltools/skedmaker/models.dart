@@ -102,6 +102,10 @@ class SkedmakerModel extends ChangeNotifier {
     _filters.values[category]![key] = value;
     notifyListeners();
   }
+  resetFilterCategory(String category){
+    _filters.values[category]!.clear();
+    notifyListeners();
+  }
 
   SkedmakerModel()
       : subjects = {},

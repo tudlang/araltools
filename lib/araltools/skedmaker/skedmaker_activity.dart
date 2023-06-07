@@ -440,16 +440,19 @@ class _TimetableFragmentState extends State<TimetableFragment> {
           laneEventsList: [
             for (final day in ScheduleWeek.daycodes)
               LaneEvents(
-                  lane: Lane(name: day, laneIndex: 1),
-                  events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
-                      .map((e) => TableEvent(
+                lane: Lane(name: day, laneIndex: 1),
+                events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
+                    .map((e) => TableEvent(
                           location: "${e.scheduleDay.daycode} ${e.room}\n",
                           title: "${e.subject} - ${e.section} \n",
                           eventId: e.classNumber,
                           laneIndex: 1,
                           startTime: t(e.scheduleTimeStart),
-                          endTime: t(e.scheduleTimeEnd)))
-                      .toList())
+                          endTime: t(e.scheduleTimeEnd),
+                          backgroundColor: e.color,
+                        ))
+                    .toList(),
+              )
           ],
           onEmptySlotTap: (laneIndex, start, end) {},
           onEventTap: (event) {},
@@ -463,4 +466,3 @@ class _TimetableFragmentState extends State<TimetableFragment> {
       hour: (time24 / 100).floor(),
       minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"));
 }
-

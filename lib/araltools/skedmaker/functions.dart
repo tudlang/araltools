@@ -17,9 +17,11 @@
 
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:directed_graph/directed_graph.dart';
+import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
 import 'package:stream_isolate/stream_isolate.dart';
 
@@ -32,6 +34,15 @@ List<Offering> parse(String htmlTable) {
 
   final out = <Offering>[];
 
+  final random = Random();
+  // add the same color for the subject
+  final color = HSLColor.fromAHSL(
+    1,
+    random.nextInt(45) * 8.0,
+    (random.nextDouble() * 0.6 + 0.3),
+    (1 - (random.nextDouble() * 0.6 + 0.3)),
+  ).toColor();
+
   for (var tr in table.children) {
     if (tr == table.children.first) continue;
 
@@ -39,7 +50,9 @@ List<Offering> parse(String htmlTable) {
 
     if (tr.children.length != 1 && tr.children[0].text.trim().isNotEmpty) {
       // START OF A NEW ROW
-      offering = Offering()
+      offering = Offering(
+        color: color,
+      )
         ..classNumber = tr.children[0].text.trim().toInt()
         ..subject = tr.children[1].text.trim()
         ..section = tr.children[2].text.trim()
@@ -52,7 +65,7 @@ List<Offering> parse(String htmlTable) {
           remarks: tr.children[8].text.trim(),
           hasRoom: tr.children[5].text.trim().isNotEmpty,
         )
-        ..isClosed = tr.querySelector('font[color="#0099CC"]')!=null;
+        ..isClosed = tr.querySelector('font[color="#0099CC"]') != null;
 
       out.add(offering);
     } else if (tr.children[0].text.trim().isEmpty) {
@@ -131,7 +144,6 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
 
   //processing is done
   sendPort.send(null);
-
 }
 
 Stream<ScheduleWeek> generageSchedules(
@@ -151,5 +163,4 @@ Stream<ScheduleWeek> generageSchedules(
     week.name = "Schedule ${++outputtedWeeks}";
     yield week;
   }
-
 }

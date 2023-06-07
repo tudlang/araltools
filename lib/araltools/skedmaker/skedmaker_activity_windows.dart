@@ -21,6 +21,7 @@ import 'dart:math';
 import 'package:araltools/main.dart';
 import 'package:flutter/material.dart'
     hide IconButton, ListTile, Tab, Divider, DividerThemeData, Card;
+import 'package:flutter/services.dart';
 
 import 'functions.dart';
 import 'models.dart';
@@ -138,7 +139,14 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
         items: [
           for (final subject in model.subjects.entries)
             PaneItem(
-              icon: Icon(MdiIcons.schoolOutline),
+              icon: Container(
+                decoration: ShapeDecoration(
+                  shape: CircleBorder(),
+                  color: subject.value.first.color,
+                ),
+                width: 10,
+                height: 10,
+              ),
               title: Text(subject.key),
               body: SubjectsFragmentEdit(
                 offerings: subject.value,
@@ -211,6 +219,11 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
           child: CommandBar(
             overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
             primaryItems: [
+              CommandBarButton(
+                icon: Icon(Icons.palette_outlined),
+                onPressed: () {},
+                label: Text("Change subject color"),
+              ),
               CommandBarButton(
                 icon: Icon(Icons.drive_file_rename_outline_outlined),
                 onPressed: () {},
@@ -379,17 +392,18 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
           },
           items: [
             ...ScheduleFilters.filters.entries.map((entry) => PaneItem(
-                  icon: Text('a'),
+                  icon: Icon(entry.key.$2),
                   body: FiltersFragmentCategory(
-                    category: entry.key,
+                    category: entry.key.$1,
+                    icon: entry.key.$2,
                   ),
-                  title: Text(entry.key),
+                  title: Text(entry.key.$1),
                 )),
-            PaneItem(
-              icon: Icon(MdiIcons.schoolOutline),
-              title: Text('Custom'),
-              body: Placeholder(),
-            ),
+            //PaneItem(
+            //  icon: Icon(MdiIcons.schoolOutline),
+            //  title: Text('Custom'),
+            //  body: Placeholder(),
+            //),
           ],
           footerItems: [
             PaneItem(
@@ -398,7 +412,7 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
               onTap: () {
                 final model = context.read<SkedmakerModel>();
                 final a = JsonEncoder.withIndent("     ")
-                    .convert(model.filters.toMap());
+                    .convert(model.filters.values);
                 print(a);
               },
             ),
@@ -431,9 +445,11 @@ class FiltersFragmentCategory extends StatefulWidget {
   const FiltersFragmentCategory({
     super.key,
     required this.category,
+    required this.icon,
   });
 
   final String category;
+  final IconData icon;
 
   @override
   State<FiltersFragmentCategory> createState() =>
@@ -446,7 +462,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
   @override
   void initState() {
     super.initState();
-    filters = ScheduleFilters.filters[widget.category]!;
+    filters = ScheduleFilters.filters[(widget.category, widget.icon)]!;
   }
 
   @override
@@ -464,7 +480,9 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Text(filter.key),
             )
-          else if (filter.valueDefault is (int, int))
+          else if (filter.valueDefault is List<int> &&
+              filter.valueLeast is int &&
+              filter.valueMost is int)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -472,8 +490,67 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                   Text(filter.key),
                   Spacer(),
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 200),
-                    child: Container(),
+                    constraints: BoxConstraints(maxWidth: 60),
+                    child: NumberBox<int>(
+                      value: filterValues[widget.category]![filter.key + "0"] ??
+                          filter.valueDefault[0],
+                      onChanged: (value) {
+                        final model = context.read<SkedmakerModel>();
+                        value ??= 0;
+                        model.updateFilter(widget.category, filter.key + "0",
+                            () {
+                          final hour = (value! / 100).floor();
+                          final minute = value % 100;
+
+                          if (hour >= 24 && minute >= 60) {
+                            return 2359;
+                          } else if (hour >= 24 && minute < 60) {
+                            return minute + 2300;
+                          } else if (hour < 24 && minute >= 60) {
+                            return (hour * 100) + 59;
+                          } else if (hour < 24 && minute < 60) {
+                            return (hour * 100) + minute;
+                          }
+                        }());
+                      },
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      clearButton: false,
+                      mode: SpinButtonPlacementMode.none,
+                      min: filter.valueLeast,
+                      max: filter.valueMost,
+                    ),
+                  ),
+                  Text(' - '),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 60),
+                    child: NumberBox<int>(
+                      value: filterValues[widget.category]![filter.key + "1"] ??
+                          filter.valueDefault[1],
+                      onChanged: (value) {
+                        final model = context.read<SkedmakerModel>();
+                        value ??= 0;
+                        model.updateFilter(widget.category, filter.key + "1",
+                            () {
+                          final hour = (value! / 100).floor();
+                          final minute = value % 100;
+
+                          if (hour >= 24 && minute >= 60) {
+                            return 2359;
+                          } else if (hour >= 24 && minute < 60) {
+                            return minute + 2300;
+                          } else if (hour < 24 && minute >= 60) {
+                            return (hour * 100) + 59;
+                          } else if (hour < 24 && minute < 60) {
+                            return (hour * 100) + minute;
+                          }
+                        }());
+                      },
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      clearButton: false,
+                      mode: SpinButtonPlacementMode.none,
+                      min: filter.valueLeast,
+                      max: filter.valueMost,
+                    ),
                   ),
                 ]),
               ),
@@ -486,7 +563,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                   Text(filter.key),
                   Spacer(),
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 200),
+                    constraints: BoxConstraints(maxWidth: 150),
                     child: NumberBox<num>(
                       value: filterValues[widget.category]![filter.key] ??
                           filter.valueDefault,
@@ -526,6 +603,46 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                 ]),
               ),
             )
+          else if (filter.valueDefault is String &&
+              filter.valueChoices is List<String>)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Row(children: [
+                  Text(filter.key),
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: ComboBox(
+                      value: filterValues[widget.category]![filter.key] ??
+                          filter.valueDefault,
+                      items: filter.valueChoices!
+                          .map((e) => ComboBoxItem(
+                                child: Text(e),
+                                value: e,
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) return;
+                        final model = context.read<SkedmakerModel>();
+                        model.updateFilter(widget.category, filter.key, value);
+                      },
+                    ),
+                  ),
+                ]),
+              ),
+            ),
+        Container(
+          width: 200,
+          padding: EdgeInsets.all(8),
+          child: Button(
+            child: Text('Reset'),
+            onPressed: () {
+              final model = context.read<SkedmakerModel>();
+              model.resetFilterCategory(widget.category);
+            },
+          ),
+        ),
       ],
     );
   }

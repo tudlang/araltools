@@ -21,6 +21,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -37,9 +38,11 @@ class Offering implements Comparable {
   late int scheduleTimeEnd;
   late int classNumber;
   bool isClosed;
+  late Color color;
 
-  Offering()
-      : slotTaken = 0,
+  Offering({
+    this.color = const Color(0xCC2196F3),
+  })  : slotTaken = 0,
         teacher = '',
         isClosed = false;
 
@@ -90,6 +93,12 @@ class Offering implements Comparable {
         'scheduleTimeEnd': scheduleTimeEnd,
         'scheduleDay': scheduleDay.name,
         'teacher': teacher,
+        'color': {
+          'r': color.red,
+          'g': color.green,
+          'b': color.blue,
+          'a': color.alpha,
+        },
       };
   factory Offering.fromMap(Map map) => Offering()
     ..classNumber = map['classNumber']
@@ -101,7 +110,13 @@ class Offering implements Comparable {
     ..scheduleTimeStart = map['scheduleTimeStart']
     ..scheduleTimeEnd = map['scheduleTimeEnd']
     ..scheduleDay = ScheduleDay.values.byName(map['scheduleDay'])
-    ..teacher = map['teacher'];
+    ..teacher = map['teacher']
+    ..color = Color.fromARGB(
+      map['color']['a'],
+      map['color']['r'],
+      map['color']['g'],
+      map['color']['b'],
+    );
 
   @override
   String toString() =>
@@ -120,11 +135,6 @@ class Offering implements Comparable {
       return 1;
     else
       return 0;
-  }
-
-  String get color {
-    final random = Random();
-    return "hsl(${random.nextInt(45) * 8.0},${(random.nextDouble() * 0.6 + 0.3) * 100}%,${(1 - (random.nextDouble() * 0.6 + 0.3)) * 100}%)";
   }
 }
 
@@ -423,12 +433,12 @@ class ScheduleFilters {
 
   factory ScheduleFilters() {
     return ScheduleFilters._(
-      values: filters.map((key, value) => MapEntry(key, {})),
+      values: filters.map((key, value) => MapEntry(key.$1, {})),
     );
   }
 
-  static final filters = <String, List<ScheduleFilter>>{
-    'offerings': [
+  static final filters = <(String, IconData), List<ScheduleFilter>>{
+    ('offerings', MdiIcons.schoolOutline): [
       ScheduleFilter<bool>(
         key: 'includeClosed',
         valueDefault: false,
@@ -446,7 +456,13 @@ class ScheduleFilters {
         valueDefault: true,
       ),
     ],
-    'day': [
+    //'subjects': [
+    //  ScheduleFilter(
+    //    key: 'noSubjectInSameDay',
+    //    valueDefault: '',
+    //  ),
+    //],
+    ('day', MdiIcons.viewDayOutline): [
       for (final day in const [
         'monday',
         'tuesday',
@@ -459,17 +475,25 @@ class ScheduleFilters {
           key: '${day}Name',
           valueDefault: null,
         ),
-        ScheduleFilter<bool>(
-          key: '${day}IsFreeDay',
-          valueDefault: false,
+        ScheduleFilter<int>(
+          key: '${day}MaxNumberOfSubjects',
+          valueDefault: -1,
+          valueLeast: -1,
         ),
-        ScheduleFilter<(int,int)>(
-          key: '${day}TimeStartEnd',
-          valueDefault: (730,2100),
+        ScheduleFilter(
+          key: '${day}TimeInterval',
+          valueDefault: [730, 2100],
+          valueLeast: 0,
+          valueMost: 2359,
+        ),
+        ScheduleFilter<String>(
+          key: '${day}Modality',
+          valueDefault: 'hybrid',
+          valueChoices: ['hybrid', 'online', 'f2f'],
         ),
       ]
     ],
-    ('location'): [
+    ('location', MdiIcons.mapMarkerOutline): [
       ScheduleFilter<int>(
         key: 'checkingDistanceMinutes',
         valueDefault: 20,
