@@ -55,29 +55,7 @@ class Offering implements Comparable {
 
   String get scheduleTime => "$scheduleTimeStart - $scheduleTimeEnd";
 
-  String get building => RegExp(r'[A-Z]+').stringMatch(room) ?? '';
-  int get roomCode => int.parse(RegExp(r'[0-9]+').stringMatch(room) ?? '0');
-  int get floor => (roomCode / 100).floor();
-
   String get slots => "$slotTaken / $slotCapacity";
-
-  /// A vector representing the distance of the room location
-  Vector3 get location {
-    final bldg = distances[building] ?? Vector2.zero();
-    //Z falue times 3 since average floor height is 3 meters
-    return Vector3(bldg.x, bldg.y, floor.toDouble() * 3);
-  }
-
-  /// Gets weight from [this] to [other]
-  double getWeight(Offering other) {
-    final distance = this.location.distanceTo(other.location);
-    // TODO ADD PROF RATING
-    return distance;
-  }
-
-  Map<Offering, double> generateWeighedGraph(Iterable<Offering> list) {
-    return Map.fromEntries(list.map((e) => MapEntry(e, this.getWeight(e))));
-  }
 
   bool isConflicting(Offering other) =>
       this.scheduleTimeStart <= other.scheduleTimeEnd &&
@@ -314,6 +292,27 @@ Vector2 vectorFromAngle(num length, num degree) => Vector2(
       length * sin(degree * degrees2Radians),
     );
 
+mixin LocationFunctions {
+  ({String building, int room, int floor}) parseLocation(String roomCode) {
+    final room = int.parse(RegExp(r'[0-9]+').stringMatch(roomCode) ?? '0');
+    return (
+      building: RegExp(r'[A-Z]+').stringMatch(roomCode) ?? '',
+      room: room,
+      floor: (room / 100).floor()
+    );
+  }
+
+  /// A vector representing the distance of the room location
+  Vector3 parseLocationAsVector(String roomCode) {
+    final location = parseLocation(roomCode);
+
+    final bldg = distances[location.building] ?? Vector2.zero();
+
+    //Z falue times 3 since average floor height is 3 meters
+    return Vector3(bldg.x, bldg.y, location.floor.toDouble() * 3);
+  }
+}
+
 extension StringExtensions on String {
   int toInt() => int.parse(this);
 }
@@ -457,7 +456,7 @@ class ScheduleFilters {
       ),
       ScheduleFilter<bool>(
         key: 'includeUnknownModality',
-        valueDefault: false,
+        valueDefault: true,
       ),
       ScheduleFilter<bool>(
         key: 'includeNoProfessors',

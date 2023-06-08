@@ -1,4 +1,5 @@
 {
     "licenser.license": "GPLv3",
     "licenser.projectName": "AralTools",
+    "cmake.configureOnOpen": false,
 }

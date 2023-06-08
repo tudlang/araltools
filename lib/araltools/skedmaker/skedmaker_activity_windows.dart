@@ -21,7 +21,16 @@ import 'dart:math';
 import 'package:araltools/main.dart';
 import 'package:araltools/strings.g.dart';
 import 'package:flutter/material.dart'
-    hide IconButton, ListTile, Tab, Divider, DividerThemeData, Card, showDialog;
+    hide
+        IconButton,
+        ListTile,
+        Tab,
+        Divider,
+        DividerThemeData,
+        Card,
+        showDialog,
+        Tooltip,
+        FilledButton;
 import 'package:flutter/services.dart';
 
 import 'functions.dart';
@@ -342,13 +351,22 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               for (final offering in widget.offerings)
                 DataRow(
                   cells: [
-                    DataCell(Icon(offering.isClosed
-                        ? MdiIcons.closeCircleOutline
-                        : MdiIcons.checkCircleOutline)),
+                    DataCell(offering.isClosed
+                        ? Tooltip(
+                            message: 'Closed',
+                            child: Icon(MdiIcons.closeCircleOutline),
+                          )
+                        : Tooltip(
+                            message: 'Open',
+                            child: Icon(MdiIcons.checkCircleOutline),
+                          )),
                     DataCell(Text(offering.classNumber.toString())),
                     DataCell(Text(offering.section)),
                     DataCell(Text(offering.room)),
-                    DataCell(Text(offering.scheduleDay.nameShort)),
+                    DataCell(Tooltip(
+                      child: Text(offering.scheduleDay.nameShort),
+                      message: offering.scheduleDay.nameLocalized,
+                    )),
                     DataCell(Text(offering.scheduleTime)),
                     DataCell(Text(offering.teacher)),
                     DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
@@ -356,13 +374,17 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                       SizedBox(width: 8),
                       SizedBox.square(
                         dimension: 25,
-                        child: ProgressRing(
-// min because the slot taken might be greater than capacity
-                          value: min(
-                              100,
-                              (offering.slotTaken / offering.slotCapacity) *
-                                  100),
-                          strokeWidth: 3,
+                        child: Tooltip(
+                          message:
+                              "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
+                          child: ProgressRing(
+                            // min because the slot taken might be greater than capacity
+                            value: min(
+                                100,
+                                (offering.slotTaken / offering.slotCapacity) *
+                                    100),
+                            strokeWidth: 3,
+                          ),
                         ),
                       )
                     ])),
@@ -674,32 +696,82 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                 ]),
               ),
             ),
-
+        Divider(),
         if (widget.category == 'location')
-          Container(
-          width: 200,
-          padding: EdgeInsets.all(8),
-          child: Button(
-            child: Text('Open distance viewer'),
-            onPressed: () {
-              showDialog(context: context, builder: (context){
-                return ContentDialog(
-                  
-                );
-              });
-            },
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: FilledButton(
+                  child: Text('Open distance calculator'),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return ContentDialog(
+                                title: Text('Distance calculator'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    InfoLabel(
+                                      label: 'From',
+                                      child: TextBox(
+                                        placeholder: 'Room code (eg. A1105)',
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    InfoLabel(
+                                      label: 'To',
+                                      child: TextBox(
+                                        placeholder: 'Room code (eg. A1105)',
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Button(
+                                          child: Text('Calculate'),
+                                          onPressed: () {
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  Button(
+                                    child: Text('Close'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            }
+                          );
+                        });
+                  },
+                ),
+              ),
+            ],
           ),
-        ),
-        Container(
-          width: 200,
-          padding: EdgeInsets.all(8),
-          child: Button(
-            child: Text('Reset'),
-            onPressed: () {
-              final model = context.read<SkedmakerModel>();
-              model.resetFilterCategory(widget.category);
-            },
-          ),
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              child: Button(
+                child: Text('Reset'),
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+                  model.resetFilterCategory(widget.category);
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -859,39 +931,6 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               )),
             ]),
           );
-/*
-    return NavigationView(
-      pane: NavigationPane(
-        selected: indexSelected,
-        onChanged: (index) {
-          setState(() {
-            indexSelected = index;
-          });
-        },
-        items: [
-          for (final schedule in model.schedules)
-            PaneItem(
-              icon: Icon(MdiIcons.abTesting),
-              title: Text(schedule.identifierString),
-              body: TimetableFragment(
-                data: schedule,
-              ),
-            ),
-        ],
-        footerItems: [
-          PaneItemSeparator(),
-          PaneItem(
-            icon: Icon(MdiIcons.calendarWeek),
-            body: Placeholder(),
-            title: Text("Generate"),
-            onTap: () {
-              generate(context);
-            },
-          ),
-        ],
-      ),
-    );
-  */
   }
 }
 
