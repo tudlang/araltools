@@ -20,6 +20,7 @@ import 'dart:math';
 
 import 'package:araltools/main.dart';
 import 'package:araltools/strings.g.dart';
+import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart'
     hide
         IconButton,
@@ -503,8 +504,10 @@ class FiltersFragmentCategory extends StatefulWidget {
       _FiltersFragmentCategoryState();
 }
 
-class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
+class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
+    with LocationFunctions {
   late List<ScheduleFilter> filters;
+  late TextTheme textTheme;
 
   @override
   void initState() {
@@ -512,14 +515,24 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
     filters = ScheduleFilters.filters[(widget.category, widget.icon)]!;
   }
 
-  filterText(String filterKey) => Text(strings[
-          'skedmaker.filters.categories.${widget.category}.${filterKey}.name'] ??
-      filterKey);
+  filterText(ScheduleFilter filter) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(strings[
+                  'skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.name'] ??
+              filter.key),
+          TextOrNull(
+              strings[
+                  'skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.desc'],
+              style: textTheme.labelMedium)
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
-    final textTheme = Theme.of(context).textTheme;
+    textTheme = Theme.of(context).textTheme;
 
     final filterValues = model.filters.values;
 
@@ -549,7 +562,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  filterText(filter.key),
+                  filterText(filter),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
@@ -622,7 +635,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  filterText(filter.key),
+                  filterText(filter),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 150),
@@ -649,7 +662,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  filterText(filter.key),
+                  filterText(filter),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
@@ -671,7 +684,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
                 child: Row(children: [
-                  filterText(filter.key),
+                  filterText(filter),
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
@@ -681,11 +694,58 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                       items: filter.valueChoices!
                           .map((e) => ComboBoxItem(
                                 child: Text(strings[
-                                        "skedmaker.filters.categories.${widget.category}.${filter.key}.$e"] ??
+                                        "skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.$e"] ??
                                     e),
                                 value: e,
                               ))
                           .toList(),
+                      onChanged: (value) {
+                        if (value == null) return;
+                        final model = context.read<SkedmakerModel>();
+                        model.updateFilter(widget.category, filter.key, value);
+                      },
+                    ),
+                  ),
+                ]),
+              ),
+            )
+          else if (filter.valueDefault == ScheduleFilterSpecial.subjects)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Row(children: [
+                  filterText(filter),
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: ComboBox(
+                      value:
+                          filterValues[widget.category]![filter.key] ?? 'any',
+                      items: model.subjects.keys
+                          .map((e) => ComboBoxItem(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: ShapeDecoration(
+                                        shape: CircleBorder(),
+                                        color: model.subjects[e]!.first.color,
+                                      ),
+                                      width: 10,
+                                      height: 10,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(e),
+                                  ],
+                                ),
+                                value: e,
+                              ))
+                          .toList()
+                        ..insert(
+                            0,
+                            ComboBoxItem(
+                              child: Text(strings.skedmaker.filters.any),
+                              value: 'any',
+                            )),
                       onChanged: (value) {
                         if (value == null) return;
                         final model = context.read<SkedmakerModel>();
@@ -705,55 +765,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
                 child: FilledButton(
                   child: Text('Open distance calculator'),
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (context) {
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              return ContentDialog(
-                                title: Text('Distance calculator'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InfoLabel(
-                                      label: 'From',
-                                      child: TextBox(
-                                        placeholder: 'Room code (eg. A1105)',
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    InfoLabel(
-                                      label: 'To',
-                                      child: TextBox(
-                                        placeholder: 'Room code (eg. A1105)',
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        Button(
-                                          child: Text('Calculate'),
-                                          onPressed: () {
-
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                actions: [
-                                  Button(
-                                    child: Text('Close'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  )
-                                ],
-                              );
-                            }
-                          );
-                        });
+                    showDistanceDialog(context);
                   },
                 ),
               ),
@@ -776,6 +788,77 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory> {
       ],
     );
   }
+
+  showDistanceDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        final controllerFrom = TextEditingController();
+        final controllerTo = TextEditingController();
+
+        var distance = '0';
+
+        return StatefulBuilder(builder: (context, setState) {
+          return ContentDialog(
+            title: Text('Distance calculator'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Note: This is only an estimate.',
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                InfoLabel(
+                  label: 'From:',
+                  child: TextBox(
+                    controller: controllerFrom,
+                    placeholder: 'Room code (eg. A1105)',
+                  ),
+                ),
+                SizedBox(height: 8),
+                InfoLabel(
+                  label: 'To:',
+                  child: TextBox(
+                    controller: controllerTo,
+                    placeholder: 'Room code (eg. A1105)',
+                  ),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Button(
+                      child: Text('Calculate'),
+                      onPressed: () {
+                        final from = (controllerFrom.text);
+                        final to = (controllerTo.text);
+                        setState(() {
+                          distance =
+                              getLocationDistance(from, to).round().toString();
+                        });
+                      },
+                    ),
+                    SizedBox(width: 8),
+                    SelectableText("~$distance meters"),
+                  ],
+                ),
+              ],
+            ),
+            actions: [
+              Button(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+      });
 }
 
 class SchedulesFragment extends StatefulWidget {

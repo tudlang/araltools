@@ -43,76 +43,38 @@ filters:
         name: Include offerings with full slots
       includeUnknownModality:
         name: Include offerings with unknown modality
-      includeNoProfessors:
-        name: Include offerings with no professors
-    day:
+      includeNoTeachers:
+        name: Include offerings with no teachers
+    day:        
       name: Day-specific
+      commonMaxNumberOfSubjects: 
+        name: Maximum number of subjects
+      commonTimeInterval:
+        name: Only have subjects at this time interval
+      commonModality: 
+        name: Modality of subjects
+        hybrid: Online or face-to-face
+        online: Online
+        face: Face-to-face
+      commonStartWithSubject:  
+        name: First subject of the day
+      commonBreaktime:  
+        name: Breaktime
+        desc: Time where there should be no subjects
+        
       mondayName: Monday
-      mondayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Monday
-      mondayTimeInterval:
-        name: Only have subjects at this time interval on Monday
-      mondayModality: 
-        name: Subjects for Monday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
       tuesdayName: Tuesday
-      tuesdayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Tuesday
-      tuesdayTimeInterval:
-        name: Only have subjects at this time interval on Tuesday
-      tuesdayModality: 
-        name: Subjects for Tuesday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
       wednesdayName: Wednesday
-      wednesdayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Wednesday
-      wednesdayTimeInterval:
-        name: Only have subjects at this time interval on Wednesday
-      wednesdayModality: 
-        name: Subjects for Wednesday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
       thursdayName: Thursday
-      thursdayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Thursday
-      thursdayTimeInterval:
-        name: Only have subjects at this time interval on Thursday
-      thursdayModality: 
-        name: Subjects for Thursday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
       fridayName: Friday
-      fridayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Friday
-      fridayTimeInterval:
-        name: Only have subjects at this time interval on Friday
-      fridayModality: 
-        name: Subjects for Friday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
       saturdayName: Saturday
-      saturdayMaxNumberOfSubjects: 
-        name: Maximum number of subjects for Saturday
-      saturdayTimeInterval:
-        name: Only have subjects at this time interval on Saturday
-      saturdayModality: 
-        name: Subjects for Saturday should only be this modality
-        hybrid: Online or face-to-face
-        online: Online
-        face: Face-to-face
     location:
       name: Location
       checkingDistanceMinutes:
         name: Minutes after a subject to check for distance to the next subject
       maxAllowedDistanceMeters:
         name: Maximum distance (in meters) from one subject to the next
+  any: Any subject
 
 scheduleDay:
   mondayFace: 

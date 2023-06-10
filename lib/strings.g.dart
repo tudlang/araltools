@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 146
+/// Strings: 120
 ///
-/// Built on 2023-06-07 at 09:34 UTC
+/// Built on 2023-06-10 at 06:17 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -252,6 +252,7 @@ class _StringsSkedmakerFiltersEn {
 	// Translations
 	String get title => 'Filters';
 	late final _StringsSkedmakerFiltersCategoriesEn categories = _StringsSkedmakerFiltersCategoriesEn._(_root);
+	String get any => 'Any subject';
 }
 
 // Path: skedmaker.scheduleDay
@@ -777,7 +778,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn includeClosed = _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn includeFullSlots = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn includeNoProfessors = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(_root);
 }
 
 // Path: skedmaker.filters.categories.day
@@ -788,30 +789,17 @@ class _StringsSkedmakerFiltersCategoriesDayEn {
 
 	// Translations
 	String get name => 'Day-specific';
+	late final _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn commonMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn commonTimeInterval = _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayCommonModalityEn commonModality = _StringsSkedmakerFiltersCategoriesDayCommonModalityEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn commonStartWithSubject = _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn commonBreaktime = _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn._(_root);
 	String get mondayName => 'Monday';
-	late final _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn mondayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn mondayTimeInterval = _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayMondayModalityEn mondayModality = _StringsSkedmakerFiltersCategoriesDayMondayModalityEn._(_root);
 	String get tuesdayName => 'Tuesday';
-	late final _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn tuesdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn tuesdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn tuesdayModality = _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn._(_root);
 	String get wednesdayName => 'Wednesday';
-	late final _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn wednesdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn wednesdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn wednesdayModality = _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn._(_root);
 	String get thursdayName => 'Thursday';
-	late final _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn thursdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn thursdayTimeInterval = _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn thursdayModality = _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn._(_root);
 	String get fridayName => 'Friday';
-	late final _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn fridayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn fridayTimeInterval = _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDayFridayModalityEn fridayModality = _StringsSkedmakerFiltersCategoriesDayFridayModalityEn._(_root);
 	String get saturdayName => 'Saturday';
-	late final _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn saturdayMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn saturdayTimeInterval = _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn._(_root);
-	late final _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn saturdayModality = _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn._(_root);
 }
 
 // Path: skedmaker.filters.categories.location
@@ -856,212 +844,68 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn {
 	String get name => 'Include offerings with unknown modality';
 }
 
-// Path: skedmaker.filters.categories.offerings.includeNoProfessors
-class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn {
-	_StringsSkedmakerFiltersCategoriesOfferingsIncludeNoProfessorsEn._(this._root);
+// Path: skedmaker.filters.categories.offerings.includeNoTeachers
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Include offerings with no professors';
+	String get name => 'Include offerings with no teachers';
 }
 
-// Path: skedmaker.filters.categories.day.mondayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDayMondayMaxNumberOfSubjectsEn._(this._root);
+// Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
+class _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Maximum number of subjects for Monday';
+	String get name => 'Maximum number of subjects';
 }
 
-// Path: skedmaker.filters.categories.day.mondayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDayMondayTimeIntervalEn._(this._root);
+// Path: skedmaker.filters.categories.day.commonTimeInterval
+class _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Only have subjects at this time interval on Monday';
+	String get name => 'Only have subjects at this time interval';
 }
 
-// Path: skedmaker.filters.categories.day.mondayModality
-class _StringsSkedmakerFiltersCategoriesDayMondayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDayMondayModalityEn._(this._root);
+// Path: skedmaker.filters.categories.day.commonModality
+class _StringsSkedmakerFiltersCategoriesDayCommonModalityEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonModalityEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Subjects for Monday should only be this modality';
+	String get name => 'Modality of subjects';
 	String get hybrid => 'Online or face-to-face';
 	String get online => 'Online';
-	String get f2f => 'Face-to-face';
+	String get face => 'Face-to-face';
 }
 
-// Path: skedmaker.filters.categories.day.tuesdayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDayTuesdayMaxNumberOfSubjectsEn._(this._root);
+// Path: skedmaker.filters.categories.day.commonStartWithSubject
+class _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Maximum number of subjects for Tuesday';
+	String get name => 'First subject of the day';
 }
 
-// Path: skedmaker.filters.categories.day.tuesdayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDayTuesdayTimeIntervalEn._(this._root);
+// Path: skedmaker.filters.categories.day.commonBreaktime
+class _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Only have subjects at this time interval on Tuesday';
-}
-
-// Path: skedmaker.filters.categories.day.tuesdayModality
-class _StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDayTuesdayModalityEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Subjects for Tuesday should only be this modality';
-	String get hybrid => 'Online or face-to-face';
-	String get online => 'Online';
-	String get f2f => 'Face-to-face';
-}
-
-// Path: skedmaker.filters.categories.day.wednesdayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDayWednesdayMaxNumberOfSubjectsEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Maximum number of subjects for Wednesday';
-}
-
-// Path: skedmaker.filters.categories.day.wednesdayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDayWednesdayTimeIntervalEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Only have subjects at this time interval on Wednesday';
-}
-
-// Path: skedmaker.filters.categories.day.wednesdayModality
-class _StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDayWednesdayModalityEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Subjects for Wednesday should only be this modality';
-	String get hybrid => 'Online or face-to-face';
-	String get online => 'Online';
-	String get f2f => 'Face-to-face';
-}
-
-// Path: skedmaker.filters.categories.day.thursdayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDayThursdayMaxNumberOfSubjectsEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Maximum number of subjects for Thursday';
-}
-
-// Path: skedmaker.filters.categories.day.thursdayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDayThursdayTimeIntervalEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Only have subjects at this time interval on Thursday';
-}
-
-// Path: skedmaker.filters.categories.day.thursdayModality
-class _StringsSkedmakerFiltersCategoriesDayThursdayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDayThursdayModalityEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Subjects for Thursday should only be this modality';
-	String get hybrid => 'Online or face-to-face';
-	String get online => 'Online';
-	String get f2f => 'Face-to-face';
-}
-
-// Path: skedmaker.filters.categories.day.fridayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDayFridayMaxNumberOfSubjectsEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Maximum number of subjects for Friday';
-}
-
-// Path: skedmaker.filters.categories.day.fridayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDayFridayTimeIntervalEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Only have subjects at this time interval on Friday';
-}
-
-// Path: skedmaker.filters.categories.day.fridayModality
-class _StringsSkedmakerFiltersCategoriesDayFridayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDayFridayModalityEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Subjects for Friday should only be this modality';
-	String get hybrid => 'Online or face-to-face';
-	String get online => 'Online';
-	String get f2f => 'Face-to-face';
-}
-
-// Path: skedmaker.filters.categories.day.saturdayMaxNumberOfSubjects
-class _StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn {
-	_StringsSkedmakerFiltersCategoriesDaySaturdayMaxNumberOfSubjectsEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Maximum number of subjects for Saturday';
-}
-
-// Path: skedmaker.filters.categories.day.saturdayTimeInterval
-class _StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn {
-	_StringsSkedmakerFiltersCategoriesDaySaturdayTimeIntervalEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Only have subjects at this time interval on Saturday';
-}
-
-// Path: skedmaker.filters.categories.day.saturdayModality
-class _StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn {
-	_StringsSkedmakerFiltersCategoriesDaySaturdayModalityEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String get name => 'Subjects for Saturday should only be this modality';
-	String get hybrid => 'Online or face-to-face';
-	String get online => 'Online';
-	String get f2f => 'Face-to-face';
+	String get name => 'Breaktime';
+	String get desc => 'Time where there should be no subjects';
 }
 
 // Path: skedmaker.filters.categories.location.checkingDistanceMinutes
@@ -1110,53 +954,27 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
-			case 'skedmaker.filters.categories.offerings.includeNoProfessors.name': return 'Include offerings with no professors';
+			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
+			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
+			case 'skedmaker.filters.categories.day.commonTimeInterval.name': return 'Only have subjects at this time interval';
+			case 'skedmaker.filters.categories.day.commonModality.name': return 'Modality of subjects';
+			case 'skedmaker.filters.categories.day.commonModality.hybrid': return 'Online or face-to-face';
+			case 'skedmaker.filters.categories.day.commonModality.online': return 'Online';
+			case 'skedmaker.filters.categories.day.commonModality.face': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.commonStartWithSubject.name': return 'First subject of the day';
+			case 'skedmaker.filters.categories.day.commonBreaktime.name': return 'Breaktime';
+			case 'skedmaker.filters.categories.day.commonBreaktime.desc': return 'Time where there should be no subjects';
 			case 'skedmaker.filters.categories.day.mondayName': return 'Monday';
-			case 'skedmaker.filters.categories.day.mondayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Monday';
-			case 'skedmaker.filters.categories.day.mondayTimeInterval.name': return 'Only have subjects at this time interval on Monday';
-			case 'skedmaker.filters.categories.day.mondayModality.name': return 'Subjects for Monday should only be this modality';
-			case 'skedmaker.filters.categories.day.mondayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.mondayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.mondayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.tuesdayName': return 'Tuesday';
-			case 'skedmaker.filters.categories.day.tuesdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Tuesday';
-			case 'skedmaker.filters.categories.day.tuesdayTimeInterval.name': return 'Only have subjects at this time interval on Tuesday';
-			case 'skedmaker.filters.categories.day.tuesdayModality.name': return 'Subjects for Tuesday should only be this modality';
-			case 'skedmaker.filters.categories.day.tuesdayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.tuesdayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.tuesdayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.wednesdayName': return 'Wednesday';
-			case 'skedmaker.filters.categories.day.wednesdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Wednesday';
-			case 'skedmaker.filters.categories.day.wednesdayTimeInterval.name': return 'Only have subjects at this time interval on Wednesday';
-			case 'skedmaker.filters.categories.day.wednesdayModality.name': return 'Subjects for Wednesday should only be this modality';
-			case 'skedmaker.filters.categories.day.wednesdayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.wednesdayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.wednesdayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.thursdayName': return 'Thursday';
-			case 'skedmaker.filters.categories.day.thursdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Thursday';
-			case 'skedmaker.filters.categories.day.thursdayTimeInterval.name': return 'Only have subjects at this time interval on Thursday';
-			case 'skedmaker.filters.categories.day.thursdayModality.name': return 'Subjects for Thursday should only be this modality';
-			case 'skedmaker.filters.categories.day.thursdayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.thursdayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.thursdayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.fridayName': return 'Friday';
-			case 'skedmaker.filters.categories.day.fridayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Friday';
-			case 'skedmaker.filters.categories.day.fridayTimeInterval.name': return 'Only have subjects at this time interval on Friday';
-			case 'skedmaker.filters.categories.day.fridayModality.name': return 'Subjects for Friday should only be this modality';
-			case 'skedmaker.filters.categories.day.fridayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.fridayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.fridayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.saturdayName': return 'Saturday';
-			case 'skedmaker.filters.categories.day.saturdayMaxNumberOfSubjects.name': return 'Maximum number of subjects for Saturday';
-			case 'skedmaker.filters.categories.day.saturdayTimeInterval.name': return 'Only have subjects at this time interval on Saturday';
-			case 'skedmaker.filters.categories.day.saturdayModality.name': return 'Subjects for Saturday should only be this modality';
-			case 'skedmaker.filters.categories.day.saturdayModality.hybrid': return 'Online or face-to-face';
-			case 'skedmaker.filters.categories.day.saturdayModality.online': return 'Online';
-			case 'skedmaker.filters.categories.day.saturdayModality.f2f': return 'Face-to-face';
 			case 'skedmaker.filters.categories.location.name': return 'Location';
 			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Minutes after a subject to check for distance to the next subject';
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance (in meters) from one subject to the next';
+			case 'skedmaker.filters.any': return 'Any subject';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';
 			case 'skedmaker.scheduleDay.mondayOnline.name': return 'Monday (online)';

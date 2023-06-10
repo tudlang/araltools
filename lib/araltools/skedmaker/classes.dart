@@ -22,6 +22,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:araltools/strings.g.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
@@ -303,13 +304,34 @@ mixin LocationFunctions {
   }
 
   /// A vector representing the distance of the room location
-  Vector3 parseLocationAsVector(String roomCode) {
-    final location = parseLocation(roomCode);
+  Vector3 getLocationVector(String building, int floor) {
+    final bldg = distances[building] ?? Vector2.zero();
 
-    final bldg = distances[location.building] ?? Vector2.zero();
+    //Z value times 20 since average floor height (plus stairs) is 20 meters
+    return Vector3(bldg.x, bldg.y, floor.toDouble() * 20);
+  }
 
-    //Z falue times 3 since average floor height is 3 meters
-    return Vector3(bldg.x, bldg.y, location.floor.toDouble() * 3);
+  double getLocationDistance(String locationFrom, String locationTo) {
+    final from = parseLocation(locationFrom);
+    final to = parseLocation(locationTo);
+
+    // the vectors to add
+    final sequence = [
+      getLocationVector(from.building, from.floor),
+      if (from.building != to.building) getLocationVector(from.building, 1),
+      if (from.building != to.building) getLocationVector(to.building, 1),
+      getLocationVector(to.building, to.floor),
+    ];
+
+    // Add the [sequence] in succession
+    return sequence.foldIndexed(
+      0.0,
+      (index, previous, element) =>
+          previous +
+          element.distanceTo(
+            sequence.elementAtOrNull(index + 1) ?? element,
+          ),
+    );
   }
 }
 
@@ -417,6 +439,7 @@ class ScheduleWeek {
 
 class ScheduleFilter<T> {
   final String key;
+  final String? keyLocalized;
   final T valueDefault;
   final T? valueMost;
   final T? valueLeast;
@@ -425,6 +448,7 @@ class ScheduleFilter<T> {
   ScheduleFilter({
     required this.key,
     required this.valueDefault,
+    this.keyLocalized,
     this.valueMost,
     this.valueLeast,
     this.valueChoices,
@@ -459,7 +483,7 @@ class ScheduleFilters {
         valueDefault: true,
       ),
       ScheduleFilter<bool>(
-        key: 'includeNoProfessors',
+        key: 'includeNoTeachers',
         valueDefault: true,
       ),
     ],
@@ -484,19 +508,34 @@ class ScheduleFilters {
         ),
         ScheduleFilter<int>(
           key: '${day}MaxNumberOfSubjects',
+          keyLocalized: 'commonMaxNumberOfSubjects',
           valueDefault: -1,
           valueLeast: -1,
         ),
         ScheduleFilter(
           key: '${day}TimeInterval',
+          keyLocalized: 'commonTimeInterval',
           valueDefault: [730, 2100],
           valueLeast: 0,
           valueMost: 2359,
         ),
         ScheduleFilter<String>(
           key: '${day}Modality',
+          keyLocalized: 'commonModality',
           valueDefault: 'hybrid',
           valueChoices: ['hybrid', 'online', 'face'],
+        ),
+        ScheduleFilter(
+          key: '${day}StartWithSubject',
+          keyLocalized: 'commonStartWithSubject',
+          valueDefault: ScheduleFilterSpecial.subjects,
+        ),
+        ScheduleFilter(
+          key: '${day}Breaktime',
+          keyLocalized: 'commonBreaktime',
+          valueDefault: [0, 0],
+          valueLeast: 0,
+          valueMost: 2359,
         ),
       ]
     ],
@@ -508,12 +547,7 @@ class ScheduleFilters {
       ),
       ScheduleFilter<int>(
         key: 'maxAllowedDistanceMeters',
-        valueDefault: 150,
-        valueLeast: -1,
-      ),
-      ScheduleFilter<int>(
-        key: 'maxDisplacementMeters',
-        valueDefault: -1,
+        valueDefault: 200,
         valueLeast: -1,
       ),
     ],
@@ -532,4 +566,8 @@ class ScheduleFilters {
           )),
         ),
       );
+}
+
+enum ScheduleFilterSpecial {
+  subjects,
 }
