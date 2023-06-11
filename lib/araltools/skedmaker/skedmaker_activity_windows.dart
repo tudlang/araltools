@@ -34,6 +34,7 @@ import 'package:flutter/material.dart'
         FilledButton;
 import 'package:flutter/services.dart';
 
+import 'connection.dart';
 import 'functions.dart';
 import 'models.dart';
 import 'skedmaker_activity.dart';
@@ -69,54 +70,60 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
       debugShowCheckedModeBanner: false,
       home: NavigationView(
         pane: NavigationPane(
-          header: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(AralTools.skedmaker.icon),
-            SizedBox(width: 8),
-            Text(
-              'SkedMaker',
-              style: textTheme.titleLarge?.copyWith(
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.bold,
+            header: Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(AralTools.skedmaker.icon),
+              SizedBox(width: 8),
+              Text(
+                'SkedMaker',
+                style: textTheme.titleLarge?.copyWith(
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+            ]),
+            leading: IconButton(
+              icon: Icon(MdiIcons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              iconButtonMode: IconButtonMode.large,
             ),
-          ]),
-          leading: IconButton(
-            icon: Icon(MdiIcons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
+            selected: paneIndex,
+            onChanged: (index) {
+              setState(() {
+                paneIndex = index;
+              });
             },
-            iconButtonMode: IconButtonMode.large,
-          ),
-          selected: paneIndex,
-          onChanged: (index) {
-            setState(() {
-              paneIndex = index;
-            });
-          },
-          displayMode: PaneDisplayMode.top,
-          items: [
-            PaneItem(
-              icon: Icon(MdiIcons.schoolOutline),
-              title: Text('Subjects'),
-              body: SubjectsFragment(),
-            ),
-            PaneItem(
-              icon: Icon(MdiIcons.filterOutline),
-              title: Text('Filters'),
-              body: FiltersFrgment(),
-            ),
+            displayMode: PaneDisplayMode.top,
+            items: [
+              PaneItem(
+                icon: Icon(MdiIcons.schoolOutline),
+                title: Text('Subjects'),
+                body: SubjectsFragment(),
+              ),
+              PaneItem(
+                icon: Icon(MdiIcons.filterOutline),
+                title: Text('Filters'),
+                body: FiltersFrgment(),
+              ),
 /*PaneItem(
               icon: Icon(MdiIcons.filterOutline),
               title: Text('Professors'),
               body: Placeholder(),
             ),*/ //TODO new feature, add professors
-            PaneItem(
-              icon: Icon(MdiIcons.calendarBlankMultiple),
-              title: Text('Schedules'),
-              body: SchedulesFragment(),
-            ),
-          ],
-        ),
+              PaneItem(
+                icon: Icon(MdiIcons.calendarBlankMultiple),
+                title: Text('Schedules'),
+                body: SchedulesFragment(),
+              ),
+            ],
+            footerItems: [
+              /*PaneItem(
+              icon: Icon(MdiIcons.filterOutline),
+              title: Text('Settings'),
+              body: Placeholder(),
+            ),*/ //TODO add settings
+            ]),
       ),
     );
   }
@@ -142,11 +149,95 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
+    final textTheme = Theme.of(context).textTheme;
 
     return NavigationView(
       pane: NavigationPane(
         selected: indexSubject,
         items: [
+          PaneItem(
+            icon: Icon(MdiIcons.plus),
+            title: Text('Add'),
+            body: Column(
+              children: [
+                Expanded(
+                    child: Center(
+                        child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Add subject',
+                      style: textTheme.headlineSmall,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          FilledButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Add from MyLaSalle'),
+                            ),
+                            onPressed: () async {
+                              final list = await getSubject(context);
+                              if (list == null) return;
+
+                              final model = context.read<SkedmakerModel>();
+                              model.addSubject(list.first.subject, list);
+                            },
+                          ),
+                          /*
+                          FilledButton(
+                            child: Text('Add manually'),
+                            onPressed: () {},
+                          ),
+                          */ // todo add manually
+                          if (kDebugMode)
+                            FilledButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Add debug subjects'),
+                              ),
+                              onPressed: () {
+                                context.read<SkedmakerModel>()
+                                  ..addSubject('CALENG2', parse(caleng2))
+                                  ..addSubject('LBYMF1C', parse(lbymf1c))
+                                  ..addSubject('LCLSONE', parse(lclsone))
+                                  ..addSubject('LBYMF1D', parse(lbymf1d))
+                                  ..addSubject('GEUSELF', parse(geuself))
+                                  ..addSubject('LCFAITH', parse(lcfaith))
+                                  ..addSubject('LCFILIA', parse(lcfilia))
+                                  ..addSubject('MFMCPR1', parse(mfmcpr1))
+                                  ..addSubject('LBBCH1A', parse(lbbch1a))
+                                  ..addSubject('ENGCHEM', parse(engchem))
+                                  ..addSubject('NSTPRO2', nstpro2);
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ))),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Button(
+                    child: Text('I am a programmer...'),
+                    onPressed: () async {
+                      final list = await getSubjectFromString(context);
+
+                      if (list == null) return;
+
+                      final model = context.read<SkedmakerModel>();
+                      model.addSubject(list.first.subject, list);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          PaneItemSeparator(),
           for (final subject in model.subjects.entries)
             PaneItem(
               icon: Container(
@@ -169,29 +260,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             indexSubject = index;
           });
         },
-        footerItems: [
-          PaneItem(
-              icon: Icon(MdiIcons.plus),
-              title: Text('Add'),
-              body: Placeholder(),
-              onTap: () {
-                context.read<SkedmakerModel>()
-// UNCOMMENT TO ADD MLS FUNCTIONALITY
-//..addSubject(list.first.subject, list)
-// THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                  ..addSubject('CALENG2', parse(caleng2))
-                  ..addSubject('LBYMF1C', parse(lbymf1c))
-                  ..addSubject('LCLSONE', parse(lclsone))
-                  ..addSubject('LBYMF1D', parse(lbymf1d))
-                  ..addSubject('GEUSELF', parse(geuself))
-                  ..addSubject('LCFAITH', parse(lcfaith))
-                  ..addSubject('LCFILIA', parse(lcfilia))
-                  ..addSubject('MFMCPR1', parse(mfmcpr1))
-                  ..addSubject('LBBCH1A', parse(lbbch1a))
-                  ..addSubject('ENGCHEM', parse(engchem))
-                  ..addSubject('NSTPRO2', nstpro2);
-              }),
-        ],
+        footerItems: [],
       ),
     );
   }
