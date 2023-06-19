@@ -31,7 +31,8 @@ import 'package:flutter/material.dart'
         Card,
         showDialog,
         Tooltip,
-        FilledButton;
+        FilledButton,
+        Colors;
 import 'package:flutter/services.dart';
 
 import 'connection.dart';
@@ -68,62 +69,102 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
     final textTheme = Theme.of(context).textTheme;
     return FluentApp(
       debugShowCheckedModeBanner: false,
-      home: NavigationView(
-        pane: NavigationPane(
-            header: Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(AralTools.skedmaker.icon),
-              SizedBox(width: 8),
-              Text(
-                'SkedMaker',
-                style: textTheme.titleLarge?.copyWith(
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.bold,
+      theme: FluentThemeData.light().copyWith(
+        navigationPaneTheme: NavigationPaneThemeData(
+        )
+        //accentColor: Colors.blue,
+        //micaBackgroundColor: Theme.of(context).colorScheme.primary
+      ),
+      home: NavigationPaneTheme(
+        data: NavigationPaneThemeData(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          highlightColor: Colors.white,
+          
+        ),
+        child: NavigationView(
+          pane: NavigationPane(
+              size: NavigationPaneSize(
+                topHeight: 50,
+              ),
+              header: Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(AralTools.skedmaker.icon, color: Theme.of(context).colorScheme.onPrimary,),
+                SizedBox(width: 8),
+                Text(
+                  'SkedMaker',
+                  style: textTheme.titleLarge?.copyWith(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  
                 ),
+                SizedBox(width: 16),
+                VerticalDivider(),
+              ]),
+              leading: IconButton(
+                icon: Icon(MdiIcons.menu, color: Theme.of(context).colorScheme.onPrimary,),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                iconButtonMode: IconButtonMode.large,
               ),
-            ]),
-            leading: IconButton(
-              icon: Icon(MdiIcons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
+              selected: paneIndex,
+              onChanged: (index) {
+                setState(() {
+                  paneIndex = index;
+                });
               },
-              iconButtonMode: IconButtonMode.large,
-            ),
-            selected: paneIndex,
-            onChanged: (index) {
-              setState(() {
-                paneIndex = index;
-              });
-            },
-            displayMode: PaneDisplayMode.top,
-            items: [
-              PaneItem(
-                icon: Icon(MdiIcons.schoolOutline),
-                title: Text('Subjects'),
-                body: SubjectsFragment(),
-              ),
-              PaneItem(
+              displayMode: PaneDisplayMode.top,
+              items: [
+                PaneItem(
+                  icon: Icon(MdiIcons.schoolOutline),
+                  title: Text(
+                    'Subjects',
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: SubjectsFragment(),
+                  ),
+                ),
+                PaneItem(
+                  icon: Icon(MdiIcons.filterOutline),
+                  title: Text(
+                    'Filters',
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: FiltersFrgment(),
+                  ),
+                ),
+                /*PaneItem(
                 icon: Icon(MdiIcons.filterOutline),
-                title: Text('Filters'),
-                body: FiltersFrgment(),
-              ),
-/*PaneItem(
-              icon: Icon(MdiIcons.filterOutline),
-              title: Text('Professors'),
-              body: Placeholder(),
-            ),*/ //TODO new feature, add professors
-              PaneItem(
-                icon: Icon(MdiIcons.calendarBlankMultiple),
-                title: Text('Schedules'),
-                body: SchedulesFragment(),
-              ),
-            ],
-            footerItems: [
-              /*PaneItem(
-              icon: Icon(MdiIcons.filterOutline),
-              title: Text('Settings'),
-              body: Placeholder(),
-            ),*/ //TODO add settings
-            ]),
+                title: Text('Professors'),
+                body: Placeholder(),
+              ),*/ //TODO new feature, add professors
+                PaneItem(
+                  icon: Icon(MdiIcons.calendarBlankMultiple),
+                  title: Text(
+                    'Schedules',
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: NavigationView(content: SchedulesFragment()),
+                  ),
+                ),
+              ],
+              footerItems: [
+                /*PaneItem(
+                icon: Icon(MdiIcons.filterOutline),
+                title: Text('Settings'),
+                body: Placeholder(),
+              ),*/ //TODO add settings
+              ]),
+        ),
       ),
     );
   }

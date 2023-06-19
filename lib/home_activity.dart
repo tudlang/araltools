@@ -46,8 +46,7 @@ class HomeActivity extends StatelessWidget {
                   name: araltool.localizedName,
                   description: araltool.localizedDesc,
                   route: araltool.route,
-                  extras: 
-                            araltool.extras,
+                  extras: araltool.extras,
                 ),
               HomeCard(
                 icon: Icons.add,
@@ -74,7 +73,7 @@ class HomeCard extends StatelessWidget {
     this.name = '',
     this.description = '',
     this.route = '',
-    this.extras = const{},
+    this.extras = const {},
   });
 
   @override
@@ -83,7 +82,7 @@ class HomeCard extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(maxWidth: 450, minWidth: 450),
-      padding: EdgeInsets.only(left:8),
+      padding: EdgeInsets.only(left: 8),
       child: Card(
         margin: EdgeInsets.all(8),
         child: Padding(
@@ -95,18 +94,23 @@ class HomeCard extends StatelessWidget {
                 children: [
                   Icon(icon),
                   SizedBox(width: 8),
-                  Expanded(child: Text(name, style: textTheme.headlineSmall)),
+                  Expanded(
+                      child: Text(
+                    name,
+                    style: textTheme.headlineSmall?.copyWith(
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold
+                    ),
+                  )),
                 ],
               ),
               Text(description),
               SizedBox(height: 20),
               if (route.isNotEmpty)
-                TextButton(
+                FilledButton(
                   onPressed: () {
-                    GoRouter.of(context).go(route, extra: {
-                      'title': name,
-                      ...extras
-                    });
+                    GoRouter.of(context)
+                        .go(route, extra: {'title': name, ...extras});
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

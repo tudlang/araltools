@@ -23,6 +23,7 @@ import 'package:fluent_ui/fluent_ui.dart'
     show FluentLocalizations, FluentTheme, FluentThemeData;
 import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'araltools/skedmaker/skedmaker_activity.dart';
 import 'home_activity.dart';
@@ -84,7 +85,18 @@ class MyApp extends StatelessWidget {
                   : AppBar(
                       title: Row(
                         children: [
-                          Text(extra['title'] ?? strings.general.app.name),
+                          Text(
+                            extra['title'] ?? strings.general.app.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
                         ],
                       ),
                     ),
@@ -108,7 +120,7 @@ class MyApp extends StatelessWidget {
                     ListTile(
                       selected: state.matchedLocation == "/",
                       style: ListTileStyle.drawer,
-                      leading: Icon(Icons.home),
+                      leading: Icon(Icons.home_outlined),
                       title: Text(strings.general.home.name),
                       onTap: () {
                         GoRouter.of(context).go('/');
@@ -117,11 +129,22 @@ class MyApp extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.info),
+                      leading: Icon(Icons.info_outline),
                       title: Text('About'),
                       onTap: () {
                         Navigator.pop(context);
                         showAboutDialog(context: context);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(MdiIcons.giftOutline),
+                      trailing: Icon(MdiIcons.openInNew),
+                      title: Text('Buy Me A Coffee'),
+                      subtitle: Text('Support me!'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchUrl(
+                            Uri.parse("https://www.buymeacoffee.com/Yivan4"));
                       },
                     ),
                     Divider(),
@@ -129,7 +152,20 @@ class MyApp extends StatelessWidget {
                       ListTile(
                         selected: araltool.route == state.matchedLocation,
                         style: ListTileStyle.drawer,
-                        title: Text(araltool.localizedName),
+                        title: Text(
+                          araltool.localizedName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.bold,
+                                  color: araltool.route == state.matchedLocation
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurface),
+                        ),
                         leading: Icon(araltool.icon),
                         onTap: () {
                           GoRouter.of(context).go(araltool.route, extra: {
