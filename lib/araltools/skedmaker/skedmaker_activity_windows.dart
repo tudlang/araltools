@@ -69,17 +69,15 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
     final textTheme = Theme.of(context).textTheme;
     return FluentApp(
       debugShowCheckedModeBanner: false,
-      theme: FluentThemeData.light().copyWith(
-        navigationPaneTheme: NavigationPaneThemeData(
-        )
-        //accentColor: Colors.blue,
-        //micaBackgroundColor: Theme.of(context).colorScheme.primary
-      ),
+      theme: FluentThemeData.light()
+          .copyWith(navigationPaneTheme: NavigationPaneThemeData()
+              //accentColor: Colors.blue,
+              //micaBackgroundColor: Theme.of(context).colorScheme.primary
+              ),
       home: NavigationPaneTheme(
         data: NavigationPaneThemeData(
           backgroundColor: Theme.of(context).colorScheme.primary,
           highlightColor: Colors.white,
-          
         ),
         child: NavigationView(
           pane: NavigationPane(
@@ -87,21 +85,26 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
                 topHeight: 50,
               ),
               header: Row(mainAxisSize: MainAxisSize.min, children: [
-                Icon(AralTools.skedmaker.icon, color: Theme.of(context).colorScheme.onPrimary,),
+                Icon(
+                  AralTools.skedmaker.icon,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
                 SizedBox(width: 8),
                 Text(
                   'SkedMaker',
                   style: textTheme.titleLarge?.copyWith(
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onPrimary),
-                  
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary),
                 ),
                 SizedBox(width: 16),
                 VerticalDivider(),
               ]),
               leading: IconButton(
-                icon: Icon(MdiIcons.menu, color: Theme.of(context).colorScheme.onPrimary,),
+                icon: Icon(
+                  MdiIcons.menu,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
@@ -280,21 +283,31 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           ),
           PaneItemSeparator(),
           for (final subject in model.subjects.entries)
-            PaneItem(
-              icon: Container(
-                decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: subject.value.first.color,
+            () {
+              final hasError = subject.value.every((element) => !element.isAvailable);
+              return PaneItem(
+                icon: Container(
+                  decoration: ShapeDecoration(
+                    shape: CircleBorder(),
+                    color: subject.value.first.color,
+                  ),
+                  width: 10,
+                  height: 10,
                 ),
-                width: 10,
-                height: 10,
-              ),
-              title: Text(subject.key),
-              body: SubjectsFragmentEdit(
-                offerings: subject.value,
-                subject: subject.key,
-              ),
-            ),
+                tileColor: hasError ? ButtonState.all(ResourceDictionary.light().systemFillColorCriticalBackground): NavigationPaneTheme.of(context).tileColor,
+                title: Text(subject.key),
+                body: SubjectsFragmentEdit(
+                  offerings: subject.value,
+                  subject: subject.key,
+                ),
+                trailing: hasError
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(MdiIcons.alertCircleOutline),
+                      )
+                    : null,
+              );
+            }(),
         ],
         onChanged: (index) {
           setState(() {
@@ -327,6 +340,14 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (widget.offerings.every((element) => !element.isAvailable))
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InfoBar(
+              title: Text('${widget.subject} has no available offerings.'),
+              severity: InfoBarSeverity.error,
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

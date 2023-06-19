@@ -58,9 +58,9 @@ class Offering implements Comparable {
 
   String get slots => "$slotTaken / $slotCapacity";
 
-  bool isConflicting(Offering other) =>
-      this.scheduleTimeStart <= other.scheduleTimeEnd &&
-      this.scheduleTimeEnd >= other.scheduleTimeStart;
+  double get slotPercentage => slotTaken / slotCapacity;
+
+  bool get isAvailable => !isClosed || slotPercentage < 1.0;
 
   Map toMap() => {
         'classNumber': classNumber,
