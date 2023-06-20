@@ -409,50 +409,32 @@ class TimetableFragment extends StatelessWidget {
     if (data == null) return Container();
 
     final textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Timetable for ${data.name}',
-                style: textTheme.headlineSmall,
-              ),
-            ),
-          ],
-        ),
-        Expanded(
-          child: TimetableView(
-            timetableStyle: TimetableStyle(
-              laneWidth: 150,
-              timeItemHeight: 50,
-              startHour: 7,
-              endHour: 21,
-            ),
-            laneEventsList: [
-              for (final day in ScheduleWeek.daycodes)
-                LaneEvents(
-                  lane: Lane(name: day, laneIndex: 1),
-                  events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
-                      .map((e) => TableEvent(
-                            location: "${e.room}\n",
-                            title: "${e.subject} - ${e.section} \n",
-                            eventId: e.classNumber,
-                            laneIndex: 1,
-                            startTime: t(e.scheduleTimeStart),
-                            endTime: t(e.scheduleTimeEnd),
-                            backgroundColor: e.color,
-                          ))
-                      .toList(),
-                )
-            ],
-            onEmptySlotTap: (laneIndex, start, end) {},
-            onEventTap: (event) {},
-          ),
-        ),
+    return TimetableView(
+      timetableStyle: TimetableStyle(
+        laneWidth: 110,
+        timeItemHeight: 50,
+        startHour: 7,
+        endHour: 21,
+      ),
+      laneEventsList: [
+        for (final day in ScheduleWeek.daycodes)
+          LaneEvents(
+            lane: Lane(name: day, laneIndex: 1),
+            events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
+                .map((e) => TableEvent(
+                      location: "${e.room}\n",
+                      title: "${e.subject} - ${e.section} \n",
+                      eventId: e.classNumber,
+                      laneIndex: 1,
+                      startTime: t(e.scheduleTimeStart),
+                      endTime: t(e.scheduleTimeEnd),
+                      backgroundColor: e.color,
+                    ))
+                .toList(),
+          )
       ],
+      onEmptySlotTap: (laneIndex, start, end) {},
+      onEventTap: (event) {},
     );
   }
 

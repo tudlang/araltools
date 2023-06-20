@@ -350,7 +350,7 @@ class ScheduleWeek {
   };
   Map<int, Set<Offering>> daysOfferings;
 
-  Set<String> subjects;
+  Set<Offering> subjects;
 
   String name;
 
@@ -405,7 +405,7 @@ class ScheduleWeek {
   }
 
   void add(Offering offering) {
-    if (subjects.contains(offering.subject)) throw Error();
+    if (subjects.contains(offering)) throw Error();
 
     final start = offering.scheduleTimeStart;
     final end = offering.scheduleTimeEnd;
@@ -419,7 +419,7 @@ class ScheduleWeek {
       );
       daysOfferings[dayFromCode(daycode)]!.add(offering);
     }
-    subjects.add(offering.subject);
+    subjects.add(offering);
   }
 
   String get daysOfferingsString =>
@@ -431,14 +431,14 @@ class ScheduleWeek {
   Map toMap() => {
         'daysOfferings': daysOfferings.map((key, value) =>
             MapEntry(key, value.map((e) => e.toMap()).toList())),
-        'subjects': subjects,
+        'subjects': subjects.map((e) => e.toMap()),
         'name': name
       };
 
   ScheduleWeek.fromMap(Map map)
       : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map(
             (key, value) => MapEntry(key, value.map(Offering.fromMap).toSet())),
-        subjects = map['subjects'],
+        subjects = (map['subjects'] as Iterable<Map>).map(Offering.fromMap).toSet(),
         name = map['name'];
 
   double get weight => 0;

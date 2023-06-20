@@ -452,85 +452,87 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
           ),
         ),
         Expanded(
-            child: SingleChildScrollView(
-          child: DataTable(
-            dataRowMinHeight: 36,
-            dataRowMaxHeight: 36,
-            showCheckboxColumn: true,
-            columnSpacing: 10,
-            columns: [
-              DataColumn(
-                label: Text('Status'),
-              ),
-              DataColumn(
-                label: Text('Class #'),
-              ),
-              DataColumn(
-                label: Text('Section'),
-              ),
-              DataColumn(
-                label: Text('Room'),
-              ),
-              DataColumn(
-                label: Text('Day'),
-              ),
-              DataColumn(
-                label: Text('Time'),
-              ),
-              DataColumn(
-                label: Text('Teacher'),
-              ),
-              DataColumn(
-                label: Text('Slots'),
-              ),
-            ],
-            rows: [
-              for (final offering in widget.offerings)
-                DataRow(
-                  cells: [
-                    DataCell(offering.isClosed
-                        ? Tooltip(
-                            message: 'Closed',
-                            child: Icon(MdiIcons.closeCircleOutline),
-                          )
-                        : Tooltip(
-                            message: 'Open',
-                            child: Icon(MdiIcons.checkCircleOutline),
-                          )),
-                    DataCell(Text(offering.classNumber.toString())),
-                    DataCell(Text(offering.section)),
-                    DataCell(Text(offering.room)),
-                    DataCell(Tooltip(
-                      child: Text(offering.scheduleDay.nameShort),
-                      message: offering.scheduleDay.nameLocalized,
-                    )),
-                    DataCell(Text(offering.scheduleTime)),
-                    DataCell(Text(offering.teacher)),
-                    DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
-                      Text(offering.slots),
-                      SizedBox(width: 8),
-                      SizedBox.square(
-                        dimension: 25,
-                        child: Tooltip(
-                          message:
-                              "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
-                          child: ProgressRing(
-                            // min because the slot taken might be greater than capacity
-                            value: min(
-                                100,
-                                (offering.slotTaken / offering.slotCapacity) *
-                                    100),
-                            strokeWidth: 3,
-                          ),
-                        ),
-                      )
-                    ])),
+            child: ListView(
+              children: [
+                DataTable(
+                  dataRowMinHeight: 36,
+                  dataRowMaxHeight: 36,
+                  showCheckboxColumn: true,
+                  columnSpacing: 10,
+                  columns: [
+                    DataColumn(
+                      label: Text('Status'),
+                    ),
+                    DataColumn(
+                      label: Text('Class #'),
+                    ),
+                    DataColumn(
+                      label: Text('Section'),
+                    ),
+                    DataColumn(
+                      label: Text('Room'),
+                    ),
+                    DataColumn(
+                      label: Text('Day'),
+                    ),
+                    DataColumn(
+                      label: Text('Time'),
+                    ),
+                    DataColumn(
+                      label: Text('Teacher'),
+                    ),
+                    DataColumn(
+                      label: Text('Slots'),
+                    ),
                   ],
-                  onSelectChanged: (value) {},
-                )
-            ],
-          ),
-        ))
+                  rows: [
+                    for (final offering in widget.offerings)
+                      DataRow(
+                        cells: [
+                          DataCell(offering.isClosed
+                              ? Tooltip(
+                                  message: 'Closed',
+                                  child: Icon(MdiIcons.closeCircleOutline),
+                                )
+                              : Tooltip(
+                                  message: 'Open',
+                                  child: Icon(MdiIcons.checkCircleOutline),
+                                )),
+                          DataCell(Text(offering.classNumber.toString())),
+                          DataCell(Text(offering.section)),
+                          DataCell(Text(offering.room)),
+                          DataCell(Tooltip(
+                            child: Text(offering.scheduleDay.nameShort),
+                            message: offering.scheduleDay.nameLocalized,
+                          )),
+                          DataCell(Text(offering.scheduleTime)),
+                          DataCell(Text(offering.teacher)),
+                          DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text(offering.slots),
+                            SizedBox(width: 8),
+                            SizedBox.square(
+                              dimension: 25,
+                              child: Tooltip(
+                                message:
+                                    "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
+                                child: ProgressRing(
+                                  // min because the slot taken might be greater than capacity
+                                  value: min(
+                                      100,
+                                      (offering.slotTaken / offering.slotCapacity) *
+                                          100),
+                                  strokeWidth: 3,
+                                ),
+                              ),
+                            )
+                          ])),
+                        ],
+                        onSelectChanged: (value) {},
+                      )
+                  ],
+                ),
+              ],
+            ))
       ],
     );
   }
@@ -979,7 +981,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       },
                     ),
                     SizedBox(width: 8),
-                    SelectableText("~$distance meters"),
+                    SelectableText("~$distance meters", contextMenuBuilder: (context, state)=>AdaptiveTextSelectionToolbar.editableText(editableTextState: state),),
                   ],
                 ),
               ],
@@ -1148,18 +1150,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 tabs: model.tabs
                     .map((e) => Tab(
                           text: Text(e.name),
-                          body: Column(
-                            children: [
-                              Divider(
-                                  style: DividerThemeData(
-                                thickness: 3,
-                                horizontalMargin: EdgeInsets.only(),
-                              )),
-                              Expanded(
-                                  child: SchedulesFragmentTimetable(
-                                week: e,
-                              )),
-                            ],
+                          body: SchedulesFragmentTimetable(
+                            week: e,
                           ),
                           closeIcon: model.tabs.length == 1
                               ? IconData(0xFEFF)
@@ -1199,20 +1191,76 @@ class _SchedulesFragmentTimetableState
     extends State<SchedulesFragmentTimetable> {
   @override
   Widget build(BuildContext context) {
-    return MultiSplitViewTheme(
-      data: MultiSplitViewThemeData(
-        dividerPainter: DividerPainters.grooved1(),
-      ),
-      child: MultiSplitView(
-        axis: Axis.horizontal,
-        initialAreas: [Area(weight: 0.7)],
-        children: [
-          TimetableFragment(
-            week: widget.week,
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      children: [
+        const Divider(
+            style: DividerThemeData(
+          thickness: 2,
+          horizontalMargin: EdgeInsets.only(),
+        )),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            widget.week.name,
+            style: textTheme.headlineSmall,
           ),
-          Placeholder(),
-        ],
-      ),
+        ),
+        const Divider(
+            style: DividerThemeData(
+          thickness: 2,
+          horizontalMargin: EdgeInsets.only(),
+        )),
+        Expanded(
+          child: MultiSplitViewTheme(
+            data: MultiSplitViewThemeData(
+              dividerPainter: DividerPainters.background(
+                  color: Color(0xFFeaeaea),
+                  highlightedColor: Color.fromARGB(255, 192, 192, 192)),
+            ),
+            child: MultiSplitView(
+              axis: Axis.horizontal,
+              initialAreas: [Area(weight: 0.65)],
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: TimetableFragment(
+                        week: widget.week,
+                      ),
+                    ),
+                  ],
+                ),
+                DataTable(
+            dataRowMinHeight: 36,
+            dataRowMaxHeight: 36,
+            showCheckboxColumn: true,
+            columnSpacing: 10,
+                  columns: [
+                    DataColumn(label: Text('Subject')),
+                    DataColumn(label: Text('Class #')),
+                    DataColumn(label: Text('Section')),
+                    DataColumn(label: Text('Room')),
+                    DataColumn(label: Text('Teacher')),
+                    DataColumn(label: Text('Slots')),
+                  ],
+                  rows: widget.week.subjects
+                      .map((e) => DataRow(cells: [
+                            DataCell(Text(e.subject)),
+                            DataCell(Text(e.classNumber.toString())),
+                            DataCell(Text(e.section)),
+                            DataCell(Text(e.room)),
+                            DataCell(Text(e.teacher)),
+                            DataCell(Text(e.slots)),
+                          ]))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
