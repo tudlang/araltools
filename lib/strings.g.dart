@@ -3,7 +3,7 @@
 /// Locales: 1
 /// Strings: 122
 ///
-/// Built on 2023-06-20 at 10:48 UTC
+/// Built on 2023-06-20 at 11:18 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -927,7 +927,7 @@ class _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Minutes after a subject to check for distance to the next subject';
+	String get name => 'Time gap between subjects to check for distance (in minutes)';
 }
 
 // Path: skedmaker.filters.categories.location.maxAllowedDistanceMeters
@@ -937,7 +937,7 @@ class _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Maximum distance (in meters) from one subject to the next';
+	String get name => 'Maximum distance from one subject to the next (in meters)';
 }
 
 /// Flat map(s) containing all translations.
@@ -986,8 +986,8 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.day.fridayName': return 'Friday';
 			case 'skedmaker.filters.categories.day.saturdayName': return 'Saturday';
 			case 'skedmaker.filters.categories.location.name': return 'Location';
-			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Minutes after a subject to check for distance to the next subject';
-			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance (in meters) from one subject to the next';
+			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Time gap between subjects to check for distance (in minutes)';
+			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance from one subject to the next (in meters)';
 			case 'skedmaker.filters.any': return 'Any subject';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';

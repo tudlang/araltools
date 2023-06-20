@@ -34,6 +34,7 @@ import 'package:flutter/material.dart'
         FilledButton,
         Colors;
 import 'package:flutter/services.dart';
+import 'package:multi_split_view/multi_split_view.dart';
 
 import 'connection.dart';
 import 'functions.dart';
@@ -267,7 +268,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Button(
-                    child: Text('I am a programmer...'),
+                    child: Text('Add subjects via code'),
                     onPressed: () async {
                       final list = await getSubjectFromString(context);
 
@@ -284,7 +285,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           PaneItemSeparator(),
           for (final subject in model.subjects.entries)
             () {
-              final hasError = subject.value.every((element) => !element.isAvailable);
+              final hasError =
+                  subject.value.every((element) => !element.isAvailable);
               return PaneItem(
                 icon: Container(
                   decoration: ShapeDecoration(
@@ -294,7 +296,10 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                   width: 10,
                   height: 10,
                 ),
-                tileColor: hasError ? ButtonState.all(ResourceDictionary.light().systemFillColorCriticalBackground): NavigationPaneTheme.of(context).tileColor,
+                tileColor: hasError
+                    ? ButtonState.all(ResourceDictionary.light()
+                        .systemFillColorCriticalBackground)
+                    : NavigationPaneTheme.of(context).tileColor,
                 title: Text(subject.key),
                 body: SubjectsFragmentEdit(
                   offerings: subject.value,
@@ -698,13 +703,13 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key]?['start'] ??
+                      value: filterValues[widget.category]![filter.key]
+                              ?['start'] ??
                           filter.valueDefault['start'],
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key,
-                            () {
+                        model.updateFilter(widget.category, filter.key, () {
                           final hour = (value! / 100).floor();
                           final minute = value % 100;
 
@@ -730,13 +735,13 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key]?['end'] ??
+                      value: filterValues[widget.category]![filter.key]
+                              ?['end'] ??
                           filter.valueDefault['end'],
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key,
-                            () {
+                        model.updateFilter(widget.category, filter.key, () {
                           final hour = (value! / 100).floor();
                           final minute = value % 100;
 
@@ -980,12 +985,13 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
               ],
             ),
             actions: [
+              SizedBox.shrink(),
               Button(
                 child: Text('Close'),
                 onPressed: () {
                   Navigator.pop(context);
                 },
-              )
+              ),
             ],
           );
         });
@@ -1015,13 +1021,42 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
+    final textTheme = Theme.of(context).textTheme;
 
     return model.schedules.isEmpty
-        ? Button(
-            child: Text('sdf'),
-            onPressed: () {
-              generate(context);
-            })
+        ? Column(
+            children: [
+              Expanded(
+                  child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Generate possible schedules',
+                      style: textTheme.headlineSmall,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FilledButton(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Generate'),
+                          ),
+                          onPressed: () {
+                            generate(context);
+                          }),
+                    ),
+                    if (model.isGenerating) ProgressBar(),
+                    if (!model.isGenerating && model.hasGenerated)
+                      Text(
+                        'No schedules found.',
+                        textAlign: TextAlign.center,
+                      )
+                  ],
+                ),
+              ))
+            ],
+          )
         : RawKeyboardListener(
             focusNode: focusnode,
             onKey: (value) {
@@ -1120,7 +1155,10 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                                 thickness: 3,
                                 horizontalMargin: EdgeInsets.only(),
                               )),
-                              Expanded(child: TimetableFragment(data: e)),
+                              Expanded(
+                                  child: SchedulesFragmentTimetable(
+                                week: e,
+                              )),
                             ],
                           ),
                           closeIcon: model.tabs.length == 1
@@ -1145,6 +1183,37 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               )),
             ]),
           );
+  }
+}
+
+class SchedulesFragmentTimetable extends StatefulWidget {
+  const SchedulesFragmentTimetable({super.key, required this.week});
+  final ScheduleWeek week;
+
+  @override
+  State<SchedulesFragmentTimetable> createState() =>
+      _SchedulesFragmentTimetableState();
+}
+
+class _SchedulesFragmentTimetableState
+    extends State<SchedulesFragmentTimetable> {
+  @override
+  Widget build(BuildContext context) {
+    return MultiSplitViewTheme(
+      data: MultiSplitViewThemeData(
+        dividerPainter: DividerPainters.grooved1(),
+      ),
+      child: MultiSplitView(
+        axis: Axis.horizontal,
+        initialAreas: [Area(weight: 0.7)],
+        children: [
+          TimetableFragment(
+            week: widget.week,
+          ),
+          Placeholder(),
+        ],
+      ),
+    );
   }
 }
 

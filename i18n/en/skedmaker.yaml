@@ -74,9 +74,9 @@ filters:
     location:
       name: Location
       checkingDistanceMinutes:
-        name: Minutes after a subject to check for distance to the next subject
+        name: Time gap between subjects to check for distance (in minutes)
       maxAllowedDistanceMeters:
-        name: Maximum distance (in meters) from one subject to the next
+        name: Maximum distance from one subject to the next (in meters)
   any: Any subject
 
 scheduleDay:

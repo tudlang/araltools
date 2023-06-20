@@ -398,20 +398,13 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   }
 }
 
-class TimetableFragment extends StatefulWidget {
-  const TimetableFragment({super.key, this.data});
-  final ScheduleWeek? data;
-
-  @override
-  State<TimetableFragment> createState() => _TimetableFragmentState();
-}
-
-class _TimetableFragmentState extends State<TimetableFragment> {
-  Offering? offeringSelected;
+class TimetableFragment extends StatelessWidget {
+  const TimetableFragment({super.key, this.week});
+  final ScheduleWeek? week;
 
   @override
   Widget build(BuildContext context) {
-    var data = widget.data ?? context.watch<SkedmakerModel>().schedulesSelected;
+    var data = week ?? context.watch<SkedmakerModel>().schedulesSelected;
 
     if (data == null) return Container();
 
@@ -431,39 +424,41 @@ class _TimetableFragmentState extends State<TimetableFragment> {
           ],
         ),
         Expanded(
-            child: TimetableView(
-          timetableStyle: TimetableStyle(
-            laneWidth: 150,
-            timeItemHeight: 50,
-            startHour: 7,
-            endHour: 21,
+          child: TimetableView(
+            timetableStyle: TimetableStyle(
+              laneWidth: 150,
+              timeItemHeight: 50,
+              startHour: 7,
+              endHour: 21,
+            ),
+            laneEventsList: [
+              for (final day in ScheduleWeek.daycodes)
+                LaneEvents(
+                  lane: Lane(name: day, laneIndex: 1),
+                  events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
+                      .map((e) => TableEvent(
+                            location: "${e.room}\n",
+                            title: "${e.subject} - ${e.section} \n",
+                            eventId: e.classNumber,
+                            laneIndex: 1,
+                            startTime: t(e.scheduleTimeStart),
+                            endTime: t(e.scheduleTimeEnd),
+                            backgroundColor: e.color,
+                          ))
+                      .toList(),
+                )
+            ],
+            onEmptySlotTap: (laneIndex, start, end) {},
+            onEventTap: (event) {},
           ),
-          laneEventsList: [
-            for (final day in ScheduleWeek.daycodes)
-              LaneEvents(
-                lane: Lane(name: day, laneIndex: 1),
-                events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
-                    .map((e) => TableEvent(
-                          location: "${e.scheduleDay.daycode} ${e.room}\n",
-                          title: "${e.subject} - ${e.section} \n",
-                          eventId: e.classNumber,
-                          laneIndex: 1,
-                          startTime: t(e.scheduleTimeStart),
-                          endTime: t(e.scheduleTimeEnd),
-                          backgroundColor: e.color,
-                        ))
-                    .toList(),
-              )
-          ],
-          onEmptySlotTap: (laneIndex, start, end) {},
-          onEventTap: (event) {},
-        )),
+        ),
       ],
     );
   }
 
   ///converts 24hour time format to a [TableEventTime]
   TableEventTime t(int time24) => TableEventTime(
-      hour: (time24 / 100).floor(),
-      minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"));
+        hour: (time24 / 100).floor(),
+        minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"),
+      );
 }
