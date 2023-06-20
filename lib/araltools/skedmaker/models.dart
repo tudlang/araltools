@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -90,8 +90,8 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void nextWeekInTab(int indexSelected, int increment){
-    _tabs[_tabsIndex] = _schedules.elementAt(indexSelected+increment);
+  void nextWeekInTab(int indexSelected, int increment) {
+    _tabs[_tabsIndex] = _schedules.elementAt(indexSelected + increment);
     notifyListeners();
   }
 
@@ -103,11 +103,17 @@ class SkedmakerModel extends ChangeNotifier {
 
   ScheduleFilters _filters;
   ScheduleFilters get filters => _filters;
-  updateFilter<T>(String category, String key, T value){
-    _filters.values[category]![key] = value;
+  updateFilter<T>(String category, String key, T value, [String? index]) {
+    if (index != null) {
+      _filters.values[category]![key] ??= {};
+      _filters.values[category]![key][index] = value;
+    } else {
+      _filters.values[category]![key] = value;
+    }
     notifyListeners();
   }
-  resetFilterCategory(String category){
+
+  resetFilterCategory(String category) {
     _filters.values[category]!.clear();
     notifyListeners();
   }
@@ -119,4 +125,3 @@ class SkedmakerModel extends ChangeNotifier {
         _tabsIndex = -1,
         _filters = ScheduleFilters();
 }
-

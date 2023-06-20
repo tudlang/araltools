@@ -49,6 +49,7 @@ filters:
       name: Day-specific
       commonMaxNumberOfSubjects: 
         name: Maximum number of subjects
+        desc: Enter -1 if no limit
       commonTimeInterval:
         name: Only have subjects at this time interval
       commonModality: 
@@ -58,6 +59,8 @@ filters:
         face: Face-to-face
       commonStartWithSubject:  
         name: First subject of the day
+      commonEndWithSubject:  
+        name: Last subject of the day
       commonBreaktime:  
         name: Breaktime
         desc: Time where there should be no subjects

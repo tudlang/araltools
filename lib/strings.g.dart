@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 120
+/// Strings: 122
 ///
-/// Built on 2023-06-10 at 06:17 UTC
+/// Built on 2023-06-20 at 10:48 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -793,6 +793,7 @@ class _StringsSkedmakerFiltersCategoriesDayEn {
 	late final _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn commonTimeInterval = _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayCommonModalityEn commonModality = _StringsSkedmakerFiltersCategoriesDayCommonModalityEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn commonStartWithSubject = _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn commonEndWithSubject = _StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn commonBreaktime = _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn._(_root);
 	String get mondayName => 'Monday';
 	String get tuesdayName => 'Tuesday';
@@ -862,6 +863,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn {
 
 	// Translations
 	String get name => 'Maximum number of subjects';
+	String get desc => 'Enter -1 if no limit';
 }
 
 // Path: skedmaker.filters.categories.day.commonTimeInterval
@@ -895,6 +897,16 @@ class _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn {
 
 	// Translations
 	String get name => 'First subject of the day';
+}
+
+// Path: skedmaker.filters.categories.day.commonEndWithSubject
+class _StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn {
+	_StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Last subject of the day';
 }
 
 // Path: skedmaker.filters.categories.day.commonBreaktime
@@ -957,12 +969,14 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
+			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.desc': return 'Enter -1 if no limit';
 			case 'skedmaker.filters.categories.day.commonTimeInterval.name': return 'Only have subjects at this time interval';
 			case 'skedmaker.filters.categories.day.commonModality.name': return 'Modality of subjects';
 			case 'skedmaker.filters.categories.day.commonModality.hybrid': return 'Online or face-to-face';
 			case 'skedmaker.filters.categories.day.commonModality.online': return 'Online';
 			case 'skedmaker.filters.categories.day.commonModality.face': return 'Face-to-face';
 			case 'skedmaker.filters.categories.day.commonStartWithSubject.name': return 'First subject of the day';
+			case 'skedmaker.filters.categories.day.commonEndWithSubject.name': return 'Last subject of the day';
 			case 'skedmaker.filters.categories.day.commonBreaktime.name': return 'Breaktime';
 			case 'skedmaker.filters.categories.day.commonBreaktime.desc': return 'Time where there should be no subjects';
 			case 'skedmaker.filters.categories.day.mondayName': return 'Monday';

@@ -348,20 +348,27 @@ class ScheduleWeek {
     4: BigInt.zero,
     5: BigInt.zero,
   };
-  Map<int, List<Offering>> daysOfferings;
+  Map<int, Set<Offering>> daysOfferings;
 
   Set<String> subjects;
 
   String name;
 
   ScheduleWeek()
+      // I am so sorry that this is repeated, but each set needs to be separately instantiated
       : daysOfferings = {
-          0: [],
-          1: [],
-          2: [],
-          3: [],
-          4: [],
-          5: [],
+          0: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          1: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          2: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          3: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          4: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          5: SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
         },
         name = '',
         subjects = {};
@@ -386,7 +393,7 @@ class ScheduleWeek {
 
   static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
-  _addByte({required int daycode, required int start, required int end}) {
+  void _addByte({required int daycode, required int start, required int end}) {
     final toAdd = toByte(start, end);
     final byteOfDay = _daysBytes[daycode]!;
 
@@ -397,7 +404,7 @@ class ScheduleWeek {
     _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
-  add(Offering offering) {
+  void add(Offering offering) {
     if (subjects.contains(offering.subject)) throw Error();
 
     final start = offering.scheduleTimeStart;
@@ -415,10 +422,11 @@ class ScheduleWeek {
     subjects.add(offering.subject);
   }
 
-  String get daysOfferingsString => JsonEncoder.withIndent("  ").convert(
-      daysOfferings.map((key, value) => MapEntry(
-          key.toString() + " ${value.length}",
-          value.map((key) => key.toString()).toList())));
+  String get daysOfferingsString =>
+      JsonEncoder.withIndent("  ").convert(daysOfferings.map(
+        (key, value) => MapEntry(key.toString() + " ${value.length}",
+            value.map((key) => key.toString()).toList()),
+      ));
 
   Map toMap() => {
         'daysOfferings': daysOfferings.map((key, value) =>
@@ -429,8 +437,7 @@ class ScheduleWeek {
 
   ScheduleWeek.fromMap(Map map)
       : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map(
-            (key, value) =>
-                MapEntry(key, value.map(Offering.fromMap).toList())),
+            (key, value) => MapEntry(key, value.map(Offering.fromMap).toSet())),
         subjects = map['subjects'],
         name = map['name'];
 
@@ -512,24 +519,34 @@ class ScheduleFilters {
           valueDefault: -1,
           valueLeast: -1,
         ),
+        /* //TODO add interval
         ScheduleFilter(
           key: '${day}TimeInterval',
           keyLocalized: 'commonTimeInterval',
-          valueDefault: [730, 2100],
+          valueDefault: {'start': 730, 'end': 2100},
           valueLeast: 0,
           valueMost: 2359,
         ),
+        */
+        /* TODO add modality checker
         ScheduleFilter<String>(
           key: '${day}Modality',
           keyLocalized: 'commonModality',
           valueDefault: 'hybrid',
           valueChoices: ['hybrid', 'online', 'face'],
         ),
+        */
         ScheduleFilter(
           key: '${day}StartWithSubject',
           keyLocalized: 'commonStartWithSubject',
           valueDefault: ScheduleFilterSpecial.subjects,
         ),
+        ScheduleFilter(
+          key: '${day}EndWithSubject',
+          keyLocalized: 'commonEndWithSubject',
+          valueDefault: ScheduleFilterSpecial.subjects,
+        ),
+        /* //TODO add breaktime
         ScheduleFilter(
           key: '${day}Breaktime',
           keyLocalized: 'commonBreaktime',
@@ -537,6 +554,7 @@ class ScheduleFilters {
           valueLeast: 0,
           valueMost: 2359,
         ),
+        */
       ]
     ],
     ('location', MdiIcons.mapMarkerOutline): [
@@ -560,14 +578,22 @@ class ScheduleFilters {
           key.$1,
           Map.fromEntries(value.map(
             (e) => MapEntry(
-              e.key,
-              values[key.$1]?[e.key] ?? e.valueDefault,
-            ),
+                e.key,
+                values[key.$1]?[e.key] ??
+                        ((e.valueDefault is ScheduleFilterSpecial)
+                    ? e.valueDefault.valueDefault
+                    : e.valueDefault)),
           )),
         ),
       );
 }
 
 enum ScheduleFilterSpecial {
-  subjects,
+  subjects(
+    valueDefault: 'any',
+  ),
+  ;
+
+  final dynamic valueDefault;
+  const ScheduleFilterSpecial({this.valueDefault});
 }

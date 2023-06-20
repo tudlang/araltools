@@ -115,9 +115,55 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
 
       try {
         final week = ScheduleWeek();
+
+        // attempt to add the list of offerings to a weekly schedule
         for (final offering in offeringsCurrent) {
-          week.add(Offering.fromMap(offering));
+          final offeringDecoded = Offering.fromMap(offering);
+          week.add(offeringDecoded);
         }
+
+        // filter checker for each day
+        for (final day in const [
+          ('monday', 'M', 0),
+          ('tuesday', 'T', 1),
+          ('wednesday', 'W', 2),
+          ('thursday', 'H', 3),
+          ('friday', 'F', 4),
+          ('saturday', 'S', 5),
+        ]) {
+          // check for number of subjects for the day
+          if (filters['day']!['${day.$1}MaxNumberOfSubjects'] != -1) {
+            if (week.daysOfferings[day.$3]!.length >
+                filters['day']!['${day.$1}MaxNumberOfSubjects'] - 0) {
+              throw Error();
+            }
+          }
+
+          // check for first subject
+          if (filters['day']!['${day.$1}StartWithSubject'] != 'any') {
+            if (week.daysOfferings[day.$3]!.first.subject !=
+                filters['day']!['${day.$1}StartWithSubject']) {
+              throw Error();
+            }
+          }
+          // check for last subject
+          if (filters['day']!['${day.$1}EndWithSubject'] != 'any') {
+            if (week.daysOfferings[day.$3]!.last.subject !=
+                filters['day']!['${day.$1}EndWithSubject']) {
+              throw Error();
+            }
+          }
+
+          // interval checker
+          //if ((week.daysOfferings[day.$3]!.first.scheduleTimeStart <
+          //        filters['day']!['${day.$1}TimeInterval']['start']) ||
+          //    (week.daysOfferings[day.$3]!.last.scheduleTimeStart >
+          //        filters['day']!['${day.$1}TimeInterval1']['end'])) {
+          //  throw Error();
+          //}
+        }
+
+        // Send the completed schedule to main thread
         sendPort.send(week.toMap());
         print(week.identifierString);
       } catch (e) {
@@ -132,7 +178,6 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
     for (Map currentOffering in subjectsCurrent[subject]!) {
       // ===== Check for filters here
 
-      
       if ((filters['offerings']!['includeClosed'] == false &&
               currentOffering['isClosed'] == true) ||
           (filters['offerings']!['includeFullSlots'] == false &&
@@ -161,7 +206,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
         ]) {
           // skips if `currentOffering` is not `day`
           if (!scheduleDay.daycode.contains(day.$2)) continue;
-          
+
           //modality checker
           if (filters['day']!['${day.$1}Modality'] != 'hybrid') {
             // todo add modality checker
@@ -171,9 +216,6 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
             //  throw Error();
             //}
           }
-
-
-          
         }
       } catch (e) {
         continue;

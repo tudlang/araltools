@@ -686,7 +686,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       'skedmaker.filters.categories.${widget.category}.${filter.key}'] ??
                   filter.key),
             )
-          else if (filter.valueDefault is List<int> &&
+          else if (filter.valueDefault is Map<String, int> &&
               filter.valueLeast is int &&
               filter.valueMost is int)
             Padding(
@@ -698,12 +698,12 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key + "0"] ??
-                          filter.valueDefault[0],
+                      value: filterValues[widget.category]![filter.key]?['start'] ??
+                          filter.valueDefault['start'],
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key + "0",
+                        model.updateFilter(widget.category, filter.key,
                             () {
                           final hour = (value! / 100).floor();
                           final minute = value % 100;
@@ -717,7 +717,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                           } else if (hour < 24 && minute < 60) {
                             return (hour * 100) + minute;
                           }
-                        }());
+                        }(), 'start');
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       clearButton: false,
@@ -730,12 +730,12 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key + "1"] ??
-                          filter.valueDefault[1],
+                      value: filterValues[widget.category]![filter.key]?['end'] ??
+                          filter.valueDefault['end'],
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key + "1",
+                        model.updateFilter(widget.category, filter.key,
                             () {
                           final hour = (value! / 100).floor();
                           final minute = value % 100;
@@ -749,7 +749,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                           } else if (hour < 24 && minute < 60) {
                             return (hour * 100) + minute;
                           }
-                        }());
+                        }(), 'end');
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       clearButton: false,
