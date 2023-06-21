@@ -21,7 +21,7 @@ repository: https://github.com/tudlang/araltools
 publish_to: "none"
 
 
-version: "0.0.2+2"
+version: "0.1.0+2"
 
 environment:
   sdk: ^3.0.0
@@ -76,7 +76,7 @@ msix_config:
   publisher_display_name: Tudlang
   identity_name: 57524Tudlang.36328D364A110
   logo_path: logo.png
-  trim_logo: true
+  #trim_logo: true
   languages: en
   file_extension:
   store: true
