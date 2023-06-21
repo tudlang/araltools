@@ -24,6 +24,7 @@ import 'package:fluent_ui/fluent_ui.dart'
 import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'araltools/skedmaker/skedmaker_activity.dart';
 import 'home_activity.dart';
@@ -31,6 +32,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
+  // do platform-specific things
+  onPlatform(
+    all: null,
+    windows: () async {
+      final appdata = await getApplicationSupportDirectory();
+      // create data folders
+      for (final araltool in AralTools.values) {
+        Directory('${appdata.path}/${araltool.name}').create();
+      }
+      //Directory(r'%appdata%\com.tudlang\araltools\skedmaker').create();
+    }(),
+  );
+
   WidgetsFlutterBinding.ensureInitialized(); // add this
   LocaleSettings.useDeviceLocale(); // and this
   runApp(MyApp());

@@ -17,6 +17,7 @@
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:string_unescape/string_unescape.dart';
 import 'functions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -28,6 +29,8 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
   // TODO add platform checking here
   Webview window = await WebviewWindow.create(
       configuration: CreateConfiguration(
+    userDataFolderWindows:
+        '${(await getApplicationSupportDirectory()).path}/skedmaker',
     titleBarHeight:
         0, // I wish there was a way to customize the title bar (supposed to be appbar) further
     title: 'View course offerings',
@@ -103,9 +106,11 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
             ],
           ),
           actions: [
-            Button(child: Text('Cancel'), onPressed: (){
-              Navigator.pop(context);
-            }),
+            Button(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             FilledButton(
               child: Text('Add'),
               onPressed: () {
