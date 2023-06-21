@@ -444,3 +444,34 @@ class TimetableFragment extends StatelessWidget {
         minute: int.parse("${(time24 / 10).floor() % 10}${time24 % 10}"),
       );
 }
+
+class SubjectText extends StatelessWidget {
+  const SubjectText({
+    super.key,
+    required this.offering,
+  });
+  final Offering offering;
+
+  Widget get icon => Container(
+          decoration: ShapeDecoration(
+            shape: CircleBorder(),
+            color: offering.color,
+          ),
+          width: 10,
+          height: 10,
+        );
+  
+  Widget get text => 
+        Text(offering.subject);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        icon,
+        SizedBox(width: 8),
+        text
+      ],
+    );
+  }
+}

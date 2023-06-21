@@ -202,7 +202,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
         items: [
           PaneItem(
             icon: Icon(MdiIcons.plus),
-            title: Text('Add'),
+            title: Text('Add subject'),
             body: Column(
               children: [
                 Expanded(
@@ -287,20 +287,16 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             () {
               final hasError =
                   subject.value.every((element) => !element.isAvailable);
+              final subjectText = SubjectText(
+                offering: subject.value.first,
+              );
               return PaneItem(
-                icon: Container(
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: subject.value.first.color,
-                  ),
-                  width: 10,
-                  height: 10,
-                ),
+                icon: subjectText.icon,
                 tileColor: hasError
                     ? ButtonState.all(ResourceDictionary.light()
                         .systemFillColorCriticalBackground)
                     : NavigationPaneTheme.of(context).tileColor,
-                title: Text(subject.key),
+                title: subjectText.text,
                 body: SubjectsFragmentEdit(
                   offerings: subject.value,
                   subject: subject.key,
@@ -346,11 +342,13 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.offerings.every((element) => !element.isAvailable))
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InfoBar(
-              title: Text('${widget.subject} has no available offerings.'),
-              severity: InfoBarSeverity.error,
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InfoBar(
+                title: Text('${widget.subject} has no available offerings.'),
+                severity: InfoBarSeverity.error,
+              ),
             ),
           ),
         Padding(
@@ -378,23 +376,66 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
           child: CommandBar(
             overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
             primaryItems: [
+              /*
               CommandBarButton(
                 icon: Icon(Icons.palette_outlined),
                 onPressed: () {},
                 label: Text("Change subject color"),
               ),
+              */
+              /* 
               CommandBarButton(
                 icon: Icon(Icons.drive_file_rename_outline_outlined),
                 onPressed: () {},
                 label: Text("Rename subject"),
               ),
-              CommandBarButton(
-                icon: Icon(MdiIcons.deleteOutline),
-                onPressed: () {
-                  context.read<SkedmakerModel>().removeSubject(widget.subject);
-                },
-                label: Text("Delete subject"),
-              ),
+              */
+              () {
+                final controller = FlyoutController();
+
+                return CommandBarBuilderItem(
+                  builder: (context2, displayMode, child) {
+                    return FlyoutTarget(
+                      controller: controller,
+                      child: child,
+                    );
+                  },
+                  wrappedItem: CommandBarButton(
+                    icon: Icon(MdiIcons.deleteOutline),
+                    onPressed: () {
+                      controller.showFlyout(
+                        builder: (context3) {
+                          return FlyoutContent(
+                              child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              InfoLabel(
+                                label:
+                                    'Delete ${widget.subject}? You cannot undo this action.',
+                                labelStyle: FluentTheme.maybeOf(context)
+                                    ?.typography
+                                    .bodyStrong,
+                                child: Button(
+                                  child: Text('Delete'),
+                                  onPressed: () {
+                                    context
+                                        .read<SkedmakerModel>()
+                                        .removeSubject(widget.subject);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ));
+                        },
+                      );
+                    },
+                    label: Text("Delete subject"),
+                  ),
+                );
+              }()
+
+              /* TODO add these functionality
               CommandBarSeparator(),
               CommandBarButton(
                 icon: Icon(MdiIcons.plus),
@@ -447,92 +488,96 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                   onPressed: null,
                   label: Text("Delete offering"),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
         Expanded(
             child: ListView(
-              children: [
-                DataTable(
-                  dataRowMinHeight: 36,
-                  dataRowMaxHeight: 36,
-                  showCheckboxColumn: true,
-                  columnSpacing: 10,
-                  columns: [
-                    DataColumn(
-                      label: Text('Status'),
-                    ),
-                    DataColumn(
-                      label: Text('Class #'),
-                    ),
-                    DataColumn(
-                      label: Text('Section'),
-                    ),
-                    DataColumn(
-                      label: Text('Room'),
-                    ),
-                    DataColumn(
-                      label: Text('Day'),
-                    ),
-                    DataColumn(
-                      label: Text('Time'),
-                    ),
-                    DataColumn(
-                      label: Text('Teacher'),
-                    ),
-                    DataColumn(
-                      label: Text('Slots'),
-                    ),
-                  ],
-                  rows: [
-                    for (final offering in widget.offerings)
-                      DataRow(
-                        cells: [
-                          DataCell(offering.isClosed
-                              ? Tooltip(
-                                  message: 'Closed',
-                                  child: Icon(MdiIcons.closeCircleOutline),
-                                )
-                              : Tooltip(
-                                  message: 'Open',
-                                  child: Icon(MdiIcons.checkCircleOutline),
-                                )),
-                          DataCell(Text(offering.classNumber.toString())),
-                          DataCell(Text(offering.section)),
-                          DataCell(Text(offering.room)),
-                          DataCell(Tooltip(
-                            child: Text(offering.scheduleDay.nameShort),
-                            message: offering.scheduleDay.nameLocalized,
-                          )),
-                          DataCell(Text(offering.scheduleTime)),
-                          DataCell(Text(offering.teacher)),
-                          DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text(offering.slots),
-                            SizedBox(width: 8),
-                            SizedBox.square(
-                              dimension: 25,
-                              child: Tooltip(
-                                message:
-                                    "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
-                                child: ProgressRing(
-                                  // min because the slot taken might be greater than capacity
-                                  value: min(
-                                      100,
-                                      (offering.slotTaken / offering.slotCapacity) *
-                                          100),
-                                  strokeWidth: 3,
-                                ),
-                              ),
-                            )
-                          ])),
-                        ],
-                        onSelectChanged: (value) {},
-                      )
-                  ],
+          children: [
+            DataTable(
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 36,
+              showCheckboxColumn: false, //TODO add subjects
+              columnSpacing: 10,
+              columns: [
+                DataColumn(
+                  label: Text('Status'),
+                ),
+                DataColumn(
+                  label: Text('Class #'),
+                ),
+                DataColumn(
+                  label: Text('Section'),
+                ),
+                DataColumn(
+                  label: Text('Room'),
+                ),
+                DataColumn(
+                  label: Text('Day'),
+                ),
+                DataColumn(
+                  label: Text('Time'),
+                ),
+                DataColumn(
+                  label: Text('Teacher'),
+                ),
+                DataColumn(
+                  label: Text('Slots'),
                 ),
               ],
-            ))
+              rows: [
+                for (final offering in widget.offerings)
+                  DataRow(
+                    color: offering.isAvailable
+                        ? null
+                        : MaterialStatePropertyAll(ResourceDictionary.light()
+                            .systemFillColorCriticalBackground),
+                    cells: [
+                      DataCell(offering.isClosed
+                          ? Tooltip(
+                              message: 'Closed',
+                              child: Icon(MdiIcons.closeCircleOutline),
+                            )
+                          : Tooltip(
+                              message: 'Open',
+                              child: Icon(MdiIcons.checkCircleOutline),
+                            )),
+                      DataCell(Text(offering.classNumber.toString())),
+                      DataCell(Text(offering.section)),
+                      DataCell(Text(offering.room)),
+                      DataCell(Tooltip(
+                        child: Text(offering.scheduleDay.nameShort),
+                        message: offering.scheduleDay.nameLocalized,
+                      )),
+                      DataCell(Text(offering.scheduleTime)),
+                      DataCell(Text(offering.teacher)),
+                      DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text(offering.slots),
+                        SizedBox(width: 8),
+                        SizedBox.square(
+                          dimension: 25,
+                          child: Tooltip(
+                            message:
+                                "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
+                            child: ProgressRing(
+                              // min because the slot taken might be greater than capacity
+                              value: min(
+                                  100,
+                                  (offering.slotTaken / offering.slotCapacity) *
+                                      100),
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        )
+                      ])),
+                    ],
+                    onSelectChanged: (value) {},
+                  )
+              ],
+            ),
+          ],
+        ))
       ],
     );
   }
@@ -567,9 +612,22 @@ class _FiltersFrgmentState extends State<FiltersFrgment> {
           items: [
             ...ScheduleFilters.filters.entries.map((category) => PaneItem(
                   icon: Icon(category.key.$2),
-                  body: FiltersFragmentCategory(
-                    category: category.key.$1,
-                    icon: category.key.$2,
+                  body: Column(
+                    children: [
+                      Expanded(
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxWidth: 750,
+                                maxHeight: constraints.maxHeight),
+                            child: FiltersFragmentCategory(
+                              category: category.key.$1,
+                              icon: category.key.$2,
+                            ),
+                          );
+                        }),
+                      ),
+                    ],
                   ),
                   title: Text(strings[
                           "skedmaker.filters.categories.${category.key.$1}.name"] ??
@@ -699,7 +757,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
-                child: Row(children: [
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   filterText(filter),
                   Spacer(),
                   ConstrainedBox(
@@ -772,7 +830,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
-                child: Row(children: [
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   filterText(filter),
                   Spacer(),
                   ConstrainedBox(
@@ -799,7 +857,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
-                child: Row(children: [
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   filterText(filter),
                   Spacer(),
                   ConstrainedBox(
@@ -861,19 +919,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                           filterValues[widget.category]![filter.key] ?? 'any',
                       items: model.subjects.keys
                           .map((e) => ComboBoxItem(
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: ShapeDecoration(
-                                        shape: CircleBorder(),
-                                        color: model.subjects[e]!.first.color,
-                                      ),
-                                      width: 10,
-                                      height: 10,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(e),
-                                  ],
+                                child: SubjectText(
+                                  offering: model.subjects[e]!.first,
                                 ),
                                 value: e,
                               ))
@@ -981,7 +1028,12 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       },
                     ),
                     SizedBox(width: 8),
-                    SelectableText("~$distance meters", contextMenuBuilder: (context, state)=>AdaptiveTextSelectionToolbar.editableText(editableTextState: state),),
+                    SelectableText(
+                      "~$distance meters",
+                      contextMenuBuilder: (context, state) =>
+                          AdaptiveTextSelectionToolbar.editableText(
+                              editableTextState: state),
+                    ),
                   ],
                 ),
               ],
@@ -1037,6 +1089,11 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       'Generate possible schedules',
                       style: textTheme.headlineSmall,
                     ),
+                    if (model.isGenerating) Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ProgressBar(),
+                    )
+                    else
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: FilledButton(
@@ -1048,12 +1105,20 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                             generate(context);
                           }),
                     ),
-                    if (model.isGenerating) ProgressBar(),
+                    
                     if (!model.isGenerating && model.hasGenerated)
-                      Text(
-                        'No schedules found.',
-                        textAlign: TextAlign.center,
-                      )
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InfoBar(
+                            title: Text(
+                              'No schedules found.',
+                              textAlign: TextAlign.center,
+                            ),
+                            severity: InfoBarSeverity.error,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ))
@@ -1221,7 +1286,7 @@ class _SchedulesFragmentTimetableState
             ),
             child: MultiSplitView(
               axis: Axis.horizontal,
-              initialAreas: [Area(weight: 0.65)],
+              initialAreas: [Area(weight: 0.6)],
               children: [
                 Column(
                   children: [
@@ -1232,29 +1297,46 @@ class _SchedulesFragmentTimetableState
                     ),
                   ],
                 ),
-                DataTable(
-            dataRowMinHeight: 36,
-            dataRowMaxHeight: 36,
-            showCheckboxColumn: true,
-            columnSpacing: 10,
-                  columns: [
-                    DataColumn(label: Text('Subject')),
-                    DataColumn(label: Text('Class #')),
-                    DataColumn(label: Text('Section')),
-                    DataColumn(label: Text('Room')),
-                    DataColumn(label: Text('Teacher')),
-                    DataColumn(label: Text('Slots')),
+                ListView(
+                  children: [
+                    DataTable(
+                      dataRowMinHeight: 36,
+                      dataRowMaxHeight: 36,
+                      showCheckboxColumn: false,
+                      showBottomBorder: true,
+                      columnSpacing: 10,
+                      columns: [
+                        DataColumn(label: Text('Subject')),
+                        DataColumn(label: Text('Class #')),
+                        DataColumn(label: Text('Section')),
+                        DataColumn(label: Text('Room')),
+                        DataColumn(label: Text('Day')),
+                        DataColumn(label: Text('Teacher')),
+                        DataColumn(label: Text('Slots')),
+                      ],
+                      rows: widget.week.subjects
+                          .map((e) => DataRow(
+                                cells: [
+                                  DataCell(SubjectText(offering: e)),
+                                  DataCell(Text(e.classNumber.toString())),
+                                  DataCell(Text(e.section)),
+                                  DataCell(Text(e.room)),
+                                  DataCell(Tooltip(
+                                    message: e.scheduleDay.nameLocalized,
+                                    child: Text(e.scheduleDay.nameShort),
+                                  )),
+                                  DataCell(Text(e.teacher)),
+                                  DataCell(Tooltip(
+                                    message:
+                                        "${(e.slotPercentage * 100).round()}%",
+                                    child: Text(e.slots),
+                                  )),
+                                ],
+                                onSelectChanged: (value) {},
+                              ))
+                          .toList(),
+                    ),
                   ],
-                  rows: widget.week.subjects
-                      .map((e) => DataRow(cells: [
-                            DataCell(Text(e.subject)),
-                            DataCell(Text(e.classNumber.toString())),
-                            DataCell(Text(e.section)),
-                            DataCell(Text(e.room)),
-                            DataCell(Text(e.teacher)),
-                            DataCell(Text(e.slots)),
-                          ]))
-                      .toList(),
                 ),
               ],
             ),
