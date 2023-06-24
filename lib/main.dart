@@ -23,6 +23,7 @@ import 'package:fluent_ui/fluent_ui.dart'
     show FluentLocalizations, FluentTheme, FluentThemeData;
 import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -145,9 +146,15 @@ class MyApp extends StatelessWidget {
                     ListTile(
                       leading: Icon(Icons.info_outline),
                       title: Text('About'),
-                      onTap: () {
+                      onTap: () async{
+                        PackageInfo packageInfo = await PackageInfo.fromPlatform();
                         Navigator.pop(context);
-                        showAboutDialog(context: context);
+                        showAboutDialog(
+                          context: context,
+                          applicationName: packageInfo.appName,
+                          applicationVersion: "Version ${packageInfo.version} build ${packageInfo.buildNumber}",
+                          applicationLegalese: "Copyright (C) 2023 Tudlang"
+                        );
                       },
                     ),
                     ListTile(
@@ -159,6 +166,28 @@ class MyApp extends StatelessWidget {
                         Navigator.pop(context);
                         launchUrl(
                             Uri.parse("https://www.buymeacoffee.com/Yivan4"));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(MdiIcons.fileCodeOutline),
+                      trailing: Icon(MdiIcons.openInNew),
+                      title: Text('View source code'),
+                      subtitle: Text('Contribute to AralTools!'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchUrl(
+                            Uri.parse("https://github.com/tudlang/araltools"));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(MdiIcons.bugOutline),
+                      trailing: Icon(MdiIcons.openInNew),
+                      title: Text('Issue tracker'),
+                      subtitle: Text('Report issues & bugs here!'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchUrl(
+                            Uri.parse("https://github.com/tudlang/araltools/issues"));
                       },
                     ),
                     Divider(),
