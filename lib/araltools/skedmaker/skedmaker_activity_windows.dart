@@ -32,7 +32,7 @@ import 'package:flutter/material.dart'
         showDialog,
         Tooltip,
         FilledButton,
-        Colors;
+        Colors, Scrollbar;
 import 'package:flutter/services.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
@@ -1023,7 +1023,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                         final to = (controllerTo.text);
                         setState(() {
                           distance =
-                              getLocationDistance(from, to).round().toString();
+                              LocationFunctions.getLocationDistance(from, to).round().toString();
                         });
                       },
                     ),
@@ -1299,42 +1299,47 @@ class _SchedulesFragmentTimetableState
                 ),
                 ListView(
                   children: [
-                    DataTable(
-                      dataRowMinHeight: 36,
-                      dataRowMaxHeight: 36,
-                      showCheckboxColumn: false,
-                      showBottomBorder: true,
-                      columnSpacing: 10,
-                      columns: [
-                        DataColumn(label: Text('Subject')),
-                        DataColumn(label: Text('Class #')),
-                        DataColumn(label: Text('Section')),
-                        DataColumn(label: Text('Room')),
-                        DataColumn(label: Text('Day')),
-                        DataColumn(label: Text('Teacher')),
-                        DataColumn(label: Text('Slots')),
-                      ],
-                      rows: widget.week.subjects
-                          .map((e) => DataRow(
-                                cells: [
-                                  DataCell(SubjectText(offering: e)),
-                                  DataCell(Text(e.classNumber.toString())),
-                                  DataCell(Text(e.section)),
-                                  DataCell(Text(e.room)),
-                                  DataCell(Tooltip(
-                                    message: e.scheduleDay.nameLocalized,
-                                    child: Text(e.scheduleDay.nameShort),
-                                  )),
-                                  DataCell(Text(e.teacher)),
-                                  DataCell(Tooltip(
-                                    message:
-                                        "${(e.slotPercentage * 100).round()}%",
-                                    child: Text(e.slots),
-                                  )),
-                                ],
-                                onSelectChanged: (value) {},
-                              ))
-                          .toList(),
+                    Scrollbar(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          dataRowMinHeight: 36,
+                          dataRowMaxHeight: 36,
+                          showCheckboxColumn: false,
+                          showBottomBorder: true,
+                          columnSpacing: 10,
+                          columns: [
+                            DataColumn(label: Text('Subject')),
+                            DataColumn(label: Text('Class #')),
+                            DataColumn(label: Text('Section')),
+                            DataColumn(label: Text('Room')),
+                            DataColumn(label: Text('Day')),
+                            DataColumn(label: Text('Teacher')),
+                            DataColumn(label: Text('Slots')),
+                          ],
+                          rows: widget.week.subjects
+                              .map((e) => DataRow(
+                                    cells: [
+                                      DataCell(SubjectText(offering: e)),
+                                      DataCell(Text(e.classNumber.toString())),
+                                      DataCell(Text(e.section)),
+                                      DataCell(Text(e.room)),
+                                      DataCell(Tooltip(
+                                        message: e.scheduleDay.nameLocalized,
+                                        child: Text(e.scheduleDay.nameShort),
+                                      )),
+                                      DataCell(Text(e.teacher)),
+                                      DataCell(Tooltip(
+                                        message:
+                                            "${(e.slotPercentage * 100).round()}%",
+                                        child: Text(e.slots),
+                                      )),
+                                    ],
+                                    onSelectChanged: (value) {},
+                                  ))
+                              .toList(),
+                        ),
+                      ),
                     ),
                   ],
                 ),

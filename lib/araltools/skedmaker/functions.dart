@@ -131,26 +131,29 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
           ('friday', 'F', 4),
           ('saturday', 'S', 5),
         ]) {
+          // offering of the day
+          final offeringDay = week.daysOfferings[day.$3]!.toList();
+
           // check for number of subjects for the day
           if (filters['day']!['${day.$1}MaxNumberOfSubjects'] != -1) {
-            if (week.daysOfferings[day.$3]!.length >
+            if (offeringDay.length >
                 filters['day']!['${day.$1}MaxNumberOfSubjects'] - 0) {
-              throw Error();
+              throw InvalidScheduleError();
             }
           }
 
           // check for first subject
           if (filters['day']!['${day.$1}StartWithSubject'] != 'any') {
-            if (week.daysOfferings[day.$3]!.first.subject !=
+            if (offeringDay.first.subject !=
                 filters['day']!['${day.$1}StartWithSubject']) {
-              throw Error();
+              throw InvalidScheduleError();
             }
           }
           // check for last subject
           if (filters['day']!['${day.$1}EndWithSubject'] != 'any') {
-            if (week.daysOfferings[day.$3]!.last.subject !=
+            if (offeringDay.last.subject !=
                 filters['day']!['${day.$1}EndWithSubject']) {
-              throw Error();
+              throw InvalidScheduleError();
             }
           }
 
@@ -161,12 +164,32 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
           //        filters['day']!['${day.$1}TimeInterval1']['end'])) {
           //  throw Error();
           //}
+
+          // location cheker
+          offeringDay.forEachIndexed((index, element) {
+            if (index == 0) return; //skip if first
+
+            // if the next subject is within the checking distance time gap
+            final elementBefore = offeringDay.elementAt(index - 1);
+
+            if (element.scheduleTimeStart - elementBefore.scheduleTimeEnd <=
+                filters['location']!["checkingDistanceMinutes"]) {
+              final distance = LocationFunctions.getLocationDistance(
+                  elementBefore.room, element.room);
+
+              if (distance > filters['location']!['maxAllowedDistanceMeters']) {
+                throw InvalidScheduleError();
+              }
+            print(
+                "${elementBefore.room}→${element.room} (dist of ${element.scheduleTimeStart - elementBefore.scheduleTimeEnd}): ${distance}");
+            }
+          });
         }
 
         // Send the completed schedule to main thread
         sendPort.send(week.toMap());
         print(week.identifierString);
-      } catch (e) {
+      } on InvalidScheduleError {
         return;
       }
       return;
@@ -217,7 +240,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
             //}
           }
         }
-      } catch (e) {
+      } on InvalidScheduleError {
         continue;
       }
 
@@ -266,3 +289,5 @@ Stream<ScheduleWeek> generageSchedules({
     yield week;
   }
 }
+
+class InvalidScheduleError extends Error {}

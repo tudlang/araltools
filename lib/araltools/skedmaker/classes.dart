@@ -27,6 +27,8 @@ import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
 
+import 'functions.dart';
+
 /// An offering for a particular subject
 class Offering implements Comparable {
   late String subject;
@@ -294,7 +296,8 @@ Vector2 vectorFromAngle(num length, num degree) => Vector2(
     );
 
 mixin LocationFunctions {
-  ({String building, int room, int floor}) parseLocation(String roomCode) {
+  static ({String building, int room, int floor})? parseLocation(String roomCode) {
+    if (roomCode.isEmpty) return null;
     final room = int.parse(RegExp(r'[0-9]+').stringMatch(roomCode) ?? '0');
     return (
       building: RegExp(r'[A-Z]+').stringMatch(roomCode) ?? '',
@@ -304,16 +307,18 @@ mixin LocationFunctions {
   }
 
   /// A vector representing the distance of the room location
-  Vector3 getLocationVector(String building, int floor) {
+  static Vector3 getLocationVector(String building, int floor) {
     final bldg = distances[building] ?? Vector2.zero();
 
     //Z value times 20 since average floor height (plus stairs) is 20 meters
     return Vector3(bldg.x, bldg.y, floor.toDouble() * 20);
   }
 
-  double getLocationDistance(String locationFrom, String locationTo) {
+  static double getLocationDistance(String locationFrom, String locationTo) {
     final from = parseLocation(locationFrom);
     final to = parseLocation(locationTo);
+
+    if (from==null || to==null) return 0;
 
     // the vectors to add
     final sequence = [
@@ -398,14 +403,14 @@ class ScheduleWeek {
     final byteOfDay = _daysBytes[daycode]!;
 
     if (isByteConflicting(byteOfDay, toAdd)) {
-      throw Error();
+      throw InvalidScheduleError();
     }
 
     _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
   void add(Offering offering) {
-    if (subjects.contains(offering)) throw Error();
+    if (subjects.contains(offering)) throw InvalidScheduleError();
 
     final start = offering.scheduleTimeStart;
     final end = offering.scheduleTimeEnd;
