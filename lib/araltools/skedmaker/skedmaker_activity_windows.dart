@@ -32,7 +32,8 @@ import 'package:flutter/material.dart'
         showDialog,
         Tooltip,
         FilledButton,
-        Colors, Scrollbar;
+        Colors,
+        Scrollbar;
 import 'package:flutter/services.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
@@ -48,6 +49,7 @@ import 'package:provider/provider.dart';
 import 'classes.dart';
 import 'test_tables.dart';
 
+/// This is the main activity of SkedMaker for Windows.
 class SkedmakerActivityWindows extends StatefulWidget {
   const SkedmakerActivityWindows({super.key});
 
@@ -246,6 +248,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 child: Text('Add debug subjects'),
                               ),
                               onPressed: () {
+                                // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
                                 context.read<SkedmakerModel>()
                                   ..addSubject('CALENG2', parse(caleng2))
                                   ..addSubject('LBYMF1C', parse(lbymf1c))
@@ -1023,7 +1026,9 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                         final to = (controllerTo.text);
                         setState(() {
                           distance =
-                              LocationFunctions.getLocationDistance(from, to).round().toString();
+                              LocationFunctions.getLocationDistance(from, to)
+                                  .round()
+                                  .toString();
                         });
                       },
                     ),
@@ -1089,23 +1094,23 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       'Generate possible schedules',
                       style: textTheme.headlineSmall,
                     ),
-                    if (model.isGenerating) Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ProgressBar(),
-                    )
+                    if (model.isGenerating)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ProgressBar(),
+                      )
                     else
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FilledButton(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Generate'),
-                          ),
-                          onPressed: () {
-                            generate(context);
-                          }),
-                    ),
-                    
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FilledButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Generate'),
+                            ),
+                            onPressed: () {
+                              generate(context);
+                            }),
+                      ),
                     if (!model.isGenerating && model.hasGenerated)
                       Center(
                         child: Padding(

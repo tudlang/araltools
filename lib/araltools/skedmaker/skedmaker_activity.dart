@@ -106,24 +106,12 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
               OutlinedButton(
                 onPressed: () async {
                   // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                  //final list = await getSubject(context);
-                  //if (list == null) return;
+                  final list = await getSubject(context);
+                  if (list == null) return;
 
                   context.read<SkedmakerModel>()
-                    // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                    //..addSubject(list.first.subject, list)
-                    // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                    ..addSubject('CALENG2', parse(caleng2))
-                    ..addSubject('LBYMF1C', parse(lbymf1c))
-                    ..addSubject('LCLSONE', parse(lclsone))
-                    ..addSubject('LBYMF1D', parse(lbymf1d))
-                    ..addSubject('GEUSELF', parse(geuself))
-                    ..addSubject('LCFAITH', parse(lcfaith))
-                    ..addSubject('LCFILIA', parse(lcfilia))
-                    ..addSubject('MFMCPR1', parse(mfmcpr1))
-                    ..addSubject('LBBCH1A', parse(lbbch1a))
-                    ..addSubject('ENGCHEM', parse(engchem))
-                    ..addSubject('NSTPRO2', nstpro2);
+                     //UNCOMMENT TO ADD MLS FUNCTIONALITY
+                    .addSubject(list.first.subject, list);
                 },
                 child: Text(strings.skedmaker.subjects.add),
               ),
