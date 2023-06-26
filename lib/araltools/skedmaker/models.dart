@@ -67,7 +67,7 @@ class SkedmakerModel extends ChangeNotifier {
 
   bool _hasGenerated = false;
   bool get hasGenerated => _hasGenerated;
-  set hasGenerated(bool a){
+  set hasGenerated(bool a) {
     _hasGenerated = a;
     notifyListeners();
   }

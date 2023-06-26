@@ -35,6 +35,10 @@ extension MoveElement<T> on List<T> {
   }
 }
 
+extension StringExtensions on String {
+  int toInt() => int.parse(this);
+}
+
 T onPlatform<T>({
   required T all,
   T? web,

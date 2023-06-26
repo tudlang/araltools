@@ -21,7 +21,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:araltools/strings.g.dart';
+import '/strings.g.dart';
+import '/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -296,7 +297,8 @@ Vector2 vectorFromAngle(num length, num degree) => Vector2(
     );
 
 mixin LocationFunctions {
-  static ({String building, int room, int floor})? parseLocation(String roomCode) {
+  static ({String building, int room, int floor})? parseLocation(
+      String roomCode) {
     if (roomCode.isEmpty) return null;
     final room = int.parse(RegExp(r'[0-9]+').stringMatch(roomCode) ?? '0');
     return (
@@ -318,7 +320,7 @@ mixin LocationFunctions {
     final from = parseLocation(locationFrom);
     final to = parseLocation(locationTo);
 
-    if (from==null || to==null) return 0;
+    if (from == null || to == null) return 0;
 
     // the vectors to add
     final sequence = [
@@ -338,10 +340,6 @@ mixin LocationFunctions {
           ),
     );
   }
-}
-
-extension StringExtensions on String {
-  int toInt() => int.parse(this);
 }
 
 class ScheduleWeek {
@@ -443,7 +441,8 @@ class ScheduleWeek {
   ScheduleWeek.fromMap(Map map)
       : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map(
             (key, value) => MapEntry(key, value.map(Offering.fromMap).toSet())),
-        subjects = (map['subjects'] as Iterable<Map>).map(Offering.fromMap).toSet(),
+        subjects =
+            (map['subjects'] as Iterable<Map>).map(Offering.fromMap).toSet(),
         name = map['name'];
 
   double get weight => 0;
@@ -585,9 +584,9 @@ class ScheduleFilters {
             (e) => MapEntry(
                 e.key,
                 values[key.$1]?[e.key] ??
-                        ((e.valueDefault is ScheduleFilterSpecial)
-                    ? e.valueDefault.valueDefault
-                    : e.valueDefault)),
+                    (e.valueDefault is ScheduleFilterSpecial
+                        ? e.valueDefault.valueDefault
+                        : e.valueDefault)),
           )),
         ),
       );

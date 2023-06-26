@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 
+import '/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:directed_graph/directed_graph.dart';
 import 'package:flutter/widgets.dart';
@@ -180,8 +181,8 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
               if (distance > filters['location']!['maxAllowedDistanceMeters']) {
                 throw InvalidScheduleError();
               }
-            print(
-                "${elementBefore.room}→${element.room} (dist of ${element.scheduleTimeStart - elementBefore.scheduleTimeEnd}): ${distance}");
+              print(
+                  "${elementBefore.room}→${element.room} (dist of ${element.scheduleTimeStart - elementBefore.scheduleTimeEnd}): ${distance}");
             }
           });
         }

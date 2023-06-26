@@ -42,4 +42,4 @@
 | `connection.dart` | Contains the code to connect to the MLS website.
 | `functions.dart` | Contains all of the computational functions needed.
 | `models.dart` | Contains the model classes used to store values for the UI.
-| `skedmaker_activity.dart`<br/>`skedmaker_activity_windows.dart` | Contains the actual UI. This is where the functions are being called at.
+| `skedmaker_activity.dart`<br/>`windows/ui_*.dart` | Contains the actual UI. This is where the functions are being called at.

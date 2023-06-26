@@ -17,7 +17,6 @@
 
 import 'dart:io';
 
-import 'package:araltools/araltools/skedmaker/skedmaker_activity_windows.dart';
 import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +29,11 @@ import 'classes.dart';
 import 'connection.dart';
 import 'functions.dart';
 import '/strings.g.dart';
+import 'models.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
 // ignore: unused_import
-import 'models.dart';
 import 'test_tables.dart';
+import 'windows/ui.dart';
 
 class SkedmakerActivity extends StatefulWidget {
   const SkedmakerActivity({super.key});
@@ -78,313 +78,6 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
           ],
         ),
       ), */
-
-class SubjectsFragment extends StatefulWidget {
-  const SubjectsFragment({super.key});
-
-  @override
-  State<SubjectsFragment> createState() => _SubjectsFragmentState();
-}
-
-class _SubjectsFragmentState extends State<SubjectsFragment> {
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text(
-                strings.skedmaker.subjects.title(
-                    number: context.watch<SkedmakerModel>().subjects.length),
-                style: textTheme.headlineSmall,
-              ),
-              Spacer(),
-              OutlinedButton(
-                onPressed: () async {
-                  // UNCOMMENT TO ADD MLS FUNCTIONALITY
-                  final list = await getSubject(context);
-                  if (list == null) return;
-
-                  context.read<SkedmakerModel>()
-                     //UNCOMMENT TO ADD MLS FUNCTIONALITY
-                    .addSubject(list.first.subject, list);
-                },
-                child: Text(strings.skedmaker.subjects.add),
-              ),
-              // TODO add more options
-              //PopupMenuButton(
-              //  itemBuilder: (context) => [PopupMenuItem(child: Text('asd'))],
-              //)
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: context.watch<SkedmakerModel>().subjects.length,
-            itemBuilder: (context, index) {
-              bool isHovered = false;
-              final current = context
-                  .read<SkedmakerModel>()
-                  .subjects
-                  .entries
-                  .elementAt(index);
-              return StatefulBuilder(builder: (context, setState) {
-                return MouseRegion(
-                  onEnter: (event) {
-                    setState(() {
-                      isHovered = true;
-                    });
-                  },
-                  onExit: (event) {
-                    setState(() {
-                      isHovered = false;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(current.key),
-                    dense: true,
-                    subtitle:
-                        Text(current.value.length.toString() + ' offerings'),
-                    trailing: !isHovered ||
-                            context.read<SkedmakerModel>().isGenerating
-                        ? null
-                        : Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // TODO ADD EDIT BUTTON with dialog
-                              //IconButton(
-                              //    tooltip: 'Edit',
-                              //    onPressed: () {},
-                              //    icon: Icon(Icons.edit)),
-                              IconButton(
-                                  tooltip: strings.general.general.delete,
-                                  onPressed: () async {
-                                    final hasSchedules = context
-                                        .read<SkedmakerModel>()
-                                        .schedules
-                                        .isEmpty;
-
-                                    var shouldAlsoDeleteSchedules = false;
-                                    final shouldDelete = await showDialog<bool>(
-                                      context: context,
-                                      builder: (context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          return AlertDialog(
-                                            title:
-                                                Text('Delete ${current.key}?'),
-                                            content: hasSchedules
-                                                ? null
-                                                : CheckboxListTile(
-                                                    controlAffinity:
-                                                        ListTileControlAffinity
-                                                            .leading,
-                                                    value:
-                                                        shouldAlsoDeleteSchedules,
-                                                    title: Text(
-                                                        'Also delete generated schedules'),
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        shouldAlsoDeleteSchedules =
-                                                            !shouldAlsoDeleteSchedules;
-                                                      });
-                                                    },
-                                                  ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text(strings
-                                                    .general.general.cancel),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context, true);
-                                                },
-                                                child: Text(strings
-                                                    .general.general.delete),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                      },
-                                    );
-                                    if (shouldDelete == true) {
-                                      context
-                                          .read<SkedmakerModel>()
-                                          .removeSubject(current.key);
-                                      if (shouldAlsoDeleteSchedules) {
-                                        context.read<SkedmakerModel>()
-                                          ..schedules = {}
-                                          ..schedulesSelected = null;
-                                      }
-                                    }
-                                  },
-                                  icon: Icon(Icons.delete))
-                            ],
-                          ),
-                  ),
-                );
-              });
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SchedulesFragment extends StatefulWidget {
-  const SchedulesFragment({super.key});
-
-  @override
-  State<SchedulesFragment> createState() => _SchedulesFragmentState();
-}
-
-class _SchedulesFragmentState extends State<SchedulesFragment> {
-  late Set<ScheduleWeek> _schedules;
-
-  @override
-  void initState() {
-    super.initState();
-    _schedules = {};
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final model = context.watch<SkedmakerModel>();
-    var i = 0;
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text(
-                strings.skedmaker.schedules
-                    .title(number: model.schedules.length),
-                style: textTheme.headlineSmall,
-              ),
-              Spacer(),
-              if (model.subjects.isNotEmpty && !model.isGenerating)
-                OutlinedButton(
-                  onPressed: () {
-                    // Generates possible schedules
-
-                    final model = context.read<SkedmakerModel>()
-                      ..schedules = {}
-                      ..isGenerating = true;
-
-                    // count execution time
-                    final stopwatch = Stopwatch()..start();
-
-                    generageSchedules(
-                      subjects: model.subjects,
-                      filters: model.filters,
-                    ).listen((event) {
-                      context.read<SkedmakerModel>();
-                      model.addSchedule(event);
-                    }).onDone(() {
-                      stopwatch.stop();
-                      print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
-
-                      context.read<SkedmakerModel>().isGenerating = false;
-                    });
-                  },
-                  child: Text(strings.skedmaker.schedules.generate),
-                )
-            ],
-          ),
-        ),
-        if (model.isGenerating) LinearProgressIndicator(),
-        Expanded(
-          child: ListView.builder(
-            itemCount: model.schedules.length,
-            itemBuilder: (context, index) {
-              final current = model.schedules.elementAt(index);
-              return ListTile(
-                selected: model.schedulesSelected == current,
-                title: Text(
-                    "${current.name.isEmpty ? 'Schedule $index' : current.name} ${current.identifierString}"),
-                dense: true,
-                leading: Text((index + 1).toString()),
-                onTap: () {
-                  context.read<SkedmakerModel>().schedulesSelected = current;
-                },
-              );
-            },
-          ),
-        ),
-        /*
-          Expanded(
-            child: SingleChildScrollView(
-              // TODO add tabs on the TimetableFragment so that we can view multiple scheds
-              child: DataTable(
-                headingRowHeight: 30,
-                dataRowHeight: 36,
-                columns: [
-                  DataColumn(
-                      label: Text(strings.skedmaker.schedules.table.name)),
-                  DataColumn(
-                      label: Text(strings.skedmaker.schedules.table.days)),
-                  DataColumn(
-                      label: Text(strings.skedmaker.schedules.table.weight),
-                      numeric: true),
-                ],
-                rows: [
-                  for (final schedule
-                      in context.watch<SkedmakerModel>().schedules)
-                    DataRow(
-                      selected:
-                          context.watch<SkedmakerModel>().schedulesSelected ==
-                              schedule,
-                      cells: [
-                        DataCell(
-                          Text(schedule.name.isEmpty
-                              ? 'Schedule ${++i}'
-                              : schedule.name),
-                        ),
-                        DataCell(Text(schedule.identifierString)),
-                        DataCell(Text(schedule.weight.round().toString()))
-                      ],
-                      onSelectChanged: (isSelected) {
-                        context.read<SkedmakerModel>().schedulesSelected =
-                            schedule;
-                      },
-                    )
-                ],
-              ),
-            ),
-            */
-        /*
-          child: ListView.builder(
-            itemCount: context.watch<SkedmakerModel>().schedules.length,
-            itemBuilder: (context, index) {
-              final current =
-                  context.read<SkedmakerModel>().schedules.elementAt(index);
-              return ListTile(
-                selected: context.watch<SkedmakerModel>().schedulesSelected ==
-                    current,
-                title: Text("${current.name.isEmpty ? 'Schedule $index' : current.name} ${current.identifierString}"),
-                dense: true,
-                leading: Text((index + 1).toString()),
-                onTap: () {
-                  context.read<SkedmakerModel>().schedulesSelected = current;
-                },
-              );
-            },
-          ),*/
-      ],
-    );
-  }
-}
 
 class TimetableFragment extends StatelessWidget {
   const TimetableFragment({super.key, this.week});
@@ -441,16 +134,15 @@ class SubjectText extends StatelessWidget {
   final Offering offering;
 
   Widget get icon => Container(
-          decoration: ShapeDecoration(
-            shape: CircleBorder(),
-            color: offering.color,
-          ),
-          width: 10,
-          height: 10,
-        );
-  
-  Widget get text => 
-        Text(offering.subject);
+        decoration: ShapeDecoration(
+          shape: CircleBorder(),
+          color: offering.color,
+        ),
+        width: 10,
+        height: 10,
+      );
+
+  Widget get text => Text(offering.subject);
 
   @override
   Widget build(BuildContext context) {
@@ -458,7 +150,7 @@ class SubjectText extends StatelessWidget {
       children: [
         icon,
         SizedBox(width: 8),
-        text
+        text,
       ],
     );
   }
