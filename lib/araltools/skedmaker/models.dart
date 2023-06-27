@@ -15,11 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:async';
+
 import 'package:araltools/utils.dart';
 
 import 'classes.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+
+import 'functions.dart';
 
 /// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
 class SkedmakerModel extends ChangeNotifier {
@@ -124,6 +128,47 @@ class SkedmakerModel extends ChangeNotifier {
   resetFilterCategory(String category) {
     _filters.values[category]!.clear();
     notifyListeners();
+  }
+
+  late StreamSubscription _stream;
+  bool schedulesIsPaused = false;
+  scheduleGenerate() {
+    _schedules.clear();
+    isGenerating = true;
+
+    // count execution time
+    final stopwatch = Stopwatch()..start();
+
+    _stream = generageSchedules(
+      subjects: subjects,
+      filters: _filters,
+    ).listen((event) {
+      addSchedule(event);
+    })
+      ..onDone(() {
+        stopwatch.stop();
+        print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
+
+        isGenerating = false;
+      });
+  }
+
+  schedulePause() {
+    schedulesIsPaused = true;
+    notifyListeners();
+    _stream.pause();
+  }
+
+  scheduleResume() {
+    schedulesIsPaused = false;
+    notifyListeners();
+    _stream.resume();
+  }
+
+  scheduleCancel() {
+    schedulesIsPaused = false;
+    isGenerating = false;
+    _stream.cancel();
   }
 
   SkedmakerModel()

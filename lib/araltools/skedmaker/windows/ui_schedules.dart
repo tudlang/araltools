@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -87,7 +87,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                               child: Text('Generate'),
                             ),
                             onPressed: () {
-                              generate(context);
+                              context.read<SkedmakerModel>().scheduleGenerate();
                             }),
                       ),
                     if (!model.isGenerating && model.hasGenerated)
@@ -131,17 +131,52 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 width: 200,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Button(
-                        child: Text('Generate'),
-                        onPressed: () {
-                          generate(context);
-                        },
+                    if (model.isGenerating)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (model.schedulesIsPaused)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Button(
+                              child: Text('Resume'),
+                              onPressed: () {
+                                context.read<SkedmakerModel>().scheduleResume();
+                              },
+                            ),
+                          ) else 
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Button(
+                              child: Text('Pause'),
+                              onPressed: () {
+                                context.read<SkedmakerModel>().schedulePause();
+                              },
+                            ),
+                          ),
+                          Button(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              context.read<SkedmakerModel>().scheduleCancel();
+                            },
+                          ),
+                        ],
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Button(
+                          child: Text('Generate'),
+                          onPressed: () {
+                            context.read<SkedmakerModel>().scheduleGenerate();
+                          },
+                        ),
                       ),
-                    ),
                     Text("${model.schedules.length} schedules found"),
-                    if (model.isGenerating) ProgressBar(),
+                    if (model.isGenerating) Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ProgressBar(),
+                    ),
                     Divider(),
                     Expanded(
                         child: ListView.builder(
@@ -334,25 +369,4 @@ class _SchedulesFragmentTimetableState
       ],
     );
   }
-}
-
-generate(BuildContext context) {
-  final model = context.read<SkedmakerModel>()
-    ..schedules.clear()
-    ..isGenerating = true;
-
-// count execution time
-  final stopwatch = Stopwatch()..start();
-
-  generageSchedules(
-    subjects: model.subjects,
-    filters: model.filters,
-  ).listen((event) {
-    model.addSchedule(event);
-  }).onDone(() {
-    stopwatch.stop();
-    print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
-
-    context.read<SkedmakerModel>().isGenerating = false;
-  });
 }

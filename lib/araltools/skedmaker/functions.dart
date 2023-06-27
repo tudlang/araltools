@@ -106,6 +106,23 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
       (subjectsEncoded['filters'] as Map<String, Map<String, dynamic>>);
   subjectsEncoded.remove('filters');
 
+  //bool isPaused = subjectsEncoded['isPaused'];
+
+  /*void wait(){
+    if (isPaused) {Future.delayed(const Duration(seconds: 5)).then((_)=>
+      wait()
+    );}
+  }*/
+
+  //final p = ReceivePort();
+
+  // send the isolate's sendport for communication
+  //sendPort.send(p.sendPort);
+
+  //p.listen((message) {
+  //  if (message['isPaused']) {isPaused=true;wait();} else {isPaused=false;}
+  //});
+
   // Recursive function
   // The [List<Map>] is an encoded [List<Offering>]
   // types:
@@ -269,26 +286,51 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
 Stream<ScheduleWeek> generageSchedules({
   required Map<String, List<Offering>> subjects,
   required ScheduleFilters filters,
-}) async* {
+}) {
   final subjectsEncoded = subjects.map<String, dynamic>(
       (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList()));
 
+  late StreamController<ScheduleWeek> controller;
+
   final p = ReceivePort();
-  await Isolate.spawn(
+
+  late Isolate isolate;
+
+  Isolate.spawn(
     generageSchedulesIsolate,
     subjectsEncoded
       ..['sendport'] = p.sendPort
-      ..['filters'] = filters.toMap(),
+      ..['filters'] = filters.toMap()
+  ).then((value) {
+    isolate = value;
+  });
+
+  late Capability pausedCapablity;
+
+  controller = StreamController<ScheduleWeek>(
+    onListen: () async {
+      // recieve decoded Map
+      int outputtedWeeks = 0;
+      await for (final map in p) {
+        if (map == null) break; //stop the stream if done
+        final week = ScheduleWeek.fromMap(map);
+        week.name = "Schedule ${++outputtedWeeks}";
+        controller.add(week);
+      }
+      controller.close();
+    },
+    onPause: () {
+      pausedCapablity = isolate.pause();
+    },
+    onResume: () {
+      isolate.resume(pausedCapablity);
+    },
+    onCancel: () {
+      isolate.kill();
+    },
   );
 
-  // recieve decoded Map
-  int outputtedWeeks = 0;
-  await for (final map in p) {
-    if (map == null) return; //stop the stream if done
-    final week = ScheduleWeek.fromMap(map);
-    week.name = "Schedule ${++outputtedWeeks}";
-    yield week;
-  }
+  return controller.stream;
 }
 
 class InvalidScheduleError extends Error {}
