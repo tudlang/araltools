@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -29,14 +29,14 @@ import '../classes.dart';
 import '../models.dart';
 import '../skedmaker_activity.dart';
 
-class FiltersFrgment extends StatefulWidget {
-  const FiltersFrgment({super.key});
+class FiltersFragment extends StatefulWidget {
+  const FiltersFragment({super.key});
 
   @override
-  State<FiltersFrgment> createState() => _FiltersFrgmentState();
+  State<FiltersFragment> createState() => _FiltersFragmentState();
 }
 
-class _FiltersFrgmentState extends State<FiltersFrgment> {
+class _FiltersFragmentState extends State<FiltersFragment> {
   late int paneIndex;
 
   @override
@@ -193,9 +193,11 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
           if (filter.valueDefault == null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
-              child: Text(strings[
-                      'skedmaker.filters.categories.${widget.category}.${filter.key}'] ??
-                  filter.key, style: textTheme.bodyLarge,),
+              child: Text(
+                strings['skedmaker.filters.categories.${widget.category}.${filter.key}'] ??
+                    filter.key,
+                style: textTheme.bodyLarge,
+              ),
             )
           else if (filter.valueDefault is Map<String, int> &&
               filter.valueLeast is int &&

@@ -140,7 +140,7 @@ class SkedmakerModel extends ChangeNotifier {
 
     generateStopwatch.start();
 
-    _stream = generageSchedules(
+    _stream = generateSchedules(
       subjects: subjects,
       filters: _filters,
     ).listen((event) {

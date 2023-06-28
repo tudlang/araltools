@@ -19,15 +19,11 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 
-import '/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:directed_graph/directed_graph.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
-import 'package:stream_isolate/stream_isolate.dart';
 
-import 'package:async/async.dart';
-
+import '/utils.dart';
 import 'classes.dart';
 
 List<Offering> parse(String htmlTable) {
@@ -281,7 +277,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
   sendPort.send(null);
 }
 
-Stream<ScheduleWeek> generageSchedules({
+Stream<ScheduleWeek> generateSchedules({
   required Map<String, List<Offering>> subjects,
   required ScheduleFilters filters,
 }) {
@@ -295,15 +291,15 @@ Stream<ScheduleWeek> generageSchedules({
   late Isolate isolate;
 
   Isolate.spawn(
-    generageSchedulesIsolate,
-    subjectsEncoded
-      ..['sendport'] = p.sendPort
-      ..['filters'] = filters.toMap()
-  ).then((value) {
+          generageSchedulesIsolate,
+          subjectsEncoded
+            ..['sendport'] = p.sendPort
+            ..['filters'] = filters.toMap())
+      .then((value) {
     isolate = value;
   });
 
-  Capability capablity = Capability();
+  Capability capability = Capability();
 
   controller = StreamController<ScheduleWeek>(
     onListen: () async {
@@ -318,10 +314,10 @@ Stream<ScheduleWeek> generageSchedules({
       controller.close();
     },
     onPause: () {
-      isolate.pause(capablity);
+      isolate.pause(capability);
     },
     onResume: () {
-      isolate.resume(capablity);
+      isolate.resume(capability);
     },
     onCancel: () {
       isolate.kill(priority: Isolate.immediate);

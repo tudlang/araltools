@@ -23,9 +23,9 @@ AralTools is a suite of tools designed to help students.
 ## List of AralTools
 | Name | Description
 | -- | --
-| [SkedMaker](./lib/araltools/skedmaker/) | An automatic class schedule maker for DLSU students.
+| [SkedMaker](./lib/araltools/skedmaker) | An automatic class schedule maker for DLSU students.
 
 ## Contributing
-Feel free to contribute! Make sure that [Flutter](flutter.dev) and [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) is installed on your machine (WebView 2 is already pre-installed on Windows 11). **For now, only Windows is supported.**
+Feel free to contribute! Make sure that [Flutter](https://flutter.dev) and [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) is installed on your machine (WebView 2 is already pre-installed on Windows 11). **For now, only Windows is supported.**
 
-After cloning, please delete [lines 249-261 on `lib/araltools/skedmaker/skedmaker_activity_windows.dart`](./lib/araltools/skedmaker/skedmaker_activity_windows.dart#L249) as these are only debug subjects, and these have been gitignore'd.
+After cloning, please delete [lines 106-117 on `lib/araltools/skedmaker/windows/ui_subjects.dart`](./lib/araltools/skedmaker/windows/ui_subjects.dart#L106) as these are only debug subjects, and these have been gitignore'd.

@@ -117,7 +117,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
-                    child: FiltersFrgment(),
+                    child: FiltersFragment(),
                   ),
                 ),
                 /*PaneItem(
