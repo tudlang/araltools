@@ -73,12 +73,23 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       'Generate possible schedules',
                       style: textTheme.headlineSmall,
                     ),
-                    if (model.isGenerating)
+                    if (model.isGenerating) ...[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ProgressBar(),
-                      )
-                    else
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FilledButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Cancel'),
+                            ),
+                            onPressed: () {
+                              context.read<SkedmakerModel>().scheduleCancel();
+                            }),
+                      ),
+                    ] else
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FilledButton(
@@ -136,24 +147,29 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (model.schedulesIsPaused)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Button(
-                              child: Text('Resume'),
-                              onPressed: () {
-                                context.read<SkedmakerModel>().scheduleResume();
-                              },
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Button(
+                                child: Text('Resume'),
+                                onPressed: () {
+                                  context
+                                      .read<SkedmakerModel>()
+                                      .scheduleResume();
+                                },
+                              ),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Button(
+                                child: Text('Pause'),
+                                onPressed: () {
+                                  context
+                                      .read<SkedmakerModel>()
+                                      .schedulePause();
+                                },
+                              ),
                             ),
-                          ) else 
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Button(
-                              child: Text('Pause'),
-                              onPressed: () {
-                                context.read<SkedmakerModel>().schedulePause();
-                              },
-                            ),
-                          ),
                           Button(
                             child: Text('Cancel'),
                             onPressed: () {
@@ -173,10 +189,11 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                         ),
                       ),
                     Text("${model.schedules.length} schedules found"),
-                    if (model.isGenerating) Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ProgressBar(),
-                    ),
+                    if (model.isGenerating)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ProgressBar(),
+                      ),
                     Divider(),
                     Expanded(
                         child: ListView.builder(

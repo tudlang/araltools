@@ -132,12 +132,13 @@ class SkedmakerModel extends ChangeNotifier {
 
   late StreamSubscription _stream;
   bool schedulesIsPaused = false;
+  // count execution time
+  final generateStopwatch = Stopwatch();
   scheduleGenerate() {
     _schedules.clear();
     isGenerating = true;
 
-    // count execution time
-    final stopwatch = Stopwatch()..start();
+    generateStopwatch.start();
 
     _stream = generageSchedules(
       subjects: subjects,
@@ -146,8 +147,9 @@ class SkedmakerModel extends ChangeNotifier {
       addSchedule(event);
     })
       ..onDone(() {
-        stopwatch.stop();
-        print("ELAPSED TIME: ${stopwatch.elapsedMilliseconds}");
+        generateStopwatch.stop();
+        generateStopwatch.reset();
+        print("ELAPSED TIME: ${generateStopwatch.elapsedMilliseconds}");
 
         isGenerating = false;
       });
@@ -157,18 +159,22 @@ class SkedmakerModel extends ChangeNotifier {
     schedulesIsPaused = true;
     notifyListeners();
     _stream.pause();
+    generateStopwatch.stop();
   }
 
   scheduleResume() {
     schedulesIsPaused = false;
     notifyListeners();
     _stream.resume();
+    generateStopwatch.start();
   }
 
   scheduleCancel() {
     schedulesIsPaused = false;
     isGenerating = false;
     _stream.cancel();
+    generateStopwatch.stop();
+    generateStopwatch.reset();
   }
 
   SkedmakerModel()

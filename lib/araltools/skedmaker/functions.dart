@@ -198,8 +198,6 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
               if (distance > filters['location']!['maxAllowedDistanceMeters']) {
                 throw InvalidScheduleError();
               }
-              print(
-                  "${elementBefore.room}→${element.room} (dist of ${element.scheduleTimeStart - elementBefore.scheduleTimeEnd}): ${distance}");
             }
           });
         }
@@ -305,7 +303,7 @@ Stream<ScheduleWeek> generageSchedules({
     isolate = value;
   });
 
-  late Capability pausedCapablity;
+  Capability capablity = Capability();
 
   controller = StreamController<ScheduleWeek>(
     onListen: () async {
@@ -320,13 +318,13 @@ Stream<ScheduleWeek> generageSchedules({
       controller.close();
     },
     onPause: () {
-      pausedCapablity = isolate.pause();
+      isolate.pause(capablity);
     },
     onResume: () {
-      isolate.resume(pausedCapablity);
+      isolate.resume(capablity);
     },
     onCancel: () {
-      isolate.kill();
+      isolate.kill(priority: Isolate.immediate);
     },
   );
 
