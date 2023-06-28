@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
                             ?.copyWith(
                                 fontFamily: 'Raleway', color: Colors.white),
                       ),
-                      accountEmail: Container(),
+                      accountEmail: Text(''),
                     ),
                     ListTile(
                       selected: state.matchedLocation == "/",

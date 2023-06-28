@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Tab, TabView, TabWidthBehavior;
 import 'package:flutter/material.dart'
     hide
         Divider,
@@ -25,12 +25,16 @@ import 'package:flutter/material.dart'
         FilledButton,
         DividerThemeData,
         Scrollbar,
-        Tooltip;
+        Tooltip,
+        Colors,
+        showDialog,
+        Card;
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:provider/provider.dart';
 
+import '/opensource/tab_view.dart';
 import '../classes.dart';
 import '../functions.dart';
 import '../models.dart';
@@ -71,7 +75,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   children: [
                     Text(
                       'Generate possible schedules',
-                      style: textTheme.headlineSmall,
+                      style: textTheme.headlineMedium,
                     ),
                     if (model.isGenerating) ...[
                       Padding(
@@ -273,6 +277,32 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 onChanged: (index) {
                   model.tabsIndex = index;
                 },
+                header: Tooltip(
+                  message: 'Info',
+                  child: IconButton(
+                    icon: Icon(Icons.info_outline),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ContentDialog(
+                              title: Text('Info'),
+                              content: Text(
+                                  'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab'),
+                              actions: [
+                                SizedBox.shrink(),
+                                Button(
+                                    child: Text('Close'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }),
+                              ],
+                            );
+                          },
+                          barrierDismissible: true);
+                    },
+                  ),
+                ),
               )),
             ]),
           );
@@ -296,17 +326,22 @@ class _SchedulesFragmentTimetableState
 
     return Column(
       children: [
-        const Divider(
-            style: DividerThemeData(
-          thickness: 2,
-          horizontalMargin: EdgeInsets.only(),
-        )),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            widget.week.name,
-            style: textTheme.headlineSmall,
-          ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(
+                style: DividerThemeData(
+              thickness: 2,
+              horizontalMargin: EdgeInsets.only(),
+            )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.week.name,
+                style: textTheme.headlineMedium,
+              ),
+            ),
+          ],
         ),
         const Divider(
             style: DividerThemeData(
@@ -322,7 +357,7 @@ class _SchedulesFragmentTimetableState
             ),
             child: MultiSplitView(
               axis: Axis.horizontal,
-              initialAreas: [Area(weight: 0.6)],
+              initialAreas: [Area(weight: 0.8)],
               children: [
                 Column(
                   children: [
@@ -335,48 +370,51 @@ class _SchedulesFragmentTimetableState
                 ),
                 ListView(
                   children: [
-                    Scrollbar(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          dataRowMinHeight: 36,
-                          dataRowMaxHeight: 36,
-                          showCheckboxColumn: false,
-                          showBottomBorder: true,
-                          columnSpacing: 10,
-                          columns: [
-                            DataColumn(label: Text('Subject')),
-                            DataColumn(label: Text('Class #')),
-                            DataColumn(label: Text('Section')),
-                            DataColumn(label: Text('Room')),
-                            DataColumn(label: Text('Day')),
-                            DataColumn(label: Text('Teacher')),
-                            DataColumn(label: Text('Slots')),
-                          ],
-                          rows: widget.week.subjects
-                              .map((e) => DataRow(
-                                    cells: [
-                                      DataCell(SubjectText(offering: e)),
-                                      DataCell(Text(e.classNumber.toString())),
-                                      DataCell(Text(e.section)),
-                                      DataCell(Text(e.room)),
-                                      DataCell(Tooltip(
-                                        message: e.scheduleDay.nameLocalized,
-                                        child: Text(e.scheduleDay.nameShort),
-                                      )),
-                                      DataCell(Text(e.teacher)),
-                                      DataCell(Tooltip(
-                                        message:
-                                            "${(e.slotPercentage * 100).round()}%",
-                                        child: Text(e.slots),
-                                      )),
-                                    ],
-                                    onSelectChanged: (value) {},
-                                  ))
-                              .toList(),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Details',
+                        style: textTheme.headlineSmall,
                       ),
                     ),
+                    for (final subject in widget.week.subjects)
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
+                        child: Card(
+                          child: RichText(
+                              text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text:
+                                      "${subject.subject} - ${subject.section}",
+                                  style: textTheme.labelLarge),
+                              TextSpan(
+                                  text: "\n#${subject.classNumber}\n",
+                                  style: textTheme.labelMedium),
+                              WidgetSpan(
+                                  child: Icon(MdiIcons.mapMarkerOutline, size: 13)),
+                              TextSpan(
+                                  text:
+                                      " ${subject.room.isEmpty ? '-' : subject.room}",
+                                  style: textTheme.labelMedium),
+                              TextSpan(
+                                  text: "\n${subject.scheduleDay.nameShort}",
+                                  style: textTheme.labelMedium),
+                              TextSpan(
+                                  text: "\n${subject.slots} slots\n",
+                                  style: textTheme.labelMedium),
+                              WidgetSpan(
+                                  child:
+                                      Icon(MdiIcons.humanMaleBoard, size: 13)),
+                              TextSpan(
+                                  text:
+                                      " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
+                                  style: textTheme.labelMedium),
+                            ],
+                          )),
+                          backgroundColor: subject.color.withOpacity(0.2),
+                        ),
+                      ),
                   ],
                 ),
               ],

@@ -68,7 +68,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                   children: [
                     Text(
                       'Add subject',
-                      style: textTheme.headlineSmall,
+                      style: textTheme.headlineMedium,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -224,7 +224,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               Text(
                 "${widget.subject} - ${widget.offerings.length + 1} offerings",
                 textAlign: TextAlign.start,
-                style: textTheme.headlineSmall,
+                style: textTheme.headlineMedium,
               ),
             ],
           ),

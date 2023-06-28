@@ -186,7 +186,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             strings["skedmaker.filters.categories.${widget.category}.name"] ??
                 widget.category,
             textAlign: TextAlign.start,
-            style: textTheme.headlineSmall,
+            style: textTheme.headlineMedium,
           ),
         ),
         for (final filter in filters)
@@ -195,7 +195,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Text(strings[
                       'skedmaker.filters.categories.${widget.category}.${filter.key}'] ??
-                  filter.key),
+                  filter.key, style: textTheme.bodyLarge,),
             )
           else if (filter.valueDefault is Map<String, int> &&
               filter.valueLeast is int &&

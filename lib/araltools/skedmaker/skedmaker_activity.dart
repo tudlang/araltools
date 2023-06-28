@@ -89,18 +89,27 @@ class TimetableFragment extends StatelessWidget {
 
     if (data == null) return Container();
 
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return TimetableView(
       timetableStyle: TimetableStyle(
         laneWidth: 110,
         timeItemHeight: 50,
         startHour: 7,
         endHour: 21,
+        mainBackgroundColor: Color(0xfff3f3f3),
+        laneColor: Color(0xfff3f3f3),
+        cornerColor: Color(0xfff3f3f3),
+        timelineColor: Color(0xfff3f3f3),
+        timelineItemColor: Color(0xfff3f3f3),
       ),
       laneEventsList: [
         for (final day in ScheduleWeek.daycodes)
           LaneEvents(
-            lane: Lane(name: day, laneIndex: 1),
+            lane: Lane(
+              name: day,
+              laneIndex: 1,
+              backgroundColor: Color(0xfff3f3f3),
+            ),
             events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
                 .map((e) => TableEvent(
                       location: "${e.room}\n",
