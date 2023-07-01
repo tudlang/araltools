@@ -17,23 +17,20 @@
 
 import 'dart:io';
 
-import 'package:araltools/utils.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_split_view/multi_split_view.dart';
 import 'package:provider/provider.dart';
 import 'package:timetable_view/timetable_view.dart';
 
 import 'classes.dart';
 // ignore: unused_import
 import 'connection.dart';
-import 'functions.dart';
-import '/strings.g.dart';
 import 'models.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
 // ignore: unused_import
 import 'test_tables.dart';
 import 'windows/ui.dart';
+
+GlobalKey provider = GlobalKey();
 
 class SkedmakerActivity extends StatefulWidget {
   const SkedmakerActivity({super.key});
@@ -48,7 +45,9 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
     return ChangeNotifierProvider<SkedmakerModel>(
         create: (context) => SkedmakerModel(),
         child: switch (Platform.operatingSystem) {
-          'windows' => SkedmakerActivityWindows(),
+          'windows' => SkedmakerActivityWindows(
+              key: provider,
+            ),
           _ => throw UnsupportedError("OS unsupported")
         });
   }
@@ -81,6 +80,7 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
 
 class TimetableFragment extends StatelessWidget {
   const TimetableFragment({super.key, this.week});
+
   final ScheduleWeek? week;
 
   @override
@@ -140,6 +140,7 @@ class SubjectText extends StatelessWidget {
     super.key,
     required this.offering,
   });
+
   final Offering offering;
 
   Widget get icon => Container(

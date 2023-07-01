@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'package:araltools/main.dart';
 import 'package:araltools/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'araltools/araltools.dart';
 
 class HomeActivity extends StatelessWidget {
   const HomeActivity({super.key});
@@ -98,9 +99,7 @@ class HomeCard extends StatelessWidget {
                       child: Text(
                     name,
                     style: textTheme.headlineSmall?.copyWith(
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.bold
-                    ),
+                        fontFamily: 'Raleway', fontWeight: FontWeight.bold),
                   )),
                 ],
               ),

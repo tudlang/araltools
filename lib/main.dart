@@ -21,16 +21,15 @@ import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
 import 'package:fluent_ui/fluent_ui.dart'
     show FluentLocalizations, FluentTheme, FluentThemeData;
-import 'package:flutter/foundation.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'araltools/skedmaker/skedmaker_activity.dart';
-import 'home_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'araltools/araltools.dart';
+import 'home_activity.dart';
 
 void main() {
   // do platform-specific things
@@ -146,15 +145,16 @@ class MyApp extends StatelessWidget {
                     ListTile(
                       leading: Icon(Icons.info_outline),
                       title: Text('About'),
-                      onTap: () async{
-                        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                      onTap: () async {
+                        PackageInfo packageInfo =
+                            await PackageInfo.fromPlatform();
                         Navigator.pop(context);
                         showAboutDialog(
-                          context: context,
-                          applicationName: packageInfo.appName,
-                          applicationVersion: "Version ${packageInfo.version} build ${packageInfo.buildNumber}",
-                          applicationLegalese: "Copyright (C) 2023 Tudlang"
-                        );
+                            context: context,
+                            applicationName: packageInfo.appName,
+                            applicationVersion:
+                                "Version ${packageInfo.version} build ${packageInfo.buildNumber}",
+                            applicationLegalese: "Copyright (C) 2023 Tudlang");
                       },
                     ),
                     ListTile(
@@ -186,8 +186,8 @@ class MyApp extends StatelessWidget {
                       subtitle: Text('Report issues & bugs here!'),
                       onTap: () {
                         Navigator.pop(context);
-                        launchUrl(
-                            Uri.parse("https://github.com/tudlang/araltools/issues"));
+                        launchUrl(Uri.parse(
+                            "https://github.com/tudlang/araltools/issues"));
                       },
                     ),
                     Divider(),
@@ -237,38 +237,4 @@ class MyApp extends StatelessWidget {
           ]),
     ],
   );
-}
-
-/// An enum containing all of the different AralTools
-enum AralTools {
-  skedmaker(
-    route: '/skedmaker',
-    widget: SkedmakerActivity(),
-    icon: MdiIcons.calendarStar,
-    platforms: ["windows"],
-    extras: {'noAppbar': true},
-  ),
-  ;
-
-  final String route;
-  final bool enabled;
-  final Widget widget;
-  final IconData icon;
-  final List<String> platforms;
-  final Map<String, dynamic> extras;
-
-  const AralTools({
-    required this.route,
-    this.enabled = true,
-    required this.widget,
-    required this.icon,
-    required this.platforms,
-    this.extras = const {},
-  });
-
-  /// Gets the translated name
-  String get localizedName => strings["$name.info.name"];
-
-  /// Gets the translated description
-  String get localizedDesc => strings["$name.info.description"];
 }

@@ -19,7 +19,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' hide IconButton, Colors;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '/main.dart';
+import '../../araltools.dart';
 import 'ui_filters.dart';
 import 'ui_schedules.dart';
 import 'ui_subjects.dart';

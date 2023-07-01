@@ -123,7 +123,8 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
   // The [List<Map>] is an encoded [List<Offering>]
   // types:
   // Map<String, List<Map>> subjectsCurrent, List<Map> offeringsCurrent
-  void generateCombination(Map subjectsCurrent, List<Map> offeringsCurrent) {
+  Future<void> generateCombination(
+      Map subjectsCurrent, List<Map> offeringsCurrent) async {
     if (subjectsCurrent.isEmpty) {
       // Base case: All entries processed, add combination to list
 
@@ -271,10 +272,10 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
     }
   }
 
-  generateCombination(subjectsEncoded, []);
-
-  //processing is done
-  sendPort.send(null);
+  generateCombination(subjectsEncoded, []).then((value) {
+    //processing is done
+    sendPort.send(null);
+  });
 }
 
 Stream<ScheduleWeek> generateSchedules({

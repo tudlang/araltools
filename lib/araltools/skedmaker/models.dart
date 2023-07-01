@@ -18,11 +18,9 @@
 import 'dart:async';
 
 import 'package:araltools/utils.dart';
+import 'package:flutter/material.dart';
 
 import 'classes.dart';
-import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
-
 import 'functions.dart';
 
 /// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
