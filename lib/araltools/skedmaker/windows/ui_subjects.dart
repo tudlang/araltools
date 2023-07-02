@@ -108,14 +108,15 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                   ..addSubject('CALENG2', parse(caleng2))
                                   ..addSubject('LBYMF1C', parse(lbymf1c))
                                   ..addSubject('LCLSONE', parse(lclsone))
-                                  ..addSubject('LBYMF1D', parse(lbymf1d))
-                                  ..addSubject('GEUSELF', parse(geuself))
-                                  ..addSubject('LCFAITH', parse(lcfaith))
-                                  ..addSubject('LCFILIA', parse(lcfilia))
-                                  ..addSubject('MFMCPR1', parse(mfmcpr1))
-                                  ..addSubject('LBBCH1A', parse(lbbch1a))
-                                  ..addSubject('ENGCHEM', parse(engchem))
-                                  ..addSubject('NSTPRO2', nstpro2);
+                                  //..addSubject('LBYMF1D', parse(lbymf1d))
+                                  //..addSubject('GEUSELF', parse(geuself))
+                                  //..addSubject('LCFAITH', parse(lcfaith))
+                                  //..addSubject('LCFILIA', parse(lcfilia))
+                                  //..addSubject('MFMCPR1', parse(mfmcpr1))
+                                  //..addSubject('LBBCH1A', parse(lbbch1a))
+                                  //..addSubject('ENGCHEM', parse(engchem))
+                                  //..addSubject('NSTPRO2', nstpro2)
+                                  ;
                               },
                             ),
                         ],

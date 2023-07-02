@@ -92,15 +92,14 @@ List<Offering> parse(String htmlTable) {
   return out;
 }
 
-// actual type:
-// Stream<Map> generageSchedulesIsolate(Map<String, List<Map>> subjectsEncoded)
-void generageSchedulesIsolate(dynamic subjectsEncoded) {
-  final sendPort = (subjectsEncoded['sendport'] as SendPort);
-  subjectsEncoded.remove('sendport');
-
-  final filters =
-      (subjectsEncoded['filters'] as Map<String, Map<String, dynamic>>);
-  subjectsEncoded.remove('filters');
+void generageSchedulesIsolate(
+    ({
+      Map<String, List<Offering>> subjects,
+      SendPort sendport,
+      Map<String, Map<String, dynamic>> filters
+    }) arg) {
+  final sendPort = arg.sendport;
+  final filters = arg.filters;
 
   //bool isPaused = subjectsEncoded['isPaused'];
 
@@ -120,11 +119,10 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
   //});
 
   // Recursive function
-  // The [List<Map>] is an encoded [List<Offering>]
   // types:
-  // Map<String, List<Map>> subjectsCurrent, List<Map> offeringsCurrent
-  Future<void> generateCombination(
-      Map subjectsCurrent, List<Map> offeringsCurrent) async {
+  // Map<String, List<Offering>> subjectsCurrent, List<Offering> offeringsCurrent
+  Future<void> generateCombination(Map<String, List<Offering>> subjectsCurrent,
+      List<Offering> offeringsCurrent) async {
     if (subjectsCurrent.isEmpty) {
       // Base case: All entries processed, add combination to list
 
@@ -133,8 +131,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
 
         // attempt to add the list of offerings to a weekly schedule
         for (final offering in offeringsCurrent) {
-          final offeringDecoded = Offering.fromMap(offering);
-          week.add(offeringDecoded);
+          week.add(offering);
         }
 
         // filter checker for each day
@@ -200,7 +197,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
         }
 
         // Send the completed schedule to main thread
-        sendPort.send(week.toMap());
+        sendPort.send(week);
         print(week.identifierString);
       } on InvalidScheduleError {
         return;
@@ -211,26 +208,24 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
     String subject = subjectsCurrent.keys.first;
 
     // Iterate over each Offering in the current entry
-    for (Map currentOffering in subjectsCurrent[subject]!) {
+    for (Offering currentOffering in subjectsCurrent[subject]!) {
       // ===== Check for filters here
 
       if ((filters['offerings']!['includeClosed'] == false &&
-              currentOffering['isClosed'] == true) ||
+              currentOffering.isClosed == true) ||
           (filters['offerings']!['includeFullSlots'] == false &&
-              currentOffering['slotTaken'] >=
-                  currentOffering['slotCapacity']) ||
+              currentOffering.slotTaken >= currentOffering.slotCapacity) ||
           (filters['offerings']!['includeUnknownModality'] == false &&
-              currentOffering['scheduleDay'].contains('nknown')) ||
+              currentOffering.scheduleDay.name.contains('nknown')) ||
           (filters['offerings']!['includeNoProfessors'] == false &&
-              currentOffering['teacher'].isEmpty)) {
+              currentOffering.teacher.isEmpty)) {
         continue;
       }
 
       // day-specific checker
       // this uses a try-catch block to immediately skip to `continue` if something is filtered
       try {
-        final scheduleDay =
-            ScheduleDay.values.byName(currentOffering['scheduleDay']);
+        final scheduleDay = currentOffering.scheduleDay;
 
         for (final day in const [
           ('monday', 'M'),
@@ -260,11 +255,11 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
       // ===== All filters passed
 
       // Create a copy of the current combination
-      final updatedCombination = List<Map>.from(offeringsCurrent);
+      final updatedCombination = List<Offering>.from(offeringsCurrent);
       updatedCombination.add(currentOffering);
 
       // Create a copy of the current map without the processed entry
-      final updatedMap = Map<String, List<Map>>.from(subjectsCurrent);
+      final updatedMap = Map<String, List<Offering>>.from(subjectsCurrent);
       updatedMap.remove(subject);
 
       // Recursively generate combinations for the updated map and combination
@@ -272,7 +267,7 @@ void generageSchedulesIsolate(dynamic subjectsEncoded) {
     }
   }
 
-  generateCombination(subjectsEncoded, []).then((value) {
+  generateCombination(arg.subjects, []).then((value) {
     //processing is done
     sendPort.send(null);
   });
@@ -282,8 +277,6 @@ Stream<ScheduleWeek> generateSchedules({
   required Map<String, List<Offering>> subjects,
   required ScheduleFilters filters,
 }) {
-  final subjectsEncoded = subjects.map<String, dynamic>(
-      (key, value) => MapEntry(key, value.map((e) => e.toMap()).toList()));
 
   late StreamController<ScheduleWeek> controller;
 
@@ -291,12 +284,16 @@ Stream<ScheduleWeek> generateSchedules({
 
   late Isolate isolate;
 
-  Isolate.spawn(
-          generageSchedulesIsolate,
-          subjectsEncoded
-            ..['sendport'] = p.sendPort
-            ..['filters'] = filters.toMap())
-      .then((value) {
+  Isolate.spawn<
+      ({
+        Map<String, List<Offering>> subjects,
+        SendPort sendport,
+        Map<String, Map<String, dynamic>> filters
+      })>(generageSchedulesIsolate, (
+    subjects: subjects,
+    sendport: p.sendPort,
+    filters: filters.toMap()
+  )).then((value) {
     isolate = value;
   });
 
@@ -306,9 +303,8 @@ Stream<ScheduleWeek> generateSchedules({
     onListen: () async {
       // recieve decoded Map
       int outputtedWeeks = 0;
-      await for (final map in p) {
-        if (map == null) break; //stop the stream if done
-        final week = ScheduleWeek.fromMap(map);
+      await for (ScheduleWeek? week in p) {
+        if (week == null) break; //stop the stream if done
         week.name = "Schedule ${++outputtedWeeks}";
         controller.add(week);
       }
