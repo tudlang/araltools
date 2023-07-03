@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       supportedLocales: [
+        const Locale('en'),
         ...onPlatform(
           all: const [],
           windows: FluentLocalizations.supportedLocales,

@@ -27,6 +27,7 @@ import '../classes.dart';
 import '../connection.dart';
 import '../functions.dart';
 import '../models.dart';
+import '../parser.dart';
 import '../skedmaker_activity.dart';
 import '../test_tables.dart';
 

@@ -23,6 +23,7 @@ import 'functions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 import 'classes.dart';
+import 'parser.dart';
 
 Future<List<Offering>?> getSubject(BuildContext context) async {
   //return ;
@@ -40,7 +41,8 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
 
   return await showDialog<List<Offering>>(
     context: context,
-    barrierDismissible: true,
+    barrierDismissible: false, //false to avoid accidental exit
+    dismissWithEsc: false,
     builder: (context) {
       bool isError = false;
       return StatefulBuilder(builder: (context, setState) {

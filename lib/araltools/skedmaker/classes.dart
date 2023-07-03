@@ -32,24 +32,31 @@ import 'functions.dart';
 
 /// An offering for a particular subject
 class Offering implements Comparable {
-  late String subject;
-  late String section;
-  late String room;
+  String subject;
+  String section;
+  String room;
   String teacher;
-  late int slotCapacity;
+  int slotCapacity;
   int slotTaken;
-  late ScheduleDay scheduleDay;
+  ScheduleDay scheduleDay;
   late int scheduleTimeStart;
   late int scheduleTimeEnd;
-  late int classNumber;
+  int classNumber;
   bool isClosed;
-  late Color color;
+  Color color;
 
   Offering({
+    required this.subject,
+    required this.section,
+    required this.scheduleDay,
+    required this.classNumber,
+    this.room = '',
     this.color = const Color(0xCC2196F3),
-  })  : slotTaken = 0,
-        teacher = '',
-        isClosed = false;
+    this.slotTaken = 0,
+    this.slotCapacity = 0,
+    this.teacher = '',
+    this.isClosed = false,
+  });
 
   /// Expected input: `1245 - 1415`
   set scheduleTime(String time) {
@@ -84,24 +91,25 @@ class Offering implements Comparable {
         },
         'isClosed': isClosed,
       };
-  factory Offering.fromMap(Map map) => Offering()
-    ..classNumber = map['classNumber']
-    ..subject = map['subject']
-    ..section = map['section']
-    ..room = map['room']
-    ..slotCapacity = map['slotCapacity']
-    ..slotTaken = map['slotTaken']
-    ..scheduleTimeStart = map['scheduleTimeStart']
-    ..scheduleTimeEnd = map['scheduleTimeEnd']
-    ..scheduleDay = ScheduleDay.values.byName(map['scheduleDay'])
-    ..teacher = map['teacher']
-    ..color = Color.fromARGB(
-      map['color']['a'],
-      map['color']['r'],
-      map['color']['g'],
-      map['color']['b'],
-    )
-    ..isClosed = map['isClosed'];
+  factory Offering.fromMap(Map map) => Offering(
+        classNumber: map['classNumber'],
+        subject: map['subject'],
+        section: map['section'],
+        room: map['room'],
+        scheduleDay: ScheduleDay.values.byName(map['scheduleDay']),
+        color: Color.fromARGB(
+          map['color']['a'],
+          map['color']['r'],
+          map['color']['g'],
+          map['color']['b'],
+        ),
+        teacher: map['teacher'],
+        isClosed: map['isClosed'],
+        slotCapacity: map['slotCapacity'],
+        slotTaken: map['slotTaken'],
+      )
+        ..scheduleTimeStart = map['scheduleTimeStart']
+        ..scheduleTimeEnd = map['scheduleTimeEnd'];
 
   @override
   String toString() =>

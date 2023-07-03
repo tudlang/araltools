@@ -15,8 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'dart:io';
-
+import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timetable_view/timetable_view.dart';
@@ -43,13 +42,14 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SkedmakerModel>(
-        create: (context) => SkedmakerModel(),
-        child: switch (Platform.operatingSystem) {
-          'windows' => SkedmakerActivityWindows(
-              key: provider,
-            ),
-          _ => throw UnsupportedError("OS unsupported")
-        });
+      create: (context) => SkedmakerModel(),
+      child: onPlatform(
+        all: null,
+        windows: SkedmakerActivityWindows(
+          key: provider,
+        ),
+      ),
+    );
   }
 }
 /*

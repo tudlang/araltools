@@ -60,7 +60,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
         child: NavigationView(
           pane: NavigationPane(
               size: NavigationPaneSize(
-                topHeight: 50,
+                topHeight: 56,
               ),
               header: Row(mainAxisSize: MainAxisSize.min, children: [
                 Icon(
@@ -69,7 +69,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
                 ),
                 SizedBox(width: 8),
                 Text(
-                  'SkedMaker',
+                  AralTools.skedmaker.localizedName,
                   style: textTheme.titleLarge?.copyWith(
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.bold,
