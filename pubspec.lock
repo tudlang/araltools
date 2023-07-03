@@ -736,6 +736,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  simple_timetable:
+    dependency: "direct main"
+    description:
+      name: simple_timetable
+      sha256: c5c501009651306bd9c3e730292bbb9149280a75f07e8b18d085700e362cb34d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   sky_engine:
     dependency: transitive
     description: flutter

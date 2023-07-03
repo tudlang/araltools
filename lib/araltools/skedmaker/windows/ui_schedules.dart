@@ -205,43 +205,22 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       itemCount: model.schedules.length,
                       itemBuilder: (context, index) {
                         final week = model.schedules.elementAt(index);
-                        bool isHovered = false;
                         bool isSelected = index == indexSelected;
-                        return StatefulBuilder(builder: (context, setState2) {
-                          return MouseRegion(
-                            onEnter: (event) {
-                              setState2(() {
-                                isHovered = true;
-                              });
-                            },
-                            onExit: (event) {
-                              setState2(() {
-                                isHovered = false;
-                              });
-                            },
-                            child: ListTile.selectable(
-                              trailing: isHovered || isSelected
-                                  ? IconButton(
-                                      icon: Icon(MdiIcons.dotsVertical),
-                                      onPressed: () {},
-                                    )
-                                  : null,
-                              selected: isSelected,
-                              title: Text(week.name),
-                              onPressed: () {
-                                setState(() {
-                                  indexSelected = index;
-                                });
-                                final model = context.read<SkedmakerModel>();
-                                if (model.tabs.isEmpty) {
-                                  model.addTab(week);
-                                } else {
-                                  model.updateTab(week);
-                                }
-                              },
-                            ),
-                          );
-                        });
+                        return ListTile.selectable(
+                          selected: isSelected,
+                          title: Text(week.name),
+                          onPressed: () {
+                            setState(() {
+                              indexSelected = index;
+                            });
+                            final model = context.read<SkedmakerModel>();
+                            if (model.tabs.isEmpty) {
+                              model.addTab(week);
+                            } else {
+                              model.updateTab(week);
+                            }
+                          },
+                        );
                       },
                     )),
                   ],
@@ -326,23 +305,39 @@ class _SchedulesFragmentTimetableState
 
     return Column(
       children: [
-        Column(
+        const Divider(
+            style: DividerThemeData(
+          thickness: 2,
+          horizontalMargin: EdgeInsets.only(),
+        )),
+        CommandBarCard(
+            child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Divider(
-                style: DividerThemeData(
-              thickness: 2,
-              horizontalMargin: EdgeInsets.only(),
-            )),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.week.name,
-                style: textTheme.headlineMedium,
-              ),
+              child: Text(widget.week.name, style: textTheme.headlineSmall),
             ),
+            Expanded(
+                child: CommandBar(
+              primaryItems: [
+                CommandBarSeparator(),
+                // TODO add rename button
+                // TODO add delete button
+                //CommandBarBuilderItem(builder: (context, displayMode, child){
+                //  return 
+                //}, wrappedItem: CommandBarButton(
+                //  label: Text('Delete schedule'),
+                //  icon: Icon(MdiIcons.deleteOutline),
+                //  onPressed: () {
+                //    context.read<SkedmakerModel>().removeSchedule(widget.week);
+                //  },
+                //))
+                
+              ],
+            ))
           ],
-        ),
+        )),
         const Divider(
             style: DividerThemeData(
           thickness: 2,
@@ -392,7 +387,8 @@ class _SchedulesFragmentTimetableState
                                   text: "\n#${subject.classNumber}\n",
                                   style: textTheme.labelMedium),
                               WidgetSpan(
-                                  child: Icon(MdiIcons.mapMarkerOutline, size: 13)),
+                                  child: Icon(MdiIcons.mapMarkerOutline,
+                                      size: 13)),
                               TextSpan(
                                   text:
                                       " ${subject.room.isEmpty ? '-' : subject.room}",

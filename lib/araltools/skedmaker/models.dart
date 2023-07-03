@@ -53,6 +53,11 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSchedule(ScheduleWeek a){
+    _schedules.remove(a);
+    notifyListeners();
+  }
+
   ScheduleWeek? get schedulesSelected => _schedulesSelected;
   set schedulesSelected(ScheduleWeek? a) {
     _schedulesSelected = a;
@@ -146,8 +151,8 @@ class SkedmakerModel extends ChangeNotifier {
     })
       ..onDone(() {
         generateStopwatch.stop();
-        generateStopwatch.reset();
         print("ELAPSED TIME: ${generateStopwatch.elapsedMilliseconds}");
+        generateStopwatch.reset();
 
         isGenerating = false;
       });
@@ -172,6 +177,7 @@ class SkedmakerModel extends ChangeNotifier {
     isGenerating = false;
     _stream.cancel();
     generateStopwatch.stop();
+    print("ELAPSED TIME: ${generateStopwatch.elapsedMilliseconds}");
     generateStopwatch.reset();
   }
 

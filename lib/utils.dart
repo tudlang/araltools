@@ -39,6 +39,7 @@ extension StringExtensions on String {
   int toInt() => int.parse(this);
 }
 
+/// Return a value depending on the platform
 T onPlatform<T>({
   required T all,
   T? web,
@@ -60,6 +61,7 @@ T onPlatform<T>({
       _ => all,
     };
 
+/// If [data] is null, then output an empty widget, otherwise create a [Text] widget
 // ignore: non_constant_identifier_names
 Widget TextOrNull(
   String? data, {

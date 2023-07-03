@@ -108,14 +108,14 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                   ..addSubject('CALENG2', parse(caleng2))
                                   ..addSubject('LBYMF1C', parse(lbymf1c))
                                   ..addSubject('LCLSONE', parse(lclsone))
-                                  //..addSubject('LBYMF1D', parse(lbymf1d))
-                                  //..addSubject('GEUSELF', parse(geuself))
-                                  //..addSubject('LCFAITH', parse(lcfaith))
-                                  //..addSubject('LCFILIA', parse(lcfilia))
-                                  //..addSubject('MFMCPR1', parse(mfmcpr1))
-                                  //..addSubject('LBBCH1A', parse(lbbch1a))
-                                  //..addSubject('ENGCHEM', parse(engchem))
-                                  //..addSubject('NSTPRO2', nstpro2)
+                                  ..addSubject('LBYMF1D', parse(lbymf1d))
+                                  ..addSubject('GEUSELF', parse(geuself))
+                                  ..addSubject('LCFAITH', parse(lcfaith))
+                                  ..addSubject('LCFILIA', parse(lcfilia))
+                                  ..addSubject('MFMCPR1', parse(mfmcpr1))
+                                  ..addSubject('LBBCH1A', parse(lbbch1a))
+                                  ..addSubject('ENGCHEM', parse(engchem))
+                                  ..addSubject('NSTPRO2', nstpro2)
                                   ;
                               },
                             ),
@@ -193,14 +193,28 @@ class SubjectsFragmentEdit extends StatefulWidget {
   State<SubjectsFragmentEdit> createState() => _SubjectsFragmentEditState();
 }
 
+
 class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
+
+  final offeringNotAvailable = [];
+
+  @override
+  void initState() {
+    super.initState();
+    for (var offering in widget.offerings) {
+      if (!offering.isAvailable){
+        offeringNotAvailable.add(offering);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.offerings.every((element) => !element.isAvailable))
+        if (widget.offerings.length == offeringNotAvailable.length)
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -224,7 +238,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               ),
               SizedBox(width: 8),
               Text(
-                "${widget.subject} - ${widget.offerings.length + 1} offerings",
+                "${widget.subject} - ${widget.offerings.length} offerings (${widget.offerings.length-offeringNotAvailable.length} available)",
                 textAlign: TextAlign.start,
                 style: textTheme.headlineMedium,
               ),

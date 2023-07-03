@@ -210,6 +210,9 @@ class MyApp extends StatelessWidget {
                                           .onSurface),
                         ),
                         leading: Icon(araltool.icon),
+                        trailing: araltool.route == state.matchedLocation
+                            ? Icon(Icons.arrow_forward_ios_outlined)
+                            : null,
                         onTap: () {
                           GoRouter.of(context).go(araltool.route, extra: {
                             'title': araltool.localizedName,
