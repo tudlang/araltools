@@ -70,7 +70,7 @@ class Offering implements Comparable {
 
   double get slotPercentage => slotTaken / slotCapacity;
 
-  bool get isAvailable => !isClosed || slotPercentage < 1.0;
+  bool get isAvailable => !isClosed && slotPercentage < 1.0;
 
   Map toMap() => {
         'classNumber': classNumber,
