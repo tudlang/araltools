@@ -17,6 +17,7 @@
 
 import 'dart:math';
 
+import 'package:araltools/araltools/skedmaker/debug.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide FilledButton, Tooltip;
@@ -104,20 +105,11 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 child: Text('Add debug subjects'),
                               ),
                               onPressed: () {
-                                // THESE ARE FOR DEBUG PURPOSES, hardcoded test HTML tables
-                                context.read<SkedmakerModel>()
-                                  ..addSubject('CALENG2', parse(caleng2))
-                                  ..addSubject('LBYMF1C', parse(lbymf1c))
-                                  ..addSubject('LCLSONE', parse(lclsone))
-                                  ..addSubject('LBYMF1D', parse(lbymf1d))
-                                  ..addSubject('GEUSELF', parse(geuself))
-                                  ..addSubject('LCFAITH', parse(lcfaith))
-                                  ..addSubject('LCFILIA', parse(lcfilia))
-                                  ..addSubject('MFMCPR1', parse(mfmcpr1))
-                                  ..addSubject('LBBCH1A', parse(lbbch1a))
-                                  ..addSubject('ENGCHEM', parse(engchem))
-                                  ..addSubject('NSTPRO2', nstpro2)
-                                  ;
+                                // THESE ARE FOR DEBUG PURPOSES
+                                final model = context.read<SkedmakerModel>();
+                                for (var subject in debugSubjects) {
+                                  model.addSubject(subject.first.subject, subject);
+                                }
                               },
                             ),
                         ],
