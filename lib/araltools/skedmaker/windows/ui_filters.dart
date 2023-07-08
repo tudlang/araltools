@@ -19,8 +19,9 @@ import 'dart:convert';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart'
-    hide Card, Divider, FilledButton, showDialog;
+    hide Card, Divider, FilledButton, showDialog, Chip, IconButton;
 import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '/strings.g.dart';
@@ -157,7 +158,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
     filters = ScheduleFilters.filters[(widget.category, widget.icon)]!;
   }
 
-  filterText(ScheduleFilter filter) => Column(
+  filterText(ScheduleFilter filter, [List<Widget> additional = const []]) =>
+      Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -167,7 +169,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
           TextOrNull(
               strings[
                   'skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.desc'],
-              style: textTheme.labelMedium)
+              style: textTheme.labelMedium),
+          ...additional
         ],
       );
 
@@ -387,6 +390,73 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                     ),
                   ),
                 ]),
+              ),
+            )
+          else if (filter.valueDefault == ScheduleFilterSpecial.stringsWithChip)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      filterText(filter),
+                      Spacer(),
+                      () {
+                        final controller = TextEditingController();
+
+                        submit(String value) {
+                          if (value.isEmpty) return;
+                          controller.clear();
+                          model.updateFilter(
+                              widget.category, filter.key, '', value);
+                        }
+
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 200),
+                          child: TextBox(
+                            suffix: IconButton(
+                              onPressed: () {
+                                submit(controller.text);
+                              },
+                              icon: Icon(MdiIcons
+                                  .check), // I am not sure if a check is valid here.
+                            ),
+                            controller: controller,
+                            onSubmitted: submit,
+                          ),
+                        );
+                      }(),
+                    ]),
+                    SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        for (final String text
+                            in filterValues[widget.category]![filter.key]
+                                    ?.keys ??
+                                const [])
+                          Chip(
+                            text: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(width: 8),
+                                Text(text),
+                                SizedBox(width: 8),
+                                Icon(MdiIcons.close)
+                              ],
+                            ),
+                            onPressed: () {
+                              model.updateFilter(
+                                  widget.category, filter.key, null, text);
+                            },
+                          )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
         Divider(),

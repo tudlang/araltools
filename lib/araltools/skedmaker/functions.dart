@@ -152,7 +152,12 @@ void generateSchedulesIsolate(
           (filters['offerings']!['includeUnknownModality'] == false &&
               currentOffering.scheduleDay.name.contains('nknown')) ||
           (filters['offerings']!['includeNoProfessors'] == false &&
-              currentOffering.teacher.isEmpty)) {
+              currentOffering.teacher.isEmpty) ||
+          (filters['offerings']!['excludeSectionLetter']?.isNotEmpty == true &&
+              (filters['offerings']!['excludeSectionLetter'] as Map).keys.any(
+                  (e) => currentOffering.section
+                      .toLowerCase()
+                      .contains(e.toLowerCase())))) {
         continue;
       }
 

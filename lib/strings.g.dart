@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 122
+/// Strings: 123
 ///
-/// Built on 2023-06-20 at 11:18 UTC
+/// Built on 2023-07-08 at 13:25 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -779,6 +779,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn includeFullSlots = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn excludeSectionLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn._(_root);
 }
 
 // Path: skedmaker.filters.categories.day
@@ -853,6 +854,16 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn {
 
 	// Translations
 	String get name => 'Include offerings with no teachers';
+}
+
+// Path: skedmaker.filters.categories.offerings.excludeSectionLetter
+class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Exclude sections that contains this character(s)';
 }
 
 // Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
@@ -967,6 +978,7 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
+			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains this character(s)';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.desc': return 'Enter -1 if no limit';

@@ -45,6 +45,8 @@ filters:
         name: Include offerings with unknown modality
       includeNoTeachers:
         name: Include offerings with no teachers
+      excludeSectionLetter:
+        name: Exclude sections that contains this character(s)
     day:        
       name: Day-specific
       commonMaxNumberOfSubjects: 

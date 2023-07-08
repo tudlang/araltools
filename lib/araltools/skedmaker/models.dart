@@ -121,7 +121,11 @@ class SkedmakerModel extends ChangeNotifier {
   updateFilter<T>(String category, String key, T value, [String? index]) {
     if (index != null) {
       _filters.values[category]![key] ??= {};
-      _filters.values[category]![key][index] = value;
+      if (value == null) {
+        _filters.values[category]![key].remove(index);
+      } else {
+        _filters.values[category]![key][index] = value;
+      }
     } else {
       _filters.values[category]![key] = value;
     }

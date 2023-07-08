@@ -505,6 +505,10 @@ class ScheduleFilters {
         key: 'includeNoTeachers',
         valueDefault: true,
       ),
+      ScheduleFilter(
+        key: 'excludeSectionLetter',
+        valueDefault: ScheduleFilterSpecial.stringsWithChip,
+      ),
     ],
     //'subjects': [
     //  ScheduleFilter(
@@ -604,6 +608,7 @@ enum ScheduleFilterSpecial {
   subjects(
     valueDefault: 'any',
   ),
+  stringsWithChip,
   ;
 
   final dynamic valueDefault;
