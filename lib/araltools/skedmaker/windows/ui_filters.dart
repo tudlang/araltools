@@ -18,6 +18,7 @@
 import 'dart:convert';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     hide Card, Divider, FilledButton, showDialog, Chip, IconButton;
 import 'package:flutter/services.dart';
@@ -56,6 +57,30 @@ class _FiltersFragmentState extends State<FiltersFragment> {
               paneIndex = value;
             });
           },
+          header: kDebugMode
+              ? Wrap(
+                  children: [
+                    Button(
+                      child: Text('Print filter map'),
+                      onPressed: () {
+                        final model = context.read<SkedmakerModel>();
+                        final a = JsonEncoder.withIndent("     ")
+                            .convert(model.filters.toMap());
+                        print(a);
+                      },
+                    ),
+                    Button(
+                      child: Text('Print filter values'),
+                      onPressed: () {
+                        final model = context.read<SkedmakerModel>();
+                        final a = JsonEncoder.withIndent("     ")
+                            .convert(model.filters.values);
+                        print(a);
+                      },
+                    ),
+                  ],
+                )
+              : null,
           items: [
             ...ScheduleFilters.filters.entries.map((category) => PaneItem(
                   icon: Icon(category.key.$2),
@@ -86,28 +111,7 @@ class _FiltersFragmentState extends State<FiltersFragment> {
             //  body: Placeholder(),
             //),
           ],
-          footerItems: [
-            PaneItem(
-              icon: Text('map'),
-              body: Placeholder(),
-              onTap: () {
-                final model = context.read<SkedmakerModel>();
-                final a = JsonEncoder.withIndent("     ")
-                    .convert(model.filters.toMap());
-                print(a);
-              },
-            ),
-            PaneItem(
-              icon: Text('val'),
-              body: Placeholder(),
-              onTap: () {
-                final model = context.read<SkedmakerModel>();
-                final a = JsonEncoder.withIndent("     ")
-                    .convert(model.filters.values);
-                print(a);
-              },
-            ),
-          ]
+          footerItems: []
 
           /*
         [
