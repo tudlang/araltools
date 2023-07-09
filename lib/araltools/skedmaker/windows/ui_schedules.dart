@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Tab, TabView, TabWidthBehavior;
 import 'package:flutter/material.dart'
     hide
@@ -48,22 +49,31 @@ class SchedulesFragment extends StatefulWidget {
 }
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
-  late int indexSelected;
+  late int indexTabCurrent;
   late FocusNode focusnode;
   late ScrollController controllerList;
 
   @override
   void initState() {
     super.initState();
-    indexSelected = 0;
     focusnode = FocusNode();
     controllerList = ScrollController();
+    indexTabCurrent = 0;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controllerList.dispose();
+    focusnode.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
     final textTheme = Theme.of(context).textTheme;
+
+    var indexWeekCurrent = model.tabs.elementAtOrNull(indexTabCurrent) ?? 0;
 
     return model.schedules.isEmpty
         ? Column(
@@ -127,18 +137,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             focusNode: focusnode,
             onKey: (value) {
               if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowDown) {
-                model.nextWeekInTab(indexSelected, 1);
-                setState(() {
-                  indexSelected++;
-                });
+                  value.logicalKey == LogicalKeyboardKey.arrowDown && indexWeekCurrent <= model.schedules.length-2) {
+                model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
               }
               if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowUp) {
-                model.nextWeekInTab(indexSelected, -1);
-                setState(() {
-                  indexSelected--;
-                });
+                  value.logicalKey == LogicalKeyboardKey.arrowUp && indexWeekCurrent > 0) {
+                model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
               }
             },
             child: Row(children: [
@@ -203,21 +207,17 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                         child: ListView.builder(
                       controller: controllerList,
                       itemCount: model.schedules.length,
-                      itemBuilder: (context, index) {
-                        final week = model.schedules.elementAt(index);
-                        bool isSelected = index == indexSelected;
+                      itemBuilder: (context, weekIndex) {
+                        final week = model.schedules.elementAt(weekIndex);
                         return ListTile.selectable(
-                          selected: isSelected,
+                          selected: indexWeekCurrent == weekIndex,
                           title: Text(week.name),
                           onPressed: () {
-                            setState(() {
-                              indexSelected = index;
-                            });
                             final model = context.read<SkedmakerModel>();
                             if (model.tabs.isEmpty) {
-                              model.addTab(week);
+                              model.addTab(weekIndex);
                             } else {
-                              model.updateTab(week);
+                              model.updateTab(indexTabCurrent, weekIndex);
                             }
                           },
                         );
@@ -230,31 +230,39 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               Expanded(
                   child: TabView(
                 tabWidthBehavior: TabWidthBehavior.sizeToContent,
-                currentIndex: model.tabsIndex,
-                tabs: model.tabs
-                    .map((e) => Tab(
-                          text: Text(e.name),
-                          body: SchedulesFragmentTimetable(
-                            week: e,
-                          ),
-                          closeIcon: model.tabs.length == 1
-                              ? IconData(0xFEFF)
-                              : FluentIcons.chrome_close,
-                          onClosed: model.tabs.length == 1
-                              ? null
-                              : () {
-                                  context.read<SkedmakerModel>().removeTab(e);
-                                },
-                        ))
-                    .toList(),
+                currentIndex: indexTabCurrent,
+                tabs: model.tabs.mapIndexed((weekIndex, tabIndex) {
+                  final week = model.schedules.elementAt(tabIndex);
+                  return Tab(
+                    text: Text(week.name),
+                    body: SchedulesFragmentTimetable(
+                      //key: ValueKey(tabIndex),
+                      tabIndex: tabIndex,
+                    ),
+                    closeIcon: model.tabs.length == 1
+                        ? IconData(0xFEFF)
+                        : FluentIcons.chrome_close,
+                    onClosed: model.tabs.length == 1
+                        ? null
+                        : () {
+                            context.read<SkedmakerModel>().removeTab(tabIndex);
+                          },
+                  );
+                }).toList(),
                 onReorder: (oldIndex, newIndex) {
                   context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
                 },
                 onNewPressed: () {
-                  context.read<SkedmakerModel>().addTab(null);
+                  final model = context.read<SkedmakerModel>();
+                  model.addTab(indexWeekCurrent);
+                  setState(() {
+                    indexTabCurrent = model.tabs.length - 1;
+                  });
                 },
                 onChanged: (index) {
-                  model.tabsIndex = index;
+                  setState(() {
+                    indexTabCurrent = index;
+                  });
                 },
                 header: Tooltip(
                   message: 'Info',
@@ -289,8 +297,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
 }
 
 class SchedulesFragmentTimetable extends StatefulWidget {
-  const SchedulesFragmentTimetable({super.key, required this.week});
-  final ScheduleWeek week;
+  const SchedulesFragmentTimetable({super.key, required this.tabIndex});
+  final int tabIndex;
 
   @override
   State<SchedulesFragmentTimetable> createState() =>
@@ -302,6 +310,9 @@ class _SchedulesFragmentTimetableState
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final model = context.watch<SkedmakerModel>();
+
+    final week = model.schedules.elementAt(widget.tabIndex);
 
     return Column(
       children: [
@@ -316,7 +327,7 @@ class _SchedulesFragmentTimetableState
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(widget.week.name, style: textTheme.headlineSmall),
+              child: Text(week.name, style: textTheme.headlineSmall),
             ),
             Expanded(
                 child: CommandBar(
@@ -325,15 +336,14 @@ class _SchedulesFragmentTimetableState
                 // TODO add rename button
                 // TODO add delete button
                 //CommandBarBuilderItem(builder: (context, displayMode, child){
-                //  return 
+                //  return
                 //}, wrappedItem: CommandBarButton(
                 //  label: Text('Delete schedule'),
                 //  icon: Icon(MdiIcons.deleteOutline),
                 //  onPressed: () {
-                //    context.read<SkedmakerModel>().removeSchedule(widget.week);
+                //    context.read<SkedmakerModel>().removeSchedule(week);
                 //  },
                 //))
-                
               ],
             ))
           ],
@@ -358,7 +368,7 @@ class _SchedulesFragmentTimetableState
                   children: [
                     Expanded(
                       child: TimetableFragment(
-                        week: widget.week,
+                        week: week,
                       ),
                     ),
                   ],
@@ -372,7 +382,7 @@ class _SchedulesFragmentTimetableState
                         style: textTheme.headlineSmall,
                       ),
                     ),
-                    for (final subject in widget.week.subjects)
+                    for (final subject in week.subjects)
                       Container(
                         margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
                         child: Card(

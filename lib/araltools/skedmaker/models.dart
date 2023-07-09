@@ -28,8 +28,6 @@ class SkedmakerModel extends ChangeNotifier {
   Map<String, List<Offering>> subjects;
   Set<ScheduleWeek> _schedules;
   ScheduleWeek? _schedulesSelected;
-  List<ScheduleWeek> _tabs;
-  int _tabsIndex;
 
   void addSubject(String code, List<Offering> list) {
     subjects[code] = list;
@@ -79,40 +77,28 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<ScheduleWeek> get tabs => _tabs;
+  final List<int> _tabs;
+  /// A list of indecies of [schedules]
+  List<int> get tabs => _tabs;
 
-  void addTab(ScheduleWeek? week) {
-    _tabs.add(week ?? _tabs[_tabsIndex]);
-    _tabsIndex = _tabs.length - 1;
+  void addTab(int indexWeekCurrent) {
+    _tabs.add(indexWeekCurrent);
     notifyListeners();
   }
 
-  void removeTab(ScheduleWeek week) {
+  void removeTab(int indexTab) {
     if (_tabs.length == 1) return;
-    if (_tabsIndex == _tabs.length - 1) _tabsIndex = _tabs.length - 2;
-    _tabs.remove(week);
+    _tabs.removeAt(indexTab);
     notifyListeners();
   }
 
-  void updateTab(ScheduleWeek week) {
-    _tabs[_tabsIndex] = week;
+  void updateTab(int indexTab, int indexWeek) {
+    _tabs[indexTab] = indexWeek;
     notifyListeners();
   }
 
   void reorderTab(int from, int to) {
     _tabs.move(from, to);
-    _tabsIndex = to - 1;
-    notifyListeners();
-  }
-
-  void nextWeekInTab(int indexSelected, int increment) {
-    _tabs[_tabsIndex] = _schedules.elementAt(indexSelected + increment);
-    notifyListeners();
-  }
-
-  int get tabsIndex => _tabsIndex;
-  set tabsIndex(int a) {
-    _tabsIndex = a;
     notifyListeners();
   }
 
@@ -189,6 +175,5 @@ class SkedmakerModel extends ChangeNotifier {
       : subjects = {},
         _schedules = {},
         _tabs = [],
-        _tabsIndex = -1,
         _filters = ScheduleFilters();
 }
