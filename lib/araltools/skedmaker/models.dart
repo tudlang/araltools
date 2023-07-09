@@ -51,8 +51,13 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSchedule(ScheduleWeek a){
+  void removeSchedule(ScheduleWeek a) {
     _schedules.remove(a);
+    notifyListeners();
+  }
+
+  void modifySchedule(int tabIndex, void Function(ScheduleWeek week) modify) {
+    modify(_schedules.elementAt(_tabs[tabIndex]));
     notifyListeners();
   }
 
@@ -78,6 +83,7 @@ class SkedmakerModel extends ChangeNotifier {
   }
 
   final List<int> _tabs;
+
   /// A list of indecies of [schedules]
   List<int> get tabs => _tabs;
 

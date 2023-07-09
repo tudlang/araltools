@@ -137,11 +137,13 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
             focusNode: focusnode,
             onKey: (value) {
               if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowDown && indexWeekCurrent <= model.schedules.length-2) {
+                  value.logicalKey == LogicalKeyboardKey.arrowDown &&
+                  indexWeekCurrent <= model.schedules.length - 2) {
                 model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
               }
               if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowUp && indexWeekCurrent > 0) {
+                  value.logicalKey == LogicalKeyboardKey.arrowUp &&
+                  indexWeekCurrent > 0) {
                 model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
               }
             },
@@ -231,8 +233,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   child: TabView(
                 tabWidthBehavior: TabWidthBehavior.sizeToContent,
                 currentIndex: indexTabCurrent,
-                tabs: model.tabs.mapIndexed((weekIndex, tabIndex) {
-                  final week = model.schedules.elementAt(tabIndex);
+                tabs: model.tabs.mapIndexed((tabIndex, weekIndex) {
+                  final week = model.schedules.elementAt(weekIndex);
                   return Tab(
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
@@ -312,7 +314,7 @@ class _SchedulesFragmentTimetableState
     final textTheme = Theme.of(context).textTheme;
     final model = context.watch<SkedmakerModel>();
 
-    final week = model.schedules.elementAt(widget.tabIndex);
+    final week = model.schedules.elementAt(model.tabs[widget.tabIndex]);
 
     return Column(
       children: [
@@ -333,6 +335,54 @@ class _SchedulesFragmentTimetableState
                 child: CommandBar(
               primaryItems: [
                 CommandBarSeparator(),
+                // RENAME BUTTON
+                () {
+                  final controllerFlyout = FlyoutController();
+                  final controllerText = TextEditingController(text: week.name);
+                  return CommandBarBuilderItem(
+                      builder: (context, displayMode, child) {
+                        return FlyoutTarget(
+                            controller: controllerFlyout, child: child);
+                      },
+                      wrappedItem: CommandBarButton(
+                        label: Text('Rename'),
+                        icon: Icon(MdiIcons.renameOutline),
+                        onPressed: () {
+                          controllerFlyout.showFlyout(builder: (context) {
+                            void submit() {
+                              if (controllerText.text.isEmpty) return;
+                              context
+                                  .read<SkedmakerModel>()
+                                  .modifySchedule(widget.tabIndex, (week) {
+                                week.name = controllerText.text;
+                              });
+                              Navigator.pop(context);
+                            }
+
+                            return FlyoutContent(
+                                child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 200),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  TextBox(
+                                    controller: controllerText,
+                                    autofocus: true,
+                                    onSubmitted: (value) => submit(),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Button(
+                                    child: Text('Rename'),
+                                    onPressed: submit,
+                                  )
+                                ],
+                              ),
+                            ));
+                          });
+                        },
+                      ));
+                }()
                 // TODO add rename button
                 // TODO add delete button
                 //CommandBarBuilderItem(builder: (context, displayMode, child){
