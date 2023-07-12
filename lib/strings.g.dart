@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 123
+/// Strings: 126
 ///
-/// Built on 2023-07-08 at 13:25 UTC
+/// Built on 2023-07-12 at 11:05 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -775,6 +775,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 
 	// Translations
 	String get name => 'Offerings';
+	String get desc => 'Filter the offerings to include/exclude';
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn includeClosed = _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn includeFullSlots = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
@@ -790,6 +791,7 @@ class _StringsSkedmakerFiltersCategoriesDayEn {
 
 	// Translations
 	String get name => 'Day-specific';
+	String get desc => 'Add specific filters for each day of the week';
 	late final _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn commonMaxNumberOfSubjects = _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn commonTimeInterval = _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayCommonModalityEn commonModality = _StringsSkedmakerFiltersCategoriesDayCommonModalityEn._(_root);
@@ -812,6 +814,7 @@ class _StringsSkedmakerFiltersCategoriesLocationEn {
 
 	// Translations
 	String get name => 'Location';
+	String get desc => 'Filter schedules based on each subject\'s location';
 	late final _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn checkingDistanceMinutes = _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn maxAllowedDistanceMeters = _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(_root);
 }
@@ -974,12 +977,14 @@ extension on _StringsEn {
 			case 'skedmaker.schedules.table.weight': return 'Weight';
 			case 'skedmaker.filters.title': return 'Filters';
 			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
+			case 'skedmaker.filters.categories.offerings.desc': return 'Filter the offerings to include/exclude';
 			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains this character(s)';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
+			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.desc': return 'Enter -1 if no limit';
 			case 'skedmaker.filters.categories.day.commonTimeInterval.name': return 'Only have subjects at this time interval';
@@ -998,6 +1003,7 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.day.fridayName': return 'Friday';
 			case 'skedmaker.filters.categories.day.saturdayName': return 'Saturday';
 			case 'skedmaker.filters.categories.location.name': return 'Location';
+			case 'skedmaker.filters.categories.location.desc': return 'Filter schedules based on each subject\'s location';
 			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Time gap between subjects to check for distance (in minutes)';
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance from one subject to the next (in meters)';
 			case 'skedmaker.filters.any': return 'Any subject';

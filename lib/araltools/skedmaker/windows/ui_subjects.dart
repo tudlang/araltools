@@ -72,6 +72,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                       'Add subject',
                       style: textTheme.headlineMedium,
                     ),
+                    SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Wrap(
@@ -81,7 +82,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                           FilledButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Add from MyLaSalle'),
+                              child: Text('Add from My.LaSalle'),
                             ),
                             onPressed: () async {
                               final list = await getSubject(context);
@@ -108,7 +109,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 // THESE ARE FOR DEBUG PURPOSES
                                 final model = context.read<SkedmakerModel>();
                                 for (var subject in debugSubjects) {
-                                  model.addSubject(subject.first.subject, subject);
+                                  model.addSubject(
+                                      subject.first.subject, subject);
                                 }
                               },
                             ),
@@ -186,16 +188,14 @@ class SubjectsFragmentEdit extends StatefulWidget {
   State<SubjectsFragmentEdit> createState() => _SubjectsFragmentEditState();
 }
 
-
 class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
-
   final offeringNotAvailable = [];
 
   @override
   void initState() {
     super.initState();
     for (var offering in widget.offerings) {
-      if (!offering.isAvailable){
+      if (!offering.isAvailable) {
         offeringNotAvailable.add(offering);
       }
     }
@@ -231,7 +231,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               ),
               SizedBox(width: 8),
               Text(
-                "${widget.subject} - ${widget.offerings.length} offerings (${widget.offerings.length-offeringNotAvailable.length} available)",
+                "${widget.subject} - ${widget.offerings.length} offerings (${widget.offerings.length - offeringNotAvailable.length} available)",
                 textAlign: TextAlign.start,
                 style: textTheme.headlineMedium,
               ),
@@ -272,12 +272,13 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                       controller.showFlyout(
                         builder: (context3) {
                           return FlyoutContent(
-                              child: Column(
+                            child: Column(
                             mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               InfoLabel(
                                 label:
-                                    'Delete ${widget.subject}? You cannot undo this action.',
+                                    'Delete ${widget.subject}?\nYou cannot un-delete this.',
                                 labelStyle: FluentTheme.maybeOf(context)
                                     ?.typography
                                     .bodyStrong,
@@ -292,7 +293,8 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                                 ),
                               ),
                             ],
-                          ));
+                            ),
+                          );
                         },
                       );
                     },

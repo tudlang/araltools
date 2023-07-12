@@ -16,6 +16,7 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:araltools/utils.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timetable_view/timetable_view.dart';
@@ -112,14 +113,18 @@ class TimetableFragment extends StatelessWidget {
             ),
             events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
                 .map((e) => TableEvent(
-                      location: "${e.room}\n",
-                      title: "${e.subject} - ${e.section} \n",
-                      eventId: e.classNumber,
-                      laneIndex: 1,
-                      startTime: t(e.scheduleTimeStart),
-                      endTime: t(e.scheduleTimeEnd),
-                      backgroundColor: e.color,
-                    ))
+                    padding: EdgeInsets.all(7),
+                    margin: EdgeInsets.all(2),
+                    location: "${e.room}\n",
+                    title: "${e.subject} - ${e.section} \n",
+                    eventId: e.classNumber,
+                    laneIndex: 1,
+                    startTime: t(e.scheduleTimeStart),
+                    endTime: t(e.scheduleTimeEnd),
+                    backgroundColor: e.color,
+                    textStyle: TextStyle(
+                      color: e.color.basedOnLuminance(),
+                    )))
                 .toList(),
           )
       ],
@@ -139,9 +144,11 @@ class SubjectText extends StatelessWidget {
   const SubjectText({
     super.key,
     required this.offering,
+    this.style,
   });
 
   final Offering offering;
+  final TextStyle? style;
 
   Widget get icon => Container(
         decoration: ShapeDecoration(
@@ -152,7 +159,10 @@ class SubjectText extends StatelessWidget {
         height: 10,
       );
 
-  Widget get text => Text(offering.subject);
+  Widget get text => Text(
+        offering.subject,
+        style: style,
+      );
 
   @override
   Widget build(BuildContext context) {

@@ -196,6 +196,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             style: textTheme.headlineMedium,
           ),
         ),
+        SizedBox(height: 10),
         for (final filter in filters)
           if (filter.valueDefault == null)
             Padding(

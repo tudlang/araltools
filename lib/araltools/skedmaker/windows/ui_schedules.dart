@@ -87,6 +87,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       'Generate possible schedules',
                       style: textTheme.headlineMedium,
                     ),
+                    SizedBox(height: 8),
                     if (model.isGenerating) ...[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -329,7 +330,7 @@ class _SchedulesFragmentTimetableState
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(week.name, style: textTheme.headlineSmall),
+              child: Text(week.name, style: textTheme.headlineLarge),
             ),
             Expanded(
                 child: CommandBar(
@@ -364,7 +365,7 @@ class _SchedulesFragmentTimetableState
                               constraints: BoxConstraints(maxWidth: 200),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextBox(
                                     controller: controllerText,
@@ -406,6 +407,7 @@ class _SchedulesFragmentTimetableState
         Expanded(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
+              dividerThickness: 5,
               dividerPainter: DividerPainters.background(
                   color: Color(0xFFeaeaea),
                   highlightedColor: Color.fromARGB(255, 192, 192, 192)),
@@ -432,45 +434,62 @@ class _SchedulesFragmentTimetableState
                         style: textTheme.headlineSmall,
                       ),
                     ),
-                    for (final subject in week.subjects)
-                      Container(
-                        margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
-                        child: Card(
-                          child: RichText(
-                              text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text:
-                                      "${subject.subject} - ${subject.section}",
-                                  style: textTheme.labelLarge),
-                              TextSpan(
-                                  text: "\n#${subject.classNumber}\n",
-                                  style: textTheme.labelMedium),
-                              WidgetSpan(
-                                  child: Icon(MdiIcons.mapMarkerOutline,
-                                      size: 13)),
-                              TextSpan(
-                                  text:
-                                      " ${subject.room.isEmpty ? '-' : subject.room}",
-                                  style: textTheme.labelMedium),
-                              TextSpan(
-                                  text: "\n${subject.scheduleDay.nameShort}",
-                                  style: textTheme.labelMedium),
-                              TextSpan(
-                                  text: "\n${subject.slots} slots\n",
-                                  style: textTheme.labelMedium),
-                              WidgetSpan(
-                                  child:
-                                      Icon(MdiIcons.humanMaleBoard, size: 13)),
-                              TextSpan(
-                                  text:
-                                      " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
-                                  style: textTheme.labelMedium),
-                            ],
-                          )),
-                          backgroundColor: subject.color.withOpacity(0.2),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          for (final subject in week.subjects)
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth: 200,
+                                minWidth: 200,
+                              ),
+                              child: Card(
+                                child: RichText(
+                                    text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                        child: SubjectText(
+                                      offering: subject,
+                                      style: textTheme.labelLarge,
+                                    )),
+                                    TextSpan(
+                                        text: "${subject.section}",
+                                        style: textTheme.labelLarge),
+                                    TextSpan(
+                                        text: " #${subject.classNumber}\n",
+                                        style: textTheme.labelMedium),
+                                    WidgetSpan(
+                                        child: Icon(MdiIcons.mapMarkerOutline,
+                                            size: 13)),
+                                    TextSpan(
+                                        text:
+                                            " ${subject.room.isEmpty ? '-' : subject.room}",
+                                        style: textTheme.labelMedium),
+                                    TextSpan(
+                                        text:
+                                            "\n${subject.scheduleDay.nameShort}",
+                                        style: textTheme.labelMedium),
+                                    TextSpan(
+                                        text: "\n${subject.slots} slots\n",
+                                        style: textTheme.labelMedium),
+                                    WidgetSpan(
+                                        child: Icon(MdiIcons.humanMaleBoard,
+                                            size: 13)),
+                                    TextSpan(
+                                        text:
+                                            " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
+                                        style: textTheme.labelMedium),
+                                  ],
+                                )),
+                                backgroundColor: subject.color.withOpacity(0.2),
+                              ),
+                            ),
+                        ],
                       ),
+                    )
                   ],
                 ),
               ],

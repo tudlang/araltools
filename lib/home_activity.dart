@@ -93,13 +93,15 @@ class HomeCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(icon),
+                  Icon(icon, size: 35),
                   SizedBox(width: 8),
                   Expanded(
                       child: Text(
                     name,
-                    style: textTheme.headlineSmall?.copyWith(
-                        fontFamily: 'Raleway', fontWeight: FontWeight.bold),
+                    style: textTheme.headlineMedium?.copyWith(
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                    ),
                   )),
                 ],
               ),
@@ -113,7 +115,7 @@ class HomeCard extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(strings.general.general.go),
+                    child: Text('Launch'),
                   ),
                 )
             ],

@@ -37,6 +37,7 @@ filters:
   categories:
     offerings:
       name: Offerings
+      desc: Filter the offerings to include/exclude
       includeClosed:
         name: Include closed offerings
       includeFullSlots:
@@ -49,6 +50,7 @@ filters:
         name: Exclude sections that contains this character(s)
     day:        
       name: Day-specific
+      desc: Add specific filters for each day of the week
       commonMaxNumberOfSubjects: 
         name: Maximum number of subjects
         desc: Enter -1 if no limit
@@ -75,6 +77,7 @@ filters:
       saturdayName: Saturday
     location:
       name: Location
+      desc: Filter schedules based on each subject's location
       checkingDistanceMinutes:
         name: Time gap between subjects to check for distance (in minutes)
       maxAllowedDistanceMeters:
