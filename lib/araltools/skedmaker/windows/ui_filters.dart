@@ -484,7 +484,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             Container(
               padding: EdgeInsets.all(8),
               child: Button(
-                child: Text('Reset'),
+                child: Text('Reset all'),
                 onPressed: () {
                   final model = context.read<SkedmakerModel>();
                   model.resetFilterCategory(widget.category);

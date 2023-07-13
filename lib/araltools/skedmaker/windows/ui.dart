@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Tooltip;
 import 'package:flutter/material.dart' hide IconButton, Colors;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -78,15 +78,19 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
                 SizedBox(width: 16),
                 VerticalDivider(),
               ]),
-              leading: IconButton(
-                icon: Icon(
-                  MdiIcons.menu,
-                  color: Theme.of(context).colorScheme.onPrimary,
+              leading: Tooltip(
+                message: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                child: IconButton(
+                  icon: Icon(
+                    MdiIcons.menu,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  iconButtonMode: IconButtonMode.large,
                 ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                iconButtonMode: IconButtonMode.large,
               ),
               selected: paneIndex,
               onChanged: (index) {

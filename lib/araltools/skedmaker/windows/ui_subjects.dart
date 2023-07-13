@@ -298,7 +298,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                         },
                       );
                     },
-                    label: Text("Delete subject"),
+                    label: Text("Delete"),
                   ),
                 );
               }()

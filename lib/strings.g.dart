@@ -3,7 +3,7 @@
 /// Locales: 1
 /// Strings: 126
 ///
-/// Built on 2023-07-12 at 11:05 UTC
+/// Built on 2023-07-13 at 11:48 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -866,7 +866,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Exclude sections that contains this character(s)';
+	String get name => 'Exclude sections that contains the following';
 }
 
 // Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
@@ -982,7 +982,7 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
-			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains this character(s)';
+			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains the following';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';

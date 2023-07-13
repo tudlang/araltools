@@ -1,3 +1,20 @@
+// Copyright (C) 2023 Tudlang
+// 
+// This file is part of AralTools.
+// 
+// AralTools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AralTools is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
+
 import 'dart:io';
 
 import 'package:araltools/araltools/skedmaker/classes.dart';
@@ -14,7 +31,6 @@ import 'windows/ui_schedules.dart';
 exportImage(BuildContext context, ScheduleWeek schedule) {
   showDialog(
     context: context,
-    barrierDismissible: true,
     builder: (context) {
       return Container(
         decoration: BoxDecoration(
@@ -59,12 +75,11 @@ class _ExportImagePreviewState extends State<ExportImagePreview> {
             ),
             SizedBox(width: 15),
             Text(
-                'Resize the window to adjust the image format. When done, click "Save".'),
+                'Resize the window to adjust the image formatting. When done, click "Save".'),
             Spacer(),
             IconButton(
               onPressed: () {
-                
-                  Navigator.pop(context);
+                Navigator.pop(context);
               },
               icon: Icon(
                 MdiIcons.close,
@@ -76,15 +91,17 @@ class _ExportImagePreviewState extends State<ExportImagePreview> {
         ),
         SizedBox(height: 10),
         Expanded(
-          child: Scrollbar(
-            controller: scrollController,
-            thumbVisibility: true,
-            interactive: true,
-            child: SingleChildScrollView(
+          child: Center(
+            child: Scrollbar(
               controller: scrollController,
-              child: Screenshot(
-                controller: screenshotController,
-                child: ExportImageLandscape(schedule: widget.schedule),
+              thumbVisibility: true,
+              interactive: true,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Screenshot(
+                  controller: screenshotController,
+                  child: ExportImageLandscape(schedule: widget.schedule),
+                ),
               ),
             ),
           ),
@@ -113,10 +130,11 @@ class _ExportImagePreviewState extends State<ExportImagePreview> {
                 if (path == null) return;
 
                 final file = File(path);
-                final result = await screenshotController.captureAndSave(file.parent.path,
+                final result = await screenshotController.captureAndSave(
+                    file.parent.path,
                     fileName: file.uri.pathSegments.last);
 
-                if (result != null){
+                if (result != null) {
                   Navigator.pop(context);
                 }
               },
@@ -155,7 +173,10 @@ class ExportImageLandscape extends StatelessWidget {
                 height: 50 * 14 + 68,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: TimetableFragment(week: schedule),
+                  child: IgnorePointer(
+                      child: TimetableFragment(
+                    week: schedule,
+                  )),
                 ),
               ),
               Expanded(

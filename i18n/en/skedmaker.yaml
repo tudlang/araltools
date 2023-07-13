@@ -47,7 +47,7 @@ filters:
       includeNoTeachers:
         name: Include offerings with no teachers
       excludeSectionLetter:
-        name: Exclude sections that contains this character(s)
+        name: Exclude sections that contains the following
     day:        
       name: Day-specific
       desc: Add specific filters for each day of the week
