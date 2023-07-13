@@ -111,7 +111,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 for (var subject in debugSubjects) {
                                   model.addSubject(
                                       subject.first.subject, subject);
-                                }
+                                }import(context);
                               },
                             ),
                         ],

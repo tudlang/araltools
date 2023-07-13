@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:araltools/araltools/skedmaker/export_image.dart';
 import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Tab, TabView, TabWidthBehavior;
 import 'package:flutter/material.dart'
@@ -383,7 +384,14 @@ class _SchedulesFragmentTimetableState
                           });
                         },
                       ));
-                }()
+                }(),
+                CommandBarButton(
+                  label: Text('Save as image'),
+                  icon: Icon(MdiIcons.imageOutline),
+                  onPressed: () {
+                    exportImage(context, week);
+                  },
+                ),
                 // TODO add rename button
                 // TODO add delete button
                 //CommandBarBuilderItem(builder: (context, displayMode, child){
@@ -441,52 +449,9 @@ class _SchedulesFragmentTimetableState
                         runSpacing: 8,
                         children: [
                           for (final subject in week.subjects)
-                            Container(
-                              constraints: BoxConstraints(
-                                maxWidth: 200,
-                                minWidth: 200,
-                              ),
-                              child: Card(
-                                child: RichText(
-                                    text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                        child: SubjectText(
-                                      offering: subject,
-                                      style: textTheme.labelLarge,
-                                    )),
-                                    TextSpan(
-                                        text: "${subject.section}",
-                                        style: textTheme.labelLarge),
-                                    TextSpan(
-                                        text: " #${subject.classNumber}\n",
-                                        style: textTheme.labelMedium),
-                                    WidgetSpan(
-                                        child: Icon(MdiIcons.mapMarkerOutline,
-                                            size: 13)),
-                                    TextSpan(
-                                        text:
-                                            " ${subject.room.isEmpty ? '-' : subject.room}",
-                                        style: textTheme.labelMedium),
-                                    TextSpan(
-                                        text:
-                                            "\n${subject.scheduleDay.nameShort}",
-                                        style: textTheme.labelMedium),
-                                    TextSpan(
-                                        text: "\n${subject.slots} slots\n",
-                                        style: textTheme.labelMedium),
-                                    WidgetSpan(
-                                        child: Icon(MdiIcons.humanMaleBoard,
-                                            size: 13)),
-                                    TextSpan(
-                                        text:
-                                            " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
-                                        style: textTheme.labelMedium),
-                                  ],
-                                )),
-                                backgroundColor: subject.color.withOpacity(0.2),
-                              ),
-                            ),
+                            ScheduleFragmentCard(
+                              subject: subject,
+                            )
                         ],
                       ),
                     )
@@ -497,6 +462,54 @@ class _SchedulesFragmentTimetableState
           ),
         ),
       ],
+    );
+  }
+}
+
+class ScheduleFragmentCard extends StatelessWidget {
+  const ScheduleFragmentCard({super.key, required this.subject});
+
+  final Offering subject;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: 200,
+        minWidth: 200,
+      ),
+      child: Card(
+        child: RichText(
+            text: TextSpan(
+          children: [
+            WidgetSpan(
+                child: SubjectText(
+              offering: subject,
+              style: textTheme.labelLarge,
+            )),
+            TextSpan(text: "${subject.section}", style: textTheme.labelLarge),
+            TextSpan(
+                text: " #${subject.classNumber}\n",
+                style: textTheme.labelMedium),
+            WidgetSpan(child: Icon(MdiIcons.mapMarkerOutline, size: 13)),
+            TextSpan(
+                text: " ${subject.room.isEmpty ? '-' : subject.room}",
+                style: textTheme.labelMedium),
+            TextSpan(
+                text: "\n${subject.scheduleDay.nameShort}",
+                style: textTheme.labelMedium),
+            TextSpan(
+                text: "\n${subject.slots} slots\n",
+                style: textTheme.labelMedium),
+            WidgetSpan(child: Icon(MdiIcons.humanMaleBoard, size: 13)),
+            TextSpan(
+                text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
+                style: textTheme.labelMedium),
+          ],
+        )),
+        backgroundColor: subject.color.withOpacity(0.2),
+      ),
     );
   }
 }
