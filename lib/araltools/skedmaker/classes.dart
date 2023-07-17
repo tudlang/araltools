@@ -435,7 +435,7 @@ class ScheduleWeek {
 
   String get daysOfferingsString =>
       JsonEncoder.withIndent("  ").convert(daysOfferings.map(
-        (key, value) => MapEntry(key.toString() + " ${value.length}",
+        (key, value) => MapEntry("$key ${value.length}",
             value.map((key) => key.toString()).toList()),
       ));
 
@@ -510,12 +510,6 @@ class ScheduleFilters {
         valueDefault: ScheduleFilterSpecial.stringsWithChip,
       ),
     ],
-    //'subjects': [
-    //  ScheduleFilter(
-    //    key: 'noSubjectInSameDay',
-    //    valueDefault: '',
-    //  ),
-    //],
     ('day', MdiIcons.viewDayOutline): [
       for (final day in const [
         'monday',

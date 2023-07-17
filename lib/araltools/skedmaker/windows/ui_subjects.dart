@@ -98,7 +98,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                             child: Text('Add manually'),
                             onPressed: () {},
                           ),
-                          */ // todo add manually
+                          */ // TODO add manually
                           if (kDebugMode)
                             FilledButton(
                               child: Padding(
@@ -111,7 +111,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 for (var subject in debugSubjects) {
                                   model.addSubject(
                                       subject.first.subject, subject);
-                                }import(context);
+                                }
+                                import(context);
                               },
                             ),
                         ],
@@ -273,26 +274,26 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                         builder: (context3) {
                           return FlyoutContent(
                             child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              InfoLabel(
-                                label:
-                                    'Delete ${widget.subject}?\nYou cannot un-delete this.',
-                                labelStyle: FluentTheme.maybeOf(context)
-                                    ?.typography
-                                    .bodyStrong,
-                                child: Button(
-                                  child: Text('Delete'),
-                                  onPressed: () {
-                                    context
-                                        .read<SkedmakerModel>()
-                                        .removeSubject(widget.subject);
-                                    Navigator.pop(context);
-                                  },
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                InfoLabel(
+                                  label:
+                                      'Delete ${widget.subject}?\nYou cannot un-delete this.',
+                                  labelStyle: FluentTheme.maybeOf(context)
+                                      ?.typography
+                                      .bodyStrong,
+                                  child: Button(
+                                    child: Text('Delete'),
+                                    onPressed: () {
+                                      context
+                                          .read<SkedmakerModel>()
+                                          .removeSubject(widget.subject);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
                             ),
                           );
                         },
@@ -369,30 +370,14 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               showCheckboxColumn: false, //TODO add subjects
               columnSpacing: 10,
               columns: [
-                DataColumn(
-                  label: Text('Status'),
-                ),
-                DataColumn(
-                  label: Text('Class #'),
-                ),
-                DataColumn(
-                  label: Text('Section'),
-                ),
-                DataColumn(
-                  label: Text('Room'),
-                ),
-                DataColumn(
-                  label: Text('Day'),
-                ),
-                DataColumn(
-                  label: Text('Time'),
-                ),
-                DataColumn(
-                  label: Text('Teacher'),
-                ),
-                DataColumn(
-                  label: Text('Slots'),
-                ),
+                DataColumn(label: Text('Status')),
+                DataColumn(label: Text('Class #')),
+                DataColumn(label: Text('Section')),
+                DataColumn(label: Text('Room')),
+                DataColumn(label: Text('Day')),
+                DataColumn(label: Text('Time')),
+                DataColumn(label: Text('Teacher')),
+                DataColumn(label: Text('Slots')),
               ],
               rows: [
                 for (final offering in widget.offerings)
@@ -427,13 +412,10 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                           dimension: 25,
                           child: Tooltip(
                             message:
-                                "${((offering.slotTaken / offering.slotCapacity) * 100).round()}%",
+                                "${(offering.slotPercentage * 100).round()}%",
                             child: ProgressRing(
                               // min because the slot taken might be greater than capacity
-                              value: min(
-                                  100,
-                                  (offering.slotTaken / offering.slotCapacity) *
-                                      100),
+                              value: min(100, offering.slotPercentage * 100),
                               strokeWidth: 3,
                             ),
                           ),

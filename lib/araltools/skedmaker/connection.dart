@@ -26,7 +26,6 @@ import 'classes.dart';
 import 'parser.dart';
 
 Future<List<Offering>?> getSubject(BuildContext context) async {
-  //return ;
   // TODO add platform checking here
   Webview window = await WebviewWindow.create(
       configuration: CreateConfiguration(
@@ -49,7 +48,7 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
         return ContentDialog(
           title: Text('Add subject'),
           content: Text(
-              'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".${(isError) ? '\nError' : ''}'),
+              'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".${isError ? '\nError' : ''}'),
           actions: [
             FilledButton(
               onPressed: () async {

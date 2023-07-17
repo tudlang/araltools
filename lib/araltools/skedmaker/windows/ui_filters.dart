@@ -373,20 +373,19 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                     child: ComboBox(
                       value:
                           filterValues[widget.category]![filter.key] ?? 'any',
-                      items: model.subjects.keys
-                          .map((e) => ComboBoxItem(
-                                child: SubjectText(
-                                  offering: model.subjects[e]!.first,
-                                ),
-                                value: e,
-                              ))
-                          .toList()
-                        ..insert(
-                            0,
-                            ComboBoxItem(
-                              child: Text(strings.skedmaker.filters.any),
-                              value: 'any',
-                            )),
+                      items: [
+                        ComboBoxItem(
+                          child: Text(strings.skedmaker.filters.any),
+                          value: 'any',
+                        ),
+                        for (final e in model.subjects.keys)
+                          ComboBoxItem(
+                            child: SubjectText(
+                              offering: model.subjects[e]!.first,
+                            ),
+                            value: e,
+                          ),
+                      ],
                       onChanged: (value) {
                         if (value == null) return;
                         final model = context.read<SkedmakerModel>();
@@ -425,8 +424,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                               onPressed: () {
                                 submit(controller.text);
                               },
-                              icon: Icon(MdiIcons
-                                  .check), // I am not sure if a check is valid here.
+                              // I am not sure if a check icon is valid here.
+                              icon: Icon(MdiIcons.check),
                             ),
                             controller: controller,
                             onSubmitted: submit,

@@ -64,9 +64,6 @@ List<Offering> parse(String htmlTable) {
       offering = out.last;
       offering.teacher = tr.children.first.text.trim();
     }
-
-    //print(offering);
-    //print("..");
   }
 
   return out;

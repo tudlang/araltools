@@ -392,7 +392,6 @@ class _SchedulesFragmentTimetableState
                     exportImage(context, week);
                   },
                 ),
-                // TODO add rename button
                 // TODO add delete button
                 //CommandBarBuilderItem(builder: (context, displayMode, child){
                 //  return
@@ -488,7 +487,7 @@ class ScheduleFragmentCard extends StatelessWidget {
               offering: subject,
               style: textTheme.labelLarge,
             )),
-            TextSpan(text: "${subject.section}", style: textTheme.labelLarge),
+            TextSpan(text: subject.section, style: textTheme.labelLarge),
             TextSpan(
                 text: " #${subject.classNumber}\n",
                 style: textTheme.labelMedium),
