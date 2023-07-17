@@ -93,7 +93,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InfoLabel(
-                          label: "${model.schedulePercentage.round()}% complete",
+                          label:
+                              "${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
                             value: model.schedulePercentage,
                           ),
@@ -213,7 +214,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InfoLabel(
-                          label: "${model.schedulePercentage.round()}% complete",
+                          label:
+                              "${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
                             value: model.schedulePercentage,
                           ),
