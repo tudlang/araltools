@@ -134,6 +134,7 @@ void generateSchedulesIsolate(
         sendPort.send(week);
         print(week.identifierString);
       } on InvalidScheduleError {
+        sendPort.send(null);
         return;
       }
       return;
@@ -208,15 +209,15 @@ void generateSchedulesIsolate(
 
   generateCombination(arg.subjects, []).then((value) {
     //processing is done
-    sendPort.send(null);
+    sendPort.send(0);
   });
 }
 
-Stream<ScheduleWeek> generateSchedules({
+Stream<ScheduleWeek?> generateSchedules({
   required Map<String, List<Offering>> subjects,
   required ScheduleFilters filters,
 }) {
-  late StreamController<ScheduleWeek> controller;
+  late StreamController<ScheduleWeek?> controller;
 
   final p = ReceivePort();
 
@@ -237,14 +238,18 @@ Stream<ScheduleWeek> generateSchedules({
 
   Capability capability = Capability();
 
-  controller = StreamController<ScheduleWeek>(
+  controller = StreamController<ScheduleWeek?>(
     onListen: () async {
       // receive decoded Map
       int outputtedWeeks = 0;
-      await for (ScheduleWeek? week in p) {
-        if (week == null) break; //stop the stream if done
-        week.name = "Schedule ${++outputtedWeeks}";
-        controller.add(week);
+      await for (final week in p) {
+        if (week == 0) break; //stop the stream if done
+        if (week == null) {
+          controller.add(null);
+        } else {
+          week.name = "Schedule ${++outputtedWeeks}";
+          controller.add(week);
+        }
       }
       controller.close();
     },

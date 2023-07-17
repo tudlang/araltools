@@ -135,6 +135,7 @@ class SkedmakerModel extends ChangeNotifier {
   final generateStopwatch = Stopwatch();
   scheduleGenerate() {
     _schedules.clear();
+    _scheduleProgress = 0;
     isGenerating = true;
 
     generateStopwatch.start();
@@ -143,7 +144,10 @@ class SkedmakerModel extends ChangeNotifier {
       subjects: subjects,
       filters: _filters,
     ).listen((event) {
-      addSchedule(event);
+      scheduleProgress++;
+      if (event != null) {
+        addSchedule(event);
+      }
     })
       ..onDone(() {
         generateStopwatch.stop();
@@ -176,6 +180,41 @@ class SkedmakerModel extends ChangeNotifier {
     print("ELAPSED TIME: ${generateStopwatch.elapsedMilliseconds}");
     generateStopwatch.reset();
   }
+
+  int get scheduleCombinations => subjects.values.fold(1, (prev, element) {
+        final _filters = filters.toMap();
+        int offeringsFiltered = 0;
+        for (final offering in element) {
+          if ((_filters['offerings']!['includeClosed'] == false &&
+                  offering.isClosed == true) ||
+              (_filters['offerings']!['includeFullSlots'] == false &&
+                  offering.slotTaken >= offering.slotCapacity) ||
+              (_filters['offerings']!['includeUnknownModality'] == false &&
+                  offering.scheduleDay.name.contains('nknown')) ||
+              (_filters['offerings']!['includeNoProfessors'] == false &&
+                  offering.teacher.isEmpty) ||
+              (_filters['offerings']!['excludeSectionLetter']?.isNotEmpty ==
+                      true &&
+                  (_filters['offerings']!['excludeSectionLetter'] as Map)
+                      .keys
+                      .any((e) => offering.section
+                          .toLowerCase()
+                          .contains(e.toLowerCase())))) {
+            offeringsFiltered++;
+          }
+        }
+        return prev * (element.length - offeringsFiltered);
+      });
+
+  int _scheduleProgress = 0;
+  int get scheduleProgress => _scheduleProgress;
+  set scheduleProgress(int a) {
+    _scheduleProgress = a;
+    notifyListeners();
+  }
+
+  double get schedulePercentage =>
+      (_scheduleProgress / scheduleCombinations) * 100;
 
   SkedmakerModel()
       : subjects = {},

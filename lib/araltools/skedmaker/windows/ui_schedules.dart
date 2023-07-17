@@ -92,7 +92,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     if (model.isGenerating) ...[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ProgressBar(),
+                        child: InfoLabel(
+                          label: "${model.schedulePercentage.round()}% complete",
+                          child: ProgressBar(
+                            value: model.schedulePercentage,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -200,11 +205,19 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                           },
                         ),
                       ),
-                    Text("${model.schedules.length} schedules found"),
+                    Text(
+                      "${model.schedules.length} schedules found",
+                      textAlign: TextAlign.center,
+                    ),
                     if (model.isGenerating)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ProgressBar(),
+                        child: InfoLabel(
+                          label: "${model.schedulePercentage.round()}% complete",
+                          child: ProgressBar(
+                            value: model.schedulePercentage,
+                          ),
+                        ),
                       ),
                     Divider(),
                     Expanded(
