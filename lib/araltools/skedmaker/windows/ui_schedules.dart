@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:math';
+
 import 'package:araltools/araltools/skedmaker/export_image.dart';
 import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Tab, TabView, TabWidthBehavior;
@@ -96,7 +98,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                           label:
                               "${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
-                            value: model.schedulePercentage,
+                            value: model.schedulePercentage.clamp(0, 100),
                           ),
                         ),
                       ),
@@ -217,7 +219,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                           label:
                               "${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
-                            value: model.schedulePercentage,
+                            value: model.schedulePercentage.clamp(0, 100),
                           ),
                         ),
                       ),
