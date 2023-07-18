@@ -31,8 +31,8 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
       configuration: CreateConfiguration(
     userDataFolderWindows:
         '${(await getApplicationSupportDirectory()).path}/skedmaker',
-    titleBarHeight:
-        0, // I wish there was a way to customize the title bar (supposed to be appbar) further
+    // I wish there was a way to customize the title bar (supposed to be appbar) further
+    titleBarHeight: 0,
     title: 'View course offerings',
   ));
   // TODO add setting for this later
@@ -50,6 +50,13 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
           content: Text(
               'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".${isError ? '\nError' : ''}'),
           actions: [
+            Button(
+              child: Text('Cancel'),
+              onPressed: () {
+                window.close();
+                Navigator.pop(context);
+              },
+            ),
             FilledButton(
               onPressed: () async {
                 // Javascript code to get the HTML of the table
@@ -64,7 +71,7 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
                   });
                 }
               },
-              child: Text('ADD'),
+              child: Text('Add'),
             )
           ],
         );
@@ -102,16 +109,18 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
                 controller: controller,
                 placeholder: 'The command output',
                 maxLines: null,
+                autofocus: true,
               ),
               if (isError) Text('Invalid input'),
             ],
           ),
           actions: [
             Button(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             FilledButton(
               child: Text('Add'),
               onPressed: () {
