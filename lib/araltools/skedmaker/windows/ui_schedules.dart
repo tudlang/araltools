@@ -96,9 +96,11 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                         padding: const EdgeInsets.all(8.0),
                         child: InfoLabel(
                           label:
-                              "${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                              "No schedules found yet\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
-                            value: model.schedulePercentage.clamp(0, 100),
+                            value: model.schedulePercentage.isNaN
+                                ? null
+                                : model.schedulePercentage.clamp(0, 100),
                           ),
                         ),
                       ),
@@ -131,7 +133,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                           padding: const EdgeInsets.all(8.0),
                           child: InfoBar(
                             title: Text(
-                              'No schedules found.',
+                              'No schedules found. Maybe check your filters and try again.',
                               textAlign: TextAlign.center,
                             ),
                             severity: InfoBarSeverity.error,
@@ -219,10 +221,13 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                           label:
                               "${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
-                            value: model.schedulePercentage.clamp(0, 100),
+                            value: model.schedulePercentage.isNaN
+                                ? null
+                                : model.schedulePercentage.clamp(0, 100),
                           ),
                         ),
                       ),
+                    SizedBox(height: 8),
                     Divider(),
                     Expanded(
                         child: ListView.builder(
