@@ -85,6 +85,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Generate possible schedules',
@@ -92,11 +93,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     ),
                     SizedBox(height: 8),
                     if (model.isGenerating) ...[
+                      Text("No schedules found yet. This will take some time."),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(bottom:8.0),
                         child: InfoLabel(
                           label:
-                              "No schedules found yet\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                              "\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
                           child: ProgressBar(
                             value: model.schedulePercentage.isNaN
                                 ? null
@@ -106,7 +108,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FilledButton(
+                        child: Button(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text('Cancel'),
@@ -193,7 +195,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                               ),
                             ),
                           Button(
-                            child: Text('Cancel'),
+                            child: Text('Stop'),
                             onPressed: () {
                               context.read<SkedmakerModel>().scheduleCancel();
                             },

@@ -63,6 +63,15 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             title: Text('Add subject'),
             body: Column(
               children: [
+                if (model.isGenerating)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title: Text(
+                          'Currently generating. Changes here will not apply until you generate again.'),
+                      severity: InfoBarSeverity.warning,
+                    ),
+                  ),
                 Expanded(
                     child: Center(
                         child: Column(
@@ -205,9 +214,21 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final model = context.watch<SkedmakerModel>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (model.isGenerating)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InfoBar(
+                title: Text(
+                    'Currently generating. Changes here will not apply until you generate again.'),
+                severity: InfoBarSeverity.warning,
+              ),
+            ),
+          ),
         if (widget.offerings.length == offeringNotAvailable.length)
           Center(
             child: Padding(

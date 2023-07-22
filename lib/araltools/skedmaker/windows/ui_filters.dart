@@ -49,6 +49,7 @@ class _FiltersFragmentState extends State<FiltersFragment> {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SkedmakerModel>();
     return NavigationView(
       pane: NavigationPane(
           selected: paneIndex,
@@ -86,6 +87,14 @@ class _FiltersFragmentState extends State<FiltersFragment> {
                   icon: Icon(category.key.$2),
                   body: Column(
                     children: [
+                       if (model.isGenerating)
+                  Center(child:Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title: Text('Currently generating. Changes here will not apply until you generate again.'),
+                      severity: InfoBarSeverity.warning,
+                    ),
+                  ),),
                       Expanded(
                         child: LayoutBuilder(builder: (context, constraints) {
                           return ConstrainedBox(
