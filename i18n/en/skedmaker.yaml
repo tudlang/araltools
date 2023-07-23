@@ -76,8 +76,10 @@ filters:
       fridayName: Friday
       saturdayName: Saturday
     location:
-      name: Location
-      desc: Filter schedules based on each subject's location
+      name: Location (experimental)
+      desc: Filter schedules based on each offering's location
+      enabled:
+        name: Enable filtering using location & distances
       checkingDistanceMinutes:
         name: Time gap between subjects to check for distance (in minutes)
       maxAllowedDistanceMeters:

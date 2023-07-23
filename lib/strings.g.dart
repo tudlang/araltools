@@ -1,9 +1,9 @@
 /// Generated file. Do not edit.
 ///
 /// Locales: 1
-/// Strings: 126
+/// Strings: 127
 ///
-/// Built on 2023-07-13 at 11:48 UTC
+/// Built on 2023-07-23 at 12:39 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -813,8 +813,9 @@ class _StringsSkedmakerFiltersCategoriesLocationEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Location';
-	String get desc => 'Filter schedules based on each subject\'s location';
+	String get name => 'Location (experimental)';
+	String get desc => 'Filter schedules based on each offering\'s location';
+	late final _StringsSkedmakerFiltersCategoriesLocationEnabledEn enabled = _StringsSkedmakerFiltersCategoriesLocationEnabledEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn checkingDistanceMinutes = _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn maxAllowedDistanceMeters = _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(_root);
 }
@@ -934,6 +935,16 @@ class _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn {
 	String get desc => 'Time where there should be no subjects';
 }
 
+// Path: skedmaker.filters.categories.location.enabled
+class _StringsSkedmakerFiltersCategoriesLocationEnabledEn {
+	_StringsSkedmakerFiltersCategoriesLocationEnabledEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Enable filtering using location & distances';
+}
+
 // Path: skedmaker.filters.categories.location.checkingDistanceMinutes
 class _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn {
 	_StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(this._root);
@@ -1002,8 +1013,9 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.day.thursdayName': return 'Thursday';
 			case 'skedmaker.filters.categories.day.fridayName': return 'Friday';
 			case 'skedmaker.filters.categories.day.saturdayName': return 'Saturday';
-			case 'skedmaker.filters.categories.location.name': return 'Location';
-			case 'skedmaker.filters.categories.location.desc': return 'Filter schedules based on each subject\'s location';
+			case 'skedmaker.filters.categories.location.name': return 'Location (experimental)';
+			case 'skedmaker.filters.categories.location.desc': return 'Filter schedules based on each offering\'s location';
+			case 'skedmaker.filters.categories.location.enabled.name': return 'Enable filtering using location & distances';
 			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Time gap between subjects to check for distance (in minutes)';
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance from one subject to the next (in meters)';
 			case 'skedmaker.filters.any': return 'Any subject';

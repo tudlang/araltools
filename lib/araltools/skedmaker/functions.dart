@@ -112,7 +112,8 @@ void generateSchedulesIsolate(
           //}
 
           // location cheker
-          offeringDay.forEachIndexed((index, element) {
+          if (filters['location']!['enabled'] == true) {
+            offeringDay.forEachIndexed((index, element) {
             if (index == 0) return; //skip if first
 
             // if the next subject is within the checking distance time gap
@@ -128,6 +129,7 @@ void generateSchedulesIsolate(
               }
             }
           });
+          }
         }
 
         // Send the completed schedule to main thread

@@ -87,14 +87,17 @@ class _FiltersFragmentState extends State<FiltersFragment> {
                   icon: Icon(category.key.$2),
                   body: Column(
                     children: [
-                       if (model.isGenerating)
-                  Center(child:Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InfoBar(
-                      title: Text('Currently generating. Changes here will not apply until you generate again.'),
-                      severity: InfoBarSeverity.warning,
-                    ),
-                  ),),
+                      if (model.isGenerating)
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InfoBar(
+                              title: Text(
+                                  'Currently generating. Changes here will not apply until you generate again.'),
+                              severity: InfoBarSeverity.warning,
+                            ),
+                          ),
+                        ),
                       Expanded(
                         child: LayoutBuilder(builder: (context, constraints) {
                           return ConstrainedBox(
@@ -207,7 +210,13 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
         ),
         SizedBox(height: 10),
         for (final filter in filters)
-          if (filter.valueDefault == null)
+          if (filter.keyDependsOn != null &&
+              model.filters.values[filter.keyDependsOn!.$1]![
+                      filter.keyDependsOn!.$2] !=
+                  true)
+            // return an empty widget if the filter depends on something and its `false`
+            SizedBox.shrink() 
+          else if (filter.valueDefault == null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Text(

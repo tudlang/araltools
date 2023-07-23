@@ -459,6 +459,7 @@ class ScheduleWeek {
 class ScheduleFilter<T> {
   final String key;
   final String? keyLocalized;
+  final (String category, String filter)? keyDependsOn;
   final T valueDefault;
   final T? valueMost;
   final T? valueLeast;
@@ -467,6 +468,7 @@ class ScheduleFilter<T> {
   ScheduleFilter({
     required this.key,
     required this.valueDefault,
+    this.keyDependsOn,
     this.keyLocalized,
     this.valueMost,
     this.valueLeast,
@@ -568,13 +570,19 @@ class ScheduleFilters {
       ]
     ],
     ('location', MdiIcons.mapMarkerOutline): [
+      ScheduleFilter<bool>(
+        key: 'enabled',
+        valueDefault: false,
+      ),
       ScheduleFilter<int>(
         key: 'checkingDistanceMinutes',
+        keyDependsOn: ('location','enabled'),
         valueDefault: 20,
         valueLeast: -1,
       ),
       ScheduleFilter<int>(
         key: 'maxAllowedDistanceMeters',
+        keyDependsOn: ('location','enabled'),
         valueDefault: 200,
         valueLeast: -1,
       ),
