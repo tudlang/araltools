@@ -224,7 +224,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               padding: const EdgeInsets.all(8.0),
               child: InfoBar(
                 title: Text(
-                    'Currently generating. Changes here will not apply until you generate again.'),
+                    'Currently generating schedules. Changes here will not apply until you generate again.'),
                 severity: InfoBarSeverity.warning,
               ),
             ),

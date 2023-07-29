@@ -115,7 +115,7 @@ class HomeCard extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Launch'),
+                    child: Text('Open'),
                   ),
                 )
             ],
