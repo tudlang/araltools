@@ -18,9 +18,11 @@
 import 'dart:math';
 
 import 'package:araltools/araltools/skedmaker/debug.dart';
+import 'package:araltools/utils.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide FilledButton, Tooltip;
+import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -386,95 +388,306 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
         Expanded(
             child: ListView(
           children: [
-            DataTable(
-              dataRowMinHeight: 36,
-              dataRowMaxHeight: 36,
-              showCheckboxColumn: false, //TODO add subjects
-              columnSpacing: 10,
-              columns: [
-                DataColumn(label: Text('Status')),
-                DataColumn(label: Text('Class #')),
-                DataColumn(label: Text('Section')),
-                DataColumn(label: Text('Room')),
-                DataColumn(label: Text('Day')),
-                DataColumn(label: Text('Time')),
-                DataColumn(label: Text('Teacher')),
-                DataColumn(label: Text('Slots')),
-              ],
-              rows: [
-                for (var i = 0; i < offerings.length; i++)
-                  DataRow(
-                    color: offerings[i].isAvailable
-                        ? null
-                        : MaterialStatePropertyAll(ResourceDictionary.light()
-                            .systemFillColorCriticalBackground),
-                    cells: [
-                      DataCell(
-                        offerings[i].isClosed
-                            ? Tooltip(
-                                message: 'Closed',
-                                child: Icon(MdiIcons.closeCircleOutline),
-                              )
-                            : Tooltip(
-                                message: 'Open',
-                                child: Icon(MdiIcons.checkCircleOutline),
-                              ),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Text(offerings[i].classNumber.toString()),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Text(offerings[i].section),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Text(offerings[i].room),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Tooltip(
-                          child: Text(offerings[i].scheduleDay.nameShort),
-                          message: offerings[i].scheduleDay.nameLocalized,
-                        ),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Text(offerings[i].scheduleTime),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Text(offerings[i].teacher),
-                        onTap: () {},
-                      ),
-                      DataCell(
-                        Row(mainAxisSize: MainAxisSize.min, children: [
-                          Text(offerings[i].slots),
-                          SizedBox(width: 8),
-                          SizedBox.square(
-                            dimension: 25,
-                            child: Tooltip(
-                              message:
-                                  "${(offerings[i].slotPercentage * 100).round()}%",
-                              child: ProgressRing(
-                                // min because the slot taken might be greater than capacity
-                                value:
-                                    min(100, offerings[i].slotPercentage * 100),
-                                strokeWidth: 3,
-                              ),
+            () {
+              final flyoutController = FlyoutController();
+
+              return FlyoutTarget(
+                controller: flyoutController,
+                child: DataTable(
+                  dataRowMinHeight: 36,
+                  dataRowMaxHeight: 36,
+                  showCheckboxColumn: false, //TODO add subjects
+                  columnSpacing: 10,
+                  columns: [
+                    DataColumn(label: Text('Status')),
+                    DataColumn(label: Text('Class #')),
+                    DataColumn(label: Text('Section')),
+                    DataColumn(label: Text('Room')),
+                    DataColumn(label: Text('Day')),
+                    DataColumn(label: Text('Time')),
+                    DataColumn(label: Text('Teacher')),
+                    DataColumn(label: Text('Slots')),
+                  ],
+                  rows: [
+                    for (var i = 0; i < offerings.length; i++)
+                      DataRow(
+                        color: offerings[i].isAvailable
+                            ? null
+                            : MaterialStatePropertyAll(
+                                ResourceDictionary.light()
+                                    .systemFillColorCriticalBackground),
+                        cells: [
+                          DataCell(
+                            offerings[i].isClosed
+                                ? Tooltip(
+                                    message: 'Closed',
+                                    child: Icon(MdiIcons.closeCircleOutline),
+                                  )
+                                : Tooltip(
+                                    message: 'Open',
+                                    child: Icon(MdiIcons.checkCircleOutline),
+                                  ),
+                            onTap: () {
+                              model.modifySubjectOffering(
+                                widget.subject,
+                                i,
+                                (p0) => p0..isClosed = !p0.isClosed,
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Text(offerings[i].classNumber.toString()),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  final controllerText = TextEditingController(
+                                      text:
+                                          offerings[i].classNumber.toString());
+
+                                  return SubjectsFragmentFlyout(
+                                    controllerText: controllerText,
+                                    label: 'Edit class number:',
+                                    submit: (model) {
+                                      model.modifySubjectOffering(
+                                        widget.subject,
+                                        i,
+                                        (p0) => p0
+                                          ..classNumber =
+                                              controllerText.text.toInt(),
+                                      );
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Text(offerings[i].section),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  final controllerText = TextEditingController(
+                                      text: offerings[i].section);
+
+                                  return SubjectsFragmentFlyout(
+                                    controllerText: controllerText,
+                                    label: 'Edit section:',
+                                    submit: (model) {
+                                      model.modifySubjectOffering(
+                                        widget.subject,
+                                        i,
+                                        (p0) =>
+                                            p0..section = controllerText.text,
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Text(offerings[i].room),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  final controllerText = TextEditingController(
+                                      text: offerings[i].room);
+
+                                  return SubjectsFragmentFlyout(
+                                    controllerText: controllerText,
+                                    label: 'Edit room (can be empty):',
+                                    submit: (model) {
+                                      model.modifySubjectOffering(
+                                        widget.subject,
+                                        i,
+                                        (p0) => p0..room = controllerText.text,
+                                      );
+                                    },
+                                    isEmptyAllowed: true,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Tooltip(
+                              child: Text(offerings[i].scheduleDay.nameShort),
+                              message: offerings[i].scheduleDay.nameLocalized,
                             ),
-                          )
-                        ]),
-                        onTap: () {},
-                      ),
-                    ],
-                  )
-              ],
-            ),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  ScheduleDay selected =
+                                      offerings[i].scheduleDay;
+
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return SubjectsFragmentFlyout(
+                                      label: 'Edit day:',
+                                      input: ComboBox<ScheduleDay>(
+                                        value: selected,
+                                        items: ScheduleDay.values
+                                            .map((e) => ComboBoxItem(
+                                                  child: Text(e.nameLocalized),
+                                                  value: e,
+                                                ))
+                                            .toList(),
+                                        onChanged: (value) => setState(
+                                            () => selected = value ?? selected),
+                                      ),
+                                      submit: (model) {
+                                        model.modifySubjectOffering(
+                                          widget.subject,
+                                          i,
+                                          (p0) => p0..scheduleDay = selected,
+                                        );
+                                      },
+                                      isEmptyAllowed: true,
+                                    );
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Text(offerings[i].scheduleTime),
+                            onTap: () {},
+                          ),
+                          DataCell(
+                            Text(offerings[i].teacher),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  final controllerText = TextEditingController(
+                                      text: offerings[i].teacher);
+
+                                  return SubjectsFragmentFlyout(
+                                    controllerText: controllerText,
+                                    label: 'Edit teacher (can be empty):',
+                                    submit: (model) {
+                                      model.modifySubjectOffering(
+                                        widget.subject,
+                                        i,
+                                        (p0) =>
+                                            p0..teacher = controllerText.text,
+                                      );
+                                    },
+                                    isEmptyAllowed: true,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          DataCell(
+                            Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text(offerings[i].slots),
+                              SizedBox(width: 8),
+                              SizedBox.square(
+                                dimension: 25,
+                                child: Tooltip(
+                                  message:
+                                      "${(offerings[i].slotPercentage * 100).round()}%",
+                                  child: ProgressRing(
+                                    // min because the slot taken might be greater than capacity
+                                    value: min(
+                                        100, offerings[i].slotPercentage * 100),
+                                    strokeWidth: 3,
+                                  ),
+                                ),
+                              )
+                            ]),
+                            onTap: () {},
+                          ),
+                        ],
+                      )
+                  ],
+                ),
+              );
+            }()
           ],
         ))
       ],
+    );
+  }
+}
+
+/// The widget for the flyout when clicking on a cell on the offering table
+class SubjectsFragmentFlyout extends StatelessWidget {
+  const SubjectsFragmentFlyout({
+    super.key,
+    required this.submit,
+    this.inputFormatters,
+    this.controllerText,
+    required this.label,
+    this.isEmptyAllowed = false,
+    this.input,
+  }) : assert((input != null) || (input == null && controllerText != null),
+            'There is a missing textEditingController');
+
+  final void Function(SkedmakerModel) submit;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextEditingController? controllerText;
+  final String label;
+  final bool isEmptyAllowed;
+  final Widget? input;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlyoutContent(
+      child: ConstrainedBox(
+        constraints: input == null
+            ? BoxConstraints(maxWidth: 200)
+            : const BoxConstraints(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InfoLabel(
+              label: label,
+              child: input ??
+                  TextBox(
+                    controller: controllerText,
+                    autofocus: true,
+                    onSubmitted: (value) {
+                      if (!isEmptyAllowed && controllerText!.text.isEmpty)
+                        return;
+                      submit(context.read<SkedmakerModel>());
+                      Navigator.pop(context);
+                    },
+                    inputFormatters: inputFormatters,
+                  ),
+            ),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: [
+                Button(
+                  child: Text('Save'),
+                  onPressed: () {
+                    if (input == null &&
+                        !isEmptyAllowed &&
+                        controllerText!.text.isEmpty) return;
+                    submit(context.read<SkedmakerModel>());
+                    Navigator.pop(context);
+                  },
+                ),
+                Button(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
