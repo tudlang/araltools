@@ -1,9 +1,12 @@
 /// Generated file. Do not edit.
 ///
-/// Locales: 1
-/// Strings: 127
+/// Original: i18n
+/// To regenerate, run: `dart run slang`
 ///
-/// Built on 2023-07-23 at 12:39 UTC
+/// Locales: 1
+/// Strings: 128
+///
+/// Built on 2023-08-15 at 11:44 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -665,7 +668,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Thursday and Friday (both face-to-face)';
+	String get name => 'Thursday and Friday (both online)';
 	String get nameShort => 'T & F (both online)';
 }
 
@@ -765,6 +768,7 @@ class _StringsSkedmakerScheduleDayUnknownEn {
 
 	// Translations
 	String get name => 'Unknown';
+	String get nameShort => 'Unknown';
 }
 
 // Path: skedmaker.filters.categories.offerings
@@ -1079,7 +1083,7 @@ extension on _StringsEn {
 			case 'skedmaker.scheduleDay.mondaythursdayUnknown.nameShort': return 'M & T';
 			case 'skedmaker.scheduleDay.tuesdayfridayFace.name': return 'Thursday and Friday (both face-to-face)';
 			case 'skedmaker.scheduleDay.tuesdayfridayFace.nameShort': return 'T & F (both f2f)';
-			case 'skedmaker.scheduleDay.tuesdayfridayOnline.name': return 'Thursday and Friday (both face-to-face)';
+			case 'skedmaker.scheduleDay.tuesdayfridayOnline.name': return 'Thursday and Friday (both online)';
 			case 'skedmaker.scheduleDay.tuesdayfridayOnline.nameShort': return 'T & F (both online)';
 			case 'skedmaker.scheduleDay.tuesdayfridayOnlineface.name': return 'Thursday (online) and Friday (face-to-face)';
 			case 'skedmaker.scheduleDay.tuesdayfridayOnlineface.nameShort': return 'T (online) & F (f2f)';
@@ -1098,6 +1102,7 @@ extension on _StringsEn {
 			case 'skedmaker.scheduleDay.wednesdaysaturdayUnknown.name': return 'Wednesday and Saturday';
 			case 'skedmaker.scheduleDay.wednesdaysaturdayUnknown.nameShort': return 'W & S';
 			case 'skedmaker.scheduleDay.unknown.name': return 'Unknown';
+			case 'skedmaker.scheduleDay.unknown.nameShort': return 'Unknown';
 			default: return null;
 		}
 	}

@@ -178,7 +178,7 @@ scheduleDay:
     name: Thursday and Friday (both face-to-face)
     nameShort: T & F (both f2f)
   tuesdayfridayOnline: 
-    name: Thursday and Friday (both face-to-face)
+    name: Thursday and Friday (both online)
     nameShort: T & F (both online)
   tuesdayfridayOnlineface: 
     name: Thursday (online) and Friday (face-to-face)
@@ -206,3 +206,4 @@ scheduleDay:
     nameShort: W & S
   unknown: 
     name: Unknown
+    nameShort: Unknown
