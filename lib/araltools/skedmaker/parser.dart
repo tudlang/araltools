@@ -59,6 +59,7 @@ List<Offering> parse(String htmlTable) {
         isClosed: tr.querySelector('font[color="#0099CC"]') != null,
         slotCapacity: tr.children[6].text.toInt(),
         slotTaken: tr.children[7].text.toInt(),
+        remarks: tr.children[8].text.trim(),
       )..scheduleTime = tr.children[4].text.trim();
 
       out.add(offering);

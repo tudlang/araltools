@@ -407,6 +407,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                     DataColumn(label: Text('Time')),
                     DataColumn(label: Text('Teacher')),
                     DataColumn(label: Text('Slots')),
+                    DataColumn(label: Text('Remarks')),
                   ],
                   rows: [
                     for (var i = 0; i < offerings.length; i++)
@@ -605,6 +606,32 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                               )
                             ]),
                             onTap: () {},
+                          ),
+                          DataCell(
+                            Text(offerings[i].remarks),
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  final controllerText = TextEditingController(
+                                      text: offerings[i].remarks);
+
+                                  return SubjectsFragmentFlyout(
+                                    controllerText: controllerText,
+                                    label: 'Edit remarks (can be empty):',
+                                    submit: (model) {
+                                      model.modifySubjectOffering(
+                                        widget.subject,
+                                        i,
+                                        (p0) =>
+                                            p0..remarks = controllerText.text,
+                                      );
+                                    },
+                                    isEmptyAllowed: true,
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       )

@@ -527,7 +527,11 @@ class ScheduleFragmentCard extends StatelessWidget {
                 style: textTheme.labelMedium),
             WidgetSpan(child: Icon(MdiIcons.humanMaleBoard, size: 13)),
             TextSpan(
-                text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}",
+                text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}\n",
+                style: textTheme.labelMedium),
+            WidgetSpan(child: Icon(MdiIcons.text, size: 13)),
+            TextSpan(
+                text: " ${subject.remarks.isEmpty ? '-' : subject.remarks}",
                 style: textTheme.labelMedium),
           ],
         )),

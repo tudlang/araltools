@@ -44,6 +44,7 @@ class Offering implements Comparable {
   int classNumber;
   bool isClosed;
   Color color;
+  String remarks;
 
   Offering({
     required this.subject,
@@ -56,6 +57,7 @@ class Offering implements Comparable {
     this.slotCapacity = 0,
     this.teacher = '',
     this.isClosed = false,
+    this.remarks = ''
   });
 
   /// Expected input: `1245 - 1415`
@@ -90,6 +92,7 @@ class Offering implements Comparable {
           'a': color.alpha,
         },
         'isClosed': isClosed,
+        'remarks':remarks
       };
   factory Offering.fromMap(Map map) => Offering(
         classNumber: map['classNumber'],
@@ -107,6 +110,7 @@ class Offering implements Comparable {
         isClosed: map['isClosed'],
         slotCapacity: map['slotCapacity'],
         slotTaken: map['slotTaken'],
+        remarks: map['remarks']
       )
         ..scheduleTimeStart = map['scheduleTimeStart']
         ..scheduleTimeEnd = map['scheduleTimeEnd'];
