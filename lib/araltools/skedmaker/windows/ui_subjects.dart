@@ -162,7 +162,6 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                     : NavigationPaneTheme.of(context).tileColor,
                 title: subjectText.text,
                 body: SubjectsFragmentEdit(
-                  offerings: subject.value,
                   subject: subject.key,
                 ),
                 trailing: hasError
@@ -186,11 +185,9 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
 }
 
 class SubjectsFragmentEdit extends StatefulWidget {
-  final List<Offering> offerings;
   final String subject;
   const SubjectsFragmentEdit({
     super.key,
-    required this.offerings,
     required this.subject,
   });
 
@@ -204,7 +201,9 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
   @override
   void initState() {
     super.initState();
-    for (var offering in widget.offerings) {
+
+    for (var offering
+        in context.read<SkedmakerModel>().subjects[widget.subject]!) {
       if (!offering.isAvailable) {
         offeringNotAvailable.add(offering);
       }
@@ -215,6 +214,8 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final model = context.watch<SkedmakerModel>();
+    final offerings = model.subjects[widget.subject]!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -229,7 +230,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               ),
             ),
           ),
-        if (widget.offerings.length == offeringNotAvailable.length)
+        if (offerings.length == offeringNotAvailable.length)
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -246,14 +247,14 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               Container(
                 decoration: ShapeDecoration(
                   shape: CircleBorder(),
-                  color: widget.offerings.first.color,
+                  color: offerings.first.color,
                 ),
                 width: 25,
                 height: 25,
               ),
               SizedBox(width: 8),
               Text(
-                "${widget.subject} - ${widget.offerings.length} offerings (${widget.offerings.length - offeringNotAvailable.length} available)",
+                "${widget.subject} - ${offerings.length} offerings (${offerings.length - offeringNotAvailable.length} available)",
                 textAlign: TextAlign.start,
                 style: textTheme.headlineMedium,
               ),
@@ -401,49 +402,73 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                 DataColumn(label: Text('Slots')),
               ],
               rows: [
-                for (final offering in widget.offerings)
+                for (var i = 0; i < offerings.length; i++)
                   DataRow(
-                    color: offering.isAvailable
+                    color: offerings[i].isAvailable
                         ? null
                         : MaterialStatePropertyAll(ResourceDictionary.light()
                             .systemFillColorCriticalBackground),
                     cells: [
-                      DataCell(offering.isClosed
-                          ? Tooltip(
-                              message: 'Closed',
-                              child: Icon(MdiIcons.closeCircleOutline),
-                            )
-                          : Tooltip(
-                              message: 'Open',
-                              child: Icon(MdiIcons.checkCircleOutline),
-                            )),
-                      DataCell(Text(offering.classNumber.toString())),
-                      DataCell(Text(offering.section)),
-                      DataCell(Text(offering.room)),
-                      DataCell(Tooltip(
-                        child: Text(offering.scheduleDay.nameShort),
-                        message: offering.scheduleDay.nameLocalized,
-                      )),
-                      DataCell(Text(offering.scheduleTime)),
-                      DataCell(Text(offering.teacher)),
-                      DataCell(Row(mainAxisSize: MainAxisSize.min, children: [
-                        Text(offering.slots),
-                        SizedBox(width: 8),
-                        SizedBox.square(
-                          dimension: 25,
-                          child: Tooltip(
-                            message:
-                                "${(offering.slotPercentage * 100).round()}%",
-                            child: ProgressRing(
-                              // min because the slot taken might be greater than capacity
-                              value: min(100, offering.slotPercentage * 100),
-                              strokeWidth: 3,
+                      DataCell(
+                        offerings[i].isClosed
+                            ? Tooltip(
+                                message: 'Closed',
+                                child: Icon(MdiIcons.closeCircleOutline),
+                              )
+                            : Tooltip(
+                                message: 'Open',
+                                child: Icon(MdiIcons.checkCircleOutline),
+                              ),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Text(offerings[i].classNumber.toString()),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Text(offerings[i].section),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Text(offerings[i].room),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Tooltip(
+                          child: Text(offerings[i].scheduleDay.nameShort),
+                          message: offerings[i].scheduleDay.nameLocalized,
+                        ),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Text(offerings[i].scheduleTime),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Text(offerings[i].teacher),
+                        onTap: () {},
+                      ),
+                      DataCell(
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text(offerings[i].slots),
+                          SizedBox(width: 8),
+                          SizedBox.square(
+                            dimension: 25,
+                            child: Tooltip(
+                              message:
+                                  "${(offerings[i].slotPercentage * 100).round()}%",
+                              child: ProgressRing(
+                                // min because the slot taken might be greater than capacity
+                                value:
+                                    min(100, offerings[i].slotPercentage * 100),
+                                strokeWidth: 3,
+                              ),
                             ),
-                          ),
-                        )
-                      ])),
+                          )
+                        ]),
+                        onTap: () {},
+                      ),
                     ],
-                    onSelectChanged: (value) {},
                   )
               ],
             ),

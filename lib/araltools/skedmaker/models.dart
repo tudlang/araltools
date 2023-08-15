@@ -39,6 +39,11 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void modifySubjectOffering(String code, int index, Offering Function(Offering) modify){
+    subjects[code]![index] = modify(subjects[code]![index]);
+    notifyListeners();
+  }
+
   Set<ScheduleWeek> get schedules => _schedules;
   set schedules(Set<ScheduleWeek> a) {
     _schedules = a;
