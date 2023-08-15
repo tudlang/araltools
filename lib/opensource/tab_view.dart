@@ -1,22 +1,6 @@
-// File from the 'fluent_ui' package, under the BSD 3-Clause license
-//
-//Copyright 2020 Bruno D'Luka
-//
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//
-//1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//
-//2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//
-//3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-
 import 'dart:async';
 
 import 'package:fluent_ui/fluent_ui.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -88,9 +72,6 @@ class TabView extends StatefulWidget {
     this.header,
     this.footer,
     this.closeDelayDuration = const Duration(milliseconds: 400),
-    @Deprecated(
-        'This property is no longer used and will be removed in the next major release.')
-    this.wheelScroll = false,
   });
 
   /// The index of the tab to be displayed
@@ -143,10 +124,6 @@ class TabView extends StatefulWidget {
   ///
   /// If null, a [ScrollPosController] is created internally.
   final ScrollPosController? scrollController;
-
-  @Deprecated('This property is no longer used and will be removed in the'
-      ' next major release.')
-  final bool wheelScroll;
 
   /// Indicates the close button visibility mode
   final CloseButtonVisibilityMode closeButtonVisibility;
@@ -378,7 +355,9 @@ class _TabViewState extends State<TabView> {
         style: ButtonStyle(
           foregroundColor: ButtonState.resolveWith((states) {
             if (states.isDisabled || states.isNone) {
-              return FluentTheme.of(context).disabledColor;
+              return FluentTheme.of(context)
+                  .resources
+                  .controlAltFillColorDisabled;
             } else {
               return FluentTheme.of(context).inactiveColor;
             }
@@ -702,8 +681,6 @@ class __TabBodyState extends State<_TabBody> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    MediaQuery.of(context);
-
     _pageController ??= PageController(initialPage: widget.index);
   }
 
@@ -742,7 +719,7 @@ class __TabBodyState extends State<_TabBody> {
 }
 
 /// Represents a single tab within a [TabView].
-class Tab {
+class Tab with Diagnosticable {
   final _tabKey = GlobalKey<__TabState>(debugLabel: 'Tab key');
 
   /// Creates a tab.
@@ -754,6 +731,7 @@ class Tab {
     this.closeIcon = FluentIcons.chrome_close,
     this.onClosed,
     this.semanticLabel,
+    this.disabled = false,
   });
 
   final Key? key;
@@ -782,6 +760,22 @@ class Tab {
 
   /// The body of the view attached to this tab
   final Widget body;
+
+  /// Whether the tab is disabled or not. If true, the tab will be greyed out
+  final bool disabled;
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(FlagProperty(
+        'disabled',
+        value: disabled,
+        defaultValue: false,
+        ifFalse: 'enabled',
+      ))
+      ..add(IconDataProperty('closeIcon', closeIcon));
+  }
 }
 
 class _Tab extends StatefulWidget {
@@ -859,39 +853,35 @@ class __TabState extends State<_Tab>
     return HoverButton(
       key: widget.tab.key,
       semanticLabel: widget.tab.semanticLabel ?? text,
-      onPressed: widget.onPressed,
+      onPressed: widget.tab.disabled ? null : widget.onPressed,
       builder: (context, states) {
-        /// https://github.com/microsoft/microsoft-ui-xaml/blob/main/dev/TreeView/TreeView_themeresources.xaml#L19-L26
+        // https://github.com/microsoft/microsoft-ui-xaml/blob/main/dev/TabView/TabView_themeresources.xaml#L15-L19
         final foregroundColor = ButtonState.resolveWith<Color>((states) {
-          if (states.isPressing) {
+          if (widget.selected) {
+            return res.textFillColorPrimary;
+          } else if (states.isPressing) {
             return res.textFillColorSecondary;
           } else if (states.isHovering) {
             return res.textFillColorPrimary;
           } else if (states.isDisabled) {
             return res.textFillColorDisabled;
           } else {
-            return widget.selected
-                ? res.textFillColorPrimary
-                : res.textFillColorSecondary;
+            return res.textFillColorSecondary;
           }
         }).resolve(states);
 
-        /// https://github.com/microsoft/microsoft-ui-xaml/blob/main/dev/TreeView/TreeView_themeresources.xaml#L10-L17
+        /// https://github.com/microsoft/microsoft-ui-xaml/blob/main/dev/TabView/TabView_themeresources.xaml#L10-L14
         final backgroundColor = ButtonState.resolveWith<Color>((states) {
-          if (states.isPressing) {
-            return widget.selected
-                ? res.subtleFillColorSecondary
-                : res.subtleFillColorTertiary;
+          if (widget.selected) {
+            return res.solidBackgroundFillColorTertiary;
+          } else if (states.isPressing) {
+            return res.layerOnMicaBaseAltFillColorDefault;
           } else if (states.isHovering) {
-            return widget.selected
-                ? res.subtleFillColorTertiary
-                : res.subtleFillColorSecondary;
+            return res.layerOnMicaBaseAltFillColorSecondary;
           } else if (states.isDisabled) {
-            return res.subtleFillColorDisabled;
+            return res.layerOnMicaBaseAltFillColorTransparent;
           } else {
-            return widget.selected
-                ? res.subtleFillColorSecondary
-                : res.subtleFillColorTransparent;
+            return res.layerOnMicaBaseAltFillColorTransparent;
           }
         }).resolve(states);
 
@@ -910,12 +900,19 @@ class __TabState extends State<_Tab>
                         maxWidth: _kMaxTileWidth,
                         minHeight: 28.0,
                       ),
-            padding: const EdgeInsetsDirectional.only(
-              start: 8,
-              top: 3,
-              end: 4,
-              bottom: 3,
-            ),
+            padding: widget.selected
+                ? const EdgeInsetsDirectional.only(
+                    start: 9,
+                    top: 3,
+                    end: 5,
+                    bottom: 4,
+                  )
+                : const EdgeInsetsDirectional.only(
+                    start: 8,
+                    top: 3,
+                    end: 4,
+                    bottom: 3,
+                  ),
             decoration: BoxDecoration(
               borderRadius: borderRadius,
 
@@ -994,6 +991,7 @@ class __TabState extends State<_Tab>
               if (widget.reorderIndex != null) {
                 return ReorderableDragStartListener(
                   index: widget.reorderIndex!,
+                  enabled: !widget.tab.disabled,
                   child: result,
                 );
               }
