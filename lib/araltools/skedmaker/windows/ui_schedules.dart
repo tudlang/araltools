@@ -95,7 +95,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     if (model.isGenerating) ...[
                       Text("No schedules found yet. This will take some time."),
                       Padding(
-                        padding: const EdgeInsets.only(bottom:8.0),
+                        padding: const EdgeInsets.only(bottom: 8.0),
                         child: InfoLabel(
                           label:
                               "\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
@@ -264,7 +264,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   return Tab(
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
-                      //key: ValueKey(tabIndex),
+                      key: ValueKey((tabIndex,weekIndex)),
                       tabIndex: tabIndex,
                     ),
                     closeIcon: model.tabs.length == 1
@@ -335,6 +335,31 @@ class SchedulesFragmentTimetable extends StatefulWidget {
 
 class _SchedulesFragmentTimetableState
     extends State<SchedulesFragmentTimetable> {
+  late final TextEditingController controllerTextNotes;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final model = context.read<SkedmakerModel>();
+    final week = model.schedules.elementAt(model.tabs[widget.tabIndex]);
+
+    controllerTextNotes = TextEditingController(text: week.notes);
+    controllerTextNotes.addListener(
+      () {
+        context.read<SkedmakerModel>().modifySchedule(widget.tabIndex, (week) {
+          week.notes = controllerTextNotes.text;
+        });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controllerTextNotes.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -467,15 +492,29 @@ class _SchedulesFragmentTimetableState
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          for (final subject in week.subjects)
-                            ScheduleFragmentCard(
-                              subject: subject,
-                            )
-                        ],
+                      child: InfoLabel(
+                        label: 'Notes',
+                        child: TextBox(
+                          controller: controllerTextNotes,
+                          maxLines: null,
+                          onChanged: (value) {},
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InfoLabel(
+                        label: 'Subjects',
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (final subject in week.subjects)
+                              ScheduleFragmentCard(
+                                subject: subject,
+                              )
+                          ],
+                        ),
                       ),
                     )
                   ],

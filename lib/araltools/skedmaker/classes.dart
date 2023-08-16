@@ -368,6 +368,7 @@ class ScheduleWeek {
   Set<Offering> subjects;
 
   String name;
+  String notes;
 
   ScheduleWeek()
       // I am so sorry that this is repeated, but each set needs to be separately instantiated
@@ -386,7 +387,8 @@ class ScheduleWeek {
               prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
         },
         name = '',
-        subjects = {};
+        subjects = {},
+        notes = '';
 
   String get identifierString =>
       "${daysOfferings[0]!.isNotEmpty ? '🄼' : ''}${daysOfferings[1]!.isNotEmpty ? ' 🅃' : ''}${daysOfferings[2]!.isNotEmpty ? ' 🅆' : ''}${daysOfferings[3]!.isNotEmpty ? ' 🄷' : ''}${daysOfferings[4]!.isNotEmpty ? ' 🄵' : ''}${daysOfferings[5]!.isNotEmpty ? ' 🅂' : ''}";
@@ -447,7 +449,8 @@ class ScheduleWeek {
         'daysOfferings': daysOfferings.map((key, value) =>
             MapEntry(key, value.map((e) => e.toMap()).toList())),
         'subjects': subjects.map((e) => e.toMap()),
-        'name': name
+        'name': name,
+        'notes':notes,
       };
 
   ScheduleWeek.fromMap(Map map)
@@ -455,7 +458,8 @@ class ScheduleWeek {
             (key, value) => MapEntry(key, value.map(Offering.fromMap).toSet())),
         subjects =
             (map['subjects'] as Iterable<Map>).map(Offering.fromMap).toSet(),
-        name = map['name'];
+        name = map['name'],
+        notes = map['notes'];
 
   double get weight => 0;
 }
