@@ -40,20 +40,23 @@ filters:
       desc: Filter the offerings to include/exclude
       includeClosed:
         name: Include closed offerings
+        desc: Enable this to ignore its status (whether it is open or closed)
       includeFullSlots:
         name: Include offerings with full slots
+        desc: Enable this to ignore its slot capacity
       includeUnknownModality:
         name: Include offerings with unknown modality
       includeNoTeachers:
         name: Include offerings with no teachers
       excludeSectionLetter:
         name: Exclude sections that contains the following
+        desc: Use this to exclude offerings that has a certain letter(s)
     day:        
       name: Day-specific
       desc: Add specific filters for each day of the week
       commonMaxNumberOfSubjects: 
         name: Maximum number of subjects
-        desc: Enter -1 if no limit
+        desc: Enter -1 if no limit; enter 0 if no subjects at all
       commonTimeInterval:
         name: Only have subjects at this time interval
       commonModality: 

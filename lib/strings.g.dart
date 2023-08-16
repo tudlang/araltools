@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 1
-/// Strings: 128
+/// Strings: 131
 ///
-/// Built on 2023-08-15 at 11:44 UTC
+/// Built on 2023-08-16 at 14:19 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -832,6 +832,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn {
 
 	// Translations
 	String get name => 'Include closed offerings';
+	String get desc => 'Enabling this to ignore its status (whether it is open or closed)';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeFullSlots
@@ -842,6 +843,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn {
 
 	// Translations
 	String get name => 'Include offerings with full slots';
+	String get desc => 'Enabling this to ignore its slot capacity';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeUnknownModality
@@ -872,6 +874,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 
 	// Translations
 	String get name => 'Exclude sections that contains the following';
+	String get desc => 'Use this to exclude offerings that has a certain letter(s)';
 }
 
 // Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
@@ -882,7 +885,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn {
 
 	// Translations
 	String get name => 'Maximum number of subjects';
-	String get desc => 'Enter -1 if no limit';
+	String get desc => 'Enter -1 if no limit; enter 0 if no subjects at all';
 }
 
 // Path: skedmaker.filters.categories.day.commonTimeInterval
@@ -994,14 +997,17 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
 			case 'skedmaker.filters.categories.offerings.desc': return 'Filter the offerings to include/exclude';
 			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
+			case 'skedmaker.filters.categories.offerings.includeClosed.desc': return 'Enabling this to ignore its status (whether it is open or closed)';
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
+			case 'skedmaker.filters.categories.offerings.includeFullSlots.desc': return 'Enabling this to ignore its slot capacity';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains the following';
+			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Use this to exclude offerings that has a certain letter(s)';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
-			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.desc': return 'Enter -1 if no limit';
+			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.desc': return 'Enter -1 if no limit; enter 0 if no subjects at all';
 			case 'skedmaker.filters.categories.day.commonTimeInterval.name': return 'Only have subjects at this time interval';
 			case 'skedmaker.filters.categories.day.commonModality.name': return 'Modality of subjects';
 			case 'skedmaker.filters.categories.day.commonModality.hybrid': return 'Online or face-to-face';
