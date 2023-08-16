@@ -70,7 +70,7 @@ class Offering implements Comparable {
 
   String get slots => "$slotTaken / $slotCapacity";
 
-  double get slotPercentage => slotTaken / slotCapacity;
+  double get slotPercentage => slotCapacity==0 ? 1 :  slotTaken / slotCapacity;
 
   bool get isAvailable => !isClosed && slotPercentage < 1.0;
 
