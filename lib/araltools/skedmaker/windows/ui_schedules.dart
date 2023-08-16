@@ -264,7 +264,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   return Tab(
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
-                      key: ValueKey((tabIndex,weekIndex)),
+                      key: ValueKey((tabIndex, weekIndex)),
                       tabIndex: tabIndex,
                     ),
                     closeIcon: model.tabs.length == 1
@@ -336,6 +336,7 @@ class SchedulesFragmentTimetable extends StatefulWidget {
 class _SchedulesFragmentTimetableState
     extends State<SchedulesFragmentTimetable> {
   late final TextEditingController controllerTextNotes;
+  final currentlyHovered = ValueNotifier<Offering?>(null);
 
   @override
   void initState() {
@@ -468,59 +469,84 @@ class _SchedulesFragmentTimetableState
                   color: Color(0xFFeaeaea),
                   highlightedColor: Color.fromARGB(255, 192, 192, 192)),
             ),
-            child: MultiSplitView(
-              axis: Axis.horizontal,
-              initialAreas: [Area(weight: 0.8)],
-              children: [
-                Column(
-                  children: [
-                    Expanded(
-                      child: TimetableFragment(
-                        week: week,
+            child: ValueListenableBuilder(
+                valueListenable: currentlyHovered,
+                builder: (context, value, child) {
+                  return MultiSplitView(
+                    axis: Axis.horizontal,
+                    initialAreas: [Area(weight: 0.8)],
+                    children: [
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Timetable2Fragment(
+                              week: week,
+                              currentlyHovered: currentlyHovered,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Details',
-                        style: textTheme.headlineSmall,
+                      ListView(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Details',
+                              style: textTheme.headlineSmall,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InfoLabel(
+                              label: 'Notes',
+                              child: TextBox(
+                                controller: controllerTextNotes,
+                                maxLines: null,
+                                onChanged: (value) {},
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InfoLabel(
+                              label: 'Subjects',
+                              child: Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  for (final subject in week.subjects)
+                                    MouseRegion(
+                                      onEnter: (event) {
+                                        currentlyHovered.value = subject;
+                                      },
+                                      onExit: (event) {
+                                        setState(() {
+                                          currentlyHovered.value = null;
+                                        });
+                                      },
+                                      child: Opacity(
+                                        opacity:
+                                            currentlyHovered.value != null &&
+                                                    currentlyHovered.value ==
+                                                        subject
+                                                ? 1
+                                                : currentlyHovered.value != null
+                                                    ? 0.3
+                                                    : 1,
+                                        child: ScheduleFragmentCard(
+                                          subject: subject,
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InfoLabel(
-                        label: 'Notes',
-                        child: TextBox(
-                          controller: controllerTextNotes,
-                          maxLines: null,
-                          onChanged: (value) {},
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InfoLabel(
-                        label: 'Subjects',
-                        child: Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            for (final subject in week.subjects)
-                              ScheduleFragmentCard(
-                                subject: subject,
-                              )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  );
+                }),
           ),
         ),
       ],
@@ -529,7 +555,10 @@ class _SchedulesFragmentTimetableState
 }
 
 class ScheduleFragmentCard extends StatelessWidget {
-  const ScheduleFragmentCard({super.key, required this.subject});
+  const ScheduleFragmentCard({
+    super.key,
+    required this.subject,
+  });
 
   final Offering subject;
 
@@ -574,7 +603,8 @@ class ScheduleFragmentCard extends StatelessWidget {
                 style: textTheme.labelMedium),
           ],
         )),
-        backgroundColor: subject.color.withOpacity(0.2),
+        backgroundColor:
+            HSLColor.fromColor(subject.color).withLightness(0.8).toColor(),
       ),
     );
   }
