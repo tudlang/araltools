@@ -559,7 +559,128 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                           ),
                           DataCell(
                             Text(offerings[i].scheduleTime),
-                            onTap: () {},
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  int selectedStart =
+                                      offerings[i].scheduleTimeStart;
+                                  int selectedEnd =
+                                      offerings[i].scheduleTimeEnd;
+
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return SubjectsFragmentFlyout(
+                                      label: 'Edit time:',
+                                      input: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            // ==== start1
+                                            ConstrainedBox(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 60),
+                                              child: NumberBox<int>(
+                                                value: selectedStart,
+                                                onChanged: (value) {
+                                                  value ??= 0;
+                                                  setState(() {
+                                                    final hour =
+                                                        (value! / 100).floor();
+                                                    final minute = value % 100;
+
+                                                    if (hour >= 24 &&
+                                                        minute >= 60) {
+                                                      selectedStart = 2359;
+                                                    } else if (hour >= 24 &&
+                                                        minute < 60) {
+                                                      selectedStart =
+                                                          minute + 2300;
+                                                    } else if (hour < 24 &&
+                                                        minute >= 60) {
+                                                      selectedStart =
+                                                          (hour * 100) + 59;
+                                                    } else if (hour < 24 &&
+                                                        minute < 60) {
+                                                      selectedStart =
+                                                          (hour * 100) + minute;
+                                                    }
+                                                  });
+                                                },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                clearButton: false,
+                                                mode: SpinButtonPlacementMode
+                                                    .none,
+                                                min: 0,
+                                                max: 2359,
+                                              ),
+                                            ),
+                                            // ==== end2
+                                            Text(' to '),
+                                            // ==== start2
+                                            ConstrainedBox(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 60),
+                                              child: NumberBox<int>(
+                                                value: selectedEnd,
+                                                onChanged: (value) {
+                                                  value ??= 0;
+                                                  setState(() {
+                                                    final hour =
+                                                        (value! / 100).floor();
+                                                    final minute = value % 100;
+
+                                                    if (hour >= 24 &&
+                                                        minute >= 60) {
+                                                      selectedEnd = 2359;
+                                                    } else if (hour >= 24 &&
+                                                        minute < 60) {
+                                                      selectedEnd =
+                                                          minute + 2300;
+                                                    } else if (hour < 24 &&
+                                                        minute >= 60) {
+                                                      selectedEnd =
+                                                          (hour * 100) + 59;
+                                                    } else if (hour < 24 &&
+                                                        minute < 60) {
+                                                      selectedEnd =
+                                                          (hour * 100) + minute;
+                                                    }
+                                                  });
+                                                },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                clearButton: false,
+                                                mode: SpinButtonPlacementMode
+                                                    .none,
+                                                min: 0,
+                                                max: 2359,
+                                              ),
+                                            ),
+                                            // ==== end2
+                                          ]),
+                                      submit: (model) {
+                                        if (selectedStart >= selectedEnd) {
+                                          throw Error();
+                                        }
+                                        model.modifySubjectOffering(
+                                          widget.subject,
+                                          i,
+                                          (p0) => p0
+                                            ..scheduleTimeStart = selectedStart
+                                            ..scheduleTimeEnd = selectedEnd,
+                                        );
+                                      },
+                                      isEmptyAllowed: true,
+                                    );
+                                  });
+                                },
+                              );
+                            },
                           ),
                           DataCell(
                             Text(offerings[i].teacher),
@@ -605,7 +726,80 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                                 ),
                               )
                             ]),
-                            onTap: () {},
+                            onTapDown: (details) {
+                              flyoutController.showFlyout(
+                                position: details.globalPosition,
+                                builder: (context) {
+                                  int slotTaken = offerings[i].slotTaken;
+                                  int slotCap = offerings[i].slotCapacity;
+
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return SubjectsFragmentFlyout(
+                                      label: 'Edit slots:',
+                                      input: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 60),
+                                            child: NumberBox<int>(
+                                              value: slotTaken,
+                                              onChanged: (value) {
+                                                if (value == null) return;
+                                                setState(() {
+                                                  slotTaken = value;
+                                                });
+                                              },
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              clearButton: false,
+                                              mode:
+                                                  SpinButtonPlacementMode.none,
+                                              min: 0,
+                                            ),
+                                          ),
+                                          Text(' out of '),
+                                          ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 60),
+                                            child: NumberBox<int>(
+                                              value: slotCap,
+                                              onChanged: (value) {
+                                                if (value == null) return;
+                                                setState(() {
+                                                  slotCap = value;
+                                                });
+                                              },
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              clearButton: false,
+                                              mode:
+                                                  SpinButtonPlacementMode.none,
+                                              min: 0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      submit: (model) {
+                                        model.modifySubjectOffering(
+                                          widget.subject,
+                                          i,
+                                          (p0) => p0
+                                            ..slotTaken = slotTaken
+                                            ..slotCapacity = slotCap,
+                                        );
+                                      },
+                                      isEmptyAllowed: true,
+                                    );
+                                  });
+                                },
+                              );
+                            },
                           ),
                           DataCell(
                             Text(offerings[i].remarks),
@@ -702,8 +896,12 @@ class SubjectsFragmentFlyout extends StatelessWidget {
                     if (input == null &&
                         !isEmptyAllowed &&
                         controllerText!.text.isEmpty) return;
-                    submit(context.read<SkedmakerModel>());
-                    Navigator.pop(context);
+                    try {
+                      submit(context.read<SkedmakerModel>());
+                      Navigator.pop(context);
+                    } catch (e) {
+                      //empty
+                    }
                   },
                 ),
                 Button(
