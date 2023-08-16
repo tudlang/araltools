@@ -535,15 +535,13 @@ class ScheduleFilters {
           valueDefault: -1,
           valueLeast: -1,
         ),
-        /* //TODO add interval
         ScheduleFilter(
           key: '${day}TimeInterval',
           keyLocalized: 'commonTimeInterval',
-          valueDefault: {'start': 730, 'end': 2100},
+          valueDefault: {'start': 730, 'end': 2200},
           valueLeast: 0,
           valueMost: 2359,
         ),
-        */
         /* TODO add modality checker
         ScheduleFilter<String>(
           key: '${day}Modality',

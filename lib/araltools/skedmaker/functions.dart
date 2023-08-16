@@ -103,32 +103,25 @@ void generateSchedulesIsolate(
             }
           }
 
-          // interval checker
-          //if ((week.daysOfferings[day.$3]!.first.scheduleTimeStart <
-          //        filters['day']!['${day.$1}TimeInterval']['start']) ||
-          //    (week.daysOfferings[day.$3]!.last.scheduleTimeStart >
-          //        filters['day']!['${day.$1}TimeInterval1']['end'])) {
-          //  throw Error();
-          //}
-
           // location cheker
           if (filters['location']!['enabled'] == true) {
             offeringDay.forEachIndexed((index, element) {
-            if (index == 0) return; //skip if first
+              if (index == 0) return; //skip if first
 
-            // if the next subject is within the checking distance time gap
-            final elementBefore = offeringDay.elementAt(index - 1);
+              // if the next subject is within the checking distance time gap
+              final elementBefore = offeringDay.elementAt(index - 1);
 
-            if (element.scheduleTimeStart - elementBefore.scheduleTimeEnd <=
-                filters['location']!["checkingDistanceMinutes"]) {
-              final distance = LocationFunctions.getLocationDistance(
-                  elementBefore.room, element.room);
+              if (element.scheduleTimeStart - elementBefore.scheduleTimeEnd <=
+                  filters['location']!["checkingDistanceMinutes"]) {
+                final distance = LocationFunctions.getLocationDistance(
+                    elementBefore.room, element.room);
 
-              if (distance > filters['location']!['maxAllowedDistanceMeters']) {
-                throw InvalidScheduleError();
+                if (distance >
+                    filters['location']!['maxAllowedDistanceMeters']) {
+                  throw InvalidScheduleError();
+                }
               }
-            }
-          });
+            });
           }
         }
 
@@ -188,6 +181,14 @@ void generateSchedulesIsolate(
             //    .contains(filters['day']!["${day.$1}Modality"])) {
             //  throw Error();
             //}
+          }
+
+          // interval checker
+          if (!(currentOffering.scheduleTimeStart >=
+                  filters['day']!['${day.$1}TimeInterval']['start'] &&
+              currentOffering.scheduleTimeEnd <=
+                  filters['day']!['${day.$1}TimeInterval']['end'])) {
+            throw InvalidScheduleError();
           }
         }
       } on InvalidScheduleError {
