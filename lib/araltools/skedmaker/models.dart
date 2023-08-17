@@ -39,7 +39,8 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void modifySubjectOffering(String code, int index, Offering Function(Offering) modify){
+  void modifySubjectOffering(
+      String code, int index, Offering Function(Offering) modify) {
     subjects[code]![index] = modify(subjects[code]![index]);
     notifyListeners();
   }
@@ -141,6 +142,9 @@ class SkedmakerModel extends ChangeNotifier {
   scheduleGenerate() {
     _schedules.clear();
     _scheduleProgress = 0;
+    _tabs
+      ..clear()
+      ..add(0);
     isGenerating = true;
 
     generateStopwatch.start();

@@ -99,3 +99,11 @@ Widget TextOrNull(
             textHeightBehavior: textHeightBehavior,
             selectionColor: selectionColor,
           );
+
+/// If [condition] is true, use [parent], otherwise continue with [child].
+Widget parentOrChild({
+  required bool condition,
+  required Widget Function(Widget child) parent,
+  required Widget child,
+}) =>
+    condition ? parent(child) : child;

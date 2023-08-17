@@ -170,13 +170,15 @@ class ExportImageLandscape extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(16),
                 width: 110 * 7 - 11,
-                height: 50 * 14 + 68,
+                height: 60 * 14 + 68,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: IgnorePointer(
-                      child: TimetableFragment(
-                    week: schedule,
-                  )),
+                      child: Material(
+                        child: Timetable2Fragment(
+                                          week: schedule,
+                                        ),
+                      )),
                 ),
               ),
               Expanded(

@@ -17,10 +17,10 @@
 
 import 'dart:convert';
 
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Chip, Tooltip;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
-    hide Card, Divider, FilledButton, showDialog, Chip, IconButton;
+    hide Card, Divider, FilledButton, showDialog, IconButton;
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -176,7 +176,6 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
 
   filterText(ScheduleFilter filter, [List<Widget> additional = const []]) =>
       Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(strings[
@@ -215,7 +214,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       filter.keyDependsOn!.$2] !=
                   true)
             // return an empty widget if the filter depends on something and its `false`
-            SizedBox.shrink() 
+            SizedBox.shrink()
           else if (filter.valueDefault == null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
@@ -443,7 +442,10 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                                 submit(controller.text);
                               },
                               // I am not sure if a check icon is valid here.
-                              icon: Icon(MdiIcons.check),
+                              icon: Tooltip(
+                                child: Icon(MdiIcons.check),
+                                message: 'Enter',
+                              ),
                             ),
                             controller: controller,
                             onSubmitted: submit,
@@ -461,16 +463,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                                     ?.keys ??
                                 const [])
                           Chip(
-                            text: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(width: 8),
-                                Text(text),
-                                SizedBox(width: 8),
-                                Icon(MdiIcons.close)
-                              ],
-                            ),
-                            onPressed: () {
+                            label: Text(text, style: FluentTheme.of(context).typography.body,),
+                            onDeleted: () {
                               model.updateFilter(
                                   widget.category, filter.key, null, text);
                             },

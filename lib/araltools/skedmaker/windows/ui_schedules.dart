@@ -18,6 +18,7 @@
 import 'dart:math';
 
 import 'package:araltools/araltools/skedmaker/export_image.dart';
+import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Tab, TabView, TabWidthBehavior;
 import 'package:flutter/material.dart'
@@ -333,6 +334,8 @@ class SchedulesFragmentTimetable extends StatefulWidget {
       _SchedulesFragmentTimetableState();
 }
 
+bool enableHoverEffects = false;
+
 class _SchedulesFragmentTimetableState
     extends State<SchedulesFragmentTimetable> {
   late final TextEditingController controllerTextNotes;
@@ -462,60 +465,77 @@ class _SchedulesFragmentTimetableState
           horizontalMargin: EdgeInsets.only(),
         )),
         Expanded(
-          child: MultiSplitViewTheme(
-            data: MultiSplitViewThemeData(
-              dividerThickness: 5,
-              dividerPainter: DividerPainters.background(
-                  color: Color(0xFFeaeaea),
-                  highlightedColor: Color.fromARGB(255, 192, 192, 192)),
-            ),
-            child: ValueListenableBuilder(
-                valueListenable: currentlyHovered,
-                builder: (context, value, child) {
-                  return MultiSplitView(
-                    axis: Axis.horizontal,
-                    initialAreas: [Area(weight: 0.8)],
+            child: MultiSplitViewTheme(
+          data: MultiSplitViewThemeData(
+            dividerThickness: 5,
+            dividerPainter: DividerPainters.background(
+                color: Color(0xFFeaeaea),
+                highlightedColor: Color.fromARGB(255, 192, 192, 192)),
+          ),
+          child: ValueListenableBuilder(
+            valueListenable: currentlyHovered,
+            builder: (context, value, child) {
+              return MultiSplitView(
+                axis: Axis.horizontal,
+                initialAreas: [Area(weight: 0.8)],
+                children: [
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Timetable2Fragment(
-                              week: week,
-                              currentlyHovered: currentlyHovered,
-                            ),
-                          ),
-                        ],
+                      Expanded(
+                        child: Timetable2Fragment(
+                          week: week,
+                          currentlyHovered:
+                              enableHoverEffects ? currentlyHovered : null,
+                        ),
                       ),
-                      ListView(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Details',
-                              style: textTheme.headlineSmall,
-                            ),
+                    ],
+                  ),
+                  ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ToggleSwitch(
+                          checked: enableHoverEffects,
+                          onChanged: (value) {
+                            setState(() {
+                              enableHoverEffects = !enableHoverEffects;
+                            });
+                          },
+                          content: Text('Enable hover effects'),
+                        ),
+                      ),
+                      const Divider(style: DividerThemeData(thickness: 3)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Details',
+                          style: textTheme.headlineSmall,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InfoLabel(
+                          label: 'Notes',
+                          child: TextBox(
+                            controller: controllerTextNotes,
+                            maxLines: null,
+                            onChanged: (value) {},
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InfoLabel(
-                              label: 'Notes',
-                              child: TextBox(
-                                controller: controllerTextNotes,
-                                maxLines: null,
-                                onChanged: (value) {},
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InfoLabel(
-                              label: 'Subjects',
-                              child: Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  for (final subject in week.subjects)
-                                    MouseRegion(
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InfoLabel(
+                          label: 'Subjects',
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              for (final subject in week.subjects)
+                                parentOrChild(
+                                  condition: enableHoverEffects,
+                                  parent: (child) {
+                                    return MouseRegion(
                                       onEnter: (event) {
                                         currentlyHovered.value = subject;
                                       },
@@ -533,22 +553,25 @@ class _SchedulesFragmentTimetableState
                                                 : currentlyHovered.value != null
                                                     ? 0.3
                                                     : 1,
-                                        child: ScheduleFragmentCard(
-                                          subject: subject,
-                                        ),
+                                        child: child,
                                       ),
-                                    )
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                                    );
+                                  },
+                                  child: ScheduleFragmentCard(
+                                    subject: subject,
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      )
                     ],
-                  );
-                }),
+                  ),
+                ],
+              );
+            },
           ),
-        ),
+        )),
       ],
     );
   }
