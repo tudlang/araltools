@@ -19,7 +19,8 @@ import 'package:araltools/utils.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' hide Card;
 import 'package:provider/provider.dart';
-import 'package:simple_timetable/simple_timetable.dart';
+import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
+import '/opensource/timetable_view.dart';
 import 'package:timetable_view/timetable_view.dart';
 
 import 'classes.dart';
