@@ -152,7 +152,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           for (final subject in model.subjects.entries)
             () {
               final hasError =
-                  subject.value.every((element) => !element.isAvailable);
+                  subject.value.every((offering) => model.filters.shouldExclude(offering));
               final subjectText = SubjectText(
                 offering: subject.value.first,
               );
@@ -203,10 +203,12 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
   @override
   void initState() {
     super.initState();
+    final model = context.read<SkedmakerModel>();
 
     for (var offering
-        in context.read<SkedmakerModel>().subjects[widget.subject]!) {
-      if (!offering.isAvailable) {
+        in model.subjects[widget.subject]!) {
+          
+      if (model.filters.shouldExclude(offering)) {
         offeringNotAvailable.add(offering);
       }
     }
@@ -412,7 +414,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                   rows: [
                     for (var i = 0; i < offerings.length; i++)
                       DataRow(
-                        color: offerings[i].isAvailable
+                        color: !model.filters.shouldExclude(offerings[i])
                             ? null
                             : MaterialStatePropertyAll(
                                 ResourceDictionary.light()
