@@ -78,7 +78,7 @@ class _FiltersFragmentState extends State<FiltersFragment> {
           items: [
             for (final category in model.filters.filters.keys)
               PaneItem(
-                icon: Icon(Icons.abc),
+                icon: Icon(ScheduleFilters.filterIcons[category]),
                 body: Column(
                   children: [
                     if (model.isGenerating)

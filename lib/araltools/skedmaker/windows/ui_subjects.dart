@@ -151,8 +151,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           PaneItemSeparator(),
           for (final subject in model.subjects.entries)
             () {
-              final hasError =
-                  subject.value.every((offering) => model.filters.shouldExclude(offering));
+              final hasError = subject.value
+                  .every((offering) => model.filters.shouldExclude(offering));
               final subjectText = SubjectText(
                 offering: subject.value.first,
               );
@@ -205,9 +205,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
     super.initState();
     final model = context.read<SkedmakerModel>();
 
-    for (var offering
-        in model.subjects[widget.subject]!) {
-          
+    for (var offering in model.subjects[widget.subject]!) {
       if (model.filters.shouldExclude(offering)) {
         offeringNotAvailable.add(offering);
       }
@@ -424,11 +422,17 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                             offerings[i].isClosed
                                 ? Tooltip(
                                     message: 'Closed',
-                                    child: Icon(MdiIcons.closeCircleOutline),
+                                    child: Icon(
+                                      MdiIcons.closeCircleOutline,
+                                      size: 25,
+                                    ),
                                   )
                                 : Tooltip(
                                     message: 'Open',
-                                    child: Icon(MdiIcons.checkCircleOutline),
+                                    child: Icon(
+                                      MdiIcons.checkCircleOutline,
+                                      size: 25,
+                                    ),
                                   ),
                             onTap: () {
                               model.modifySubjectOffering(

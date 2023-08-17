@@ -44,7 +44,7 @@ abstract class ScheduleFilter<T> {
   }
 
   /// Resets the current value.
-  /// 
+  ///
   /// Override this if it needs to handle resetting differently (eg. a list with `.clear()`).
   void reset() {
     value = valueDefault;
@@ -177,8 +177,6 @@ class ScheduleFilters {
     }
   }
 
-  
-
   /// The actual list of filters
   final filters = <String, Map<String, ScheduleFilter>>{
     'offerings': {
@@ -272,24 +270,31 @@ class ScheduleFilters {
     },
   };
 
+  static const filterIcons = {
+    'offerings': MdiIcons.schoolOutline,
+    'day': MdiIcons.viewDayOutline,
+    'location': MdiIcons.mapMarkerOutline,
+  };
+
   /// Function whether to exclude [offering] from generation, given the current filters
-  bool shouldExclude(Offering offering){
+  bool shouldExclude(Offering offering) {
     if ((filters['offerings']!['includeClosed']!.value == false &&
-              offering.isClosed == true) ||
-          (filters['offerings']!['includeFullSlots']!.value == false &&
-              offering.slotTaken >= offering.slotCapacity) ||
-          (filters['offerings']!['includeUnknownModality']!.value == false &&
-              offering.scheduleDay.name.contains('nknown')) ||
-          (filters['offerings']!['includeNoTeachers']!.value == false &&
-              offering.teacher.isEmpty) ||
-          (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty == true &&
-              (filters['offerings']!['excludeSectionLetter']!.value as Set<String>).any(
-                  (e) => offering.section
-                      .toLowerCase()
-                      .contains(e.toLowerCase())))) {
-        return true;
-      }
-      else {
+            offering.isClosed == true) ||
+        (filters['offerings']!['includeFullSlots']!.value == false &&
+            offering.slotTaken >= offering.slotCapacity) ||
+        (filters['offerings']!['includeUnknownModality']!.value == false &&
+            offering.scheduleDay.name.contains('nknown')) ||
+        (filters['offerings']!['includeNoTeachers']!.value == false &&
+            offering.teacher.isEmpty) ||
+        (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty ==
+                true &&
+            (filters['offerings']!['excludeSectionLetter']!.value
+                    as Set<String>)
+                .any((e) => offering.section
+                    .toLowerCase()
+                    .contains(e.toLowerCase())))) {
+      return true;
+    } else {
       return false;
     }
   }

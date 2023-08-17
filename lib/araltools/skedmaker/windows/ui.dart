@@ -66,6 +66,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
               Icon(
                 AralTools.skedmaker.icon,
                 color: Theme.of(context).colorScheme.onPrimary,
+                size: 30,
               ),
               SizedBox(width: 8),
               Text(
