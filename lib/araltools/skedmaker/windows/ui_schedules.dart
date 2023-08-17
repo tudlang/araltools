@@ -438,6 +438,49 @@ class _SchedulesFragmentTimetableState
                         },
                       ));
                 }(),
+                () {
+                  final controllerFlyout = FlyoutController();
+                  return CommandBarBuilderItem(
+                      builder: (context, displayMode, child) {
+                        return FlyoutTarget(
+                            controller: controllerFlyout, child: child);
+                      },
+                      wrappedItem: CommandBarButton(
+                        label: Text('Delete'),
+                        icon: Icon(MdiIcons.deleteOutline),
+                        onPressed: () {
+                          controllerFlyout.showFlyout(
+                            builder: (context3) {
+                              return FlyoutContent(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    InfoLabel(
+                                      label:
+                                          'Delete ${week.name}?\nYou cannot un-delete this.\nAll tabs with this schedule will be removed.',
+                                      labelStyle: FluentTheme.maybeOf(context)
+                                          ?.typography
+                                          .bodyStrong,
+                                      child: Button(
+                                        child: Text('Delete'),
+                                        onPressed: () {
+                                          context
+                                              .read<SkedmakerModel>()
+                                              .removeSchedule(
+                                                  model.tabs[widget.tabIndex]);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ));
+                }(),
                 CommandBarButton(
                   label: Text('Save as image'),
                   icon: Icon(MdiIcons.imageOutline),
@@ -445,16 +488,6 @@ class _SchedulesFragmentTimetableState
                     exportImage(context, week);
                   },
                 ),
-                // TODO add delete button
-                //CommandBarBuilderItem(builder: (context, displayMode, child){
-                //  return
-                //}, wrappedItem: CommandBarButton(
-                //  label: Text('Delete schedule'),
-                //  icon: Icon(MdiIcons.deleteOutline),
-                //  onPressed: () {
-                //    context.read<SkedmakerModel>().removeSchedule(week);
-                //  },
-                //))
               ],
             ))
           ],

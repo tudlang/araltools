@@ -58,8 +58,13 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSchedule(ScheduleWeek a) {
-    _schedules.remove(a);
+  void removeSchedule(int index) {
+    final schedule = _schedules.elementAt(index);
+    // remove the tabs first
+  _tabs.removeWhere((element) => element == index);
+    // then remove the schedule
+    _schedules.remove(schedule);
+    
     notifyListeners();
   }
 
