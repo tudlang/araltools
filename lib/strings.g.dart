@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 1
-/// Strings: 131
+/// Strings: 132
 ///
-/// Built on 2023-08-16 at 14:19 UTC
+/// Built on 2023-08-17 at 05:12 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -603,7 +603,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayFaceEn {
 
 	// Translations
 	String get name => 'Monday and Thursday (both face-to-face)';
-	String get nameShort => 'M & T (both f2f)';
+	String get nameShort => 'M & H (both f2f)';
 }
 
 // Path: skedmaker.scheduleDay.mondaythursdayOnline
@@ -614,7 +614,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayOnlineEn {
 
 	// Translations
 	String get name => 'Monday and Thursday (both online)';
-	String get nameShort => 'M & T (both online)';
+	String get nameShort => 'M & H (both online)';
 }
 
 // Path: skedmaker.scheduleDay.mondaythursdayOnlineface
@@ -625,7 +625,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn {
 
 	// Translations
 	String get name => 'Monday (online) and Thursday (face-to-face)';
-	String get nameShort => 'M (online) & T (f2f)';
+	String get nameShort => 'M (online) & H (f2f)';
 }
 
 // Path: skedmaker.scheduleDay.mondaythursdayFaceonline
@@ -636,7 +636,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn {
 
 	// Translations
 	String get name => 'Monday (face-to-face) and Thursday (online)';
-	String get nameShort => 'M (f2f) & T (online)';
+	String get nameShort => 'M (f2f) & H (online)';
 }
 
 // Path: skedmaker.scheduleDay.mondaythursdayUnknown
@@ -647,7 +647,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayUnknownEn {
 
 	// Translations
 	String get name => 'Monday and Thursday';
-	String get nameShort => 'M & T';
+	String get nameShort => 'M & H';
 }
 
 // Path: skedmaker.scheduleDay.tuesdayfridayFace
@@ -832,7 +832,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn {
 
 	// Translations
 	String get name => 'Include closed offerings';
-	String get desc => 'Enabling this to ignore its status (whether it is open or closed)';
+	String get desc => 'Enable this to ignore its status (whether it is open or closed)';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeFullSlots
@@ -843,7 +843,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn {
 
 	// Translations
 	String get name => 'Include offerings with full slots';
-	String get desc => 'Enabling this to ignore its slot capacity';
+	String get desc => 'Enable this to ignore its slot capacity';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeUnknownModality
@@ -874,7 +874,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 
 	// Translations
 	String get name => 'Exclude sections that contains the following';
-	String get desc => 'Use this to exclude offerings that has a certain letter(s)';
+	String get desc => 'Use this to exclude offerings whose section contains certain letter(s)';
 }
 
 // Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
@@ -950,6 +950,7 @@ class _StringsSkedmakerFiltersCategoriesLocationEnabledEn {
 
 	// Translations
 	String get name => 'Enable filtering using location & distances';
+	String get desc => 'This will consider the distance of: The previous class → the ground floor → \nthe ground floor of the next class → the next class. If both are on \nthe same building, this is just the distance from the previous to the next.';
 }
 
 // Path: skedmaker.filters.categories.location.checkingDistanceMinutes
@@ -997,13 +998,13 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
 			case 'skedmaker.filters.categories.offerings.desc': return 'Filter the offerings to include/exclude';
 			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
-			case 'skedmaker.filters.categories.offerings.includeClosed.desc': return 'Enabling this to ignore its status (whether it is open or closed)';
+			case 'skedmaker.filters.categories.offerings.includeClosed.desc': return 'Enable this to ignore its status (whether it is open or closed)';
 			case 'skedmaker.filters.categories.offerings.includeFullSlots.name': return 'Include offerings with full slots';
-			case 'skedmaker.filters.categories.offerings.includeFullSlots.desc': return 'Enabling this to ignore its slot capacity';
+			case 'skedmaker.filters.categories.offerings.includeFullSlots.desc': return 'Enable this to ignore its slot capacity';
 			case 'skedmaker.filters.categories.offerings.includeUnknownModality.name': return 'Include offerings with unknown modality';
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains the following';
-			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Use this to exclude offerings that has a certain letter(s)';
+			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Use this to exclude offerings whose section contains certain letter(s)';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
@@ -1026,6 +1027,7 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.location.name': return 'Location (experimental)';
 			case 'skedmaker.filters.categories.location.desc': return 'Filter schedules based on each offering\'s location';
 			case 'skedmaker.filters.categories.location.enabled.name': return 'Enable filtering using location & distances';
+			case 'skedmaker.filters.categories.location.enabled.desc': return 'This will consider the distance of: The previous class → the ground floor → \nthe ground floor of the next class → the next class. If both are on \nthe same building, this is just the distance from the previous to the next.';
 			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Time gap between subjects to check for distance (in minutes)';
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance from one subject to the next (in meters)';
 			case 'skedmaker.filters.any': return 'Any subject';
@@ -1078,15 +1080,15 @@ extension on _StringsEn {
 			case 'skedmaker.scheduleDay.saturdayUnknown.name': return 'Saturday';
 			case 'skedmaker.scheduleDay.saturdayUnknown.nameShort': return 'S';
 			case 'skedmaker.scheduleDay.mondaythursdayFace.name': return 'Monday and Thursday (both face-to-face)';
-			case 'skedmaker.scheduleDay.mondaythursdayFace.nameShort': return 'M & T (both f2f)';
+			case 'skedmaker.scheduleDay.mondaythursdayFace.nameShort': return 'M & H (both f2f)';
 			case 'skedmaker.scheduleDay.mondaythursdayOnline.name': return 'Monday and Thursday (both online)';
-			case 'skedmaker.scheduleDay.mondaythursdayOnline.nameShort': return 'M & T (both online)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnline.nameShort': return 'M & H (both online)';
 			case 'skedmaker.scheduleDay.mondaythursdayOnlineface.name': return 'Monday (online) and Thursday (face-to-face)';
-			case 'skedmaker.scheduleDay.mondaythursdayOnlineface.nameShort': return 'M (online) & T (f2f)';
+			case 'skedmaker.scheduleDay.mondaythursdayOnlineface.nameShort': return 'M (online) & H (f2f)';
 			case 'skedmaker.scheduleDay.mondaythursdayFaceonline.name': return 'Monday (face-to-face) and Thursday (online)';
-			case 'skedmaker.scheduleDay.mondaythursdayFaceonline.nameShort': return 'M (f2f) & T (online)';
+			case 'skedmaker.scheduleDay.mondaythursdayFaceonline.nameShort': return 'M (f2f) & H (online)';
 			case 'skedmaker.scheduleDay.mondaythursdayUnknown.name': return 'Monday and Thursday';
-			case 'skedmaker.scheduleDay.mondaythursdayUnknown.nameShort': return 'M & T';
+			case 'skedmaker.scheduleDay.mondaythursdayUnknown.nameShort': return 'M & H';
 			case 'skedmaker.scheduleDay.tuesdayfridayFace.name': return 'Thursday and Friday (both face-to-face)';
 			case 'skedmaker.scheduleDay.tuesdayfridayFace.nameShort': return 'T & F (both f2f)';
 			case 'skedmaker.scheduleDay.tuesdayfridayOnline.name': return 'Thursday and Friday (both online)';

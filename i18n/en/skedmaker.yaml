@@ -50,7 +50,7 @@ filters:
         name: Include offerings with no teachers
       excludeSectionLetter:
         name: Exclude sections that contains the following
-        desc: Use this to exclude offerings that has a certain letter(s)
+        desc: Use this to exclude offerings whose section contains certain letter(s)
     day:        
       name: Day-specific
       desc: Add specific filters for each day of the week
@@ -83,6 +83,7 @@ filters:
       desc: Filter schedules based on each offering's location
       enabled:
         name: Enable filtering using location & distances
+        desc: "This will consider the distance of: The previous class → the ground floor → \nthe ground floor of the next class → the next class. If both are on \nthe same building, this is just the distance from the previous to the next."
       checkingDistanceMinutes:
         name: Time gap between subjects to check for distance (in minutes)
       maxAllowedDistanceMeters:
@@ -164,19 +165,19 @@ scheduleDay:
     nameShort: S
   mondaythursdayFace: 
     name: Monday and Thursday (both face-to-face)
-    nameShort: M & T (both f2f)
+    nameShort: M & H (both f2f)
   mondaythursdayOnline: 
     name: Monday and Thursday (both online)
-    nameShort: M & T (both online)
+    nameShort: M & H (both online)
   mondaythursdayOnlineface: 
     name: Monday (online) and Thursday (face-to-face)
-    nameShort: M (online) & T (f2f)
+    nameShort: M (online) & H (f2f)
   mondaythursdayFaceonline: 
     name: Monday (face-to-face) and Thursday (online)
-    nameShort: M (f2f) & T (online)
+    nameShort: M (f2f) & H (online)
   mondaythursdayUnknown: 
     name: Monday and Thursday
-    nameShort: M & T
+    nameShort: M & H
   tuesdayfridayFace: 
     name: Thursday and Friday (both face-to-face)
     nameShort: T & F (both f2f)

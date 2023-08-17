@@ -176,7 +176,6 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
 
   filterText(ScheduleFilter filter, [List<Widget> additional = const []]) =>
       Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(strings[
