@@ -175,10 +175,10 @@ class ExportImageLandscape extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: IgnorePointer(
                       child: Material(
-                        child: Timetable2Fragment(
-                                          week: schedule,
-                                        ),
-                      )),
+                    child: Timetable2Fragment(
+                      week: schedule,
+                    ),
+                  )),
                 ),
               ),
               Expanded(
@@ -190,7 +190,13 @@ class ExportImageLandscape extends StatelessWidget {
                       style: textTheme.headlineLarge
                           ?.copyWith(color: Colors.white),
                     ),
-                    SizedBox(height: 10),
+                    Text(
+                      schedule.notes,
+                      textAlign: TextAlign.center,
+                      style:
+                          textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 10),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
