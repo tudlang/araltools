@@ -146,11 +146,11 @@ class Timetable2Fragment extends StatefulWidget {
   const Timetable2Fragment({
     super.key,
     this.week,
-    required this.currentlyHovered,
+    this.currentlyHovered,
   });
 
   final ScheduleWeek? week;
-  final ValueNotifier<Offering?> currentlyHovered;
+  final ValueNotifier<Offering?>? currentlyHovered;
 
   @override
   State<Timetable2Fragment> createState() => _Timetable2FragmentState();
@@ -161,102 +161,99 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
   Widget build(BuildContext context) {
     if (widget.week == null) return Container();
 
-    return GestureDetector(
-      onHorizontalDragDown: (_) {},
-      onHorizontalDragCancel: () {},
-      onHorizontalDragEnd: (_) {},
-      onHorizontalDragStart: (_) {},
-      onHorizontalDragUpdate: (_) {},
-      behavior: HitTestBehavior.opaque,
-      child: SimpleTimetable(
-        initialDate: DateTime(1970, 1, 2),
-        visibleRange: 6,
-        visibleTimeline: false,
-        dayStart: 7,
-        nextButton: SizedBox.shrink(),
-        prevButton: SizedBox.shrink(),
-        events: [
-          for (final day in [
-            (0, "M", DateTime(1970, 1, 2)),
-            (1, "T", DateTime(1970, 1, 3)),
-            (2, "W", DateTime(1970, 1, 4)),
-            (3, "H", DateTime(1970, 1, 5)),
-            (4, "F", DateTime(1970, 1, 6)),
-            (5, "S", DateTime(1970, 1, 7)),
-          ])
-            ...widget.week!.daysOfferings[day.$1]!
-                .map((e) => Event(
-                    id: e.toString(),
-                    start: day.$3.add(Duration(
-                        hours: (e.scheduleTimeStart / 100).floor(),
-                        minutes: e.scheduleTimeStart % 100)),
-                    end: day.$3.add(Duration(
-                        hours: (e.scheduleTimeEnd / 100).floor(),
-                        minutes: e.scheduleTimeEnd % 100)),
-                    date: day.$3,
-                    payload: e))
-                .toList()
-        ],
-        buildCard: (event, isPast) {
-          final offering = event.payload!;
-          final bg =
-              HSLColor.fromColor(offering.color).withLightness(0.75).toColor();
-          return MouseRegion(
-            onEnter: (event) {
-              widget.currentlyHovered.value = offering;
-            },
-            onExit: (event) {
-              setState(() {
-                widget.currentlyHovered.value = null;
-              });
-            },
-            child: Opacity(
-              opacity: widget.currentlyHovered.value != null &&
-                      widget.currentlyHovered.value == offering
-                  ? 1
-                  : widget.currentlyHovered.value != null
-                      ? 0.3
-                      : 1,
-              child: Card(
-                padding: EdgeInsets.all(2),
-                backgroundColor: bg,
-                child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: offering.subject,
-                        style:
-                            FluentTheme.of(context).typography.body!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                    TextSpan(
-                        text: ' ' + offering.section + "\n",
-                        style: FluentTheme.of(context).typography.body),
-                    TextSpan(
-                        text: offering.scheduleTime + "\n",
-                        style: FluentTheme.of(context).typography.body),
-                    TextSpan(
-                        text: offering.room,
-                        style: FluentTheme.of(context).typography.body),
-                  ]),
-                ),
+    return SimpleTimetable(
+      initialDate: DateTime(1970, 1, 2),
+      visibleRange: 6,
+      visibleTimeline: false,
+      dayStart: 7,
+      nextButton: SizedBox.shrink(),
+      prevButton: SizedBox.shrink(),
+      events: [
+        for (final day in [
+          (0, "M", DateTime(1970, 1, 2)),
+          (1, "T", DateTime(1970, 1, 3)),
+          (2, "W", DateTime(1970, 1, 4)),
+          (3, "H", DateTime(1970, 1, 5)),
+          (4, "F", DateTime(1970, 1, 6)),
+          (5, "S", DateTime(1970, 1, 7)),
+        ])
+          ...widget.week!.daysOfferings[day.$1]!
+              .map((e) => Event(
+                  id: e.toString(),
+                  start: day.$3.add(Duration(
+                      hours: (e.scheduleTimeStart / 100).floor(),
+                      minutes: e.scheduleTimeStart % 100)),
+                  end: day.$3.add(Duration(
+                      hours: (e.scheduleTimeEnd / 100).floor(),
+                      minutes: e.scheduleTimeEnd % 100)),
+                  date: day.$3,
+                  payload: e))
+              .toList()
+      ],
+      buildCard: (event, isPast) {
+        final offering = event.payload!;
+        final bg =
+            HSLColor.fromColor(offering.color).withLightness(0.75).toColor();
+        return parentOrChild(
+          condition: widget.currentlyHovered != null,
+          parent: (child) {
+            return MouseRegion(
+              onEnter: (event) {
+                widget.currentlyHovered!.value = offering;
+              },
+              onExit: (event) {
+                setState(() {
+                  widget.currentlyHovered!.value = null;
+                });
+              },
+              child: Opacity(
+                opacity: widget.currentlyHovered!.value != null &&
+                        widget.currentlyHovered!.value == offering
+                    ? 1
+                    : widget.currentlyHovered!.value != null
+                        ? 0.3
+                        : 1,
+                child: child,
               ),
+            );
+          },
+          child: Card(
+            padding: EdgeInsets.all(2),
+            backgroundColor: bg,
+            child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                    text: offering.subject,
+                    style: FluentTheme.of(context).typography.body!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        )),
+                TextSpan(
+                    text: ' ' + offering.section + "\n",
+                    style: FluentTheme.of(context).typography.body),
+                TextSpan(
+                    text: offering.scheduleTime + "\n",
+                    style: FluentTheme.of(context).typography.body),
+                TextSpan(
+                    text: offering.room,
+                    style: FluentTheme.of(context).typography.body),
+              ]),
             ),
-          );
-        },
-        buildHeader: (date, isToday) {
-          return Center(
-            child: switch (date) {
-              DateTime(day: final day) when day == 2 => Text('Monday'),
-              DateTime(day: final day) when day == 3 => Text('Tuesday'),
-              DateTime(day: final day) when day == 4 => Text('Wednesday'),
-              DateTime(day: final day) when day == 5 => Text('Thrusday'),
-              DateTime(day: final day) when day == 6 => Text('Friday'),
-              DateTime(day: final day) when day == 7 => Text('Saturday'),
-              _ => SizedBox.shrink()
-            },
-          );
-        },
-      ),
+          ),
+        );
+      },
+      buildHeader: (date, isToday) {
+        return Center(
+          child: switch (date) {
+            DateTime(day: final day) when day == 2 => Text('Monday'),
+            DateTime(day: final day) when day == 3 => Text('Tuesday'),
+            DateTime(day: final day) when day == 4 => Text('Wednesday'),
+            DateTime(day: final day) when day == 5 => Text('Thrusday'),
+            DateTime(day: final day) when day == 6 => Text('Friday'),
+            DateTime(day: final day) when day == 7 => Text('Saturday'),
+            _ => SizedBox.shrink()
+          },
+        );
+      },
     );
   }
 }
