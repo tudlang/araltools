@@ -21,6 +21,7 @@ import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'classes.dart';
+import 'filters.dart';
 import 'functions.dart';
 
 /// The model used to store the entire state of SkedMaker, used with [ChangeNotifierProvider]
