@@ -44,6 +44,8 @@ abstract class ScheduleFilter<T> {
   }
 
   /// Resets the current value.
+  /// 
+  /// Override this if it needs to handle resetting differently (eg. a list with `.clear()`).
   void reset() {
     value = valueDefault;
   }
@@ -104,6 +106,11 @@ class ScheduleFilterStringWithChip extends ScheduleFilter<Set<String>> {
     super.keyDependsOn,
     super.keyLocalized,
   }) : super(valueDefault: {});
+
+  @override
+  void reset() {
+    value.clear();
+  }
 }
 
 /// Filter for a time interval
