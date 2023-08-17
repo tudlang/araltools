@@ -63,20 +63,12 @@ class _FiltersFragmentState extends State<FiltersFragment> {
               ? Wrap(
                   children: [
                     Button(
-                      child: Text('Print filter map'),
-                      onPressed: () {
-                        final model = context.read<SkedmakerModel>();
-                        final a = JsonEncoder.withIndent("     ")
-                            .convert(model.filters.toMap());
-                        print(a);
-                      },
-                    ),
-                    Button(
                       child: Text('Print filter values'),
                       onPressed: () {
                         final model = context.read<SkedmakerModel>();
-                        final a = JsonEncoder.withIndent("     ")
-                            .convert(model.filters.values);
+                        final a =
+                            JsonEncoder.withIndent("     ", (_) => _.toString())
+                                .convert(model.filters.filters);
                         print(a);
                       },
                     ),
@@ -84,40 +76,41 @@ class _FiltersFragmentState extends State<FiltersFragment> {
                 )
               : null,
           items: [
-            ...ScheduleFilters.filters.entries.map((category) => PaneItem(
-                  icon: Icon(category.key.$2),
-                  body: Column(
-                    children: [
-                      if (model.isGenerating)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InfoBar(
-                              title: Text(
-                                  'Currently generating schedules. Changes here will not apply until you generate again.'),
-                              severity: InfoBarSeverity.warning,
-                            ),
+            for (final category in model.filters.filters.keys)
+              PaneItem(
+                icon: Icon(Icons.abc),
+                body: Column(
+                  children: [
+                    if (model.isGenerating)
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InfoBar(
+                            title: Text(
+                                'Currently generating schedules. Changes here will not apply until you generate again.'),
+                            severity: InfoBarSeverity.warning,
                           ),
                         ),
-                      Expanded(
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          return ConstrainedBox(
-                            constraints: BoxConstraints(
-                                maxWidth: 750,
-                                maxHeight: constraints.maxHeight),
-                            child: FiltersFragmentCategory(
-                              category: category.key.$1,
-                              icon: category.key.$2,
-                            ),
-                          );
-                        }),
                       ),
-                    ],
-                  ),
-                  title: Text(strings[
-                          "skedmaker.filters.categories.${category.key.$1}.name"] ??
-                      category.key.$1),
-                )),
+                    Expanded(
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                              maxWidth: 750, maxHeight: constraints.maxHeight),
+                          child: FiltersFragmentCategory(
+                            category: category,
+                            icon: Icons.abc,
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+                title: Text(
+                    strings["skedmaker.filters.categories.${category}.name"] ??
+                        category),
+              )
+
             //PaneItem(
             //  icon: Icon(MdiIcons.schoolOutline),
             //  title: Text('Custom'),
@@ -166,14 +159,7 @@ class FiltersFragmentCategory extends StatefulWidget {
 
 class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
     with LocationFunctions {
-  late List<ScheduleFilter> filters;
   late TextTheme textTheme;
-
-  @override
-  void initState() {
-    super.initState();
-    filters = ScheduleFilters.filters[(widget.category, widget.icon)]!;
-  }
 
   filterText(ScheduleFilter filter, [List<Widget> additional = const []]) =>
       Column(
@@ -195,8 +181,6 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
     final model = context.watch<SkedmakerModel>();
     textTheme = Theme.of(context).textTheme;
 
-    final filterValues = model.filters.values;
-
     return ListView(
       children: [
         Padding(
@@ -209,14 +193,17 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
           ),
         ),
         SizedBox(height: 10),
-        for (final filter in filters)
+        for (final filter in model.filters.filters[widget.category]!.values)
           if (filter.keyDependsOn != null &&
-              model.filters.values[filter.keyDependsOn!.$1]![
-                      filter.keyDependsOn!.$2] !=
+              model
+                      .filters
+                      .filters[filter.keyDependsOn!.$1]![
+                          filter.keyDependsOn!.$2]!
+                      .value !=
                   true)
             // return an empty widget if the filter depends on something and its `false`
             SizedBox.shrink()
-          else if (filter.valueDefault == null)
+          else if (filter is ScheduleFilterLabel)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Text(
@@ -225,9 +212,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                 style: textTheme.bodyLarge,
               ),
             )
-          else if (filter.valueDefault is Map<String, int> &&
-              filter.valueLeast is int &&
-              filter.valueMost is int)
+          else if (filter is ScheduleFilterTimeInterval)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -237,26 +222,18 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key]
-                              ?['start'] ??
-                          filter.valueDefault['start'],
+                      value: filter.value.$1,
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key, () {
-                          final hour = (value! / 100).floor();
-                          final minute = value % 100;
-
-                          if (hour >= 24 && minute >= 60) {
-                            return 2359;
-                          } else if (hour >= 24 && minute < 60) {
-                            return minute + 2300;
-                          } else if (hour < 24 && minute >= 60) {
-                            return (hour * 100) + 59;
-                          } else if (hour < 24 && minute < 60) {
-                            return (hour * 100) + minute;
-                          }
-                        }(), 'start');
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: (
+                            ScheduleFilterTimeInterval.clamp(value),
+                            filter.value.$2,
+                          ),
+                        );
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       clearButton: false,
@@ -269,26 +246,18 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 60),
                     child: NumberBox<int>(
-                      value: filterValues[widget.category]![filter.key]
-                              ?['end'] ??
-                          filter.valueDefault['end'],
+                      value: filter.value.$2,
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
                         value ??= 0;
-                        model.updateFilter(widget.category, filter.key, () {
-                          final hour = (value! / 100).floor();
-                          final minute = value % 100;
-
-                          if (hour >= 24 && minute >= 60) {
-                            return 2359;
-                          } else if (hour >= 24 && minute < 60) {
-                            return minute + 2300;
-                          } else if (hour < 24 && minute >= 60) {
-                            return (hour * 100) + 59;
-                          } else if (hour < 24 && minute < 60) {
-                            return (hour * 100) + minute;
-                          }
-                        }(), 'end');
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: (
+                            filter.value.$1,
+                            ScheduleFilterTimeInterval.clamp(value),
+                          ),
+                        );
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       clearButton: false,
@@ -300,7 +269,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                 ]),
               ),
             )
-          else if (filter.valueDefault is num)
+          else if (filter is ScheduleFilterInteger)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -309,14 +278,16 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   Spacer(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 150),
-                    child: NumberBox<num>(
-                      value: filterValues[widget.category]![filter.key] ??
-                          filter.valueDefault,
+                    child: NumberBox<int>(
+                      value: filter.value,
                       onChanged: (value) {
                         if (value == null) return;
                         final model = context.read<SkedmakerModel>();
-                        model.updateFilter(widget.category, filter.key,
-                            filter.valueDefault is int ? value.toInt() : value);
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: value,
+                        );
                       },
                       min: filter.valueLeast,
                       max: filter.valueMost,
@@ -327,7 +298,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                 ]),
               ),
             )
-          else if (filter.valueDefault is bool)
+          else if (filter is ScheduleFilterSwitch)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -337,19 +308,21 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
                     child: ToggleSwitch(
-                      checked: filterValues[widget.category]![filter.key] ??
-                          filter.valueDefault,
+                      checked: filter.value,
                       onChanged: (value) {
                         final model = context.read<SkedmakerModel>();
-                        model.updateFilter(widget.category, filter.key, value);
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: value,
+                        );
                       },
                     ),
                   ),
                 ]),
               ),
             )
-          else if (filter.valueDefault is String &&
-              filter.valueChoices is List<String>)
+          else if (filter is ScheduleFilterStringChoices)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -359,9 +332,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
                     child: ComboBox(
-                      value: filterValues[widget.category]![filter.key] ??
-                          filter.valueDefault,
-                      items: filter.valueChoices!
+                      value: filter.value,
+                      items: filter.valueChoices
                           .map((e) => ComboBoxItem(
                                 child: Text(strings[
                                         "skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.$e"] ??
@@ -372,14 +344,18 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       onChanged: (value) {
                         if (value == null) return;
                         final model = context.read<SkedmakerModel>();
-                        model.updateFilter(widget.category, filter.key, value);
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: value,
+                        );
                       },
                     ),
                   ),
                 ]),
               ),
             )
-          else if (filter.valueDefault == ScheduleFilterSpecial.subjects)
+          else if (filter is ScheduleFilterSubjects)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -389,8 +365,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 200),
                     child: ComboBox(
-                      value:
-                          filterValues[widget.category]![filter.key] ?? 'any',
+                      value: filter.value,
                       items: [
                         ComboBoxItem(
                           child: Text(strings.skedmaker.filters.any),
@@ -407,14 +382,18 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       onChanged: (value) {
                         if (value == null) return;
                         final model = context.read<SkedmakerModel>();
-                        model.updateFilter(widget.category, filter.key, value);
+                        model.updateFilter(
+                          category: widget.category,
+                          key: filter.key,
+                          value: value,
+                        );
                       },
                     ),
                   ),
                 ]),
               ),
             )
-          else if (filter.valueDefault == ScheduleFilterSpecial.stringsWithChip)
+          else if (filter is ScheduleFilterStringWithChip)
             Padding(
               padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
               child: Card(
@@ -432,7 +411,14 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                           if (value.isEmpty) return;
                           controller.clear();
                           model.updateFilter(
-                              widget.category, filter.key, '', value);
+                            category: widget.category,
+                            key: filter.key,
+                            action: (p0) {
+                              (p0 as ScheduleFilterStringWithChip)
+                                  .value
+                                  .add(value);
+                            },
+                          );
                         }
 
                         return ConstrainedBox(
@@ -459,15 +445,22 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        for (final String text
-                            in filterValues[widget.category]![filter.key]
-                                    ?.keys ??
-                                const [])
+                        for (final String text in filter.value)
                           Chip(
-                            label: Text(text, style: FluentTheme.of(context).typography.body,),
+                            label: Text(
+                              text,
+                              style: FluentTheme.of(context).typography.body,
+                            ),
                             onDeleted: () {
                               model.updateFilter(
-                                  widget.category, filter.key, null, text);
+                                category: widget.category,
+                                key: filter.key,
+                                action: (p0) {
+                                  (p0 as ScheduleFilterStringWithChip)
+                                      .value
+                                      .remove(text);
+                                },
+                              );
                             },
                           )
                       ],

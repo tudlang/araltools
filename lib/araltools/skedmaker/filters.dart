@@ -18,63 +18,184 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ScheduleFilter<T> {
+import 'classes.dart';
+
+/// Base class for filters
+abstract class ScheduleFilter<T> {
   final String key;
   final String? keyLocalized;
   final (String category, String filter)? keyDependsOn;
   final T valueDefault;
-  final T? valueMost;
-  final T? valueLeast;
-  final List<T>? valueChoices;
 
   ScheduleFilter({
     required this.key,
-    required this.valueDefault,
     this.keyDependsOn,
     this.keyLocalized,
-    this.valueMost,
-    this.valueLeast,
-    this.valueChoices,
+    required this.valueDefault,
+  }) : value = valueDefault;
+
+  T value;
+
+  /// Sets the value for this filter.
+  ///
+  /// Override this if it needs a custom setter. Do not call super.
+  void setValue(dynamic val) {
+    value = val;
+  }
+
+  /// Resets the current value.
+  void reset() {
+    value = valueDefault;
+  }
+
+  @override
+  String toString() {
+    return (key, value.toString()).toString();
+  }
+}
+
+/// This is not a filter, but only a label/heading
+class ScheduleFilterLabel extends ScheduleFilter<void> {
+  ScheduleFilterLabel({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+  }) : super(valueDefault: null);
+}
+
+/// Filter for a switch
+class ScheduleFilterSwitch extends ScheduleFilter<bool> {
+  ScheduleFilterSwitch({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+    required super.valueDefault,
   });
 }
 
-class ScheduleFilters {
-  Map<String, Map<String, dynamic>> values;
-
-  ScheduleFilters._({
-    this.values = const {},
+/// Filter for an integer text field
+class ScheduleFilterInteger extends ScheduleFilter<int> {
+  ScheduleFilterInteger({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+    required super.valueDefault,
+    this.valueMost,
+    this.valueLeast,
   });
 
-  factory ScheduleFilters() {
-    return ScheduleFilters._(
-      values: filters.map((key, value) => MapEntry(key.$1, {})),
-    );
+  int? valueMost;
+  int? valueLeast;
+}
+
+/// Filter for a subject combobox
+class ScheduleFilterSubjects extends ScheduleFilter<String> {
+  ScheduleFilterSubjects({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+  }) : super(valueDefault: 'any');
+}
+
+/// Filter for user-inputted list of strings in chips
+class ScheduleFilterStringWithChip extends ScheduleFilter<Set<String>> {
+  ScheduleFilterStringWithChip({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+  }) : super(valueDefault: {});
+}
+
+/// Filter for a time interval
+class ScheduleFilterTimeInterval extends ScheduleFilter<(int, int)> {
+  ScheduleFilterTimeInterval({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+    required super.valueDefault,
+    this.valueMost = 2359,
+    this.valueLeast = 0,
+  });
+
+  int valueMost;
+  int valueLeast;
+
+  /// Clamps [value] to a valid 24-hour integer format.
+  static int clamp(int value) {
+    final hour = (value / 100).floor();
+    final minute = value % 100;
+
+    if (hour >= 24 && minute >= 60) {
+      return 2359;
+    } else if (hour >= 24 && minute < 60) {
+      return minute + 2300;
+    } else if (hour < 24 && minute >= 60) {
+      return (hour * 100) + 59;
+    } else if (hour < 24 && minute < 60) {
+      return (hour * 100) + minute;
+    } else {
+      return value;
+    }
+  }
+}
+
+/// Filter for a string from a list of choices
+class ScheduleFilterStringChoices extends ScheduleFilter<String> {
+  ScheduleFilterStringChoices({
+    required super.key,
+    super.keyDependsOn,
+    super.keyLocalized,
+    required super.valueDefault,
+    required this.valueChoices,
+  });
+
+  List<String> valueChoices;
+}
+
+class ScheduleFilters {
+  /// Resets all the filters to their default values.
+  ///
+  /// If [category] is set, then only that category's filters will be reset.
+  void reset([String? category]) {
+    if (category != null) {
+      for (final filter in filters[category]!.values) {
+        filter.reset();
+      }
+    } else {
+      for (final cat in filters.values) {
+        for (final filter in cat.values) {
+          filter.reset();
+        }
+      }
+    }
   }
 
-  static final filters = <(String, IconData), List<ScheduleFilter>>{
-    ('offerings', MdiIcons.schoolOutline): [
-      ScheduleFilter<bool>(
+  
+
+  /// The actual list of filters
+  final filters = <String, Map<String, ScheduleFilter>>{
+    'offerings': {
+      'includeClosed': ScheduleFilterSwitch(
         key: 'includeClosed',
         valueDefault: false,
       ),
-      ScheduleFilter<bool>(
+      'includeFullSlots': ScheduleFilterSwitch(
         key: 'includeFullSlots',
         valueDefault: false,
       ),
-      ScheduleFilter<bool>(
+      'includeUnknownModality': ScheduleFilterSwitch(
         key: 'includeUnknownModality',
         valueDefault: true,
       ),
-      ScheduleFilter<bool>(
+      'includeNoTeachers': ScheduleFilterSwitch(
         key: 'includeNoTeachers',
         valueDefault: true,
       ),
-      ScheduleFilter(
+      'excludeSectionLetter': ScheduleFilterStringWithChip(
         key: 'excludeSectionLetter',
-        valueDefault: ScheduleFilterSpecial.stringsWithChip,
       ),
-    ],
-    ('day', MdiIcons.viewDayOutline): [
+    },
+    'day': {
       for (final day in const [
         'monday',
         'tuesday',
@@ -82,23 +203,20 @@ class ScheduleFilters {
         'thursday',
         'friday',
         'saturday'
-      ]) ...[
-        ScheduleFilter(
+      ]) ...{
+        '${day}Name': ScheduleFilterLabel(
           key: '${day}Name',
-          valueDefault: null,
         ),
-        ScheduleFilter<int>(
+        '${day}MaxNumberOfSubjects': ScheduleFilterInteger(
           key: '${day}MaxNumberOfSubjects',
           keyLocalized: 'commonMaxNumberOfSubjects',
           valueDefault: -1,
           valueLeast: -1,
         ),
-        ScheduleFilter(
+        '${day}TimeInterval': ScheduleFilterTimeInterval(
           key: '${day}TimeInterval',
           keyLocalized: 'commonTimeInterval',
-          valueDefault: {'start': 730, 'end': 2200},
-          valueLeast: 0,
-          valueMost: 2359,
+          valueDefault: (730, 2200),
         ),
         /* TODO add modality checker
         ScheduleFilter<String>(
@@ -108,15 +226,13 @@ class ScheduleFilters {
           valueChoices: ['hybrid', 'online', 'face'],
         ),
         */
-        ScheduleFilter(
+        '${day}StartWithSubject': ScheduleFilterSubjects(
           key: '${day}StartWithSubject',
           keyLocalized: 'commonStartWithSubject',
-          valueDefault: ScheduleFilterSpecial.subjects,
         ),
-        ScheduleFilter(
+        '${day}EndWithSubject': ScheduleFilterSubjects(
           key: '${day}EndWithSubject',
           keyLocalized: 'commonEndWithSubject',
-          valueDefault: ScheduleFilterSpecial.subjects,
         ),
         /* //TODO add breaktime
         ScheduleFilter(
@@ -127,52 +243,47 @@ class ScheduleFilters {
           valueMost: 2359,
         ),
         */
-      ]
-    ],
-    ('location', MdiIcons.mapMarkerOutline): [
-      ScheduleFilter<bool>(
+      }
+    },
+    'location': {
+      'enabled': ScheduleFilterSwitch(
         key: 'enabled',
         valueDefault: false,
       ),
-      ScheduleFilter<int>(
+      'checkingDistanceMinutes': ScheduleFilterInteger(
         key: 'checkingDistanceMinutes',
         keyDependsOn: ('location', 'enabled'),
         valueDefault: 20,
         valueLeast: -1,
       ),
-      ScheduleFilter<int>(
+      'maxAllowedDistanceMeters': ScheduleFilterInteger(
         key: 'maxAllowedDistanceMeters',
         keyDependsOn: ('location', 'enabled'),
         valueDefault: 200,
         valueLeast: -1,
       ),
-    ],
+    },
   };
 
-  //factory ScheduleFilters.fromMap(Map map) {}
-
-  Map<String, Map<String, dynamic>> toMap() => filters.map(
-        (key, value) => MapEntry(
-          key.$1,
-          Map.fromEntries(value.map(
-            (e) => MapEntry(
-                e.key,
-                values[key.$1]?[e.key] ??
-                    (e.valueDefault is ScheduleFilterSpecial
-                        ? e.valueDefault.valueDefault
-                        : e.valueDefault)),
-          )),
-        ),
-      );
-}
-
-enum ScheduleFilterSpecial {
-  subjects(
-    valueDefault: 'any',
-  ),
-  stringsWithChip,
-  ;
-
-  final dynamic valueDefault;
-  const ScheduleFilterSpecial({this.valueDefault});
+  /// Function whether to exclude [offering] from generation, given the current filters
+  bool shouldExclude(Offering offering){
+    if ((filters['offerings']!['includeClosed']!.value == false &&
+              offering.isClosed == true) ||
+          (filters['offerings']!['includeFullSlots']!.value == false &&
+              offering.slotTaken >= offering.slotCapacity) ||
+          (filters['offerings']!['includeUnknownModality']!.value == false &&
+              offering.scheduleDay.name.contains('nknown')) ||
+          (filters['offerings']!['includeNoTeachers']!.value == false &&
+              offering.teacher.isEmpty) ||
+          (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty == true &&
+              (filters['offerings']!['excludeSectionLetter']!.value as Set<String>).any(
+                  (e) => offering.section
+                      .toLowerCase()
+                      .contains(e.toLowerCase())))) {
+        return true;
+      }
+      else {
+      return false;
+    }
+  }
 }

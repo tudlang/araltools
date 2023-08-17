@@ -117,22 +117,20 @@ class SkedmakerModel extends ChangeNotifier {
 
   ScheduleFilters _filters;
   ScheduleFilters get filters => _filters;
-  updateFilter<T>(String category, String key, T value, [String? index]) {
-    if (index != null) {
-      _filters.values[category]![key] ??= {};
-      if (value == null) {
-        _filters.values[category]![key].remove(index);
-      } else {
-        _filters.values[category]![key][index] = value;
-      }
-    } else {
-      _filters.values[category]![key] = value;
-    }
+  updateFilter({
+    required String category,
+    required String key,
+    dynamic value,
+    void Function(ScheduleFilter)? action,
+  }) {
+    final filter = _filters.filters[category]![key]!;
+    if (value != null) filter.setValue(value);
+    if (action!= null) action(filter);
     notifyListeners();
   }
 
   resetFilterCategory(String category) {
-    _filters.values[category]!.clear();
+    _filters.reset(category);
     notifyListeners();
   }
 
@@ -192,24 +190,9 @@ class SkedmakerModel extends ChangeNotifier {
   }
 
   int get scheduleCombinations => subjects.values.fold(1, (prev, element) {
-        final _filters = filters.toMap();
         int offeringsFiltered = 0;
         for (final offering in element) {
-          if ((_filters['offerings']!['includeClosed'] == false &&
-                  offering.isClosed == true) ||
-              (_filters['offerings']!['includeFullSlots'] == false &&
-                  offering.slotTaken >= offering.slotCapacity) ||
-              (_filters['offerings']!['includeUnknownModality'] == false &&
-                  offering.scheduleDay.name.contains('nknown')) ||
-              (_filters['offerings']!['includeNoProfessors'] == false &&
-                  offering.teacher.isEmpty) ||
-              (_filters['offerings']!['excludeSectionLetter']?.isNotEmpty ==
-                      true &&
-                  (_filters['offerings']!['excludeSectionLetter'] as Map)
-                      .keys
-                      .any((e) => offering.section
-                          .toLowerCase()
-                          .contains(e.toLowerCase())))) {
+          if (_filters.shouldExclude(offering)) {
             offeringsFiltered++;
           }
         }

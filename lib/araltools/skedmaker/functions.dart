@@ -31,10 +31,10 @@ void generateSchedulesIsolate(
     ({
       Map<String, List<Offering>> subjects,
       SendPort sendport,
-      Map<String, Map<String, dynamic>> filters
+      ScheduleFilters filters
     }) arg) {
   final sendPort = arg.sendport;
-  final filters = arg.filters;
+  final filters = arg.filters.filters;
 
   //bool isPaused = subjectsEncoded['isPaused'];
 
@@ -82,30 +82,30 @@ void generateSchedulesIsolate(
           final offeringDay = week.daysOfferings[day.$3]!.toList();
 
           // check for number of subjects for the day
-          if (filters['day']!['${day.$1}MaxNumberOfSubjects'] != -1) {
+          if (filters['day']!['${day.$1}MaxNumberOfSubjects']!.value != -1) {
             if (offeringDay.length >
-                filters['day']!['${day.$1}MaxNumberOfSubjects'] - 0) {
+                filters['day']!['${day.$1}MaxNumberOfSubjects']!.value - 0) {
               throw InvalidScheduleError();
             }
           }
 
           // check for first subject
-          if (filters['day']!['${day.$1}StartWithSubject'] != 'any') {
+          if (filters['day']!['${day.$1}StartWithSubject']!.value != 'any') {
             if (offeringDay.first.subject !=
-                filters['day']!['${day.$1}StartWithSubject']) {
+                filters['day']!['${day.$1}StartWithSubject']!.value) {
               throw InvalidScheduleError();
             }
           }
           // check for last subject
-          if (filters['day']!['${day.$1}EndWithSubject'] != 'any') {
+          if (filters['day']!['${day.$1}EndWithSubject']!.value != 'any') {
             if (offeringDay.last.subject !=
-                filters['day']!['${day.$1}EndWithSubject']) {
+                filters['day']!['${day.$1}EndWithSubject']!.value) {
               throw InvalidScheduleError();
             }
           }
 
           // location cheker
-          if (filters['location']!['enabled'] == true) {
+          if (filters['location']!['enabled']!.value == true) {
             offeringDay.forEachIndexed((index, element) {
               if (index == 0) return; //skip if first
 
@@ -113,12 +113,12 @@ void generateSchedulesIsolate(
               final elementBefore = offeringDay.elementAt(index - 1);
 
               if (element.scheduleTimeStart - elementBefore.scheduleTimeEnd <=
-                  filters['location']!["checkingDistanceMinutes"]) {
+                  filters['location']!["checkingDistanceMinutes"]!.value) {
                 final distance = LocationFunctions.getLocationDistance(
                     elementBefore.room, element.room);
 
                 if (distance >
-                    filters['location']!['maxAllowedDistanceMeters']) {
+                    filters['location']!['maxAllowedDistanceMeters']!.value) {
                   throw InvalidScheduleError();
                 }
               }
@@ -142,19 +142,7 @@ void generateSchedulesIsolate(
     for (Offering currentOffering in subjectsCurrent[subject]!) {
       // ===== Check for filters here
 
-      if ((filters['offerings']!['includeClosed'] == false &&
-              currentOffering.isClosed == true) ||
-          (filters['offerings']!['includeFullSlots'] == false &&
-              currentOffering.slotTaken >= currentOffering.slotCapacity) ||
-          (filters['offerings']!['includeUnknownModality'] == false &&
-              currentOffering.scheduleDay.name.contains('nknown')) ||
-          (filters['offerings']!['includeNoProfessors'] == false &&
-              currentOffering.teacher.isEmpty) ||
-          (filters['offerings']!['excludeSectionLetter']?.isNotEmpty == true &&
-              (filters['offerings']!['excludeSectionLetter'] as Map).keys.any(
-                  (e) => currentOffering.section
-                      .toLowerCase()
-                      .contains(e.toLowerCase())))) {
+      if (arg.filters.shouldExclude(currentOffering)) {
         continue;
       }
 
@@ -175,20 +163,20 @@ void generateSchedulesIsolate(
           if (!scheduleDay.daycode.contains(day.$2)) continue;
 
           //modality checker
-          if (filters['day']!['${day.$1}Modality'] != 'hybrid') {
+          //if (filters['day']!['${day.$1}Modality']!.value != 'hybrid') {
             // todo add modality checker
             //if (!scheduleDay.name
             //    .toLowerCase()
             //    .contains(filters['day']!["${day.$1}Modality"])) {
             //  throw Error();
             //}
-          }
+          //}
 
           // interval checker
           if (!(currentOffering.scheduleTimeStart >=
-                  filters['day']!['${day.$1}TimeInterval']['start'] &&
+                  filters['day']!['${day.$1}TimeInterval']!.value.$1 &&
               currentOffering.scheduleTimeEnd <=
-                  filters['day']!['${day.$1}TimeInterval']['end'])) {
+                  filters['day']!['${day.$1}TimeInterval']!.value.$2)) {
             throw InvalidScheduleError();
           }
         }
@@ -231,11 +219,11 @@ Stream<ScheduleWeek?> generateSchedules({
       ({
         Map<String, List<Offering>> subjects,
         SendPort sendport,
-        Map<String, Map<String, dynamic>> filters
+        ScheduleFilters filters
       })>(generateSchedulesIsolate, (
     subjects: subjects,
     sendport: p.sendPort,
-    filters: filters.toMap()
+    filters: filters
   )).then((value) {
     isolate = value;
   });
