@@ -25,6 +25,7 @@ import 'package:html/parser.dart';
 
 import '/utils.dart';
 import 'classes.dart';
+import 'filters.dart';
 
 void generateSchedulesIsolate(
     ({
