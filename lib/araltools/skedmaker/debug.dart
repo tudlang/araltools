@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -31,7 +31,8 @@ final debugSubjects = [
       teacher: 'THE GAME THEORISTS',
       slotCapacity: 20,
       slotTaken: 21,
-    )..scheduleTime = '0730 - 0900',
+      scheduleTime: '0730 - 0900',
+    ),
     Offering(
       subject: 'FNAF101',
       section: 'EA2',
@@ -40,7 +41,8 @@ final debugSubjects = [
       teacher: 'THE GAME THEORISTS',
       slotCapacity: 20,
       slotTaken: 23,
-    )..scheduleTime = '0915 - 1030',
+      scheduleTime: '0915 - 1030',
+    ),
     Offering(
       subject: 'FNAF101',
       section: 'EA3',
@@ -49,7 +51,8 @@ final debugSubjects = [
       teacher: 'THE GAME THEORISTS',
       slotCapacity: 30,
       slotTaken: 23,
-    )..scheduleTime = '1100 - 1230',
+      scheduleTime: '1100 - 1230',
+    ),
     Offering(
       subject: 'FNAF101',
       section: 'EA4',
@@ -58,7 +61,8 @@ final debugSubjects = [
       teacher: 'THE GAME THEORISTS',
       slotCapacity: 30,
       slotTaken: 23,
-    )..scheduleTime = '1300 - 1530',
+      scheduleTime: '1300 - 1530',
+    ),
     Offering(
       subject: 'FNAF101',
       section: 'EB1',
@@ -67,115 +71,126 @@ final debugSubjects = [
       teacher: 'FUHNAF',
       slotCapacity: 30,
       slotTaken: 0,
-    )..scheduleTime = '0730 - 0930',
+      scheduleTime: '0730 - 0930',
+    ),
     Offering(
-        subject: 'FNAF101',
-        section: 'EB2',
-        scheduleDay: ScheduleDay.tuesdayfridayFace,
-        classNumber: 2,
-        teacher: 'FUHNAF',
-        slotCapacity: 30,
-        slotTaken: 22,
-        room: 'AG1101')
-      ..scheduleTime = '0950 - 1030',
+      subject: 'FNAF101',
+      section: 'EB2',
+      scheduleDay: ScheduleDay.tuesdayfridayFace,
+      classNumber: 2,
+      teacher: 'FUHNAF',
+      slotCapacity: 30,
+      slotTaken: 22,
+      room: 'AG1101',
+      scheduleTime: '0950 - 1030',
+    ),
     Offering(
-        subject: 'FNAF101',
-        section: 'EC1',
-        scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
-        classNumber: 5,
-        teacher: 'RYETOAST',
-        slotCapacity: 23,
-        slotTaken: 20,
-        room: 'AG1201')
-      ..scheduleTime = '1245 - 1400',
+      subject: 'FNAF101',
+      section: 'EC1',
+      scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
+      classNumber: 5,
+      teacher: 'RYETOAST',
+      slotCapacity: 23,
+      slotTaken: 20,
+      room: 'AG1201',
+      scheduleTime: '1245 - 1400',
+    ),
     Offering(
-        subject: 'FNAF101',
-        section: 'EC2',
-        scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
-        classNumber: 6,
-        teacher: 'RYETOAST',
-        slotCapacity: 25,
-        slotTaken: 9,
-        room: 'SJ201')
-      ..scheduleTime = '1415 - 1545',
+      subject: 'FNAF101',
+      section: 'EC2',
+      scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
+      classNumber: 6,
+      teacher: 'RYETOAST',
+      slotCapacity: 25,
+      slotTaken: 9,
+      room: 'SJ201',
+      scheduleTime: '1415 - 1545',
+    ),
   ]..forEach((element) {
       element.color = Colors.red;
     }),
   [
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y01',
-        scheduleDay: ScheduleDay.mondayFace,
-        classNumber: 7,
-        teacher: 'LINUS TECH TIPS',
-        slotCapacity: 35,
-        slotTaken: 0,
-        room: 'SJ221')
-      ..scheduleTime = '0730 - 1200',
+      subject: 'TECHTIP',
+      section: 'Y01',
+      scheduleDay: ScheduleDay.mondayFace,
+      classNumber: 7,
+      teacher: 'LINUS TECH TIPS',
+      slotCapacity: 35,
+      slotTaken: 0,
+      room: 'SJ221',
+      scheduleTime: '0730 - 1200',
+    ),
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y02',
-        scheduleDay: ScheduleDay.mondayFace,
-        classNumber: 8,
-        teacher: 'LINUS TECH TIPS',
-        slotCapacity: 35,
-        slotTaken: 0,
-        room: 'SM201')
-      ..scheduleTime = '1300 - 1730',
+      subject: 'TECHTIP',
+      section: 'Y02',
+      scheduleDay: ScheduleDay.mondayFace,
+      classNumber: 8,
+      teacher: 'LINUS TECH TIPS',
+      slotCapacity: 35,
+      slotTaken: 0,
+      room: 'SM201',
+      scheduleTime: '1300 - 1730',
+    ),
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y03',
-        scheduleDay: ScheduleDay.tuesdayFace,
-        classNumber: 9,
-        teacher: 'SHORTCIRCUIT',
-        slotCapacity: 35,
-        slotTaken: 17,
-        room: 'SM201')
-      ..scheduleTime = '0730 - 1200',
+      subject: 'TECHTIP',
+      section: 'Y03',
+      scheduleDay: ScheduleDay.tuesdayFace,
+      classNumber: 9,
+      teacher: 'SHORTCIRCUIT',
+      slotCapacity: 35,
+      slotTaken: 17,
+      room: 'SM201',
+      scheduleTime: '0730 - 1200',
+    ),
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y04',
-        scheduleDay: ScheduleDay.tuesdayFace,
-        classNumber: 9,
-        teacher: 'SHORTCIRCUIT',
-        slotCapacity: 35,
-        slotTaken: 17,
-        room: 'LS202')
-      ..scheduleTime = '1300 - 1730',
+      subject: 'TECHTIP',
+      section: 'Y04',
+      scheduleDay: ScheduleDay.tuesdayFace,
+      classNumber: 9,
+      teacher: 'SHORTCIRCUIT',
+      slotCapacity: 35,
+      slotTaken: 17,
+      room: 'LS202',
+      scheduleTime: '1300 - 1730',
+    ),
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y05',
-        scheduleDay: ScheduleDay.wednesdayFace,
-        classNumber: 10,
-        teacher: 'TECHQUICKIE',
-        slotCapacity: 35,
-        slotTaken: 17,
-        room: 'SM201')
-      ..scheduleTime = '0730 - 1200',
+      subject: 'TECHTIP',
+      section: 'Y05',
+      scheduleDay: ScheduleDay.wednesdayFace,
+      classNumber: 10,
+      teacher: 'TECHQUICKIE',
+      slotCapacity: 35,
+      slotTaken: 17,
+      room: 'SM201',
+      scheduleTime: '0730 - 1200',
+    ),
     Offering(
-        subject: 'TECHTIP',
-        section: 'Y06',
-        scheduleDay: ScheduleDay.wednesdayFace,
-        classNumber: 11,
-        teacher: 'TECHQUICKIE',
-        slotCapacity: 35,
-        slotTaken: 17,
-        room: 'LS221')
-      ..scheduleTime = '1300 - 1730',
+      subject: 'TECHTIP',
+      section: 'Y06',
+      scheduleDay: ScheduleDay.wednesdayFace,
+      classNumber: 11,
+      teacher: 'TECHQUICKIE',
+      slotCapacity: 35,
+      slotTaken: 17,
+      room: 'LS221',
+      scheduleTime: '1300 - 1730',
+    ),
   ]..forEach((element) {
       element.color = Colors.orange;
     }),
   [
     Offering(
-        subject: 'STRWRS1',
-        section: 'Z01',
-        scheduleDay: ScheduleDay.mondaythursdayOnlineface,
-        classNumber: 12,
-        teacher: "DARTH'D",
-        slotCapacity: 35,
-        slotTaken: 16,
-        room: 'VL301')
-      ..scheduleTime = '1500 - 1700',
+      subject: 'STRWRS1',
+      section: 'Z01',
+      scheduleDay: ScheduleDay.mondaythursdayOnlineface,
+      classNumber: 12,
+      teacher: "DARTH'D",
+      slotCapacity: 35,
+      slotTaken: 16,
+      room: 'VL301',
+      scheduleTime: '1500 - 1700',
+    ),
     Offering(
       subject: 'STRWRS1',
       section: 'Z02',
@@ -184,7 +199,8 @@ final debugSubjects = [
       teacher: "DARTH'D",
       slotCapacity: 35,
       slotTaken: 9,
-    )..scheduleTime = '1730 - 1930',
+      scheduleTime: '1730 - 1930',
+    ),
     Offering(
       subject: 'STRWRS1',
       section: 'Z03',
@@ -193,7 +209,8 @@ final debugSubjects = [
       teacher: "MAULER",
       slotCapacity: 35,
       slotTaken: 16,
-    )..scheduleTime = '1300 - 1800',
+      scheduleTime: '1300 - 1800',
+    ),
     Offering(
       subject: 'STRWRS1',
       section: 'Z04',
@@ -202,7 +219,8 @@ final debugSubjects = [
       teacher: "MAULER",
       slotCapacity: 40,
       slotTaken: 9,
-    )..scheduleTime = '1300 - 1800',
+      scheduleTime: '1300 - 1800',
+    ),
     Offering(
       subject: 'STRWRS1',
       section: 'Z04',
@@ -211,7 +229,8 @@ final debugSubjects = [
       teacher: "STAR WARS THEORY",
       slotCapacity: 15,
       slotTaken: 0,
-    )..scheduleTime = '1900 - 2000',
+      scheduleTime: '1900 - 2000',
+    ),
   ]..forEach((element) {
       element.color = Colors.yellow;
     }),
@@ -224,7 +243,8 @@ final debugSubjects = [
       teacher: "MR. BEAST",
       slotCapacity: 40,
       slotTaken: 50,
-    )..scheduleTime = '0900 - 1015',
+      scheduleTime: '0900 - 1015',
+    ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX2',
@@ -233,7 +253,8 @@ final debugSubjects = [
       teacher: "MR. BEAST",
       slotCapacity: 40,
       slotTaken: 50,
-    )..scheduleTime = '0900 - 1015',
+      scheduleTime: '0900 - 1015',
+    ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX3',
@@ -242,7 +263,8 @@ final debugSubjects = [
       teacher: "PEWDIEPIE",
       slotCapacity: 50,
       slotTaken: 50,
-    )..scheduleTime = '1030 - 1100',
+      scheduleTime: '1030 - 1100',
+    ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX4',
@@ -251,7 +273,8 @@ final debugSubjects = [
       teacher: "PEWDIEPIE",
       slotCapacity: 50,
       slotTaken: 15,
-    )..scheduleTime = '0900 - 1015',
+      scheduleTime: '0900 - 1015',
+    ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX5',
@@ -260,7 +283,8 @@ final debugSubjects = [
       teacher: "JACKSFILMS",
       slotCapacity: 20,
       slotTaken: 15,
-    )..scheduleTime = '1030 - 1115',
+      scheduleTime: '1030 - 1115',
+    ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX6',
@@ -269,7 +293,8 @@ final debugSubjects = [
       teacher: "JACKSFILMS",
       slotCapacity: 20,
       slotTaken: 12,
-    )..scheduleTime = '1300 - 1445',
+      scheduleTime: '1300 - 1445',
+    ),
   ]..forEach((element) {
       element.color = Colors.purple;
     }),
@@ -282,6 +307,7 @@ final debugSubjects = [
       teacher: "LEGAL EAGLE",
       slotCapacity: 45,
       slotTaken: 18,
-    )..scheduleTime = '1300 - 1545',
+      scheduleTime: '1300 - 1545',
+    ),
   ]
 ];

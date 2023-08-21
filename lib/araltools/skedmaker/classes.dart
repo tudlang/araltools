@@ -25,7 +25,6 @@ import '/strings.g.dart';
 import '/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:vector_math/vector_math.dart';
 
 import 'functions.dart';
@@ -39,8 +38,8 @@ class Offering implements Comparable {
   int slotCapacity;
   int slotTaken;
   ScheduleDay scheduleDay;
-  late int scheduleTimeStart;
-  late int scheduleTimeEnd;
+  ({int start, int end}) scheduleTime;
+  ({int start, int end})? scheduleTime2;
   int classNumber;
   bool isClosed;
   Color color;
@@ -57,72 +56,85 @@ class Offering implements Comparable {
     this.slotCapacity = 0,
     this.teacher = '',
     this.isClosed = false,
-    this.remarks = ''
+    this.remarks = '',
+    required String scheduleTime,
+  }) : scheduleTime = (
+          start: scheduleTime.substring(0, 4).toInt(),
+          end: scheduleTime.substring(7).toInt()
+        );
+
+  Offering.raw({
+    required this.subject,
+    required this.section,
+    required this.scheduleDay,
+    required this.classNumber,
+    this.room = '',
+    this.color = const Color(0xCC2196F3),
+    this.slotTaken = 0,
+    this.slotCapacity = 0,
+    this.teacher = '',
+    this.isClosed = false,
+    this.remarks = '',
+    required this.scheduleTime,
+    this.scheduleTime2,
   });
 
-  /// Expected input: `1245 - 1415`
-  set scheduleTime(String time) {
-    scheduleTimeStart = time.substring(0, 4).toInt();
-    scheduleTimeEnd = time.substring(7).toInt();
+  void setScheduleTime2(String val) {
+    scheduleTime2 =
+        (start: val.substring(0, 4).toInt(), end: val.substring(7).toInt());
   }
 
-  String get scheduleTime => "$scheduleTimeStart - $scheduleTimeEnd";
+  String get scheduleTimeString => scheduleTime2 == null
+      ? "${scheduleTime.start} - ${scheduleTime.end}"
+      : "${scheduleTime.start} - ${scheduleTime.end}\n${scheduleTime2!.start} - ${scheduleTime2!.end}";
+
+  List<Offering> split() {
+    if (scheduleTime2 == null || !scheduleDay.isMultipleDays) return [this];
+
+    final splitted = scheduleDay.split()!;
+
+    return [
+      this.copy()
+        ..scheduleTime2 = null
+        ..scheduleDay = splitted.$1,
+      this.copy()
+        ..scheduleTime = scheduleTime2!
+        ..scheduleTime2 = null
+        ..scheduleDay = splitted.$2,
+    ];
+  }
 
   String get slots => "$slotTaken / $slotCapacity";
 
-  double get slotPercentage => slotCapacity==0 ? 1 :  slotTaken / slotCapacity;
+  double get slotPercentage => slotCapacity == 0 ? 1 : slotTaken / slotCapacity;
 
   bool get isAvailable => !isClosed && slotPercentage < 1.0;
 
-  Map toMap() => {
-        'classNumber': classNumber,
-        'subject': subject,
-        'section': section,
-        'room': room,
-        'slotCapacity': slotCapacity,
-        'slotTaken': slotTaken,
-        'scheduleTimeStart': scheduleTimeStart,
-        'scheduleTimeEnd': scheduleTimeEnd,
-        'scheduleDay': scheduleDay.name,
-        'teacher': teacher,
-        'color': {
-          'r': color.red,
-          'g': color.green,
-          'b': color.blue,
-          'a': color.alpha,
-        },
-        'isClosed': isClosed,
-        'remarks':remarks
-      };
-  factory Offering.fromMap(Map map) => Offering(
-        classNumber: map['classNumber'],
-        subject: map['subject'],
-        section: map['section'],
-        room: map['room'],
-        scheduleDay: ScheduleDay.values.byName(map['scheduleDay']),
-        color: Color.fromARGB(
-          map['color']['a'],
-          map['color']['r'],
-          map['color']['g'],
-          map['color']['b'],
-        ),
-        teacher: map['teacher'],
-        isClosed: map['isClosed'],
-        slotCapacity: map['slotCapacity'],
-        slotTaken: map['slotTaken'],
-        remarks: map['remarks']
-      )
-        ..scheduleTimeStart = map['scheduleTimeStart']
-        ..scheduleTimeEnd = map['scheduleTimeEnd'];
+  /// Cretes a new instance of this
+  Offering copy() => Offering.raw(
+        subject: subject,
+        section: section,
+        scheduleDay: scheduleDay,
+        classNumber: classNumber,
+        room: room,
+        color: color,
+        slotCapacity: slotCapacity,
+        slotTaken: slotTaken,
+        teacher: teacher,
+        isClosed: isClosed,
+        remarks: remarks,
+        scheduleTime: scheduleTime,
+        scheduleTime2: scheduleTime2,
+      );
 
   @override
   String toString() =>
-      "$subject-$section-$room ${scheduleDay.daycode}-$scheduleTimeStart-$scheduleTimeEnd";
+      "$subject-$section-$room ${scheduleDay.daycode}-$scheduleTimeString";
 
   bool isAfter(Offering other) =>
-      this.scheduleTimeStart > other.scheduleTimeEnd;
+      this.scheduleTime.start > other.scheduleTime.end;
   bool isBefore(Offering other) =>
-      this.scheduleTimeEnd < other.scheduleTimeStart;
+      this.scheduleTime.end < other.scheduleTime.start;
 
   @override
   int compareTo(other) {
@@ -260,6 +272,25 @@ enum ScheduleDay {
         'S' => ScheduleDay.wednesdaysaturdayUnknown,
         _ => old
       };
+
+  (ScheduleDay, ScheduleDay)? split() => switch (this) {
+        mondaythursdayFace => (mondayFace, thursdayFace),
+        mondaythursdayOnline => (mondayOnline, thursdayOnline),
+        mondaythursdayFaceonline => (mondayFace, thursdayOnline),
+        mondaythursdayOnlineface => (mondayOnline, thursdayFace),
+        mondaythursdayUnknown => (mondayUnknown, thursdayUnknown),
+        tuesdayfridayFace => (tuesdayFace, fridayFace),
+        tuesdayfridayOnline => (tuesdayOnline, fridayOnline),
+        tuesdayfridayFaceonline => (tuesdayFace, fridayOnline),
+        tuesdayfridayOnlineface => (tuesdayOnline, fridayFace),
+        tuesdayfridayUnknown => (tuesdayUnknown, fridayUnknown),
+        wednesdaysaturdayFace => (wednesdayFace, saturdayFace),
+        wednesdaysaturdayOnline => (wednesdayOnline, saturdayOnline),
+        wednesdaysaturdayFaceonline => (wednesdayFace, saturdayOnline),
+        wednesdaysaturdayOnlineface => (wednesdayOnline, saturdayFace),
+        wednesdaysaturdayUnknown => (wednesdayUnknown, saturdayUnknown),
+        _ => null
+      };
 }
 /*
 const distances = {
@@ -356,14 +387,14 @@ mixin LocationFunctions {
 
 class ScheduleWeek {
   final _daysBytes = {
-    0: BigInt.zero,
-    1: BigInt.zero,
-    2: BigInt.zero,
-    3: BigInt.zero,
-    4: BigInt.zero,
-    5: BigInt.zero,
+    'M': BigInt.zero,
+    'T': BigInt.zero,
+    'W': BigInt.zero,
+    'H': BigInt.zero,
+    'F': BigInt.zero,
+    'S': BigInt.zero,
   };
-  Map<int, Set<Offering>> daysOfferings;
+  Map<String, Set<Offering>> daysOfferings;
 
   Set<Offering> subjects;
 
@@ -373,44 +404,35 @@ class ScheduleWeek {
   ScheduleWeek()
       // I am so sorry that this is repeated, but each set needs to be separately instantiated
       : daysOfferings = {
-          0: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
-          1: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
-          2: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
-          3: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
-          4: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
-          5: SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTimeStart.compareTo(next.scheduleTimeStart)),
+          'M': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+          'T': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+          'W': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+          'H': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+          'F': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+          'S': SplayTreeSet<Offering>((prev, next) =>
+              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
         },
         name = '',
         subjects = {},
         notes = '';
 
   String get identifierString =>
-      "${daysOfferings[0]!.isNotEmpty ? '🄼' : ''}${daysOfferings[1]!.isNotEmpty ? ' 🅃' : ''}${daysOfferings[2]!.isNotEmpty ? ' 🅆' : ''}${daysOfferings[3]!.isNotEmpty ? ' 🄷' : ''}${daysOfferings[4]!.isNotEmpty ? ' 🄵' : ''}${daysOfferings[5]!.isNotEmpty ? ' 🅂' : ''}";
+      "${daysOfferings['M']!.isNotEmpty ? '🄼' : ''}${daysOfferings['T']!.isNotEmpty ? ' 🅃' : ''}${daysOfferings['W']!.isNotEmpty ? ' 🅆' : ''}${daysOfferings['H']!.isNotEmpty ? ' 🄷' : ''}${daysOfferings['F']!.isNotEmpty ? ' 🄵' : ''}${daysOfferings['S']!.isNotEmpty ? ' 🅂' : ''}";
 
   static const List<String> daycodes = ["M", "T", "W", "H", "F", "S"];
-
-  static int dayFromCode(String code) => switch (code) {
-        'M' => 0,
-        'T' => 1,
-        'W' => 2,
-        'H' => 3,
-        'F' => 4,
-        'S' => 5,
-        _ => throw ArgumentError()
-      };
 
   static BigInt toByte(int start, int end) =>
       BigInt.two.pow(end - start) - BigInt.one << start;
 
   static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
-  void _addByte({required int daycode, required int start, required int end}) {
+  void _addByte(
+      {required String daycode, required int start, required int end}) {
     final toAdd = toByte(start, end);
     final byteOfDay = _daysBytes[daycode]!;
 
@@ -424,17 +446,14 @@ class ScheduleWeek {
   void add(Offering offering) {
     if (subjects.contains(offering)) throw InvalidScheduleError();
 
-    final start = offering.scheduleTimeStart;
-    final end = offering.scheduleTimeEnd;
-
     // make it a for loop so that the multiple days are allowed
-    for (final daycode in offering.scheduleDay.daycode.split('')) {
+    for (final _offering in offering.split()) {
       _addByte(
-        daycode: dayFromCode(daycode),
-        start: start,
-        end: end,
+        daycode: _offering.scheduleDay.daycode,
+        start: _offering.scheduleTime.start,
+        end: _offering.scheduleTime.end,
       );
-      daysOfferings[dayFromCode(daycode)]!.add(offering);
+      daysOfferings[_offering.scheduleDay.daycode]!.add(_offering);
     }
     subjects.add(offering);
   }
@@ -444,22 +463,6 @@ class ScheduleWeek {
         (key, value) => MapEntry("$key ${value.length}",
             value.map((key) => key.toString()).toList()),
       ));
-
-  Map toMap() => {
-        'daysOfferings': daysOfferings.map((key, value) =>
-            MapEntry(key, value.map((e) => e.toMap()).toList())),
-        'subjects': subjects.map((e) => e.toMap()),
-        'name': name,
-        'notes':notes,
-      };
-
-  ScheduleWeek.fromMap(Map map)
-      : daysOfferings = (map['daysOfferings'] as Map<int, List<Map>>).map(
-            (key, value) => MapEntry(key, value.map(Offering.fromMap).toSet())),
-        subjects =
-            (map['subjects'] as Iterable<Map>).map(Offering.fromMap).toSet(),
-        name = map['name'],
-        notes = map['notes'];
 
   double get weight => 0;
 }

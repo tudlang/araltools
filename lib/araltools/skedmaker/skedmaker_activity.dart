@@ -114,7 +114,7 @@ class TimetableFragment extends StatelessWidget {
               laneIndex: 1,
               backgroundColor: Color(0xfff3f3f3),
             ),
-            events: data.daysOfferings[ScheduleWeek.dayFromCode(day)]!
+            events: data.daysOfferings[day]!
                 .map((e) => TableEvent(
                     padding: EdgeInsets.all(7),
                     margin: EdgeInsets.all(2),
@@ -122,8 +122,8 @@ class TimetableFragment extends StatelessWidget {
                     title: "${e.subject} - ${e.section} \n",
                     eventId: e.classNumber,
                     laneIndex: 1,
-                    startTime: t(e.scheduleTimeStart),
-                    endTime: t(e.scheduleTimeEnd),
+                    startTime: t(e.scheduleTime.start),
+                    endTime: t(e.scheduleTime.end),
                     backgroundColor: e.color,
                     textStyle: TextStyle(
                       color: e.color.basedOnLuminance(),
@@ -171,23 +171,23 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
       prevButton: SizedBox.shrink(),
       events: [
         for (final day in [
-          (0, "M", DateTime(1970, 1, 2)),
-          (1, "T", DateTime(1970, 1, 3)),
-          (2, "W", DateTime(1970, 1, 4)),
-          (3, "H", DateTime(1970, 1, 5)),
-          (4, "F", DateTime(1970, 1, 6)),
-          (5, "S", DateTime(1970, 1, 7)),
+          ("M", DateTime(1970, 1, 2)),
+          ("T", DateTime(1970, 1, 3)),
+          ("W", DateTime(1970, 1, 4)),
+          ("H", DateTime(1970, 1, 5)),
+          ("F", DateTime(1970, 1, 6)),
+          ("S", DateTime(1970, 1, 7)),
         ])
           ...widget.week!.daysOfferings[day.$1]!
               .map((e) => Event(
                   id: e.toString(),
-                  start: day.$3.add(Duration(
-                      hours: (e.scheduleTimeStart / 100).floor(),
-                      minutes: e.scheduleTimeStart % 100)),
-                  end: day.$3.add(Duration(
-                      hours: (e.scheduleTimeEnd / 100).floor(),
-                      minutes: e.scheduleTimeEnd % 100)),
-                  date: day.$3,
+                  start: day.$2.add(Duration(
+                      hours: (e.scheduleTime.start / 100).floor(),
+                      minutes: e.scheduleTime.start % 100)),
+                  end: day.$2.add(Duration(
+                      hours: (e.scheduleTime.end / 100).floor(),
+                      minutes: e.scheduleTime.end % 100)),
+                  date: day.$2,
                   payload: e))
               .toList()
       ],
@@ -209,7 +209,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
               },
               child: Opacity(
                 opacity: widget.currentlyHovered!.value != null &&
-                        widget.currentlyHovered!.value == offering
+                        widget.currentlyHovered!.value!.subject == offering.subject
                     ? 1
                     : widget.currentlyHovered!.value != null
                         ? 0.3
@@ -232,7 +232,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                     text: ' ' + offering.section + "\n",
                     style: FluentTheme.of(context).typography.body),
                 TextSpan(
-                    text: offering.scheduleTime + "\n",
+                    text: "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
                     style: FluentTheme.of(context).typography.body),
                 TextSpan(
                     text: offering.room,

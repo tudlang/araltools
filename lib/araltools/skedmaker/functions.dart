@@ -71,15 +71,15 @@ void generateSchedulesIsolate(
 
         // filter checker for each day
         for (final day in const [
-          ('monday', 'M', 0),
-          ('tuesday', 'T', 1),
-          ('wednesday', 'W', 2),
-          ('thursday', 'H', 3),
-          ('friday', 'F', 4),
-          ('saturday', 'S', 5),
+          ('monday', 'M'),
+          ('tuesday', 'T'),
+          ('wednesday', 'W'),
+          ('thursday', 'H'),
+          ('friday', 'F'),
+          ('saturday', 'S'),
         ]) {
           // offering of the day
-          final offeringDay = week.daysOfferings[day.$3]!.toList();
+          final offeringDay = week.daysOfferings[day.$2]!.toList();
 
           // check for number of subjects for the day
           if (filters['day']!['${day.$1}MaxNumberOfSubjects']!.value != -1) {
@@ -112,8 +112,14 @@ void generateSchedulesIsolate(
               // if the next subject is within the checking distance time gap
               final elementBefore = offeringDay.elementAt(index - 1);
 
-              if (element.scheduleTimeStart - elementBefore.scheduleTimeEnd <=
-                  filters['location']!["checkingDistanceMinutes"]!.value) {
+              if (element.scheduleTime.start - elementBefore.scheduleTime.end <=
+                      filters['location']!["checkingDistanceMinutes"]!.value ||
+                  //  check also the second time interval if it isn't null
+                  (element.scheduleTime2 != null &&
+                      element.scheduleTime2!.start -
+                              elementBefore.scheduleTime2!.end <=
+                          filters['location']!["checkingDistanceMinutes"]!
+                              .value)) {
                 final distance = LocationFunctions.getLocationDistance(
                     elementBefore.room, element.room);
 
@@ -164,19 +170,27 @@ void generateSchedulesIsolate(
 
           //modality checker
           //if (filters['day']!['${day.$1}Modality']!.value != 'hybrid') {
-            // todo add modality checker
-            //if (!scheduleDay.name
-            //    .toLowerCase()
-            //    .contains(filters['day']!["${day.$1}Modality"])) {
-            //  throw Error();
-            //}
+          // todo add modality checker
+          //if (!scheduleDay.name
+          //    .toLowerCase()
+          //    .contains(filters['day']!["${day.$1}Modality"])) {
+          //  throw Error();
+          //}
           //}
 
-          // interval checker
-          if (!(currentOffering.scheduleTimeStart >=
+          // interval checker 1
+          if (!(currentOffering.scheduleTime.start >=
                   filters['day']!['${day.$1}TimeInterval']!.value.$1 &&
-              currentOffering.scheduleTimeEnd <=
+              currentOffering.scheduleTime.end <=
                   filters['day']!['${day.$1}TimeInterval']!.value.$2)) {
+            throw InvalidScheduleError();
+          }
+          // interval checker 2
+          if (currentOffering.scheduleTime2 != null &&
+              !(currentOffering.scheduleTime2!.start >=
+                      filters['day']!['${day.$1}TimeInterval']!.value.$1 &&
+                  currentOffering.scheduleTime2!.end <=
+                      filters['day']!['${day.$1}TimeInterval']!.value.$2)) {
             throw InvalidScheduleError();
           }
         }

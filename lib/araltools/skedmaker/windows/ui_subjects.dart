@@ -18,6 +18,7 @@
 import 'dart:math';
 
 import 'package:araltools/araltools/skedmaker/debug.dart';
+import 'package:araltools/araltools/skedmaker/filters.dart';
 import 'package:araltools/utils.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
@@ -564,121 +565,179 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                             },
                           ),
                           DataCell(
-                            Text(offerings[i].scheduleTime),
+                            Text(offerings[i].scheduleTimeString),
                             onTapDown: (details) {
                               flyoutController.showFlyout(
                                 position: details.globalPosition,
                                 builder: (context) {
                                   int selectedStart =
-                                      offerings[i].scheduleTimeStart;
+                                      offerings[i].scheduleTime.start;
                                   int selectedEnd =
-                                      offerings[i].scheduleTimeEnd;
+                                      offerings[i].scheduleTime.end;
+
+                                  int? selectedStart2 =
+                                      offerings[i].scheduleTime2?.start;
+                                  int? selectedEnd2 =
+                                      offerings[i].scheduleTime2?.end;
 
                                   return StatefulBuilder(
                                       builder: (context, setState) {
                                     return SubjectsFragmentFlyout(
                                       label: 'Edit time:',
-                                      input: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            // ==== start1
-                                            ConstrainedBox(
-                                              constraints:
-                                                  BoxConstraints(maxWidth: 60),
-                                              child: NumberBox<int>(
-                                                value: selectedStart,
-                                                onChanged: (value) {
-                                                  value ??= 0;
-                                                  setState(() {
-                                                    final hour =
-                                                        (value! / 100).floor();
-                                                    final minute = value % 100;
-
-                                                    if (hour >= 24 &&
-                                                        minute >= 60) {
-                                                      selectedStart = 2359;
-                                                    } else if (hour >= 24 &&
-                                                        minute < 60) {
+                                      input: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              // ==== start1
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 60),
+                                                child: NumberBox<int>(
+                                                  value: selectedStart,
+                                                  onChanged: (value) {
+                                                    value ??= 0;
+                                                    setState(() {
                                                       selectedStart =
-                                                          minute + 2300;
-                                                    } else if (hour < 24 &&
-                                                        minute >= 60) {
-                                                      selectedStart =
-                                                          (hour * 100) + 59;
-                                                    } else if (hour < 24 &&
-                                                        minute < 60) {
-                                                      selectedStart =
-                                                          (hour * 100) + minute;
-                                                    }
-                                                  });
-                                                },
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter
-                                                      .digitsOnly
-                                                ],
-                                                clearButton: false,
-                                                mode: SpinButtonPlacementMode
-                                                    .none,
-                                                min: 0,
-                                                max: 2359,
+                                                          ScheduleFilterTimeInterval
+                                                              .clamp(value!);
+                                                    });
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  clearButton: false,
+                                                  mode: SpinButtonPlacementMode
+                                                      .none,
+                                                  min: 0,
+                                                  max: 2359,
+                                                ),
                                               ),
-                                            ),
-                                            // ==== end2
-                                            Text(' to '),
-                                            // ==== start2
-                                            ConstrainedBox(
-                                              constraints:
-                                                  BoxConstraints(maxWidth: 60),
-                                              child: NumberBox<int>(
-                                                value: selectedEnd,
-                                                onChanged: (value) {
-                                                  value ??= 0;
-                                                  setState(() {
-                                                    final hour =
-                                                        (value! / 100).floor();
-                                                    final minute = value % 100;
-
-                                                    if (hour >= 24 &&
-                                                        minute >= 60) {
-                                                      selectedEnd = 2359;
-                                                    } else if (hour >= 24 &&
-                                                        minute < 60) {
-                                                      selectedEnd =
-                                                          minute + 2300;
-                                                    } else if (hour < 24 &&
-                                                        minute >= 60) {
-                                                      selectedEnd =
-                                                          (hour * 100) + 59;
-                                                    } else if (hour < 24 &&
-                                                        minute < 60) {
-                                                      selectedEnd =
-                                                          (hour * 100) + minute;
-                                                    }
-                                                  });
-                                                },
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter
-                                                      .digitsOnly
-                                                ],
-                                                clearButton: false,
-                                                mode: SpinButtonPlacementMode
-                                                    .none,
-                                                min: 0,
-                                                max: 2359,
+                                              // ==== end1
+                                              Text(' to '),
+                                              // ==== start2
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 60),
+                                                child: NumberBox<int>(
+                                                  value: selectedEnd,
+                                                  onChanged: (value) {
+                                                    value ??= 0;
+                                                    setState(() {
+                                                      setState(() {
+                                                        selectedEnd =
+                                                            ScheduleFilterTimeInterval
+                                                                .clamp(value!);
+                                                      });
+                                                    });
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  clearButton: false,
+                                                  mode: SpinButtonPlacementMode
+                                                      .none,
+                                                  min: 0,
+                                                  max: 2359,
+                                                ),
                                               ),
+                                              // ==== end2
+                                            ],
+                                          ),
+                                          if (offerings[i].scheduleTime2 !=
+                                              null)
+                                            SizedBox(height: 8),
+                                          if (offerings[i].scheduleTime2 !=
+                                              null)
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                // ==== start1
+                                                ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 60),
+                                                  child: NumberBox<int>(
+                                                    value: selectedStart2,
+                                                    onChanged: (value) {
+                                                      value ??= 0;
+                                                      setState(() {
+                                                        selectedStart2 =
+                                                            ScheduleFilterTimeInterval
+                                                                .clamp(value!);
+                                                      });
+                                                    },
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    clearButton: false,
+                                                    mode:
+                                                        SpinButtonPlacementMode
+                                                            .none,
+                                                    min: 0,
+                                                    max: 2359,
+                                                  ),
+                                                ),
+                                                // ==== end1
+                                                Text(' to '),
+                                                // ==== start2
+                                                ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 60),
+                                                  child: NumberBox<int>(
+                                                    value: selectedEnd2,
+                                                    onChanged: (value) {
+                                                      value ??= 0;
+                                                      setState(() {
+                                                        setState(() {
+                                                          selectedEnd2 =
+                                                              ScheduleFilterTimeInterval
+                                                                  .clamp(
+                                                                      value!);
+                                                        });
+                                                      });
+                                                    },
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    clearButton: false,
+                                                    mode:
+                                                        SpinButtonPlacementMode
+                                                            .none,
+                                                    min: 0,
+                                                    max: 2359,
+                                                  ),
+                                                ),
+                                                // ==== end2
+                                              ],
                                             ),
-                                            // ==== end2
-                                          ]),
+                                        ],
+                                      ),
                                       submit: (model) {
-                                        if (selectedStart >= selectedEnd) {
+                                        if (selectedStart >= selectedEnd || (offerings[i].scheduleTime2 !=
+                                              null && selectedStart2! >= selectedEnd2!)) {
                                           throw Error();
                                         }
                                         model.modifySubjectOffering(
                                           widget.subject,
                                           i,
-                                          (p0) => p0
-                                            ..scheduleTimeStart = selectedStart
-                                            ..scheduleTimeEnd = selectedEnd,
+                                          (p0) {
+                                            p0.scheduleTime = (
+                                              start: selectedStart,
+                                              end: selectedEnd
+                                            );
+                                            if (p0.scheduleTime2 != null) {
+                                              p0.scheduleTime2 = (
+                                                start: selectedStart2!,
+                                                end: selectedEnd2!
+                                              );
+                                            }
+                                            return p0;
+                                          },
                                         );
                                       },
                                       isEmptyAllowed: true,

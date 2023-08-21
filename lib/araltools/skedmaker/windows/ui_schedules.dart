@@ -580,8 +580,8 @@ class _SchedulesFragmentTimetableState
                                       child: Opacity(
                                         opacity:
                                             currentlyHovered.value != null &&
-                                                    currentlyHovered.value ==
-                                                        subject
+                                                    currentlyHovered.value!.subject ==
+                                                        subject.subject
                                                 ? 1
                                                 : currentlyHovered.value != null
                                                     ? 0.3
