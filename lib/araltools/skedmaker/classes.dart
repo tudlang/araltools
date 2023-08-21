@@ -89,9 +89,9 @@ class Offering implements Comparable {
       : "${scheduleTime.start} - ${scheduleTime.end}\n${scheduleTime2!.start} - ${scheduleTime2!.end}";
 
   List<Offering> split() {
-    if (scheduleTime2 == null || !scheduleDay.isMultipleDays) return [this];
+    if (scheduleTime2 == null) return [this];
 
-    final splitted = scheduleDay.split()!;
+    final splitted = scheduleDay.split();
 
     return [
       this.copy()
@@ -233,6 +233,11 @@ enum ScheduleDay {
       'F' when remarks == 'full online' => ScheduleDay.fridayOnline,
       'F' when remarks == 'f2f' || hasRoom => ScheduleDay.fridayFace,
       'F' => ScheduleDay.fridayUnknown,
+      'S' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+        ScheduleDay.saturdayHybrid,
+      'S' when remarks == 'full online' => ScheduleDay.saturdayOnline,
+      'S' when remarks == 'f2f' || hasRoom => ScheduleDay.saturdayFace,
+      'S' => ScheduleDay.saturdayUnknown,
       _ => ScheduleDay.unknown
     };
   }
@@ -251,7 +256,7 @@ enum ScheduleDay {
           ScheduleDay.mondaythursdayOnlineface,
         'H' when old == ScheduleDay.mondayOnline =>
           ScheduleDay.mondaythursdayOnline,
-        'H' => ScheduleDay.mondaythursdayUnknown,
+        'H' when old == ScheduleDay.mondayUnknown => ScheduleDay.mondaythursdayUnknown,
         'F' when old == ScheduleDay.tuesdayFace && hasRoom =>
           ScheduleDay.tuesdayfridayFace,
         'F' when old == ScheduleDay.tuesdayHybrid && !hasRoom =>
@@ -260,7 +265,7 @@ enum ScheduleDay {
           ScheduleDay.tuesdayfridayOnlineface,
         'F' when old == ScheduleDay.tuesdayOnline =>
           ScheduleDay.tuesdayfridayOnline,
-        'F' => ScheduleDay.tuesdayfridayUnknown,
+        'F' when old == ScheduleDay.tuesdayUnknown => ScheduleDay.tuesdayfridayUnknown,
         'S' when old == ScheduleDay.wednesdayFace && hasRoom =>
           ScheduleDay.wednesdaysaturdayFace,
         'S' when old == ScheduleDay.wednesdayHybrid && !hasRoom =>
@@ -269,11 +274,11 @@ enum ScheduleDay {
           ScheduleDay.wednesdaysaturdayOnlineface,
         'S' when old == ScheduleDay.wednesdayOnline =>
           ScheduleDay.wednesdaysaturdayOnline,
-        'S' => ScheduleDay.wednesdaysaturdayUnknown,
+        'S' when old == ScheduleDay.wednesdayUnknown => ScheduleDay.wednesdaysaturdayUnknown,
         _ => old
       };
 
-  (ScheduleDay, ScheduleDay)? split() => switch (this) {
+  (ScheduleDay, ScheduleDay) split() => switch (this) {
         mondaythursdayFace => (mondayFace, thursdayFace),
         mondaythursdayOnline => (mondayOnline, thursdayOnline),
         mondaythursdayFaceonline => (mondayFace, thursdayOnline),
@@ -289,7 +294,8 @@ enum ScheduleDay {
         wednesdaysaturdayFaceonline => (wednesdayFace, saturdayOnline),
         wednesdaysaturdayOnlineface => (wednesdayOnline, saturdayFace),
         wednesdaysaturdayUnknown => (wednesdayUnknown, saturdayUnknown),
-        _ => null
+        // Default: just duplicate the original
+        _ => (this, this)
       };
 }
 /*
