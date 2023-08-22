@@ -48,6 +48,7 @@ Future<File?> exportXml({
     (exportXmlSubjects(model.subjects), 'subjects.xml'),
     (exportXmlFilters(model.filters), 'filters.xml'),
     (exportXmlSchedules(model.schedules), 'schedules.xml'),
+    (exportXmlTabs(model.tabs), 'schedules_tabs.xml'),
   ]) {
     final string = xml.$1.toXmlString(pretty: true);
     final stringEncoded = encoderUtf8.convert(string);
@@ -162,6 +163,29 @@ XmlDocument exportXmlSchedules(Set<ScheduleWeek> schedules) {
   builder.element('schedules', nest: () {
     for (final schedule in schedules) {
       schedule.encodeXml(builder);
+    }
+  });
+
+  return builder.buildDocument();
+}
+
+/// Export [tabs] to XML
+///
+/// Outputted XML example:
+///
+///```xml
+///<tabs>
+///   <tab>2</tab>
+///   ...
+///</tabs>
+///```
+XmlDocument exportXmlTabs(List<int> tabs){
+  final builder = XmlBuilder();
+
+  
+  builder.element('tabs', nest: () {
+    for (final tab in tabs) {
+      builder.element('tab', nest: tab);
     }
   });
 
