@@ -36,7 +36,8 @@ extension MoveElement<T> on List<T> {
 }
 
 extension StringExtensions on String {
-  int toInt() => int.parse(this);
+  int toInt({int? radix}) => int.parse(this, radix: radix);
+  String ifEmpty(String replacement)=> isEmpty ? replacement : this;
 }
 
 /// Return a value depending on the platform

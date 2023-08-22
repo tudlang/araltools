@@ -25,35 +25,44 @@ import 'skedmaker/skedmaker_activity.dart';
 enum AralTools {
   skedmaker(
     route: '/skedmaker',
-    widget: SkedmakerActivity(),
     icon: MdiIcons.calendarStar,
     platforms: ["windows"],
     extras: {'noAppbar': true},
-    drawer: SkedmakerDrawer(),
+    fileExtensions: ['.atsm'],
   ),
   ;
 
   final String route;
   final bool enabled;
-  final Widget widget;
-  final Widget drawer;
   final IconData icon;
   final List<String> platforms;
   final Map<String, dynamic> extras;
+  final List<String> fileExtensions;
 
   const AralTools({
     required this.route,
     this.enabled = true,
-    required this.widget,
-    required this.drawer,
     required this.icon,
     required this.platforms,
     this.extras = const {},
+    this.fileExtensions = const [],
   });
+  
 
   /// Gets the translated name
   String get localizedName => strings["$name.info.name"];
 
   /// Gets the translated description
   String get localizedDesc => strings["$name.info.description"];
+
+  Widget getWidget(Map<String, dynamic> extras) => switch(this){
+    skedmaker => SkedmakerActivity(
+      path: extras['path'],
+    )
+  };
+  Widget getDrawer(Map<String, dynamic> extras) => switch(this){
+    skedmaker => SkedmakerDrawer()
+  };
+
+
 }

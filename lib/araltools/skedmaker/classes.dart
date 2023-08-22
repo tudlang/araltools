@@ -133,6 +133,7 @@ class Offering implements Comparable {
   void encodeXml(XmlBuilder builder) {
     builder.element('offering', nest: () {
       builder.element('status', nest: isClosed ? 'closed' : 'open');
+      builder.element('subject', nest: subject);
       builder.element('classno', nest: classNumber);
       builder.element('section', nest: section);
       builder.element('room', nest: room);
@@ -149,9 +150,47 @@ class Offering implements Comparable {
           builder.attribute('end', scheduleTime2!.end);
         });
       }
+      builder.element('slots', nest: () {
+        builder.attribute('available', slotTaken);
+        builder.attribute('capacity', slotCapacity);
+      });
       builder.element('remarks', nest: remarks);
       builder.element('color', nest: color.value.toRadixString(16));
     });
+  }
+
+  /// TODO if adding new fields, make them nullable since future files don't have it
+  factory Offering.decodeXml(XmlElement xml) {
+    final times = xml.findElements('time');
+    final slot = xml.getElement('slots')!;
+
+    return Offering.raw(
+      isClosed: switch (xml.getElement('status')!.innerText) {
+        'closed' => true,
+        'open' => false,
+        _ => false
+      },
+      subject: xml.getElement('subject')!.innerText,
+      classNumber: xml.getElement('classno')!.innerText.toInt(),
+      section: xml.getElement('section')!.innerText,
+      room: xml.getElement('room')!.innerText,
+      scheduleDay: ScheduleDay.values.byName(xml.getElement('day')!.innerText),
+      teacher: xml.getElement('teacher')!.innerText,
+      scheduleTime: (
+        start: times.first.getAttribute('start')!.toInt(),
+        end: times.first.getAttribute('end')!.toInt(),
+      ),
+      scheduleTime2: times.length == 2
+          ? (
+              start: times.last.getAttribute('start')!.toInt(),
+              end: times.last.getAttribute('end')!.toInt(),
+            )
+          : null,
+      remarks: xml.getElement('remarks')!.innerText,
+      color: Color(xml.getElement('color')!.innerText.toInt(radix: 16)),
+      slotCapacity: slot.getAttribute('capacity')!.toInt(),
+      slotTaken: slot.getAttribute('available')!.toInt(),
+    );
   }
 
   @override
@@ -528,5 +567,41 @@ class ScheduleWeek {
           });
       });
     });
+  }
+
+  /// TODO if adding new fields, make them nullable since future files don't have it
+  factory ScheduleWeek.decodeXml(XmlElement xml) {
+    final name = xml.getElement('name')!.innerText;
+    final notes = xml.getElement('notes')!.innerText;
+    final subjects = <Offering>{};
+    final daysOfferings = <String, Set<Offering>>{};
+
+    for (final subjectsXml in xml.getElement('subjects')!.childElements) {
+      subjects.add(Offering.decodeXml(subjectsXml));
+    }
+
+    for (final day in const [
+      ('monday', 'M'),
+      ('tuesday', 'T'),
+      ('wednesday', 'W'),
+      ('thursday', 'H'),
+      ('friday', 'F'),
+      ('saturday', 'S'),
+    ]) {
+      final set = <Offering>{};
+
+      for (final subject
+          in xml.getElement('days')!.getElement(day.$1)!.childElements) {
+        set.add(Offering.decodeXml(subject));
+      }
+
+      daysOfferings[day.$2] = set;
+    }
+
+    return ScheduleWeek()
+      ..name = name
+      ..notes = notes
+      ..daysOfferings = daysOfferings
+      ..subjects = subjects;
   }
 }

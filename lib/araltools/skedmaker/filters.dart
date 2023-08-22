@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:xml/xml.dart';
@@ -58,6 +59,8 @@ abstract class ScheduleFilter<T> {
 
   /// Encode [this] filter into XML, given the [builder]
   void encodeXml(XmlBuilder builder);
+
+  void decodeXml(XmlElement xml);
 }
 
 /// This is not a filter, but only a label/heading
@@ -70,6 +73,11 @@ class ScheduleFilterLabel extends ScheduleFilter<void> {
 
   @override
   void encodeXml(XmlBuilder builder) {
+    return;
+  }
+
+  @override
+  void decodeXml(XmlElement xml) {
     return;
   }
 }
@@ -89,6 +97,13 @@ class ScheduleFilterSwitch extends ScheduleFilter<bool> {
       builder.text(value);
       builder.attribute('key', key);
     });
+  }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      value = bool.parse(xml.innerText);
+    }
   }
 }
 
@@ -113,6 +128,13 @@ class ScheduleFilterInteger extends ScheduleFilter<int> {
       builder.attribute('key', key);
     });
   }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      value = int.parse(xml.innerText);
+    }
+  }
 }
 
 /// Filter for a subject combobox
@@ -126,9 +148,16 @@ class ScheduleFilterSubjects extends ScheduleFilter<String> {
   @override
   void encodeXml(XmlBuilder builder) {
     builder.element('filter', nest: () {
-      builder.text(value!);
+      builder.text(value);
       builder.attribute('key', key);
     });
+  }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      value = xml.innerText;
+    }
   }
 }
 
@@ -153,6 +182,17 @@ class ScheduleFilterStringWithChip extends ScheduleFilter<Set<String>> {
         builder.element('chip', nest: chip);
       }
     });
+  }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      final newValue = <String>{};
+      for (final chipXml in xml.childElements) {
+        newValue.add(chipXml.innerText);
+      }
+      value = newValue;
+    }
   }
 }
 
@@ -193,10 +233,22 @@ class ScheduleFilterTimeInterval extends ScheduleFilter<(int, int)> {
     builder.element('filter', nest: () {
       builder.attribute('key', key);
       builder.element('time', nest: () {
-        builder.attribute('start', valueLeast);
-        builder.attribute('end', valueMost);
+        builder.attribute('start', value.$1);
+        builder.attribute('end', value.$2);
       });
     });
+  }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      final time = xml.getElement('time')!;
+
+      value = (
+        time.getAttribute('start')!.toInt(),
+        time.getAttribute('end')!.toInt(),
+      );
+    }
   }
 }
 
@@ -219,9 +271,18 @@ class ScheduleFilterStringChoices extends ScheduleFilter<String> {
       builder.attribute('key', key);
     });
   }
+
+  @override
+  void decodeXml(XmlElement xml) {
+    if (xml.getAttribute('key')! == key) {
+      value = xml.innerText;
+    }
+  }
 }
 
 class ScheduleFilters {
+  ScheduleFilters();
+
   /// Resets all the filters to their default values.
   ///
   /// If [category] is set, then only that category's filters will be reset.
@@ -373,5 +434,24 @@ class ScheduleFilters {
         });
       }
     });
+  }
+
+  factory ScheduleFilters.decodeXml(XmlElement xml) {
+    final out = ScheduleFilters();
+
+    for (final categoryXml in xml.childElements) {
+      final filters = out.filters[categoryXml.getAttribute('key')]!;
+
+      for (final filter in filters.values) {
+        for (final filterXml in categoryXml.childElements) {
+          if (filterXml.getAttribute('key')! == filter.key) {
+            filter.decodeXml(filterXml);
+            break;
+          }
+        }
+      }
+    }
+
+    return out;
   }
 }

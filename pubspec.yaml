@@ -84,6 +84,6 @@ msix_config:
   logo_path: logo.png
   trim_logo: false
   languages: en
-  file_extension:
+  file_extension: .atsm
   store: true
   publisher: CN=B047DE3F-8CD3-4F98-BFCF-D353C8DE5B96

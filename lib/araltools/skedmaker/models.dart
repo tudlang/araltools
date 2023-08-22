@@ -61,10 +61,10 @@ class SkedmakerModel extends ChangeNotifier {
   void removeSchedule(int index) {
     final schedule = _schedules.elementAt(index);
     // remove the tabs first
-  _tabs.removeWhere((element) => element == index);
+    _tabs.removeWhere((element) => element == index);
     // then remove the schedule
     _schedules.remove(schedule);
-    
+
     notifyListeners();
   }
 
@@ -130,7 +130,7 @@ class SkedmakerModel extends ChangeNotifier {
   }) {
     final filter = _filters.filters[category]![key]!;
     if (value != null) filter.setValue(value);
-    if (action!= null) action(filter);
+    if (action != null) action(filter);
     notifyListeners();
   }
 
@@ -213,10 +213,17 @@ class SkedmakerModel extends ChangeNotifier {
 
   double get schedulePercentage =>
       (_scheduleProgress / scheduleCombinations) * 100;
+  
+  String? path;
 
-  SkedmakerModel()
-      : subjects = {},
-        _schedules = {},
-        _tabs = [],
-        _filters = ScheduleFilters();
+  SkedmakerModel({
+    Map<String, List<Offering>>? subjects,
+    Set<ScheduleWeek>? schedules,
+    List<int>? tabs,
+    ScheduleFilters? filters,
+    this.path,
+  })  : subjects = subjects ?? {},
+        _schedules = schedules ?? {},
+        _tabs = tabs ?? [],
+        _filters = filters ?? ScheduleFilters();
 }

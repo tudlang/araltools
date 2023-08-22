@@ -16,10 +16,12 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:araltools/araltools/araltools.dart';
+import 'package:araltools/araltools/skedmaker/import_xml.dart';
 import 'package:araltools/utils.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart'
-    hide OutlinedButton, FilledButton, Colors, ListTile, Divider;
-import 'package:flutter/material.dart' hide Card;
+    hide OutlinedButton, Colors, ListTile, Divider;
+import 'package:flutter/material.dart' hide Card, showDialog, FilledButton;
 import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +29,7 @@ import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
 import '../../strings.g.dart';
 import '/opensource/timetable_view.dart';
 import 'package:timetable_view/timetable_view.dart';
+import 'package:path/path.dart' as path;
 
 import 'classes.dart';
 // ignore: unused_import
@@ -39,10 +42,13 @@ import 'test_tables.dart';
 import 'windows/ui.dart';
 import 'windows/ui_schedules.dart';
 
-GlobalKey provider = GlobalKey();
+late GlobalKey provider;
 
 class SkedmakerActivity extends StatefulWidget {
-  const SkedmakerActivity({super.key});
+  const SkedmakerActivity({super.key, this.path});
+
+  /// When the app is launched from a .atsm file, [path] is the file path to the file. `null` if otherwise.
+  final String? path;
 
   @override
   State<SkedmakerActivity> createState() => _SkedmakerActivityState();
@@ -50,9 +56,20 @@ class SkedmakerActivity extends StatefulWidget {
 
 class _SkedmakerActivityState extends State<SkedmakerActivity> {
   @override
+  void initState() {
+    super.initState();
+
+    provider = GlobalKey();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SkedmakerModel>(
-      create: (context) => SkedmakerModel(),
+      create: (context) {
+        if (widget.path == null) return SkedmakerModel();
+
+        return importXml(path: widget.path!);
+      },
       child: onPlatform(
         all: null,
         windows: SkedmakerActivityWindows(
@@ -313,6 +330,7 @@ class SkedmakerDrawer extends StatefulWidget {
 class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
   @override
   Widget build(BuildContext context) {
+    final model = provider.currentContext!.watch<SkedmakerModel>();
     return Drawer(
       child: ListView(
         children: [
@@ -324,8 +342,30 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
               children: [
                 OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    GoRouter.of(context).go('/');
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (context) {
+                        return ContentDialog(
+                          title: Text('Go back to main menu?'),
+                          content: Text('All unsaved data will be lost.'),
+                          actions: [
+                            Button(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                            FilledButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                GoRouter.of(context).go('/');
+                              },
+                              child: Text('OK'),
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -355,26 +395,99 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             ),
           ),
           ListTile(
+            title: Text('New'),
+            leading: Icon(MdiIcons.plusBoxOutline, size: 25),
+            onTap: () {
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) {
+                  return ContentDialog(
+                    title: Text('Create new project?'),
+                    content: Text('All unsaved data will be lost.'),
+                    actions: [
+                      Button(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      FilledButton(
+                        onPressed: () {
+                          GoRouter.of(context)
+                            ..pop()
+                            ..pushReplacement(AralTools.skedmaker.route);
+                        },
+                        child: Text('OK'),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
             title: Text('Open...'),
             leading: Icon(Icons.open_in_new_outlined, size: 25),
-            onTap: () {},
+            onTap: () async {
+              final path = (await FilePicker.platform.pickFiles(
+                dialogTitle: 'Open SkedMaker file',
+                lockParentWindow: true,
+                type: FileType.custom,
+                allowedExtensions: ['atsm'],
+              ))
+                  ?.files
+                  .single
+                  .path;
+              if (path == null) return;
+
+              GoRouter.of(context)
+                ..pop()
+                ..pushReplacement(AralTools.skedmaker.route, extra: {
+                  'path': path,
+                });
+            },
           ),
           ListTile(
             title: Text('Save'),
             leading: Icon(Icons.save_outlined, size: 25),
-            onTap: () {
-              exportXml(
-                model: provider.currentContext!.read<SkedmakerModel>()
-              );
+            onTap: () async {
+              final model = provider.currentContext!.read<SkedmakerModel>();
 
+              final newfile = await exportXml(model: model, path: model.path);
+
+              if (newfile != null && model.path == null) {
+                model.path = newfile.path;
+              }
+
+              if (newfile != null) {
+                Navigator.pop(context);
+              }
             },
           ),
           ListTile(
             title: Text('Save as...'),
             leading: Icon(MdiIcons.contentSavePlusOutline, size: 25),
-            onTap: () {},
+            onTap: () async {
+              final model = provider.currentContext!.read<SkedmakerModel>();
+              final newfile = await exportXml(model: model);
+
+              if (newfile != null) {
+                model.path = newfile.path;
+              }
+              Navigator.pop(context);
+            },
           ),
           Divider(),
+          ListTile(
+            title: Text('Filename'),
+            subtitle:
+                SelectableText(path.basename(model.path ?? '').ifEmpty('-')),
+          ),
+          ListTile(
+            title: Text('File location'),
+            subtitle:
+                SelectableText(path.dirname(model.path ?? '').ifEmpty('-')),
+          ),
         ],
       ),
     );

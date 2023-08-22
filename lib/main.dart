@@ -28,11 +28,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path/path.dart' as p;
 
 import 'araltools/araltools.dart';
 import 'home_activity.dart';
 
-void main() {
+void main(List<String> args) {
   // do platform-specific things
   onPlatform(
     all: null,
@@ -42,20 +43,44 @@ void main() {
       for (final araltool in AralTools.values) {
         Directory('${appdata.path}/${araltool.name}').create();
       }
-      //Directory(r'%appdata%\com.tudlang\araltools\skedmaker').create();
     }(),
   );
 
   WidgetsFlutterBinding.ensureInitialized(); // add this
   LocaleSettings.useDeviceLocale(); // and this
-  runApp(MyApp());
+
+  runApp(MyApp(
+    path: args.isNotEmpty ? args[0] : null,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  MyApp({
+    super.key,
+    this.path,
+  });
+
+  /// When the app is launched from a .at** file, [path] is the file path to the file. `null` if otherwise.
+  final String? path;
 
   @override
   Widget build(BuildContext context) {
+    String? initialLocation;
+    Map<String, dynamic>? initialExtra;
+
+    if (path != null) {
+      final extension = p.extension(path!);
+
+      for (final araltool in AralTools.values) {
+        if (araltool.fileExtensions.contains(extension)) {
+          initialLocation = araltool.route;
+          initialExtra = {
+            'path': path!,
+          };
+        }
+      }
+    }
+
     return MaterialApp.router(
       title: strings.general.app.name,
       theme: ThemeData(
@@ -83,33 +108,35 @@ class MyApp extends StatelessWidget {
           windows: FluentLocalizations.supportedLocales,
         ),
       ],
-      routerConfig: _router,
+      routerConfig: GoRouter(
+        initialExtra: initialExtra,
+        initialLocation: initialLocation,
+        routes: [
+          GoRoute(
+            name: 'home',
+            path: '/',
+            builder: (context, state) {
+              return HomeActivity();
+            },
+          ),
+          for (final araltool in AralTools.values)
+            GoRoute(
+              name: araltool.name,
+              path: araltool.route,
+              builder: (context, state) {
+                final extras = state.extra != null
+                    ? state.extra as Map<String, dynamic>
+                    : <String, dynamic>{};
+
+                print(extras);
+                return Scaffold(
+                  drawer: araltool.getDrawer(extras),
+                  body: araltool.getWidget(extras),
+                );
+              },
+            ),
+        ],
+      ),
     );
   }
-
-  final _router = GoRouter(
-    routes: [
-      GoRoute(
-        name: 'home',
-        path: '/',
-        builder: (context, state) => HomeActivity(),
-      ),
-      for (final araltool in AralTools.values)
-        GoRoute(
-          name: araltool.name,
-          path: araltool.route,
-          builder: (context, state) {
-            final extra = state.extra != null
-                ? state.extra as Map<String, dynamic>
-                : <String, dynamic>{};
-
-            print(extra);
-            return Scaffold(
-              drawer: araltool.drawer,
-              body: araltool.widget,
-            );
-          },
-        ),
-    ],
-  );
 }

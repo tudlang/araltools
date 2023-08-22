@@ -113,6 +113,49 @@ XmlDocument exportXmlFilters(ScheduleFilters filters) {
   return builder.buildDocument();
 }
 
+/// Export [schedules] to XML
+///
+/// Outputted XML example:
+///
+///```xml
+///<schedules>
+///   <schedule>
+///       <name>Schedule 1</name>
+///       <notes></notes>
+///       <subjects>
+///           <offering>...</offering>
+///           ...
+///       </subjects>
+///       <days>
+///           <monday>
+///               <offering>...</offering>
+///               ...
+///           </monday>
+///           <tuesday>
+///               <offering>...</offering>
+///               ...
+///           </tuesday>
+///           <wednesday>
+///               <offering>...</offering>
+///               ...
+///           </wednesday>
+///           <thursday>
+///               <offering>...</offering>
+///               ...
+///           </thursday>
+///           <friday>
+///               <offering>...</offering>
+///               ...
+///           </friday>
+///           <saturday>
+///               <offering>...</offering>
+///               ...
+///           </saturday>
+///       </days>
+///   </schedule>
+///   ...
+///</schedules
+///```
 XmlDocument exportXmlSchedules(Set<ScheduleWeek> schedules) {
   final builder = XmlBuilder();
 
