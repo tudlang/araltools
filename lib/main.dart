@@ -19,6 +19,7 @@ import 'dart:io';
 
 import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart'
     show FluentLocalizations, FluentTheme, FluentThemeData;
 import 'package:flutter/material.dart';
@@ -88,153 +89,27 @@ class MyApp extends StatelessWidget {
 
   final _router = GoRouter(
     routes: [
-      ShellRoute(
-        builder: (context, state, child) {
-          final extra = state.extra != null
-              ? state.extra as Map<String, dynamic>
-              : <String, dynamic>{};
-          print(extra);
-          return Scaffold(
-            appBar: (extra['noAppbar'] == true)
-                ? null
-                : AppBar(
-                    title: Row(
-                      children: [
-                        Text(
-                          extra['title'] ?? strings.general.app.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-            drawer: Drawer(
-              child: ListView(
-                children: [
-                  UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    accountName: Text(
-                      strings.general.app.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(
-                              fontFamily: 'Raleway', color: Colors.white),
-                    ),
-                    accountEmail: Text(''),
-                  ),
-                  ListTile(
-                    selected: state.matchedLocation == "/",
-                    style: ListTileStyle.drawer,
-                    leading: Icon(Icons.home_outlined),
-                    title: Text(strings.general.home.name),
-                    onTap: () {
-                      GoRouter.of(context).go('/');
-
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.info_outline),
-                    title: Text('About'),
-                    onTap: () async {
-                      PackageInfo packageInfo =
-                          await PackageInfo.fromPlatform();
-                      Navigator.pop(context);
-                      showAboutDialog(
-                        context: context,
-                        applicationName: packageInfo.appName,
-                        applicationVersion:
-                            "Version ${packageInfo.version} build ${packageInfo.buildNumber}",
-                        applicationLegalese: "Copyright (C) 2023 Tudlang",
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(MdiIcons.giftOutline),
-                    trailing: Icon(MdiIcons.openInNew),
-                    title: Text('Buy Me A Coffee'),
-                    subtitle: Text('Support me!'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchUrl(
-                          Uri.parse("https://www.buymeacoffee.com/Yivan4"));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(MdiIcons.fileCodeOutline),
-                    trailing: Icon(MdiIcons.openInNew),
-                    title: Text('View source code'),
-                    subtitle: Text('Contribute to AralTools!'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchUrl(
-                          Uri.parse("https://github.com/tudlang/araltools"));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(MdiIcons.bugOutline),
-                    trailing: Icon(MdiIcons.openInNew),
-                    title: Text('Issue tracker'),
-                    subtitle: Text('Report issues & bugs here!'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchUrl(Uri.parse(
-                          "https://github.com/tudlang/araltools/issues"));
-                    },
-                  ),
-                  Divider(),
-                  for (final araltool in AralTools.values)
-                    ListTile(
-                      selected: araltool.route == state.matchedLocation,
-                      style: ListTileStyle.drawer,
-                      title: Text(
-                        araltool.localizedName,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.bold,
-                            color: araltool.route == state.matchedLocation
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context).colorScheme.onSurface),
-                      ),
-                      leading: Icon(araltool.icon),
-                      trailing: araltool.route == state.matchedLocation
-                          ? Icon(Icons.arrow_forward_ios_outlined)
-                          : null,
-                      onTap: () {
-                        GoRouter.of(context).go(araltool.route, extra: {
-                          'title': araltool.localizedName,
-                          ...araltool.extras
-                        });
-                        Navigator.pop(context);
-                      },
-                    )
-                ],
-              ),
-            ),
-            body: child,
-          );
-        },
-        routes: [
-          GoRoute(
-            path: '/',
-            builder: (context, state) => HomeActivity(),
-          ),
-          for (final araltool in AralTools.values)
-            GoRoute(
-              path: araltool.route,
-              builder: (context, state) => araltool.widget,
-            )
-        ],
+      GoRoute(
+        name: 'home',
+        path: '/',
+        builder: (context, state) => HomeActivity(),
       ),
+      for (final araltool in AralTools.values)
+        GoRoute(
+          name: araltool.name,
+          path: araltool.route,
+          builder: (context, state) {
+            final extra = state.extra != null
+                ? state.extra as Map<String, dynamic>
+                : <String, dynamic>{};
+
+            print(extra);
+            return Scaffold(
+              drawer: araltool.drawer,
+              body: araltool.widget,
+            );
+          },
+        ),
     ],
   );
 }

@@ -29,12 +29,14 @@ enum AralTools {
     icon: MdiIcons.calendarStar,
     platforms: ["windows"],
     extras: {'noAppbar': true},
+    drawer: SkedmakerDrawer(),
   ),
   ;
 
   final String route;
   final bool enabled;
   final Widget widget;
+  final Widget drawer;
   final IconData icon;
   final List<String> platforms;
   final Map<String, dynamic> extras;
@@ -43,6 +45,7 @@ enum AralTools {
     required this.route,
     this.enabled = true,
     required this.widget,
+    required this.drawer,
     required this.icon,
     required this.platforms,
     this.extras = const {},

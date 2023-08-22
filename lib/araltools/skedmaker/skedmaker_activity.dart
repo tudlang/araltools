@@ -15,11 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:araltools/araltools/araltools.dart';
 import 'package:araltools/utils.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart'
+    hide OutlinedButton, FilledButton, Colors, ListTile, Divider;
 import 'package:flutter/material.dart' hide Card;
+import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
+import '../../strings.g.dart';
 import '/opensource/timetable_view.dart';
 import 'package:timetable_view/timetable_view.dart';
 
@@ -209,7 +214,8 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
               },
               child: Opacity(
                 opacity: widget.currentlyHovered!.value != null &&
-                        widget.currentlyHovered!.value!.subject == offering.subject
+                        widget.currentlyHovered!.value!.subject ==
+                            offering.subject
                     ? 1
                     : widget.currentlyHovered!.value != null
                         ? 0.3
@@ -232,7 +238,8 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                     text: ' ' + offering.section + "\n",
                     style: FluentTheme.of(context).typography.body),
                 TextSpan(
-                    text: "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
+                    text:
+                        "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
                     style: FluentTheme.of(context).typography.body),
                 TextSpan(
                     text: offering.room,
@@ -291,6 +298,79 @@ class SubjectText extends StatelessWidget {
         SizedBox(width: 8),
         text,
       ],
+    );
+  }
+}
+
+class SkedmakerDrawer extends StatefulWidget {
+  const SkedmakerDrawer({super.key});
+
+  @override
+  State<SkedmakerDrawer> createState() => _SkedmakerDrawerState();
+}
+
+class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorLight,
+            ),
+            child: Column(
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    GoRouter.of(context).go('/');
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.arrow_back),
+                      SizedBox(width: 8),
+                      Text('Back to home'),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  strings.general.app.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontFamily: 'Raleway'),
+                ),
+                Text(
+                  AralTools.skedmaker.localizedName,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            title: Text('Open...'),
+            leading: Icon(Icons.open_in_new_outlined, size: 25),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Save'),
+            leading: Icon(Icons.save_outlined, size: 25),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Save as...'),
+            leading: Icon(MdiIcons.contentSavePlusOutline, size: 25),
+            onTap: () {},
+          ),
+          Divider(),
+        ],
+      ),
     );
   }
 }
