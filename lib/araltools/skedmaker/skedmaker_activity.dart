@@ -31,6 +31,7 @@ import 'package:timetable_view/timetable_view.dart';
 import 'classes.dart';
 // ignore: unused_import
 import 'connection.dart';
+import 'export_xml.dart';
 import 'models.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
 // ignore: unused_import
@@ -361,7 +362,12 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
           ListTile(
             title: Text('Save'),
             leading: Icon(Icons.save_outlined, size: 25),
-            onTap: () {},
+            onTap: () {
+              exportXml(
+                model: provider.currentContext!.read<SkedmakerModel>()
+              );
+
+            },
           ),
           ListTile(
             title: Text('Save as...'),

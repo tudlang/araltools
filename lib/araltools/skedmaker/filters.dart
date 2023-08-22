@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:xml/xml.dart';
 
 import 'classes.dart';
 
@@ -54,6 +55,9 @@ abstract class ScheduleFilter<T> {
   String toString() {
     return (key, value.toString()).toString();
   }
+
+  /// Encode [this] filter into XML, given the [builder]
+  void encodeXml(XmlBuilder builder);
 }
 
 /// This is not a filter, but only a label/heading
@@ -63,6 +67,11 @@ class ScheduleFilterLabel extends ScheduleFilter<void> {
     super.keyDependsOn,
     super.keyLocalized,
   }) : super(valueDefault: null);
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    return;
+  }
 }
 
 /// Filter for a switch
@@ -73,6 +82,14 @@ class ScheduleFilterSwitch extends ScheduleFilter<bool> {
     super.keyLocalized,
     required super.valueDefault,
   });
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.text(value);
+      builder.attribute('key', key);
+    });
+  }
 }
 
 /// Filter for an integer text field
@@ -88,6 +105,14 @@ class ScheduleFilterInteger extends ScheduleFilter<int> {
 
   int? valueMost;
   int? valueLeast;
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.text(value);
+      builder.attribute('key', key);
+    });
+  }
 }
 
 /// Filter for a subject combobox
@@ -97,6 +122,14 @@ class ScheduleFilterSubjects extends ScheduleFilter<String> {
     super.keyDependsOn,
     super.keyLocalized,
   }) : super(valueDefault: 'any');
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.text(value!);
+      builder.attribute('key', key);
+    });
+  }
 }
 
 /// Filter for user-inputted list of strings in chips
@@ -110,6 +143,16 @@ class ScheduleFilterStringWithChip extends ScheduleFilter<Set<String>> {
   @override
   void reset() {
     value.clear();
+  }
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.attribute('key', key);
+      for (final chip in value) {
+        builder.element('chip', nest: chip);
+      }
+    });
   }
 }
 
@@ -144,6 +187,17 @@ class ScheduleFilterTimeInterval extends ScheduleFilter<(int, int)> {
       return value;
     }
   }
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.attribute('key', key);
+      builder.element('time', nest: () {
+        builder.attribute('start', valueLeast);
+        builder.attribute('end', valueMost);
+      });
+    });
+  }
 }
 
 /// Filter for a string from a list of choices
@@ -157,6 +211,14 @@ class ScheduleFilterStringChoices extends ScheduleFilter<String> {
   });
 
   List<String> valueChoices;
+
+  @override
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filter', nest: () {
+      builder.text(value!);
+      builder.attribute('key', key);
+    });
+  }
 }
 
 class ScheduleFilters {
@@ -297,5 +359,19 @@ class ScheduleFilters {
     } else {
       return false;
     }
+  }
+
+  /// Encode [this] filter into XML, given the [builder]
+  void encodeXml(XmlBuilder builder) {
+    builder.element('filters', nest: () {
+      for (final category in filters.entries) {
+        builder.element('category', nest: () {
+          builder.attribute('key', category.key);
+          for (final filter in category.value.values) {
+            filter.encodeXml(builder);
+          }
+        });
+      }
+    });
   }
 }

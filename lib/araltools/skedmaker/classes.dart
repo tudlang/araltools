@@ -21,6 +21,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:xml/xml.dart';
+
 import '/strings.g.dart';
 import '/utils.dart';
 import 'package:collection/collection.dart';
@@ -126,6 +128,31 @@ class Offering implements Comparable {
         scheduleTime: scheduleTime,
         scheduleTime2: scheduleTime2,
       );
+
+  /// Encode [this] offering into XML, given the [builder]
+  void encodeXml(XmlBuilder builder) {
+    builder.element('offering', nest: () {
+      builder.element('status', nest: isClosed ? 'closed' : 'open');
+      builder.element('classno', nest: classNumber);
+      builder.element('section', nest: section);
+      builder.element('room', nest: room);
+      builder.element('day', nest: scheduleDay.name);
+      builder.element('teacher', nest: teacher);
+
+      builder.element('time', nest: () {
+        builder.attribute('start', scheduleTime.start);
+        builder.attribute('end', scheduleTime.end);
+      });
+      if (scheduleTime2 != null) {
+        builder.element('time', nest: () {
+          builder.attribute('start', scheduleTime2!.start);
+          builder.attribute('end', scheduleTime2!.end);
+        });
+      }
+      builder.element('remarks', nest: remarks);
+      builder.element('color', nest: color.value.toRadixString(16));
+    });
+  }
 
   @override
   String toString() =>
@@ -256,7 +283,8 @@ enum ScheduleDay {
           ScheduleDay.mondaythursdayOnlineface,
         'H' when old == ScheduleDay.mondayOnline =>
           ScheduleDay.mondaythursdayOnline,
-        'H' when old == ScheduleDay.mondayUnknown => ScheduleDay.mondaythursdayUnknown,
+        'H' when old == ScheduleDay.mondayUnknown =>
+          ScheduleDay.mondaythursdayUnknown,
         'F' when old == ScheduleDay.tuesdayFace && hasRoom =>
           ScheduleDay.tuesdayfridayFace,
         'F' when old == ScheduleDay.tuesdayHybrid && !hasRoom =>
@@ -265,7 +293,8 @@ enum ScheduleDay {
           ScheduleDay.tuesdayfridayOnlineface,
         'F' when old == ScheduleDay.tuesdayOnline =>
           ScheduleDay.tuesdayfridayOnline,
-        'F' when old == ScheduleDay.tuesdayUnknown => ScheduleDay.tuesdayfridayUnknown,
+        'F' when old == ScheduleDay.tuesdayUnknown =>
+          ScheduleDay.tuesdayfridayUnknown,
         'S' when old == ScheduleDay.wednesdayFace && hasRoom =>
           ScheduleDay.wednesdaysaturdayFace,
         'S' when old == ScheduleDay.wednesdayHybrid && !hasRoom =>
@@ -274,7 +303,8 @@ enum ScheduleDay {
           ScheduleDay.wednesdaysaturdayOnlineface,
         'S' when old == ScheduleDay.wednesdayOnline =>
           ScheduleDay.wednesdaysaturdayOnline,
-        'S' when old == ScheduleDay.wednesdayUnknown => ScheduleDay.wednesdaysaturdayUnknown,
+        'S' when old == ScheduleDay.wednesdayUnknown =>
+          ScheduleDay.wednesdaysaturdayUnknown,
         _ => old
       };
 
@@ -471,4 +501,32 @@ class ScheduleWeek {
       ));
 
   double get weight => 0;
+
+  /// Encode [this] schedule into XML, given the [builder]
+  void encodeXml(XmlBuilder builder) {
+    builder.element('schedule', nest: () {
+      builder.element('name', nest: name);
+      builder.element('notes', nest: notes);
+      builder.element('subjects', nest: () {
+        for (final subject in subjects) {
+          subject.encodeXml(builder);
+        }
+      });
+      builder.element('days', nest: () {
+        for (final day in const [
+          ('monday', 'M'),
+          ('tuesday', 'T'),
+          ('wednesday', 'W'),
+          ('thursday', 'H'),
+          ('friday', 'F'),
+          ('saturday', 'S'),
+        ])
+          builder.element(day.$1, nest: () {
+            for (final subject in daysOfferings[day.$2]!) {
+              subject.encodeXml(builder);
+            }
+          });
+      });
+    });
+  }
 }
