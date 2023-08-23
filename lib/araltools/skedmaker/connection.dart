@@ -17,21 +17,90 @@
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:string_unescape/string_unescape.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'functions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 import 'classes.dart';
 import 'parser.dart';
 
+var isWebviewAvailable = false;
+
 Future<List<Offering>?> getSubject(BuildContext context) async {
+  if (!isWebviewAvailable && !await WebviewWindow.isWebviewAvailable()) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return ContentDialog(
+            title: Text('WebView2 is not installed'),
+            content: RichText(
+              text: TextSpan(
+                  style: FluentTheme.of(context).typography.body,
+                  children: [
+                    TextSpan(
+                      text: 'You need to download and install the ',
+                    ),
+                    TextSpan(
+                        text: 'Microsoft Edge WebView2 Runtime',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(Uri.parse(
+                                'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
+                          },
+                        style: FluentTheme.of(context)
+                            .typography
+                            .body!
+                            .copyWith(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline)),
+                    TextSpan(
+                        text:
+                            ' to access My.LaSalle within AralTools SkedMaker. This program is already included with Windows 11, but your device doesn\'t.\n\n'),
+                    TextSpan(
+                        text: 'Click here to learn more.',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(Uri.parse(
+                                'https://developer.microsoft.com/en-us/microsoft-edge/webview2'));
+                          },
+                        style: FluentTheme.of(context)
+                            .typography
+                            .body!
+                            .copyWith(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline)),
+                  ]),
+            ),
+            actions: [
+              Button(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FilledButton(
+                  child: Text('Download'),
+                  onPressed: () {
+                    launchUrl(Uri.parse(
+                        'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
+                  })
+            ],
+          );
+        });
+  }
+  // if it's avalable, set this to true so that it won't check again
+  isWebviewAvailable = true;
+
   // TODO add platform checking here
   Webview window = await WebviewWindow.create(
       configuration: CreateConfiguration(
     userDataFolderWindows:
         '${(await getApplicationSupportDirectory()).path}/skedmaker',
-    // I wish there was a way to customize the title bar (supposed to be appbar) further
+    // I wish there was a way to customize the "title bar" (supposed to be appbar) further
     titleBarHeight: 0,
     title: 'View course offerings',
   ));
