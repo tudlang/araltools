@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:araltools/utils.dart';
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 
 import 'classes.dart';
@@ -219,6 +220,8 @@ class SkedmakerModel extends ChangeNotifier {
       (_scheduleProgress / scheduleCombinations) * 100;
 
   String? path;
+
+  Webview? webview;
 
   SkedmakerModel({
     Map<String, List<Offering>>? subjects,

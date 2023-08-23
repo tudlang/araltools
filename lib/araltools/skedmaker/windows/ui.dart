@@ -62,6 +62,13 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
   }
 
   @override
+  void deactivate() {
+    final model = provider.currentContext!.read<SkedmakerModel>();
+    model.webview?.close();
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     windowManager.removeListener(this);
     super.dispose();

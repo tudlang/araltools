@@ -15,9 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'dart:math';
+
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:string_unescape/string_unescape.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +33,8 @@ import 'parser.dart';
 
 var isWebviewAvailable = false;
 
-Future<List<Offering>?> getSubject(BuildContext context) async {
+Future<({List<Offering>? list, Webview webview})?> getSubject(
+    BuildContext context, Webview? window) async {
   if (!isWebviewAvailable && !await WebviewWindow.isWebviewAvailable()) {
     return showDialog(
         context: context,
@@ -95,19 +100,25 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
   // if it's avalable, set this to true so that it won't check again
   isWebviewAvailable = true;
 
-  // TODO add platform checking here
-  Webview window = await WebviewWindow.create(
-      configuration: CreateConfiguration(
-    userDataFolderWindows:
-        '${(await getApplicationSupportDirectory()).path}/skedmaker',
-    // I wish there was a way to customize the "title bar" (supposed to be appbar) further
-    titleBarHeight: 0,
-    title: 'View course offerings',
-  ));
-  // TODO add setting for this later
-  window.launch('https://enroll.dlsu.edu.ph/dlsu/view_course_offerings');
+  try {
+    // ping the window if it is not null and is working
+    await window!.evaluateJavaScript('');
+  } catch (e) {
+    // TODO add platform checking here
+    window = await WebviewWindow.create(
+        configuration: CreateConfiguration(
+      userDataFolderWindows:
+          '${(await getApplicationSupportDirectory()).path}/skedmaker',
+      // I wish there was a way to customize the "title bar" (supposed to be appbar) further
+      titleBarHeight: 0,
+      title: 'View course offerings',
+    ));
+    window.launch('https://enroll.dlsu.edu.ph/dlsu/view_course_offerings');
+  }
 
-  return await showDialog<List<Offering>>(
+  // TODO add setting for this later
+
+  return await showDialog(
     context: context,
     barrierDismissible: false, //false to avoid accidental exit
     dismissWithEsc: false,
@@ -122,18 +133,22 @@ Future<List<Offering>?> getSubject(BuildContext context) async {
             Button(
               child: Text('Cancel'),
               onPressed: () {
-                window.close();
-                Navigator.pop(context);
+                Navigator.pop(context, (
+                  list: null,
+                  webview: window,
+                ));
               },
             ),
             FilledButton(
               onPressed: () async {
                 // Javascript code to get the HTML of the table
-                final table = await window.evaluateJavaScript(
+                final table = await window!.evaluateJavaScript(
                     "document.querySelector('td>form>table').outerHTML");
                 try {
-                  Navigator.pop(context, parse(unescape(table!)));
-                  window.close();
+                  Navigator.pop(context, (
+                    list: parse(unescape(table!)),
+                    webview: window,
+                  ));
                 } catch (e) {
                   setState(() {
                     isError = true;
@@ -163,13 +178,40 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
           content: ListView(
             shrinkWrap: true,
             children: [
-              Text(
-                  'Open My.LaSalle\'s Course Offerings on a browser and enter your ID number and subject code as normal. Once the offerings are displayed, open the Developer Console and enter this command:'),
+              RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: 'Open ',
+                    style: FluentTheme.of(context).typography.body),
+                TextSpan(
+                    text: 'My.LaSalle\'s Course Offerings',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchUrl(Uri.parse(
+                            'https://enroll.dlsu.edu.ph/dlsu/view_course_offerings'));
+                      },
+                    style: FluentTheme.of(context).typography.body!.copyWith(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline)),
+                TextSpan(
+                    text:
+                        ' on a browser and enter your ID number and subject code as normal. Once the offerings are displayed, open the Developer Console and enter this command:',
+                    style: FluentTheme.of(context).typography.body)
+              ])),
               SizedBox(height: 8),
               TextBox(
                 readOnly: true,
                 controller: TextEditingController(
                     text: "document.querySelector('td>form>table').outerHTML"),
+                    suffix: Tooltip(
+                      message: 'Copy to clipboard',
+                      child: IconButton(
+                        icon: Icon(MdiIcons.contentCopy, size: 15),
+                        onPressed: (){
+                          Clipboard.setData(ClipboardData(text: "document.querySelector('td>form>table').outerHTML"));
+                        },
+                      ),
+                    ),
               ),
               SizedBox(height: 8),
               Text('Copy the output and paste it here:'),

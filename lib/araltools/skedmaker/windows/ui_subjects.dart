@@ -99,12 +99,18 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               child: Text('Add from My.LaSalle'),
                             ),
                             onPressed: () async {
-                              final list = await getSubject(context);
-                              if (list == null) return;
-
                               final model = provider.currentContext!
                                   .read<SkedmakerModel>();
-                              model.addSubject(list.first.subject, list);
+
+                              final output =
+                                  await getSubject(context, model.webview);
+                              if (output == null) return;
+                              
+                              if (output.list != null) {
+                                model.addSubject(
+                                    output.list!.first.subject, output.list!);
+                              }
+                              model.webview = output.webview;
                             },
                           ),
                           /*
