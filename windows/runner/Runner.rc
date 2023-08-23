@@ -106,11 +106,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.tudlang" "\0"
-            VALUE "FileDescription", "A suite of tools for students." "\0"
+            VALUE "CompanyName", "Tudlang" "\0"
+            VALUE "FileDescription", "AralTools - A suite of tools for students." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "araltools" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.tudlang. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 Tudlang. All rights reserved." "\0"
             VALUE "OriginalFilename", "araltools.exe" "\0"
             VALUE "ProductName", "AralTools" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
