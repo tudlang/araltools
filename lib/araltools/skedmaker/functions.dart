@@ -91,14 +91,14 @@ void generateSchedulesIsolate(
 
           // check for first subject
           if (filters['day']!['${day.$1}StartWithSubject']!.value != 'any') {
-            if (offeringDay.first.subject !=
+            if (offeringDay.isNotEmpty && offeringDay.first.subject !=
                 filters['day']!['${day.$1}StartWithSubject']!.value) {
               throw InvalidScheduleError();
             }
           }
           // check for last subject
           if (filters['day']!['${day.$1}EndWithSubject']!.value != 'any') {
-            if (offeringDay.last.subject !=
+            if (offeringDay.isNotEmpty && offeringDay.last.subject !=
                 filters['day']!['${day.$1}EndWithSubject']!.value) {
               throw InvalidScheduleError();
             }
