@@ -643,6 +643,8 @@ class ScheduleFragmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colorLuminant = subject.color.basedOnLuminance();
+
     return Container(
       constraints: BoxConstraints(
         maxWidth: 200,
@@ -655,30 +657,54 @@ class ScheduleFragmentCard extends StatelessWidget {
             WidgetSpan(
                 child: SubjectText(
               offering: subject,
-              style: textTheme.labelLarge,
+              style: textTheme.labelLarge!.copyWith(color: colorLuminant),
             )),
-            TextSpan(text: subject.section, style: textTheme.labelLarge),
             TextSpan(
-                text: " #${subject.classNumber}\n",
-                style: textTheme.labelMedium),
-            WidgetSpan(child: Icon(MdiIcons.mapMarkerOutline, size: 13)),
+              text: subject.section,
+              style: textTheme.labelLarge!.copyWith(color: colorLuminant),
+            ),
             TextSpan(
-                text: " ${subject.room.isEmpty ? '-' : subject.room}",
-                style: textTheme.labelMedium),
+              text: " #${subject.classNumber}\n",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
+            WidgetSpan(
+                child: Icon(
+              MdiIcons.mapMarkerOutline,
+              size: 13,
+              color: colorLuminant,
+            )),
             TextSpan(
-                text: "\n${subject.scheduleDay.nameShort}",
-                style: textTheme.labelMedium),
+              text: " ${subject.room.isEmpty ? '-' : subject.room}",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
             TextSpan(
-                text: "\n${subject.slots} slots\n",
-                style: textTheme.labelMedium),
-            WidgetSpan(child: Icon(MdiIcons.humanMaleBoard, size: 13)),
+              text: "\n${subject.scheduleDay.nameShort}",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
             TextSpan(
-                text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}\n",
-                style: textTheme.labelMedium),
-            WidgetSpan(child: Icon(MdiIcons.text, size: 13)),
+              text: "\n${subject.slots} slots\n",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
+            WidgetSpan(
+                child: Icon(
+              MdiIcons.humanMaleBoard,
+              size: 13,
+              color: colorLuminant,
+            )),
             TextSpan(
-                text: " ${subject.remarks.isEmpty ? '-' : subject.remarks}",
-                style: textTheme.labelMedium),
+              text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}\n",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
+            WidgetSpan(
+                child: Icon(
+              MdiIcons.text,
+              size: 13,
+              color: colorLuminant,
+            )),
+            TextSpan(
+              text: " ${subject.remarks.isEmpty ? '-' : subject.remarks}",
+              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+            ),
           ],
         )),
         backgroundColor: subject.color,

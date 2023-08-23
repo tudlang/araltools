@@ -216,7 +216,8 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
       ],
       buildCard: (event, isPast) {
         final offering = event.payload!;
-        final bg =offering.color;
+        final bg = offering.color;
+        final colorLuminant = offering.color.basedOnLuminance();
         return parentOrChild(
           condition: widget.currentlyHovered != null,
           parent: (child) {
@@ -249,18 +250,29 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                 TextSpan(
                     text: offering.subject,
                     style: FluentTheme.of(context).typography.body!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        )),
+                        fontWeight: FontWeight.bold, color: colorLuminant)),
                 TextSpan(
-                    text: ' ' + offering.section + "\n",
-                    style: FluentTheme.of(context).typography.body),
+                  text: ' ' + offering.section + "\n",
+                  style: FluentTheme.of(context)
+                      .typography
+                      .body!
+                      .copyWith(color: colorLuminant),
+                ),
                 TextSpan(
-                    text:
-                        "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
-                    style: FluentTheme.of(context).typography.body),
+                  text:
+                      "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
+                  style: FluentTheme.of(context)
+                      .typography
+                      .body!
+                      .copyWith(color: colorLuminant),
+                ),
                 TextSpan(
-                    text: offering.room,
-                    style: FluentTheme.of(context).typography.body),
+                  text: offering.room,
+                  style: FluentTheme.of(context)
+                      .typography
+                      .body!
+                      .copyWith(color: colorLuminant),
+                ),
               ]),
             ),
           ),
@@ -296,7 +308,8 @@ class SubjectText extends StatelessWidget {
   Widget get icon => Container(
         decoration: ShapeDecoration(
           shape: CircleBorder(),
-          color: HSLColor.fromColor(offering.color).withLightness(0.3).toColor(),
+          color:
+              HSLColor.fromColor(offering.color).withLightness(0.4).toColor(),
         ),
         width: 10,
         height: 10,

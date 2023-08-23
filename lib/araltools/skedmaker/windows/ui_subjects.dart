@@ -253,7 +253,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               Container(
                 decoration: ShapeDecoration(
                   shape: CircleBorder(),
-                  color: HSLColor.fromColor(offerings.first.color).withLightness(0.3).toColor() ,
+                  color: HSLColor.fromColor(offerings.first.color).withLightness(0.4).toColor() ,
                 ),
                 width: 25,
                 height: 25,
@@ -307,33 +307,35 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                               )
                             ],
                           ),
-                          content: ColorPicker(
-                            padding: EdgeInsets.all(0),
-                            color: selectedColor,
-                            onColorChanged: (value) {
-                              selectedColor = value;
-                            },
-                            pickerTypeLabels: {
-                              ColorPickerType.both: 'Primary'
-                            },
-                            pickersEnabled: {
-                              ColorPickerType.wheel: true,
-                              ColorPickerType.accent: false,
-                              ColorPickerType.primary:false,
-                              ColorPickerType.both:true,
-                            },
-                            showColorCode: true,
-                            showColorName: true,
-                            columnSpacing: 17,
-                            colorCodeReadOnly: false,
-                            colorCodeHasColor: true,
-                            copyPasteBehavior: ColorPickerCopyPasteBehavior(
-                              copyFormat: ColorPickerCopyFormat.numHexRRGGBB,
+                          content: SingleChildScrollView(
+                            child: ColorPicker(
+                              padding: EdgeInsets.all(0),
+                              color: selectedColor,
+                              onColorChanged: (value) {
+                                selectedColor = value;
+                              },
+                              pickerTypeLabels: {
+                                ColorPickerType.both: 'Primary'
+                              },
+                              pickersEnabled: {
+                                ColorPickerType.wheel: true,
+                                ColorPickerType.accent: false,
+                                ColorPickerType.primary:false,
+                                ColorPickerType.both:true,
+                              },
+                              showColorCode: true,
+                              showColorName: true,
+                              columnSpacing: 17,
+                              colorCodeReadOnly: false,
+                              colorCodeHasColor: true,
+                              copyPasteBehavior: ColorPickerCopyPasteBehavior(
+                                copyFormat: ColorPickerCopyFormat.numHexRRGGBB,
+                              ),
+                              wheelDiameter: 260,
+                              wheelWidth: 22,
+                              subheading: Text('Shades'),
+                              wheelSubheading: Text('Shades'),
                             ),
-                            wheelDiameter: 260,
-                            wheelWidth: 22,
-                            subheading: Text('Shades'),
-                            wheelSubheading: Text('Shades'),
                           ),
                           actions: [
                             Button(
