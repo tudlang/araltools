@@ -51,6 +51,8 @@ filters:
       excludeSectionLetter:
         name: Exclude sections that contains the following
         desc: Use this to exclude offerings whose section contains certain letter(s)
+      includeFreshmanBlock:
+        name: Include freshman block
     day:        
       name: Day-specific
       desc: Add specific filters for each day of the week

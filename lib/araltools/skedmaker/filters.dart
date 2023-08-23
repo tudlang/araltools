@@ -322,6 +322,10 @@ class ScheduleFilters {
       'excludeSectionLetter': ScheduleFilterStringWithChip(
         key: 'excludeSectionLetter',
       ),
+      'includeFreshmanBlock': ScheduleFilterSwitch(
+        key: 'includeFreshmanBlock',
+        valueDefault: false,
+      ),
     },
     'day': {
       for (final day in const [
@@ -415,7 +419,10 @@ class ScheduleFilters {
                     as Set<String>)
                 .any((e) => offering.section
                     .toLowerCase()
-                    .contains(e.toLowerCase())))) {
+                    .contains(e.toLowerCase()))) ||
+        (filters['offerings']!['includeFreshmanBlock']!.value == false &&
+            RegExp(r'(fr[eo]sh(man)?|fr) ?block')
+                .hasMatch(offering.remarks.toLowerCase()))) {
       return true;
     } else {
       return false;

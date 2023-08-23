@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 1
-/// Strings: 132
+/// Strings: 133
 ///
-/// Built on 2023-08-17 at 05:12 UTC
+/// Built on 2023-08-23 at 09:08 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -785,6 +785,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn excludeSectionLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn includeFreshmanBlock = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn._(_root);
 }
 
 // Path: skedmaker.filters.categories.day
@@ -875,6 +876,16 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 	// Translations
 	String get name => 'Exclude sections that contains the following';
 	String get desc => 'Use this to exclude offerings whose section contains certain letter(s)';
+}
+
+// Path: skedmaker.filters.categories.offerings.includeFreshmanBlock
+class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Include freshman block';
 }
 
 // Path: skedmaker.filters.categories.day.commonMaxNumberOfSubjects
@@ -1005,6 +1016,7 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains the following';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Use this to exclude offerings whose section contains certain letter(s)';
+			case 'skedmaker.filters.categories.offerings.includeFreshmanBlock.name': return 'Include freshman block';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
 			case 'skedmaker.filters.categories.day.commonMaxNumberOfSubjects.name': return 'Maximum number of subjects';
