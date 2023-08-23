@@ -16,6 +16,7 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,10 @@ class SkedmakerModel extends ChangeNotifier {
   }
 
   void reorderTab(int from, int to) {
-    _tabs.move(from, to);
+    // Remove the element at oldIndex
+    int removedElement = _tabs.removeAt(from);
+    // Add new newIndex
+    _tabs.insert(to, removedElement);
     notifyListeners();
   }
 
@@ -213,7 +217,7 @@ class SkedmakerModel extends ChangeNotifier {
 
   double get schedulePercentage =>
       (_scheduleProgress / scheduleCombinations) * 100;
-  
+
   String? path;
 
   SkedmakerModel({

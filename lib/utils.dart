@@ -20,21 +20,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-// https://stackoverflow.com/a/66294173/14021404
-extension MoveElement<T> on List<T> {
-  void move(int from, int to) {
-    RangeError.checkValidIndex(from, this, "from", length);
-    RangeError.checkValidIndex(to, this, "to", length);
-    var element = this[from];
-    if (from < to) {
-      this.setRange(from, to, this, from + 1);
-    } else {
-      this.setRange(to + 1, from + 1, this, to);
-    }
-    this[to] = element;
-  }
-}
-
 extension StringExtensions on String {
   int toInt({int? radix}) => int.parse(this, radix: radix);
   String ifEmpty(String replacement)=> isEmpty ? replacement : this;

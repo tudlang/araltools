@@ -279,7 +279,28 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   );
                 }).toList(),
                 onReorder: (oldIndex, newIndex) {
+                  // https://stackoverflow.com/questions/53176432/how-do-i-use-reorderablelistview-specifically-what-do-i-put-in-onreorder
+                  if (newIndex > oldIndex) {
+                    newIndex -= 1;
+                  }
                   context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
+                  setState(() {
+                    // If the old index was before the current index and the new index is after it,
+                    // adjust the current index accordingly
+                    if (oldIndex < indexTabCurrent &&
+                        newIndex >= indexTabCurrent) {
+                      indexTabCurrent--;
+                    }
+                    // If the old index was after the current index and the new index is before it,
+                    // adjust the current index accordingly
+                    else if (oldIndex > indexTabCurrent &&
+                        newIndex <= indexTabCurrent) {
+                      indexTabCurrent++;
+                      // If the current tab is being moved, change the current tab to the new index
+                    } else if (oldIndex == indexTabCurrent) {
+                      indexTabCurrent = newIndex;
+                    }
+                  });
                 },
                 onNewPressed: () {
                   final model = context.read<SkedmakerModel>();
@@ -580,7 +601,8 @@ class _SchedulesFragmentTimetableState
                                       child: Opacity(
                                         opacity:
                                             currentlyHovered.value != null &&
-                                                    currentlyHovered.value!.subject ==
+                                                    currentlyHovered
+                                                            .value!.subject ==
                                                         subject.subject
                                                 ? 1
                                                 : currentlyHovered.value != null
