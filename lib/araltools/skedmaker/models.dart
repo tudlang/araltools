@@ -42,6 +42,11 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void modifySubject(String code, void Function(List<Offering>) modify){
+    modify(subjects[code]!);
+    notifyListeners();
+  }
+
   void modifySubjectOffering(
       String code, int index, Offering Function(Offering) modify) {
     subjects[code]![index] = modify(subjects[code]![index]);

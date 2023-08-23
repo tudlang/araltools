@@ -373,9 +373,11 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                         ),
                         for (final e in model.subjects.keys)
                           ComboBoxItem(
-                            child: SubjectText(
-                              offering: model.subjects[e]!.first,
-                            ),
+                            child: model.subjects[e]!.isEmpty
+                                ? Text(e)
+                                : SubjectText(
+                                    offering: model.subjects[e]!.first,
+                                  ),
                             value: e,
                           ),
                       ],

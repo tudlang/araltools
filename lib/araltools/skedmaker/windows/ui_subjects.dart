@@ -105,7 +105,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               final output =
                                   await getSubject(context, model.webview);
                               if (output == null) return;
-                              
+
                               if (output.list != null) {
                                 model.addSubject(
                                     output.list!.first.subject, output.list!);
@@ -113,12 +113,61 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               model.webview = output.webview;
                             },
                           ),
-                          /*
                           FilledButton(
-                            child: Text('Add manually'),
-                            onPressed: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Add manually'),
+                            ),
+                            onPressed: () async {
+                              final subject = await showDialog<String>(
+                                context: context,
+                                builder: (context) {
+                                  final controller = TextEditingController();
+                                  return ContentDialog(
+                                    title: Text('Create new subject'),
+                                    content: InfoLabel(
+                                      label:
+                                          'Enter a 7-character subject code:',
+                                      child: TextBox(
+                                        controller: controller,
+                                        autofocus: true,
+                                        maxLength: 7,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[A-Za-z0-9]'))
+                                        ],
+                                        onSubmitted: (value) {
+                                          Navigator.pop(
+                                              context, value.toUpperCase());
+                                        },
+                                      ),
+                                    ),
+                                    actions: [
+                                      Button(
+                                          child: Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                      FilledButton(
+                                          child: Text('Add'),
+                                          onPressed: () {
+                                            if (controller.text.isEmpty ||
+                                                controller.text.length != 7)
+                                              return;
+                                            Navigator.pop(context,
+                                                controller.text.toUpperCase());
+                                          }),
+                                    ],
+                                  );
+                                },
+                                barrierDismissible: true,
+                              );
+
+                              if (subject != null) {
+                                model.addSubject(subject, []);
+                              }
+                            },
                           ),
-                          */ // TODO add manually
                           if (kDebugMode)
                             FilledButton(
                               child: Padding(
@@ -160,6 +209,56 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
           PaneItemSeparator(),
           for (final subject in model.subjects.entries)
             () {
+              // empty subject, no offerings
+              if (subject.value.isEmpty) {
+                return PaneItem(
+                  icon: Text(''),
+                  title: Text(subject.key),
+                  tileColor: ButtonState.all(ResourceDictionary.light()
+                      .systemFillColorCriticalBackground),
+                  body: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${subject.key} has no offerings',
+                          style: textTheme.headlineMedium,
+                        ),
+                        SizedBox(height: 8),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [
+                            FilledButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Delete'),
+                                ),
+                                onPressed: () {
+                                  final model = context.read<SkedmakerModel>();
+                                  model.removeSubject(subject.key);
+                                }),
+                            FilledButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Add offering'),
+                                ),
+                                onPressed: () {
+                                  final model = context.read<SkedmakerModel>();
+                                  model.modifySubject(subject.key, (p0) {
+                                    p0.add(Offering.blank(subject.key));
+                                  });
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(MdiIcons.alertCircleOutline)),
+                );
+              }
               final hasError = subject.value
                   .every((offering) => model.filters.shouldExclude(offering));
               final subjectText = SubjectText(
@@ -172,7 +271,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                         .systemFillColorCriticalBackground)
                     : NavigationPaneTheme.of(context).tileColor,
                 title: subjectText.text,
-                body: SubjectsFragmentEdit(
+                body: SubjectsFragmentSubject(
                   subject: subject.key,
                 ),
                 trailing: hasError
@@ -195,37 +294,34 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
   }
 }
 
-class SubjectsFragmentEdit extends StatefulWidget {
+class SubjectsFragmentSubject extends StatefulWidget {
   final String subject;
-  const SubjectsFragmentEdit({
+  const SubjectsFragmentSubject({
     super.key,
     required this.subject,
   });
 
   @override
-  State<SubjectsFragmentEdit> createState() => _SubjectsFragmentEditState();
+  State<SubjectsFragmentSubject> createState() =>
+      _SubjectsFragmentSubjectState();
 }
 
-class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
+class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
   final offeringNotAvailable = [];
-
-  @override
-  void initState() {
-    super.initState();
-    final model = context.read<SkedmakerModel>();
-
-    for (var offering in model.subjects[widget.subject]!) {
-      if (model.filters.shouldExclude(offering)) {
-        offeringNotAvailable.add(offering);
-      }
-    }
-  }
+  bool deleteMode = false;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final model = context.watch<SkedmakerModel>();
     final offerings = model.subjects[widget.subject]!;
+
+    offeringNotAvailable.clear();
+    for (var offering in model.subjects[widget.subject]!) {
+      if (model.filters.shouldExclude(offering)) {
+        offeringNotAvailable.add(offering);
+      }
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -438,15 +534,31 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                     label: Text("Delete"),
                   ),
                 );
-              }()
-
-              /* TODO add these functionality
+              }(),
               CommandBarSeparator(),
               CommandBarButton(
                 icon: Icon(MdiIcons.plus),
-                onPressed: () {},
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+                  model.modifySubject(widget.subject, (p0) {
+                    p0.add(
+                        Offering.blank(widget.subject, offerings.first.color));
+                  });
+                },
                 label: Text("Add offering"),
               ),
+              CommandBarButton(
+                icon: Icon(MdiIcons.deleteClockOutline),
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+
+                  setState(() {
+                    deleteMode = !deleteMode;
+                  });
+                },
+                label: Text("Delete offering"),
+              ),
+              /*
               CommandBarBuilderItem(
                 builder: (context, displayMode, child) {
                   final controller = FlyoutController();
@@ -497,529 +609,571 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
             ],
           ),
         ),
-        Expanded(
-            child: ListView(
-          children: [
-            () {
-              final flyoutController = FlyoutController();
+        Expanded(child: table(offerings, model, context))
+      ],
+    );
+  }
 
-              return FlyoutTarget(
-                controller: flyoutController,
-                child: DataTable(
-                  dataRowMinHeight: 36,
-                  dataRowMaxHeight: 36,
-                  showCheckboxColumn: false, //TODO add subjects
-                  columnSpacing: 10,
-                  columns: [
-                    DataColumn(label: Text('Status')),
-                    DataColumn(label: Text('Class #')),
-                    DataColumn(label: Text('Section')),
-                    DataColumn(label: Text('Room')),
-                    DataColumn(label: Text('Day')),
-                    DataColumn(label: Text('Time')),
-                    DataColumn(label: Text('Teacher')),
-                    DataColumn(label: Text('Slots')),
-                    DataColumn(label: Text('Remarks')),
-                  ],
-                  rows: [
-                    for (var i = 0; i < offerings.length; i++)
-                      DataRow(
-                        color: !model.filters.shouldExclude(offerings[i])
-                            ? null
-                            : MaterialStatePropertyAll(
-                                Color(0xfff4717c).withOpacity(0.2)),
-                        cells: [
-                          DataCell(
-                            offerings[i].isClosed
-                                ? Tooltip(
-                                    message: 'Closed',
-                                    child: Icon(
-                                      MdiIcons.closeCircleOutline,
-                                      size: 25,
-                                    ),
-                                  )
-                                : Tooltip(
-                                    message: 'Open',
-                                    child: Icon(
-                                      MdiIcons.checkCircleOutline,
-                                      size: 25,
-                                    ),
+  ListView table(
+      List<Offering> offerings, SkedmakerModel model, BuildContext context) {
+    return ListView(
+      children: [
+        () {
+          final flyoutController = FlyoutController();
+
+          return FlyoutTarget(
+            controller: flyoutController,
+            child: DataTable(
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 36,
+              showCheckboxColumn: false, //TODO add subjects
+              columnSpacing: 10,
+              columns: [
+                if (deleteMode) DataColumn(label: SizedBox.shrink()),
+                DataColumn(label: Text('Status')),
+                DataColumn(label: Text('Class #')),
+                DataColumn(label: Text('Section')),
+                DataColumn(label: Text('Room')),
+                DataColumn(label: Text('Day')),
+                DataColumn(label: Text('Time')),
+                DataColumn(label: Text('Teacher')),
+                DataColumn(label: Text('Slots')),
+                DataColumn(label: Text('Remarks')),
+              ],
+              rows: [
+                for (var i = 0; i < offerings.length; i++)
+                  DataRow(
+                    color: !model.filters.shouldExclude(offerings[i])
+                        ? null
+                        : MaterialStatePropertyAll(
+                            Color(0xfff4717c).withOpacity(0.2)),
+                    cells: [
+                      if (deleteMode)
+                        DataCell(IconButton(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            size: 25,
+                          ),
+                          onPressed: () {
+                            final model = context.read<SkedmakerModel>();
+                            model.modifySubject(widget.subject, (p0) {
+                              p0.removeAt(i);
+                            });
+                          },
+                        )),
+                      DataCell(
+                        offerings[i].isClosed
+                            ? Tooltip(
+                                message: 'Closed',
+                                child: Icon(
+                                  MdiIcons.closeCircleOutline,
+                                  size: 25,
+                                ),
+                              )
+                            : Tooltip(
+                                message: 'Open',
+                                child: Icon(
+                                  MdiIcons.checkCircleOutline,
+                                  size: 25,
+                                ),
+                              ),
+                        onTap: () {
+                          model.modifySubjectOffering(
+                            widget.subject,
+                            i,
+                            (p0) => p0..isClosed = !p0.isClosed,
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].classNumber.toString()),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              final controllerText = TextEditingController(
+                                  text: offerings[i].classNumber.toString());
+
+                              return SubjectsFragmentFlyout(
+                                controllerText: controllerText,
+                                label: 'Edit class number:',
+                                submit: (model) {
+                                  model.modifySubjectOffering(
+                                    widget.subject,
+                                    i,
+                                    (p0) => p0
+                                      ..classNumber =
+                                          controllerText.text.toInt(),
+                                  );
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].section),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              final controllerText = TextEditingController(
+                                  text: offerings[i].section);
+
+                              return SubjectsFragmentFlyout(
+                                controllerText: controllerText,
+                                label: 'Edit section:',
+                                submit: (model) {
+                                  model.modifySubjectOffering(
+                                    widget.subject,
+                                    i,
+                                    (p0) => p0..section = controllerText.text,
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].room),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              final controllerText = TextEditingController(
+                                  text: offerings[i].room);
+
+                              return SubjectsFragmentFlyout(
+                                controllerText: controllerText,
+                                label: 'Edit room (can be empty):',
+                                submit: (model) {
+                                  model.modifySubjectOffering(
+                                    widget.subject,
+                                    i,
+                                    (p0) => p0..room = controllerText.text,
+                                  );
+                                },
+                                isEmptyAllowed: true,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Tooltip(
+                          child: Text(offerings[i].scheduleDay.nameShort),
+                          message: offerings[i].scheduleDay.nameLocalized,
+                        ),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              ScheduleDay selected = offerings[i].scheduleDay;
+
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return SubjectsFragmentFlyout(
+                                  label: 'Edit day:',
+                                  input: ComboBox<ScheduleDay>(
+                                    value: selected,
+                                    items: ScheduleDay.values
+                                        .map((e) => ComboBoxItem(
+                                              child: Text(e.nameLocalized),
+                                              value: e,
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) => setState(
+                                        () => selected = value ?? selected),
                                   ),
-                            onTap: () {
-                              model.modifySubjectOffering(
-                                widget.subject,
-                                i,
-                                (p0) => p0..isClosed = !p0.isClosed,
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Text(offerings[i].classNumber.toString()),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  final controllerText = TextEditingController(
-                                      text:
-                                          offerings[i].classNumber.toString());
-
-                                  return SubjectsFragmentFlyout(
-                                    controllerText: controllerText,
-                                    label: 'Edit class number:',
-                                    submit: (model) {
-                                      model.modifySubjectOffering(
-                                        widget.subject,
-                                        i,
-                                        (p0) => p0
-                                          ..classNumber =
-                                              controllerText.text.toInt(),
-                                      );
-                                    },
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Text(offerings[i].section),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  final controllerText = TextEditingController(
-                                      text: offerings[i].section);
-
-                                  return SubjectsFragmentFlyout(
-                                    controllerText: controllerText,
-                                    label: 'Edit section:',
-                                    submit: (model) {
-                                      model.modifySubjectOffering(
-                                        widget.subject,
-                                        i,
-                                        (p0) =>
-                                            p0..section = controllerText.text,
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Text(offerings[i].room),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  final controllerText = TextEditingController(
-                                      text: offerings[i].room);
-
-                                  return SubjectsFragmentFlyout(
-                                    controllerText: controllerText,
-                                    label: 'Edit room (can be empty):',
-                                    submit: (model) {
-                                      model.modifySubjectOffering(
-                                        widget.subject,
-                                        i,
-                                        (p0) => p0..room = controllerText.text,
-                                      );
-                                    },
-                                    isEmptyAllowed: true,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Tooltip(
-                              child: Text(offerings[i].scheduleDay.nameShort),
-                              message: offerings[i].scheduleDay.nameLocalized,
-                            ),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  ScheduleDay selected =
-                                      offerings[i].scheduleDay;
-
-                                  return StatefulBuilder(
-                                      builder: (context, setState) {
-                                    return SubjectsFragmentFlyout(
-                                      label: 'Edit day:',
-                                      input: ComboBox<ScheduleDay>(
-                                        value: selected,
-                                        items: ScheduleDay.values
-                                            .map((e) => ComboBoxItem(
-                                                  child: Text(e.nameLocalized),
-                                                  value: e,
-                                                ))
-                                            .toList(),
-                                        onChanged: (value) => setState(
-                                            () => selected = value ?? selected),
-                                      ),
-                                      submit: (model) {
-                                        model.modifySubjectOffering(
-                                          widget.subject,
-                                          i,
-                                          (p0) => p0..scheduleDay = selected,
-                                        );
+                                  submit: (model) {
+                                    model.modifySubjectOffering(
+                                      widget.subject,
+                                      i,
+                                      (p0) {
+                                        p0.scheduleDay = selected;
+                                        if (selected.isMultipleDays) {
+                                          p0.scheduleTime2 = p0.scheduleTime2 ??
+                                              p0.scheduleTime;
+                                        }
+                                        return p0;
                                       },
-                                      isEmptyAllowed: true,
                                     );
-                                  });
-                                },
-                              );
+                                  },
+                                  isEmptyAllowed: true,
+                                );
+                              });
                             },
-                          ),
-                          DataCell(
-                            Text(offerings[i].scheduleTimeString),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  int selectedStart =
-                                      offerings[i].scheduleTime.start;
-                                  int selectedEnd =
-                                      offerings[i].scheduleTime.end;
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].scheduleTimeString),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              int selectedStart =
+                                  offerings[i].scheduleTime.start;
+                              int selectedEnd = offerings[i].scheduleTime.end;
 
-                                  int? selectedStart2 =
-                                      offerings[i].scheduleTime2?.start;
-                                  int? selectedEnd2 =
-                                      offerings[i].scheduleTime2?.end;
+                              int? selectedStart2 =
+                                  offerings[i].scheduleTime2?.start;
+                              int? selectedEnd2 =
+                                  offerings[i].scheduleTime2?.end;
 
-                                  return StatefulBuilder(
-                                      builder: (context, setState) {
-                                    return SubjectsFragmentFlyout(
-                                      label: 'Edit time:',
-                                      input: Column(
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return SubjectsFragmentFlyout(
+                                  label: 'Edit time:',
+                                  input: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              // ==== start1
-                                              ConstrainedBox(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 60),
-                                                child: NumberBox<int>(
-                                                  value: selectedStart,
-                                                  onChanged: (value) {
-                                                    value ??= 0;
+                                          // ==== start1
+                                          ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 60),
+                                            child: NumberBox<int>(
+                                              value: selectedStart,
+                                              onChanged: (value) {
+                                                value ??= 0;
+                                                setState(() {
+                                                  selectedStart =
+                                                      ScheduleFilterTimeInterval
+                                                          .clamp(value!);
+                                                });
+                                              },
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              clearButton: false,
+                                              mode:
+                                                  SpinButtonPlacementMode.none,
+                                              min: 0,
+                                              max: 2359,
+                                            ),
+                                          ),
+                                          // ==== end1
+                                          Text(' to '),
+                                          // ==== start2
+                                          ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 60),
+                                            child: NumberBox<int>(
+                                              value: selectedEnd,
+                                              onChanged: (value) {
+                                                value ??= 0;
+                                                setState(() {
+                                                  setState(() {
+                                                    selectedEnd =
+                                                        ScheduleFilterTimeInterval
+                                                            .clamp(value!);
+                                                  });
+                                                });
+                                              },
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              clearButton: false,
+                                              mode:
+                                                  SpinButtonPlacementMode.none,
+                                              min: 0,
+                                              max: 2359,
+                                            ),
+                                          ),
+                                          // ==== end2
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      ToggleSwitch(
+                                        checked: selectedStart2 != null,
+                                        content: Text('Second time interval'),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value) {
+                                              selectedStart2 = selectedStart;
+                                              selectedEnd2 = selectedEnd;
+                                            } else {
+                                              selectedStart2 = null;
+                                              selectedEnd2 = null;
+                                            }
+                                          });
+                                        },
+                                      ),
+                                      if (selectedStart2 != null)
+                                      SizedBox(height: 8),
+                                      if (selectedStart2 != null)
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            // ==== start1
+                                            ConstrainedBox(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 60),
+                                              child: NumberBox<int>(
+                                                value: selectedStart2,
+                                                onChanged: (value) {
+                                                  value ??= 0;
+                                                  setState(() {
+                                                    selectedStart2 =
+                                                        ScheduleFilterTimeInterval
+                                                            .clamp(value!);
+                                                  });
+                                                },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                clearButton: false,
+                                                mode: SpinButtonPlacementMode
+                                                    .none,
+                                                min: 0,
+                                                max: 2359,
+                                              ),
+                                            ),
+                                            // ==== end1
+                                            Text(' to '),
+                                            // ==== start2
+                                            ConstrainedBox(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 60),
+                                              child: NumberBox<int>(
+                                                value: selectedEnd2,
+                                                onChanged: (value) {
+                                                  value ??= 0;
+                                                  setState(() {
                                                     setState(() {
-                                                      selectedStart =
+                                                      selectedEnd2 =
                                                           ScheduleFilterTimeInterval
                                                               .clamp(value!);
                                                     });
-                                                  },
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .digitsOnly
-                                                  ],
-                                                  clearButton: false,
-                                                  mode: SpinButtonPlacementMode
-                                                      .none,
-                                                  min: 0,
-                                                  max: 2359,
-                                                ),
+                                                  });
+                                                },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                clearButton: false,
+                                                mode: SpinButtonPlacementMode
+                                                    .none,
+                                                min: 0,
+                                                max: 2359,
                                               ),
-                                              // ==== end1
-                                              Text(' to '),
-                                              // ==== start2
-                                              ConstrainedBox(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 60),
-                                                child: NumberBox<int>(
-                                                  value: selectedEnd,
-                                                  onChanged: (value) {
-                                                    value ??= 0;
-                                                    setState(() {
-                                                      setState(() {
-                                                        selectedEnd =
-                                                            ScheduleFilterTimeInterval
-                                                                .clamp(value!);
-                                                      });
-                                                    });
-                                                  },
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .digitsOnly
-                                                  ],
-                                                  clearButton: false,
-                                                  mode: SpinButtonPlacementMode
-                                                      .none,
-                                                  min: 0,
-                                                  max: 2359,
-                                                ),
-                                              ),
-                                              // ==== end2
-                                            ],
-                                          ),
-                                          if (offerings[i].scheduleTime2 !=
-                                              null)
-                                            SizedBox(height: 8),
-                                          if (offerings[i].scheduleTime2 !=
-                                              null)
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                // ==== start1
-                                                ConstrainedBox(
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: 60),
-                                                  child: NumberBox<int>(
-                                                    value: selectedStart2,
-                                                    onChanged: (value) {
-                                                      value ??= 0;
-                                                      setState(() {
-                                                        selectedStart2 =
-                                                            ScheduleFilterTimeInterval
-                                                                .clamp(value!);
-                                                      });
-                                                    },
-                                                    inputFormatters: [
-                                                      FilteringTextInputFormatter
-                                                          .digitsOnly
-                                                    ],
-                                                    clearButton: false,
-                                                    mode:
-                                                        SpinButtonPlacementMode
-                                                            .none,
-                                                    min: 0,
-                                                    max: 2359,
-                                                  ),
-                                                ),
-                                                // ==== end1
-                                                Text(' to '),
-                                                // ==== start2
-                                                ConstrainedBox(
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: 60),
-                                                  child: NumberBox<int>(
-                                                    value: selectedEnd2,
-                                                    onChanged: (value) {
-                                                      value ??= 0;
-                                                      setState(() {
-                                                        setState(() {
-                                                          selectedEnd2 =
-                                                              ScheduleFilterTimeInterval
-                                                                  .clamp(
-                                                                      value!);
-                                                        });
-                                                      });
-                                                    },
-                                                    inputFormatters: [
-                                                      FilteringTextInputFormatter
-                                                          .digitsOnly
-                                                    ],
-                                                    clearButton: false,
-                                                    mode:
-                                                        SpinButtonPlacementMode
-                                                            .none,
-                                                    min: 0,
-                                                    max: 2359,
-                                                  ),
-                                                ),
-                                                // ==== end2
-                                              ],
                                             ),
-                                        ],
-                                      ),
-                                      submit: (model) {
-                                        if (selectedStart >= selectedEnd ||
-                                            (offerings[i].scheduleTime2 !=
-                                                    null &&
-                                                selectedStart2! >=
-                                                    selectedEnd2!)) {
-                                          throw Error();
-                                        }
-                                        model.modifySubjectOffering(
-                                          widget.subject,
-                                          i,
-                                          (p0) {
-                                            p0.scheduleTime = (
-                                              start: selectedStart,
-                                              end: selectedEnd
-                                            );
-                                            if (p0.scheduleTime2 != null) {
-                                              p0.scheduleTime2 = (
-                                                start: selectedStart2!,
-                                                end: selectedEnd2!
-                                              );
-                                            }
-                                            return p0;
-                                          },
-                                        );
-                                      },
-                                      isEmptyAllowed: true,
-                                    );
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Text(offerings[i].teacher),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  final controllerText = TextEditingController(
-                                      text: offerings[i].teacher);
-
-                                  return SubjectsFragmentFlyout(
-                                    controllerText: controllerText,
-                                    label: 'Edit teacher (can be empty):',
-                                    submit: (model) {
-                                      model.modifySubjectOffering(
-                                        widget.subject,
-                                        i,
-                                        (p0) =>
-                                            p0..teacher = controllerText.text,
-                                      );
-                                    },
-                                    isEmptyAllowed: true,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          DataCell(
-                            Row(mainAxisSize: MainAxisSize.min, children: [
-                              Text(offerings[i].slots),
-                              SizedBox(width: 8),
-                              SizedBox.square(
-                                dimension: 25,
-                                child: Tooltip(
-                                  message:
-                                      "${(offerings[i].slotPercentage * 100).round()}%",
-                                  child: ProgressRing(
-                                    // min because the slot taken might be greater than capacity
-                                    value: min(
-                                        100, offerings[i].slotPercentage * 100),
-                                    strokeWidth: 3,
+                                            // ==== end2
+                                          ],
+                                        ),
+                                    ],
                                   ),
-                                ),
-                              )
-                            ]),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  int slotTaken = offerings[i].slotTaken;
-                                  int slotCap = offerings[i].slotCapacity;
+                                  submit: (model) {
+                                    if (selectedStart >= selectedEnd ||
+                                        (selectedStart2 != null &&
+                                            selectedStart2! >= selectedEnd2!)) {
+                                      throw ArgumentError(
+                                          'Start time must be before end time');
+                                    }
+                                    model.modifySubjectOffering(
+                                      widget.subject,
+                                      i,
+                                      (p0) {
+                                        if (p0.scheduleDay.isMultipleDays &&
+                                            selectedStart2 == null) {
+                                          throw ArgumentError(
+                                              'This must have a second time interval');
+                                        }
 
-                                  return StatefulBuilder(
-                                      builder: (context, setState) {
-                                    return SubjectsFragmentFlyout(
-                                      label: 'Edit slots:',
-                                      input: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ConstrainedBox(
-                                            constraints:
-                                                BoxConstraints(maxWidth: 60),
-                                            child: NumberBox<int>(
-                                              value: slotTaken,
-                                              onChanged: (value) {
-                                                if (value == null) return;
-                                                setState(() {
-                                                  slotTaken = value;
-                                                });
-                                              },
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly
-                                              ],
-                                              clearButton: false,
-                                              mode:
-                                                  SpinButtonPlacementMode.none,
-                                              min: 0,
-                                            ),
-                                          ),
-                                          Text(' out of '),
-                                          ConstrainedBox(
-                                            constraints:
-                                                BoxConstraints(maxWidth: 60),
-                                            child: NumberBox<int>(
-                                              value: slotCap,
-                                              onChanged: (value) {
-                                                if (value == null) return;
-                                                setState(() {
-                                                  slotCap = value;
-                                                });
-                                              },
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly
-                                              ],
-                                              clearButton: false,
-                                              mode:
-                                                  SpinButtonPlacementMode.none,
-                                              min: 0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      submit: (model) {
-                                        model.modifySubjectOffering(
-                                          widget.subject,
-                                          i,
-                                          (p0) => p0
-                                            ..slotTaken = slotTaken
-                                            ..slotCapacity = slotCap,
+                                        if (!p0.scheduleDay.isMultipleDays &&
+                                            selectedStart2 != null &&
+                                            selectedStart <= selectedEnd2! &&
+                                            selectedStart2! <= selectedEnd) {
+                                          throw ArgumentError(
+                                              'The two time intervals must not conflict since it\'s on the same day');
+                                        }
+
+                                        p0.scheduleTime = (
+                                          start: selectedStart,
+                                          end: selectedEnd
                                         );
+                                        p0.scheduleTime2 =
+                                            selectedStart2 == null
+                                                ? null
+                                                : (
+                                                    start: selectedStart2!,
+                                                    end: selectedEnd2!
+                                                  );
+                                        return p0;
                                       },
-                                      isEmptyAllowed: true,
                                     );
-                                  });
-                                },
-                              );
+                                  },
+                                  isEmptyAllowed: true,
+                                );
+                              });
                             },
-                          ),
-                          DataCell(
-                            Text(offerings[i].remarks),
-                            onTapDown: (details) {
-                              flyoutController.showFlyout(
-                                position: details.globalPosition,
-                                builder: (context) {
-                                  final controllerText = TextEditingController(
-                                      text: offerings[i].remarks);
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].teacher),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              final controllerText = TextEditingController(
+                                  text: offerings[i].teacher);
 
-                                  return SubjectsFragmentFlyout(
-                                    controllerText: controllerText,
-                                    label: 'Edit remarks (can be empty):',
-                                    submit: (model) {
-                                      model.modifySubjectOffering(
-                                        widget.subject,
-                                        i,
-                                        (p0) =>
-                                            p0..remarks = controllerText.text,
-                                      );
-                                    },
-                                    isEmptyAllowed: true,
+                              return SubjectsFragmentFlyout(
+                                controllerText: controllerText,
+                                label: 'Edit teacher (can be empty):',
+                                submit: (model) {
+                                  model.modifySubjectOffering(
+                                    widget.subject,
+                                    i,
+                                    (p0) => p0..teacher = controllerText.text,
                                   );
                                 },
+                                isEmptyAllowed: true,
                               );
                             },
-                          ),
-                        ],
-                      )
-                  ],
-                ),
-              );
-            }()
-          ],
-        ))
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text(offerings[i].slots),
+                          SizedBox(width: 8),
+                          SizedBox.square(
+                            dimension: 25,
+                            child: Tooltip(
+                              message:
+                                  "${(offerings[i].slotPercentage * 100).round()}%",
+                              child: ProgressRing(
+                                // min because the slot taken might be greater than capacity
+                                value:
+                                    min(100, offerings[i].slotPercentage * 100),
+                                strokeWidth: 3,
+                              ),
+                            ),
+                          )
+                        ]),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              int slotTaken = offerings[i].slotTaken;
+                              int slotCap = offerings[i].slotCapacity;
+
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return SubjectsFragmentFlyout(
+                                  label: 'Edit slots:',
+                                  input: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ConstrainedBox(
+                                        constraints:
+                                            BoxConstraints(maxWidth: 60),
+                                        child: NumberBox<int>(
+                                          value: slotTaken,
+                                          onChanged: (value) {
+                                            if (value == null) return;
+                                            setState(() {
+                                              slotTaken = value;
+                                            });
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          clearButton: false,
+                                          mode: SpinButtonPlacementMode.none,
+                                          min: 0,
+                                        ),
+                                      ),
+                                      Text(' out of '),
+                                      ConstrainedBox(
+                                        constraints:
+                                            BoxConstraints(maxWidth: 60),
+                                        child: NumberBox<int>(
+                                          value: slotCap,
+                                          onChanged: (value) {
+                                            if (value == null) return;
+                                            setState(() {
+                                              slotCap = value;
+                                            });
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          clearButton: false,
+                                          mode: SpinButtonPlacementMode.none,
+                                          min: 0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  submit: (model) {
+                                    model.modifySubjectOffering(
+                                      widget.subject,
+                                      i,
+                                      (p0) => p0
+                                        ..slotTaken = slotTaken
+                                        ..slotCapacity = slotCap,
+                                    );
+                                  },
+                                  isEmptyAllowed: true,
+                                );
+                              });
+                            },
+                          );
+                        },
+                      ),
+                      DataCell(
+                        Text(offerings[i].remarks),
+                        onTapDown: (details) {
+                          flyoutController.showFlyout(
+                            position: details.globalPosition,
+                            builder: (context) {
+                              final controllerText = TextEditingController(
+                                  text: offerings[i].remarks);
+
+                              return SubjectsFragmentFlyout(
+                                controllerText: controllerText,
+                                label: 'Edit remarks (can be empty):',
+                                submit: (model) {
+                                  model.modifySubjectOffering(
+                                    widget.subject,
+                                    i,
+                                    (p0) => p0..remarks = controllerText.text,
+                                  );
+                                },
+                                isEmptyAllowed: true,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  )
+              ],
+            ),
+          );
+        }()
       ],
     );
   }
 }
 
 /// The widget for the flyout when clicking on a cell on the offering table
-class SubjectsFragmentFlyout extends StatelessWidget {
+class SubjectsFragmentFlyout extends StatefulWidget {
   const SubjectsFragmentFlyout({
     super.key,
     required this.submit,
@@ -1039,10 +1193,17 @@ class SubjectsFragmentFlyout extends StatelessWidget {
   final Widget? input;
 
   @override
+  State<SubjectsFragmentFlyout> createState() => _SubjectsFragmentFlyoutState();
+}
+
+class _SubjectsFragmentFlyoutState extends State<SubjectsFragmentFlyout> {
+  String? errorText;
+
+  @override
   Widget build(BuildContext context) {
     return FlyoutContent(
       child: ConstrainedBox(
-        constraints: input == null
+        constraints: widget.input == null
             ? BoxConstraints(maxWidth: 200)
             : const BoxConstraints(),
         child: Column(
@@ -1050,35 +1211,45 @@ class SubjectsFragmentFlyout extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InfoLabel(
-              label: label,
-              child: input ??
+              label: widget.label,
+              child: widget.input ??
                   TextBox(
-                    controller: controllerText,
+                    controller: widget.controllerText,
                     autofocus: true,
                     onSubmitted: (value) {
-                      if (!isEmptyAllowed && controllerText!.text.isEmpty)
-                        return;
-                      submit(context.read<SkedmakerModel>());
+                      if (!widget.isEmptyAllowed &&
+                          widget.controllerText!.text.isEmpty) return;
+                      widget.submit(context.read<SkedmakerModel>());
                       Navigator.pop(context);
                     },
-                    inputFormatters: inputFormatters,
+                    inputFormatters: widget.inputFormatters,
                   ),
             ),
             SizedBox(height: 8),
+            if (errorText != null)
+              Text(
+                errorText!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.red),
+              ),
             Wrap(
               spacing: 8,
               children: [
                 Button(
                   child: Text('Save'),
                   onPressed: () {
-                    if (input == null &&
-                        !isEmptyAllowed &&
-                        controllerText!.text.isEmpty) return;
+                    if (widget.input == null &&
+                        !widget.isEmptyAllowed &&
+                        widget.controllerText!.text.isEmpty) return;
                     try {
-                      submit(context.read<SkedmakerModel>());
+                      widget.submit(context.read<SkedmakerModel>());
                       Navigator.pop(context);
-                    } catch (e) {
-                      //empty
+                    } on ArgumentError catch (e) {
+                      setState(() {
+                        errorText = e.message;
+                      });
                     }
                   },
                 ),

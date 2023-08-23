@@ -47,6 +47,14 @@ class Offering implements Comparable {
   Color color;
   String remarks;
 
+  static blank(String subject, [Color? color]) => Offering(
+      subject: subject,
+      section: '0',
+      scheduleDay: ScheduleDay.unknown,
+      classNumber: 0,
+      scheduleTime: '0000 - 0000',
+      color: color ?? const Color(0xCC2196F3));
+
   Offering({
     required this.subject,
     required this.section,
