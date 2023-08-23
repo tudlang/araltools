@@ -21,7 +21,7 @@ import 'package:araltools/araltools/skedmaker/debug.dart';
 import 'package:araltools/araltools/skedmaker/filters.dart';
 import 'package:araltools/utils.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     hide FilledButton, Tooltip, showDialog, IconButton;
@@ -224,49 +224,66 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (model.isGenerating)
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InfoBar(
-                title: Text(
-                    'Currently generating schedules. Changes here will not apply until you generate again.'),
-                severity: InfoBarSeverity.warning,
-              ),
-            ),
-          ),
-        if (offerings.length == offeringNotAvailable.length)
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InfoBar(
-                title: Text('${widget.subject} has no available offerings.'),
-                severity: InfoBarSeverity.error,
-              ),
-            ),
-          ),
         Container(
-            padding: const EdgeInsets.all(8.0),
-            color: offerings.first.color,
-          child: Row(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                offerings.first.color,
+                FluentTheme.of(context).cardColor
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: HSLColor.fromColor(offerings.first.color).withLightness(0.4).toColor() ,
+              if (model.isGenerating)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title: Text(
+                          'Currently generating schedules. Changes here will not apply until you generate again.'),
+                      severity: InfoBarSeverity.warning,
+                    ),
+                  ),
                 ),
-                width: 25,
-                height: 25,
-              ),
-              SizedBox(width: 8),
-              Text(
-                "${widget.subject} - ${offerings.length} offerings (${offerings.length - offeringNotAvailable.length} available)",
-                textAlign: TextAlign.start,
-                style: textTheme.headlineMedium!.copyWith(
-                  color: offerings.first.color.basedOnLuminance(
-                    darkColor: Color(0xff717171),
-                  )
+              if (offerings.length == offeringNotAvailable.length)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title:
+                          Text('${widget.subject} has no available offerings.'),
+                      severity: InfoBarSeverity.error,
+                    ),
+                  ),
                 ),
+              Row(
+                children: [
+                  Container(
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: HSLColor.fromColor(offerings.first.color)
+                          .withLightness(0.4)
+                          .toColor(),
+                    ),
+                    width: 25,
+                    height: 25,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    "${widget.subject} - ${offerings.length} offerings (${offerings.length - offeringNotAvailable.length} available)",
+                    textAlign: TextAlign.start,
+                    style: textTheme.headlineMedium!.copyWith(
+                        //  color: offerings.first.color.basedOnLuminance(
+                        //darkColor: Color(0xff717171),
+                        //)
+                        ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -320,8 +337,8 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                               pickersEnabled: {
                                 ColorPickerType.wheel: true,
                                 ColorPickerType.accent: false,
-                                ColorPickerType.primary:false,
-                                ColorPickerType.both:true,
+                                ColorPickerType.primary: false,
+                                ColorPickerType.both: true,
                               },
                               showColorCode: true,
                               showColorName: true,
@@ -504,8 +521,7 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                         color: !model.filters.shouldExclude(offerings[i])
                             ? null
                             : MaterialStatePropertyAll(
-                                ResourceDictionary.light()
-                                    .systemFillColorCriticalBackground),
+                                Color(0xfff4717c).withOpacity(0.2)),
                         cells: [
                           DataCell(
                             offerings[i].isClosed
