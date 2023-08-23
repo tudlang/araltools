@@ -274,35 +274,53 @@ enum ScheduleDay {
   }) {
     remarks = remarks.toLowerCase();
     return switch (code) {
-      'M' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'M' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.mondayHybrid,
-      'M' when remarks == 'full online' => ScheduleDay.mondayOnline,
-      'M' when remarks == 'f2f' || hasRoom => ScheduleDay.mondayFace,
+      'M'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.mondayOnline,
+      'M' when remarks.contains('f2f') || hasRoom => ScheduleDay.mondayFace,
       'M' => ScheduleDay.mondayUnknown,
-      'T' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'T' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.tuesdayHybrid,
-      'T' when remarks == 'full online' => ScheduleDay.tuesdayOnline,
-      'T' when remarks == 'f2f' || hasRoom => ScheduleDay.tuesdayFace,
+      'T'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.tuesdayOnline,
+      'T' when remarks.contains('f2f') || hasRoom => ScheduleDay.tuesdayFace,
       'T' => ScheduleDay.tuesdayUnknown,
-      'W' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'W' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.wednesdayHybrid,
-      'W' when remarks == 'full online' => ScheduleDay.wednesdayOnline,
-      'W' when remarks == 'f2f' || hasRoom => ScheduleDay.wednesdayFace,
+      'W'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.wednesdayOnline,
+      'W' when remarks.contains('f2f') || hasRoom => ScheduleDay.wednesdayFace,
       'W' => ScheduleDay.wednesdayUnknown,
-      'H' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'H' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.thursdayHybrid,
-      'H' when remarks == 'full online' => ScheduleDay.thursdayOnline,
-      'H' when remarks == 'f2f' || hasRoom => ScheduleDay.thursdayFace,
+      'H'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.thursdayOnline,
+      'H' when remarks.contains('f2f') || hasRoom => ScheduleDay.thursdayFace,
       'H' => ScheduleDay.thursdayUnknown,
-      'F' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'F' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.fridayHybrid,
-      'F' when remarks == 'full online' => ScheduleDay.fridayOnline,
-      'F' when remarks == 'f2f' || hasRoom => ScheduleDay.fridayFace,
+      'F'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.fridayOnline,
+      'F' when remarks.contains('f2f') || hasRoom => ScheduleDay.fridayFace,
       'F' => ScheduleDay.fridayUnknown,
-      'S' when remarks == 'hybrid' || (remarks.isEmpty && hasRoom) =>
+      'S' when remarks.contains('hybrid') || (remarks.isEmpty && hasRoom) =>
         ScheduleDay.saturdayHybrid,
-      'S' when remarks == 'full online' => ScheduleDay.saturdayOnline,
-      'S' when remarks == 'f2f' || hasRoom => ScheduleDay.saturdayFace,
+      'S'
+          when remarks.contains('full online') ||
+              remarks.contains('fullonline') =>
+        ScheduleDay.saturdayOnline,
+      'S' when remarks.contains('f2f') || hasRoom => ScheduleDay.saturdayFace,
       'S' => ScheduleDay.saturdayUnknown,
       _ => ScheduleDay.unknown
     };
