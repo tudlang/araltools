@@ -26,6 +26,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
+import 'package:window_manager/window_manager.dart';
 import '../../strings.g.dart';
 import '/opensource/timetable_view.dart';
 import 'package:timetable_view/timetable_view.dart';
@@ -469,6 +470,8 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
 
               if (newfile != null && model.path == null) {
                 model.path = newfile.path;
+
+                windowManager.setTitle('AralTools SkedMaker - ${model.path}');
               }
 
               if (newfile != null) {
@@ -485,6 +488,8 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
 
               if (newfile != null) {
                 model.path = newfile.path;
+
+                windowManager.setTitle('AralTools SkedMaker - ${model.path}');
               }
               Navigator.pop(context);
             },

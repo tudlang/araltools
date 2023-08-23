@@ -16,11 +16,13 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:araltools/strings.g.dart';
+import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'araltools/araltools.dart';
 
@@ -30,6 +32,13 @@ class HomeActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    onPlatform(
+      all: null,
+      windows: () {
+        windowManager.setTitle('AralTools');
+      }(),
+    );
 
     return Scaffold(
       appBar: AppBar(

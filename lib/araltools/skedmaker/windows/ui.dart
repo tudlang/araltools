@@ -16,10 +16,17 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:fluent_ui/fluent_ui.dart' hide Tooltip;
-import 'package:flutter/material.dart' hide IconButton, Colors;
+import 'package:flutter/material.dart'
+    hide IconButton, Colors, showDialog, FilledButton;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:path/path.dart' as path;
 
 import '../../araltools.dart';
+import '../export_xml.dart';
+import '../models.dart';
+import '../skedmaker_activity.dart';
 import 'ui_filters.dart';
 import 'ui_schedules.dart';
 import 'ui_subjects.dart';
@@ -33,13 +40,77 @@ class SkedmakerActivityWindows extends StatefulWidget {
       _SkedmakerActivityWindowsState();
 }
 
-class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows> {
+class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
+    with WindowListener {
   late int paneIndex;
 
   @override
   void initState() {
     super.initState();
     paneIndex = 0;
+    windowManager.addListener(this);
+
+    // This is to prompt to save first when clicking the close button
+    windowManager.setPreventClose(true);
+
+    final model = context.read<SkedmakerModel>();
+    if (model.path != null) {
+      windowManager.setTitle('AralTools SkedMaker - ${model.path}');
+    } else {
+      windowManager.setTitle('AralTools SkedMaker');
+    }
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  /// This is to avoid multiple dialogs when the close button is spammed
+  bool isSaveDialogDisplaying = false;
+
+  @override
+  void onWindowClose() async {
+    if (!await windowManager.isPreventClose()) return;
+    if (isSaveDialogDisplaying) return;
+    isSaveDialogDisplaying = true;
+
+    showDialog(
+      context: context,
+      dismissWithEsc: false,
+      builder: (context) {
+        return ContentDialog(
+          title: Text('Save first before closing?'),
+          actions: [
+            FilledButton(
+                child: Text('Save'),
+                onPressed: () async {
+                  final model = provider.currentContext!.read<SkedmakerModel>();
+
+                  final newfile =
+                      await exportXml(model: model, path: model.path);
+
+                  if (newfile != null) {
+                    // saved successfuly, time to exit
+                    await windowManager.destroy();
+                  }
+                }),
+            Button(
+                child: Text('Don\'t Save'),
+                onPressed: () async {
+                  await windowManager.destroy();
+                }),
+            Button(
+                child: Text('Cancel'),
+                onPressed: () {
+                  isSaveDialogDisplaying = false;
+                  Navigator.pop(context);
+                }),
+          ],
+        );
+      },
+    );
   }
 
   @override
