@@ -681,8 +681,7 @@ class ScheduleFragmentCard extends StatelessWidget {
                 style: textTheme.labelMedium),
           ],
         )),
-        backgroundColor:
-            HSLColor.fromColor(subject.color).withLightness(0.8).toColor(),
+        backgroundColor: subject.color,
       ),
     );
   }

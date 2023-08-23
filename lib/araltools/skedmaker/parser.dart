@@ -35,7 +35,7 @@ List<Offering> parse(String htmlTable) {
     random.nextInt(45) * 8.0,
     random.nextDouble() * 0.6 + 0.3,
     1 - (random.nextDouble() * 0.6 + 0.3),
-  ).toColor();
+  ).withLightness(0.8).toColor();
 
   for (var tr in table.children) {
     if (tr == table.children.first) continue;

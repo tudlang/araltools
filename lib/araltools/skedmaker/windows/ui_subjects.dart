@@ -20,9 +20,11 @@ import 'dart:math';
 import 'package:araltools/araltools/skedmaker/debug.dart';
 import 'package:araltools/araltools/skedmaker/filters.dart';
 import 'package:araltools/utils.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide FilledButton, Tooltip;
+import 'package:flutter/material.dart'
+    hide FilledButton, Tooltip, showDialog, IconButton;
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -243,14 +245,15 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        Container(
+            padding: const EdgeInsets.all(8.0),
+            color: offerings.first.color,
           child: Row(
             children: [
               Container(
                 decoration: ShapeDecoration(
                   shape: CircleBorder(),
-                  color: offerings.first.color,
+                  color: HSLColor.fromColor(offerings.first.color).withLightness(0.3).toColor() ,
                 ),
                 width: 25,
                 height: 25,
@@ -259,7 +262,11 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
               Text(
                 "${widget.subject} - ${offerings.length} offerings (${offerings.length - offeringNotAvailable.length} available)",
                 textAlign: TextAlign.start,
-                style: textTheme.headlineMedium,
+                style: textTheme.headlineMedium!.copyWith(
+                  color: offerings.first.color.basedOnLuminance(
+                    darkColor: Color(0xff717171),
+                  )
+                ),
               ),
             ],
           ),
@@ -268,13 +275,92 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
           child: CommandBar(
             overflowBehavior: CommandBarOverflowBehavior.dynamicOverflow,
             primaryItems: [
-              /*
               CommandBarButton(
                 icon: Icon(Icons.palette_outlined),
-                onPressed: () {},
-                label: Text("Change subject color"),
+                label: Text("Recolor"),
+                onPressed: () async {
+                  final selected = await showDialog<Color>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) {
+                      Color selectedColor = offerings.first.color;
+
+                      return Material(
+                        type: MaterialType.transparency,
+                        child: ContentDialog(
+                          title: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text('Select color'),
+                              ),
+                              Spacer(),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  MdiIcons.close,
+                                  size: 20,
+                                ),
+                                iconButtonMode: IconButtonMode.large,
+                              )
+                            ],
+                          ),
+                          content: ColorPicker(
+                            padding: EdgeInsets.all(0),
+                            color: selectedColor,
+                            onColorChanged: (value) {
+                              selectedColor = value;
+                            },
+                            pickerTypeLabels: {
+                              ColorPickerType.both: 'Primary'
+                            },
+                            pickersEnabled: {
+                              ColorPickerType.wheel: true,
+                              ColorPickerType.accent: false,
+                              ColorPickerType.primary:false,
+                              ColorPickerType.both:true,
+                            },
+                            showColorCode: true,
+                            showColorName: true,
+                            columnSpacing: 17,
+                            colorCodeReadOnly: false,
+                            colorCodeHasColor: true,
+                            copyPasteBehavior: ColorPickerCopyPasteBehavior(
+                              copyFormat: ColorPickerCopyFormat.numHexRRGGBB,
+                            ),
+                            wheelDiameter: 260,
+                            wheelWidth: 22,
+                            subheading: Text('Shades'),
+                            wheelSubheading: Text('Shades'),
+                          ),
+                          actions: [
+                            Button(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                            FilledButton(
+                              child: Text('Select'),
+                              onPressed: () {
+                                Navigator.pop(context, selectedColor);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+
+                  if (selected == null) return;
+
+                  for (int i = 0; i < offerings.length; i++) {
+                    model.modifySubjectOffering(
+                        widget.subject, i, (p0) => p0..color = selected);
+                  }
+                },
               ),
-              */
               /* 
               CommandBarButton(
                 icon: Icon(Icons.drive_file_rename_outline_outlined),
@@ -718,8 +804,11 @@ class _SubjectsFragmentEditState extends State<SubjectsFragmentEdit> {
                                         ],
                                       ),
                                       submit: (model) {
-                                        if (selectedStart >= selectedEnd || (offerings[i].scheduleTime2 !=
-                                              null && selectedStart2! >= selectedEnd2!)) {
+                                        if (selectedStart >= selectedEnd ||
+                                            (offerings[i].scheduleTime2 !=
+                                                    null &&
+                                                selectedStart2! >=
+                                                    selectedEnd2!)) {
                                           throw Error();
                                         }
                                         model.modifySubjectOffering(

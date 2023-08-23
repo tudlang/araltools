@@ -216,8 +216,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
       ],
       buildCard: (event, isPast) {
         final offering = event.payload!;
-        final bg =
-            HSLColor.fromColor(offering.color).withLightness(0.75).toColor();
+        final bg =offering.color;
         return parentOrChild(
           condition: widget.currentlyHovered != null,
           parent: (child) {
@@ -297,7 +296,7 @@ class SubjectText extends StatelessWidget {
   Widget get icon => Container(
         decoration: ShapeDecoration(
           shape: CircleBorder(),
-          color: offering.color,
+          color: HSLColor.fromColor(offering.color).withLightness(0.3).toColor(),
         ),
         width: 10,
         height: 10,

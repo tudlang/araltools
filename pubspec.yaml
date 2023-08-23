@@ -60,6 +60,7 @@ dependencies:
   file_picker: ^5.3.2
   archive: ^3.3.7
   xml: ^6.3.0
+  flex_color_picker: ^3.3.0
 
 dev_dependencies:
   build_runner: ^2.3.0
