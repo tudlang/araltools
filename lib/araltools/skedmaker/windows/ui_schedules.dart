@@ -79,6 +79,8 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
 
     var indexWeekCurrent = model.tabs.elementAtOrNull(indexTabCurrent) ?? 0;
 
+    final random = Random();
+
     return model.schedules.isEmpty
         ? Column(
             children: [
@@ -263,11 +265,12 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 currentIndex: indexTabCurrent,
                 tabs: model.tabs.mapIndexed((tabIndex, weekIndex) {
                   final week = model.schedules.elementAt(weekIndex);
+
                   return Tab(
                     icon: week.isStarred ? Icon(Icons.star) : null,
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
-                      key: ValueKey((tabIndex, weekIndex)),
+                      key: ValueKey(random.nextDouble()),
                       tabIndex: tabIndex,
                     ),
                     closeIcon: model.tabs.length == 1
@@ -691,7 +694,8 @@ class ScheduleFragmentCard extends StatelessWidget {
               style: textTheme.labelMedium!.copyWith(color: colorLuminant),
             ),
             TextSpan(
-              text: "\n${subject.scheduleDay.nameShort}\n${subject.scheduleTimeString}",
+              text:
+                  "\n${subject.scheduleDay.nameShort}\n${subject.scheduleTimeString}",
               style: textTheme.labelMedium!.copyWith(color: colorLuminant),
             ),
             TextSpan(
