@@ -89,17 +89,39 @@ void generateSchedulesIsolate(
             }
           }
 
+          // check modality
+          if (filters['day']!['${day.$1}Modality']!.value != 'any') {
+            final modality = ScheduleModality.values
+                .byName(filters['day']!['${day.$1}Modality']!.value);
+
+            for (final offering in offeringDay) {
+              // if the selected modality is the offering modality
+              if (offering.scheduleDay.modality != modality) {
+                //  when selected is hybrid, allow for face or online
+                if (modality == ScheduleModality.hybrid &&
+                    (offering.scheduleDay.modality == ScheduleModality.face ||
+                        offering.scheduleDay.modality ==
+                            ScheduleModality.online)) {
+                } else {
+                  throw InvalidScheduleError();
+                }
+              }
+            }
+          }
+
           // check for first subject
           if (filters['day']!['${day.$1}StartWithSubject']!.value != 'any') {
-            if (offeringDay.isEmpty || offeringDay.first.subject !=
-                filters['day']!['${day.$1}StartWithSubject']!.value) {
+            if (offeringDay.isEmpty ||
+                offeringDay.first.subject !=
+                    filters['day']!['${day.$1}StartWithSubject']!.value) {
               throw InvalidScheduleError();
             }
           }
           // check for last subject
           if (filters['day']!['${day.$1}EndWithSubject']!.value != 'any') {
-            if (offeringDay.isEmpty || offeringDay.last.subject !=
-                filters['day']!['${day.$1}EndWithSubject']!.value) {
+            if (offeringDay.isEmpty ||
+                offeringDay.last.subject !=
+                    filters['day']!['${day.$1}EndWithSubject']!.value) {
               throw InvalidScheduleError();
             }
           }

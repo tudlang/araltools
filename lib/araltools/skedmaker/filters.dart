@@ -348,16 +348,16 @@ class ScheduleFilters {
         '${day}TimeInterval': ScheduleFilterTimeInterval(
           key: '${day}TimeInterval',
           keyLocalized: 'commonTimeInterval',
-          valueDefault: (730, 2200),
+          valueDefault: (700, 2359),
         ),
-        /* TODO add modality checker
-        ScheduleFilter<String>(
-          key: '${day}Modality',
-          keyLocalized: 'commonModality',
-          valueDefault: 'hybrid',
-          valueChoices: ['hybrid', 'online', 'face'],
-        ),
-        */
+        '${day}Modality': ScheduleFilterStringChoices(
+            key: '${day}Modality',
+            keyLocalized: 'commonModality',
+            valueDefault: 'any',
+            valueChoices: [
+              'any',
+              for (final i in ScheduleModality.values) i.name
+            ]),
         '${day}StartWithSubject': ScheduleFilterSubjects(
           key: '${day}StartWithSubject',
           keyLocalized: 'commonStartWithSubject',
@@ -422,7 +422,7 @@ class ScheduleFilters {
         (filters['offerings']!['includeFullSlots']!.value == false &&
             offering.slotTaken >= offering.slotCapacity) ||
         (filters['offerings']!['includeUnknownModality']!.value == false &&
-            offering.scheduleDay.name.contains('nknown')) ||
+            offering.scheduleDay.modality == ScheduleModality.unknown) ||
         (filters['offerings']!['includeNoTeachers']!.value == false &&
             offering.teacher.isEmpty) ||
         (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty ==

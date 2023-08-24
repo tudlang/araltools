@@ -260,15 +260,19 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                       .copyWith(color: colorLuminant),
                 ),
                 TextSpan(
-                  text:
-                      "${offering.scheduleTimeString}\n",
+                  text: "${offering.scheduleTimeString}\n",
                   style: FluentTheme.of(context)
                       .typography
                       .body!
                       .copyWith(color: colorLuminant),
                 ),
+                WidgetSpan(
+                    child: Icon(
+                  MdiIcons.mapMarkerOutline,
+                  color: colorLuminant,
+                )),
                 TextSpan(
-                  text: offering.room,
+                  text: " ${offering.room}",
                   style: FluentTheme.of(context)
                       .typography
                       .body!

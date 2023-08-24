@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 1
-/// Strings: 133
+/// Strings: 135
 ///
-/// Built on 2023-08-23 at 09:08 UTC
+/// Built on 2023-08-24 at 02:25 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -920,6 +920,8 @@ class _StringsSkedmakerFiltersCategoriesDayCommonModalityEn {
 	String get hybrid => 'Online or face-to-face';
 	String get online => 'Online';
 	String get face => 'Face-to-face';
+	String get any => 'Any modality';
+	String get unknown => 'Unknown modality';
 }
 
 // Path: skedmaker.filters.categories.day.commonStartWithSubject
@@ -1026,6 +1028,8 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.day.commonModality.hybrid': return 'Online or face-to-face';
 			case 'skedmaker.filters.categories.day.commonModality.online': return 'Online';
 			case 'skedmaker.filters.categories.day.commonModality.face': return 'Face-to-face';
+			case 'skedmaker.filters.categories.day.commonModality.any': return 'Any modality';
+			case 'skedmaker.filters.categories.day.commonModality.unknown': return 'Unknown modality';
 			case 'skedmaker.filters.categories.day.commonStartWithSubject.name': return 'First subject of the day';
 			case 'skedmaker.filters.categories.day.commonEndWithSubject.name': return 'Last subject of the day';
 			case 'skedmaker.filters.categories.day.commonBreaktime.name': return 'Breaktime';

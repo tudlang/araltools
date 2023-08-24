@@ -66,6 +66,8 @@ filters:
         hybrid: Online or face-to-face
         online: Online
         face: Face-to-face
+        any: Any modality
+        unknown: Unknown modality
       commonStartWithSubject:  
         name: First subject of the day
       commonEndWithSubject:  

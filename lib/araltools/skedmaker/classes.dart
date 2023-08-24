@@ -99,18 +99,23 @@ class Offering implements Comparable {
       : "${scheduleTime.start.toString().padLeft(4, '0')} - ${scheduleTime.end.toString().padLeft(4, '0')}\n${scheduleTime2!.start.toString().padLeft(4, '0')} - ${scheduleTime2!.end.toString().padLeft(4, '0')}";
 
   List<Offering> split() {
-    if (scheduleTime2 == null) return [this];
+    if (scheduleTime2 == null)
+      return [
+        this.copy()..room = scheduleDay.modality!.getRoom(room),
+      ];
 
     final splitted = scheduleDay.split();
 
     return [
       this.copy()
         ..scheduleTime2 = null
-        ..scheduleDay = splitted.$1,
+        ..scheduleDay = splitted.$1
+        ..room = splitted.$1.modality!.getRoom(room),
       this.copy()
         ..scheduleTime = scheduleTime2!
         ..scheduleTime2 = null
-        ..scheduleDay = splitted.$2,
+        ..scheduleDay = splitted.$2
+        ..room = splitted.$2.modality!.getRoom(room),
     ];
   }
 
@@ -223,49 +228,50 @@ class Offering implements Comparable {
 
 /// An enum containing all possible schedule days, including their modality
 enum ScheduleDay {
-  mondayFace('M'),
-  mondayOnline('M'),
-  mondayHybrid('M'),
-  mondayUnknown('M'),
-  tuesdayFace('T'),
-  tuesdayOnline('T'),
-  tuesdayHybrid('T'),
-  tuesdayUnknown('T'),
-  wednesdayFace('W'),
-  wednesdayOnline('W'),
-  wednesdayHybrid('W'),
-  wednesdayUnknown('W'),
-  thursdayFace('H'),
-  thursdayOnline('H'),
-  thursdayHybrid('H'),
-  thursdayUnknown('H'),
-  fridayFace('F'),
-  fridayOnline('F'),
-  fridayHybrid('F'),
-  fridayUnknown('F'),
-  saturdayFace('S'),
-  saturdayOnline('S'),
-  saturdayHybrid('S'),
-  saturdayUnknown('S'),
-  mondaythursdayFace('MH'),
-  mondaythursdayOnline('MH'),
-  mondaythursdayOnlineface('MH'),
-  mondaythursdayFaceonline('MH'),
-  mondaythursdayUnknown('MH'),
-  tuesdayfridayFace('TF'),
-  tuesdayfridayOnline('TF'),
-  tuesdayfridayOnlineface('TF'),
-  tuesdayfridayFaceonline('TF'),
-  tuesdayfridayUnknown('TF'),
-  wednesdaysaturdayFace('WS'),
-  wednesdaysaturdayOnline('WS'),
-  wednesdaysaturdayOnlineface('WS'),
-  wednesdaysaturdayFaceonline('WS'),
-  wednesdaysaturdayUnknown('WS'),
-  unknown('');
+  mondayFace('M', ScheduleModality.face),
+  mondayOnline('M', ScheduleModality.online),
+  mondayHybrid('M', ScheduleModality.hybrid),
+  mondayUnknown('M', ScheduleModality.unknown),
+  tuesdayFace('T', ScheduleModality.face),
+  tuesdayOnline('T', ScheduleModality.online),
+  tuesdayHybrid('T', ScheduleModality.hybrid),
+  tuesdayUnknown('T', ScheduleModality.unknown),
+  wednesdayFace('W', ScheduleModality.face),
+  wednesdayOnline('W', ScheduleModality.online),
+  wednesdayHybrid('W', ScheduleModality.hybrid),
+  wednesdayUnknown('W', ScheduleModality.unknown),
+  thursdayFace('H', ScheduleModality.face),
+  thursdayOnline('H', ScheduleModality.online),
+  thursdayHybrid('H', ScheduleModality.hybrid),
+  thursdayUnknown('H', ScheduleModality.unknown),
+  fridayFace('F', ScheduleModality.face),
+  fridayOnline('F', ScheduleModality.online),
+  fridayHybrid('F', ScheduleModality.hybrid),
+  fridayUnknown('F', ScheduleModality.unknown),
+  saturdayFace('S', ScheduleModality.face),
+  saturdayOnline('S', ScheduleModality.online),
+  saturdayHybrid('S', ScheduleModality.hybrid),
+  saturdayUnknown('S', ScheduleModality.unknown),
+  mondaythursdayFace('MH', ScheduleModality.face),
+  mondaythursdayOnline('MH', ScheduleModality.online),
+  mondaythursdayOnlineface('MH', ScheduleModality.hybrid),
+  mondaythursdayFaceonline('MH', ScheduleModality.hybrid),
+  mondaythursdayUnknown('MH', ScheduleModality.unknown),
+  tuesdayfridayFace('TF', ScheduleModality.face),
+  tuesdayfridayOnline('TF', ScheduleModality.online),
+  tuesdayfridayOnlineface('TF', ScheduleModality.hybrid),
+  tuesdayfridayFaceonline('TF', ScheduleModality.hybrid),
+  tuesdayfridayUnknown('TF', ScheduleModality.unknown),
+  wednesdaysaturdayFace('WS', ScheduleModality.face),
+  wednesdaysaturdayOnline('WS', ScheduleModality.online),
+  wednesdaysaturdayOnlineface('WS', ScheduleModality.hybrid),
+  wednesdaysaturdayFaceonline('WS', ScheduleModality.hybrid),
+  wednesdaysaturdayUnknown('WS', ScheduleModality.unknown),
+  unknown('', ScheduleModality.unknown);
 
   final String daycode;
-  const ScheduleDay(this.daycode);
+  final ScheduleModality modality;
+  const ScheduleDay(this.daycode, this.modality);
 
   bool get isMultipleDays => daycode.length > 1;
 
@@ -392,6 +398,23 @@ enum ScheduleDay {
         // Default: just duplicate the original
         _ => (this, this)
       };
+}
+
+enum ScheduleModality {
+  face,
+  online,
+  hybrid,
+  unknown,
+  ;
+
+  String getRoom(String room) {
+    if (room.trim().isEmpty) room = 'No room';
+    return switch (this) {
+      online => 'Online',
+      hybrid => '$room & online',
+      _ => room
+    };
+  }
 }
 /*
 const distances = {
