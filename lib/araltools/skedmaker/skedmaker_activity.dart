@@ -261,7 +261,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                 ),
                 TextSpan(
                   text:
-                      "${offering.scheduleTime.start} - ${offering.scheduleTime.end}\n",
+                      "${offering.scheduleTimeString}\n",
                   style: FluentTheme.of(context)
                       .typography
                       .body!

@@ -95,8 +95,8 @@ class Offering implements Comparable {
   }
 
   String get scheduleTimeString => scheduleTime2 == null
-      ? "${scheduleTime.start} - ${scheduleTime.end}"
-      : "${scheduleTime.start} - ${scheduleTime.end}\n${scheduleTime2!.start} - ${scheduleTime2!.end}";
+      ? "${scheduleTime.start.toString().padLeft(4, '0')} - ${scheduleTime.end.toString().padLeft(4, '0')}"
+      : "${scheduleTime.start.toString().padLeft(4, '0')} - ${scheduleTime.end.toString().padLeft(4, '0')}\n${scheduleTime2!.start.toString().padLeft(4, '0')} - ${scheduleTime2!.end.toString().padLeft(4, '0')}";
 
   List<Offering> split() {
     if (scheduleTime2 == null) return [this];

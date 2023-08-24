@@ -691,7 +691,7 @@ class ScheduleFragmentCard extends StatelessWidget {
               style: textTheme.labelMedium!.copyWith(color: colorLuminant),
             ),
             TextSpan(
-              text: "\n${subject.scheduleDay.nameShort}",
+              text: "\n${subject.scheduleDay.nameShort}\n${subject.scheduleTimeString}",
               style: textTheme.labelMedium!.copyWith(color: colorLuminant),
             ),
             TextSpan(

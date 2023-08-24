@@ -405,6 +405,18 @@ class ScheduleFilters {
 
   /// Function whether to exclude [offering] from generation, given the current filters
   bool shouldExclude(Offering offering) {
+    // Conditions that always exclude
+    if (offering.scheduleDay == ScheduleDay.unknown ||
+        (offering.scheduleTime.start == offering.scheduleTime.end) ||
+        // Check if it's not multiple days but has a second time interval, make sure that the two time intervals don't conflict
+        (!offering.scheduleDay.isMultipleDays &&
+            offering.scheduleTime2 != null &&
+            (offering.scheduleTime.start <= offering.scheduleTime2!.end &&
+                offering.scheduleTime2!.start <= offering.scheduleTime.end))) {
+      return true;
+    }
+
+    // Based on filters
     if ((filters['offerings']!['includeClosed']!.value == false &&
             offering.isClosed == true) ||
         (filters['offerings']!['includeFullSlots']!.value == false &&
@@ -424,9 +436,8 @@ class ScheduleFilters {
             RegExp(r'(fr[eo]sh(man)?|fr) ?block')
                 .hasMatch(offering.remarks.toLowerCase()))) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   /// Encode [this] filter into XML, given the [builder]
