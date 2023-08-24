@@ -502,6 +502,8 @@ class ScheduleWeek {
   String name;
   String notes;
 
+  bool isStarred;
+
   ScheduleWeek()
       // I am so sorry that this is repeated, but each set needs to be separately instantiated
       : daysOfferings = {
@@ -520,7 +522,8 @@ class ScheduleWeek {
         },
         name = '',
         subjects = {},
-        notes = '';
+        notes = '',
+        isStarred = false;
 
   String get identifierString =>
       "${daysOfferings['M']!.isNotEmpty ? '🄼' : ''}${daysOfferings['T']!.isNotEmpty ? ' 🅃' : ''}${daysOfferings['W']!.isNotEmpty ? ' 🅆' : ''}${daysOfferings['H']!.isNotEmpty ? ' 🄷' : ''}${daysOfferings['F']!.isNotEmpty ? ' 🄵' : ''}${daysOfferings['S']!.isNotEmpty ? ' 🅂' : ''}";
@@ -572,6 +575,7 @@ class ScheduleWeek {
     builder.element('schedule', nest: () {
       builder.element('name', nest: name);
       builder.element('notes', nest: notes);
+      builder.element('isStarred', nest: isStarred);
       builder.element('subjects', nest: () {
         for (final subject in subjects) {
           subject.encodeXml(builder);
@@ -599,6 +603,7 @@ class ScheduleWeek {
   factory ScheduleWeek.decodeXml(XmlElement xml) {
     final name = xml.getElement('name')!.innerText;
     final notes = xml.getElement('notes')!.innerText;
+    final isStarred = bool.parse(xml.getElement('isStarred')!.innerText);
     final subjects = <Offering>{};
     final daysOfferings = <String, Set<Offering>>{};
 
@@ -628,6 +633,7 @@ class ScheduleWeek {
       ..name = name
       ..notes = notes
       ..daysOfferings = daysOfferings
-      ..subjects = subjects;
+      ..subjects = subjects
+      ..isStarred = isStarred;
   }
 }

@@ -249,6 +249,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                               model.updateTab(indexTabCurrent, weekIndex);
                             }
                           },
+                          trailing: week.isStarred ? Icon(Icons.star) : null,
                         );
                       },
                     )),
@@ -263,6 +264,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                 tabs: model.tabs.mapIndexed((tabIndex, weekIndex) {
                   final week = model.schedules.elementAt(weekIndex);
                   return Tab(
+                    icon: week.isStarred ? Icon(Icons.star) : null,
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
                       key: ValueKey((tabIndex, weekIndex)),
@@ -502,6 +504,17 @@ class _SchedulesFragmentTimetableState
                         },
                       ));
                 }(),
+                CommandBarButton(
+                  label: Text(week.isStarred ? 'Unstar' : 'Star'),
+                  icon: Icon(MdiIcons.starOutline),
+                  onPressed: () {
+                    context
+                        .read<SkedmakerModel>()
+                        .modifySchedule(widget.tabIndex, (week) {
+                      week.isStarred = !week.isStarred;
+                    });
+                  },
+                ),
                 CommandBarButton(
                   label: Text('Save as image'),
                   icon: Icon(MdiIcons.imageOutline),
