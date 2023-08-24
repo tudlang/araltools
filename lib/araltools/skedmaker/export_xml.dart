@@ -45,7 +45,7 @@ Future<File?> exportXml({
 
   // iterate thru the xml files
   for (final xml in [
-    (exportXmlSubjects(model.subjects), 'subjects.xml'),
+    (exportXmlSubjects(model.subjects, model.subjectsHidden), 'subjects.xml'),
     (exportXmlFilters(model.filters), 'filters.xml'),
     (exportXmlSchedules(model.schedules), 'schedules.xml'),
     (exportXmlTabs(model.tabs), 'schedules_tabs.xml'),
@@ -70,7 +70,7 @@ Future<File?> exportXml({
 ///
 ///```xml
 ///<subjects>
-///    <subject code="ENGCHEM">
+///    <subject code="ENGCHEM" hidden>
 ///        <offering>
 ///            <status>open</status>
 ///            <classno>4142</classno>
@@ -88,13 +88,18 @@ Future<File?> exportXml({
 ///    <subject>...</subject>
 ///</subjects>
 ///```
-XmlDocument exportXmlSubjects(Map<String, List<Offering>> subjects) {
+XmlDocument exportXmlSubjects(
+    Map<String, List<Offering>> subjects, Set<String> subjectsHidden) {
   final builder = XmlBuilder();
 
   builder.element('subjects', nest: () {
     for (final subject in subjects.entries) {
       builder.element('subject', nest: () {
         builder.attribute('code', subject.key);
+
+        if (subjectsHidden.contains(subject.key)) {
+          builder.attribute('hidden', '');
+        }
 
         for (final offering in subject.value) {
           offering.encodeXml(builder);
@@ -179,10 +184,9 @@ XmlDocument exportXmlSchedules(Set<ScheduleWeek> schedules) {
 ///   ...
 ///</tabs>
 ///```
-XmlDocument exportXmlTabs(List<int> tabs){
+XmlDocument exportXmlTabs(List<int> tabs) {
   final builder = XmlBuilder();
 
-  
   builder.element('tabs', nest: () {
     for (final tab in tabs) {
       builder.element('tab', nest: tab);

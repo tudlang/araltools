@@ -42,7 +42,7 @@ class SkedmakerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void modifySubject(String code, void Function(List<Offering>) modify){
+  void modifySubject(String code, void Function(List<Offering>) modify) {
     modify(subjects[code]!);
     notifyListeners();
   }
@@ -50,6 +50,19 @@ class SkedmakerModel extends ChangeNotifier {
   void modifySubjectOffering(
       String code, int index, Offering Function(Offering) modify) {
     subjects[code]![index] = modify(subjects[code]![index]);
+    notifyListeners();
+  }
+
+  final Set<String> _subjectsHidden;
+
+  Set<String> get subjectsHidden => _subjectsHidden;
+  void hideSubject(String code) {
+    _subjectsHidden.add(code);
+    notifyListeners();
+  }
+
+  void unhideSubject(String code) {
+    _subjectsHidden.remove(code);
     notifyListeners();
   }
 
@@ -161,11 +174,14 @@ class SkedmakerModel extends ChangeNotifier {
       ..add(0);
     isGenerating = true;
 
+    setScheduleCombinations();
+
     generateStopwatch.start();
 
     _stream = generateSchedules(
       subjects: subjects,
       filters: _filters,
+      subjectsHidden: _subjectsHidden,
     ).listen((event) {
       scheduleProgress++;
       if (event != null) {
@@ -204,15 +220,32 @@ class SkedmakerModel extends ChangeNotifier {
     generateStopwatch.reset();
   }
 
-  int get scheduleCombinations => subjects.values.fold(1, (prev, element) {
-        int offeringsFiltered = 0;
-        for (final offering in element) {
-          if (_filters.shouldExclude(offering)) {
-            offeringsFiltered++;
-          }
+  int _scheduleCombinations = 1;
+
+  /// Sets the number of possible combinations.
+  void setScheduleCombinations() {
+    final removed = <String, List<Offering>>{};
+
+    // remove hidden subjects
+    for (final subject in subjectsHidden) {
+      removed[subject]= subjects.remove(subject)!;
+    }
+
+    // calculate the combinations
+    _scheduleCombinations = subjects.values.fold(1, (prev, element) {
+      int offeringsFiltered = 0;
+      for (final offering in element) {
+        if (_filters.shouldExclude(offering)) {
+          offeringsFiltered++;
         }
-        return prev * (element.length - offeringsFiltered);
-      });
+      }
+      return (prev * (element.length - offeringsFiltered)).toInt();
+    });
+
+    // return back the removed ones
+    subjects.addAll(removed);
+
+  }
 
   int _scheduleProgress = 0;
   int get scheduleProgress => _scheduleProgress;
@@ -222,7 +255,7 @@ class SkedmakerModel extends ChangeNotifier {
   }
 
   double get schedulePercentage =>
-      (_scheduleProgress / scheduleCombinations) * 100;
+      (_scheduleProgress / _scheduleCombinations) * 100;
 
   String? path;
 
@@ -231,11 +264,13 @@ class SkedmakerModel extends ChangeNotifier {
   SkedmakerModel({
     Map<String, List<Offering>>? subjects,
     Set<ScheduleWeek>? schedules,
+    Set<String>? subjectsHidden,
     List<int>? tabs,
     ScheduleFilters? filters,
     this.path,
   })  : subjects = subjects ?? {},
         _schedules = schedules ?? {},
         _tabs = tabs ?? [],
-        _filters = filters ?? ScheduleFilters();
+        _filters = filters ?? ScheduleFilters(),
+        _subjectsHidden = subjectsHidden ?? {};
 }

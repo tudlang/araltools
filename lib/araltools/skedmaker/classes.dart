@@ -544,7 +544,8 @@ class ScheduleWeek {
               prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
         },
         name = '',
-        subjects = {},
+        subjects = SplayTreeSet<Offering>(
+            (prev, next) => prev.subject.compareTo(next.subject)),
         notes = '',
         isStarred = false;
 

@@ -1,17 +1,17 @@
 // Copyright (C) 2023 Tudlang
-// 
+//
 // This file is part of AralTools.
-// 
+//
 // AralTools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AralTools is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -36,6 +36,7 @@ SkedmakerModel importXml({
   final decoderUtf8 = Utf8Decoder();
 
   Map<String, List<Offering>> subjects = {};
+  Set<String> subjectsHidden = {};
   Set<ScheduleWeek> schedules = {};
   late ScheduleFilters filters;
   List<int> tabs = [];
@@ -45,7 +46,9 @@ SkedmakerModel importXml({
 
     switch (file.name) {
       case 'subjects.xml':
-        subjects = importXmlSubjects(xml);
+        final _ = importXmlSubjects(xml);
+        subjects = _.subjects;
+        subjectsHidden = _.subjectsHidden;
       case 'schedules.xml':
         schedules = importXmlSchedules(xml);
       case 'filters.xml':
@@ -63,14 +66,24 @@ SkedmakerModel importXml({
     schedules: schedules,
     filters: filters,
     tabs: tabs,
+    subjectsHidden: subjectsHidden,
   );
 }
 
-Map<String, List<Offering>> importXmlSubjects(XmlDocument xml) {
+({
+  Map<String, List<Offering>> subjects,
+  Set<String> subjectsHidden,
+}) importXmlSubjects(XmlDocument xml) {
   final subjects = <String, List<Offering>>{};
+  final subjectsHidden = <String>{};
 
   for (final subjectXml in xml.rootElement.childElements) {
     final code = subjectXml.getAttribute('code')!;
+
+    if (subjectXml.getAttribute('hidden') != null) {
+      subjectsHidden.add(code);
+    }
+
     final offerings = <Offering>[];
 
     for (final offeringXml in subjectXml.childElements) {
@@ -80,7 +93,10 @@ Map<String, List<Offering>> importXmlSubjects(XmlDocument xml) {
     subjects[code] = offerings;
   }
 
-  return subjects;
+  return (
+    subjects: subjects,
+    subjectsHidden: subjectsHidden,
+  );
 }
 
 ScheduleFilters importXmlFilters(XmlDocument xml) {

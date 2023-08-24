@@ -244,12 +244,21 @@ void generateSchedulesIsolate(
 Stream<ScheduleWeek?> generateSchedules({
   required Map<String, List<Offering>> subjects,
   required ScheduleFilters filters,
+  required Set<String> subjectsHidden,
 }) {
   late StreamController<ScheduleWeek?> controller;
 
   final p = ReceivePort();
 
   late Isolate isolate;
+
+  // copy the map so that it won't affect the program state
+  subjects = Map.from(subjects);
+
+  // remove hidden subjects
+  for (final subject in subjectsHidden){
+    subjects.remove(subject);
+  }
 
   Isolate.spawn<
       ({

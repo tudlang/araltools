@@ -20,6 +20,7 @@ import 'dart:math';
 import 'package:araltools/araltools/skedmaker/debug.dart';
 import 'package:araltools/araltools/skedmaker/filters.dart';
 import 'package:araltools/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Colors;
 import 'package:flutter/foundation.dart';
@@ -207,7 +208,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             ),
           ),
           PaneItemSeparator(),
-          for (final subject in model.subjects.entries)
+          for (final subject in model.subjects.entries.sorted((a, b) => a.key.compareTo(b.key)))
             () {
               // empty subject, no offerings
               if (subject.value.isEmpty) {
@@ -259,27 +260,36 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                       child: Icon(MdiIcons.alertCircleOutline)),
                 );
               }
+
               final hasError = subject.value
                   .every((offering) => model.filters.shouldExclude(offering));
+
+              final isHidden = model.subjectsHidden.contains(subject.key);
+
               final subjectText = SubjectText(
                 offering: subject.value.first,
               );
               return PaneItem(
                 icon: subjectText.icon,
-                tileColor: hasError
-                    ? ButtonState.all(ResourceDictionary.light()
-                        .systemFillColorCriticalBackground)
-                    : NavigationPaneTheme.of(context).tileColor,
+                tileColor: switch (null) {
+                  _ when hasError => ButtonState.all(ResourceDictionary.light()
+                      .systemFillColorCriticalBackground),
+                  _ when isHidden => ButtonState.all(ResourceDictionary.light()
+                      .systemFillColorNeutralBackground),
+                  _ => NavigationPaneTheme.of(context).tileColor
+                },
                 title: subjectText.text,
                 body: SubjectsFragmentSubject(
                   subject: subject.key,
                 ),
-                trailing: hasError
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(MdiIcons.alertCircleOutline),
-                      )
-                    : null,
+                trailing: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: switch (null) {
+                    _ when hasError => Icon(MdiIcons.alertCircleOutline),
+                    _ when isHidden => Icon(MdiIcons.eyeOffOutline),
+                    _ => null
+                  },
+                ),
               );
             }(),
         ],
@@ -323,6 +333,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
       }
     }
 
+    var isHidden = model.subjectsHidden.contains(widget.subject);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -349,6 +361,17 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                       title: Text(
                           'Currently generating schedules. Changes here will not apply until you generate again.'),
                       severity: InfoBarSeverity.warning,
+                    ),
+                  ),
+                ),
+              if (isHidden)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title: Text(
+                          '${widget.subject} is hidden. It won\'t be included when generating schedules.'),
+                      severity: InfoBarSeverity.info,
                     ),
                   ),
                 ),
@@ -535,6 +558,18 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   ),
                 );
               }(),
+              CommandBarButton(
+                icon: Icon(MdiIcons.eyeOutline),
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+                  if (model.subjectsHidden.contains(widget.subject)) {
+                    model.unhideSubject(widget.subject);
+                  } else {
+                    model.hideSubject(widget.subject);
+                  }
+                },
+                label: Text("Show/Hide"),
+              ),
               CommandBarSeparator(),
               CommandBarButton(
                 icon: Icon(MdiIcons.plus),
@@ -909,7 +944,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                         },
                                       ),
                                       if (selectedStart2 != null)
-                                      SizedBox(height: 8),
+                                        SizedBox(height: 8),
                                       if (selectedStart2 != null)
                                         Row(
                                           mainAxisSize: MainAxisSize.min,
