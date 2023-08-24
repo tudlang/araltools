@@ -377,9 +377,7 @@ class _SchedulesFragmentTimetableState
     controllerTextNotes = TextEditingController(text: week.notes);
     controllerTextNotes.addListener(
       () {
-        context.read<SkedmakerModel>().modifySchedule(widget.tabIndex, (week) {
-          week.notes = controllerTextNotes.text;
-        });
+        week.notes = controllerTextNotes.text;
       },
     );
   }
@@ -589,7 +587,6 @@ class _SchedulesFragmentTimetableState
                           child: TextBox(
                             controller: controllerTextNotes,
                             maxLines: null,
-                            onChanged: (value) {},
                           ),
                         ),
                       ),
