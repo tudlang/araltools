@@ -66,6 +66,9 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
   void deactivate() {
     final model = provider.currentContext!.read<SkedmakerModel>();
     model.webview?.close();
+    
+    // Makes the close button work again
+    windowManager.setPreventClose(false);
     super.deactivate();
   }
 
