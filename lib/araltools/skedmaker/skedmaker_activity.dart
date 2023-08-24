@@ -478,9 +478,16 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                 windowManager.setTitle('AralTools SkedMaker - ${model.path}');
               }
 
-              if (newfile != null) {
-                Navigator.pop(context);
-              }
+              if (newfile == null) return;
+
+              Navigator.pop(context);
+
+              displayInfoBar(context, builder: (context, close) {
+                return InfoBar(
+                  title: Text('Saved to ${path.basename(newfile.path)}'),
+                  severity: InfoBarSeverity.success,
+                );
+              });
             },
           ),
           ListTile(
