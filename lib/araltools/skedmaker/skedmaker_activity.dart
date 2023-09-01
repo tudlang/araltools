@@ -289,7 +289,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
             DateTime(day: final day) when day == 2 => Text('Monday'),
             DateTime(day: final day) when day == 3 => Text('Tuesday'),
             DateTime(day: final day) when day == 4 => Text('Wednesday'),
-            DateTime(day: final day) when day == 5 => Text('Thrusday'),
+            DateTime(day: final day) when day == 5 => Text('Thursday'),
             DateTime(day: final day) when day == 6 => Text('Friday'),
             DateTime(day: final day) when day == 7 => Text('Saturday'),
             _ => SizedBox.shrink()
