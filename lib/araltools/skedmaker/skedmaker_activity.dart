@@ -186,6 +186,8 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
   Widget build(BuildContext context) {
     if (widget.week == null) return Container();
 
+    final typography = FluentTheme.of(context).typography;
+
     return SimpleTimetable(
       initialDate: DateTime(1970, 1, 2),
       visibleRange: 6,
@@ -249,22 +251,17 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: offering.subject,
-                    style: FluentTheme.of(context).typography.body!.copyWith(
-                        fontWeight: FontWeight.bold, color: colorLuminant)),
+                  text: offering.subject,
+                  style: typography.body!.copyWith(
+                      fontWeight: FontWeight.bold, color: colorLuminant),
+                ),
                 TextSpan(
-                  text: ' ' + offering.section + "\n",
-                  style: FluentTheme.of(context)
-                      .typography
-                      .body!
-                      .copyWith(color: colorLuminant),
+                  text: " ${offering.section}\n",
+                  style: typography.body!.copyWith(color: colorLuminant),
                 ),
                 TextSpan(
                   text: "${offering.scheduleTimeString}\n",
-                  style: FluentTheme.of(context)
-                      .typography
-                      .body!
-                      .copyWith(color: colorLuminant),
+                  style: typography.body!.copyWith(color: colorLuminant),
                 ),
                 WidgetSpan(
                     child: Icon(
@@ -273,10 +270,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
                 )),
                 TextSpan(
                   text: " ${offering.room}",
-                  style: FluentTheme.of(context)
-                      .typography
-                      .body!
-                      .copyWith(color: colorLuminant),
+                  style: typography.body!.copyWith(color: colorLuminant),
                 ),
               ]),
             ),
@@ -285,14 +279,14 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
       },
       buildHeader: (date, isToday) {
         return Center(
-          child: switch (date) {
-            DateTime(day: final day) when day == 2 => Text('Monday'),
-            DateTime(day: final day) when day == 3 => Text('Tuesday'),
-            DateTime(day: final day) when day == 4 => Text('Wednesday'),
-            DateTime(day: final day) when day == 5 => Text('Thursday'),
-            DateTime(day: final day) when day == 6 => Text('Friday'),
-            DateTime(day: final day) when day == 7 => Text('Saturday'),
-            _ => SizedBox.shrink()
+          child: switch (date.day) {
+            2 => Text('Monday'),
+            3 => Text('Tuesday'),
+            4 => Text('Wednesday'),
+            5 => Text('Thursday'),
+            6 => Text('Friday'),
+            7 => Text('Saturday'),
+            _ => SizedBox.shrink() //empty widget
           },
         );
       },
