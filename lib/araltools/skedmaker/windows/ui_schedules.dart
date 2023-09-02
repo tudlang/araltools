@@ -267,6 +267,7 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   final week = model.schedules.elementAt(weekIndex);
 
                   return Tab(
+                    key: ValueKey(random.nextDouble()),
                     icon: week.isStarred ? Icon(Icons.star) : null,
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
@@ -391,7 +392,7 @@ class _SchedulesFragmentTimetableState
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final model = context.watch<SkedmakerModel>();
+    final model = context.read<SkedmakerModel>();
 
     final week = model.schedules.elementAt(model.tabs[widget.tabIndex]);
 
