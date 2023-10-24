@@ -172,7 +172,7 @@ class SkedmakerModel extends ChangeNotifier {
     _tabs
       ..clear()
       ..add(0);
-    isGenerating = true;
+    isGenerating = true; //notify first
 
     setScheduleCombinations();
 
@@ -183,9 +183,11 @@ class SkedmakerModel extends ChangeNotifier {
       filters: _filters,
       subjectsHidden: _subjectsHidden,
     ).listen((event) {
-      scheduleProgress++;
+      _scheduleProgress++;
       if (event != null) {
         addSchedule(event);
+      } else {
+        notifyListeners(); // manually notify if it's null
       }
     })
       ..onDone(() {

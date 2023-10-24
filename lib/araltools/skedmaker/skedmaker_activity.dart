@@ -235,7 +235,7 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
               },
               child: Opacity(
                 opacity: widget.currentlyHovered!.value != null &&
-                        widget.currentlyHovered!.value!.subject ==
+                        widget.currentlyHovered!.value?.subject ==
                             offering.subject
                     ? 1
                     : widget.currentlyHovered!.value != null
