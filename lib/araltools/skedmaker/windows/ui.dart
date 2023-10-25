@@ -175,108 +175,105 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
             });
           }
         },
-        child: Focus(
-          autofocus: true,
-          child: NavigationPaneTheme(
-            data: NavigationPaneThemeData(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              highlightColor: Colors.white,
-            ),
-            child: NavigationView(
-              pane: NavigationPane(
-                size: NavigationPaneSize(
-                  topHeight: 56,
+        child: NavigationPaneTheme(
+          data: NavigationPaneThemeData(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            highlightColor: Colors.white,
+          ),
+          child: NavigationView(
+            pane: NavigationPane(
+              size: NavigationPaneSize(
+                topHeight: 56,
+              ),
+              header: Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(
+                  AralTools.skedmaker.icon,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  size: 30,
                 ),
-                header: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(
-                    AralTools.skedmaker.icon,
+                SizedBox(width: 8),
+                Text(
+                  AralTools.skedmaker.localizedName,
+                  style: textTheme.titleLarge?.copyWith(
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary),
+                ),
+                SizedBox(width: 16),
+                VerticalDivider(),
+              ]),
+              leading: Tooltip(
+                message:
+                    MaterialLocalizations.of(context).openAppDrawerTooltip,
+                child: IconButton(
+                  icon: Icon(
+                    MdiIcons.menu,
+                    size: 25,
                     color: Theme.of(context).colorScheme.onPrimary,
-                    size: 30,
                   ),
-                  SizedBox(width: 8),
-                  Text(
-                    AralTools.skedmaker.localizedName,
-                    style: textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.bold,
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  iconButtonMode: IconButtonMode.large,
+                ),
+              ),
+              selected: paneIndex,
+              onChanged: (index) {
+                setState(() {
+                  paneIndex = index;
+                });
+              },
+              displayMode: PaneDisplayMode.top,
+              items: [
+                PaneItem(
+                  icon: Icon(MdiIcons.schoolOutline),
+                  title: Text(
+                    'Subjects',
+                    style: textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
-                  SizedBox(width: 16),
-                  VerticalDivider(),
-                ]),
-                leading: Tooltip(
-                  message:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  child: IconButton(
-                    icon: Icon(
-                      MdiIcons.menu,
-                      size: 25,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    iconButtonMode: IconButtonMode.large,
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: SubjectsFragment(),
                   ),
                 ),
-                selected: paneIndex,
-                onChanged: (index) {
-                  setState(() {
-                    paneIndex = index;
-                  });
-                },
-                displayMode: PaneDisplayMode.top,
-                items: [
-                  PaneItem(
-                    icon: Icon(MdiIcons.schoolOutline),
-                    title: Text(
-                      'Subjects',
-                      style: textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                    body: NavigationPaneTheme(
-                      data: FluentTheme.of(context).navigationPaneTheme,
-                      child: SubjectsFragment(),
-                    ),
+                PaneItem(
+                  icon: Icon(MdiIcons.filterOutline),
+                  title: Text(
+                    'Filters',
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
                   ),
-                  PaneItem(
-                    icon: Icon(MdiIcons.filterOutline),
-                    title: Text(
-                      'Filters',
-                      style: textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                    body: NavigationPaneTheme(
-                      data: FluentTheme.of(context).navigationPaneTheme,
-                      child: FiltersFragment(),
-                    ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: FiltersFragment(),
                   ),
-                  /*PaneItem(
-                    icon: Icon(MdiIcons.filterOutline),
-                    title: Text('Professors'),
-                    body: Placeholder(),
-                  ),*/ //TODO new feature, add professors
-                  PaneItem(
-                    icon: Icon(MdiIcons.calendarBlankMultiple),
-                    title: Text(
-                      'Schedules',
-                      style: textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                    body: NavigationPaneTheme(
-                      data: FluentTheme.of(context).navigationPaneTheme,
-                      child: NavigationView(content: SchedulesFragment()),
-                    ),
+                ),
+                /*PaneItem(
+                  icon: Icon(MdiIcons.filterOutline),
+                  title: Text('Professors'),
+                  body: Placeholder(),
+                ),*/ //TODO new feature, add professors
+                PaneItem(
+                  icon: Icon(MdiIcons.calendarBlankMultiple),
+                  title: Text(
+                    'Schedules',
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
                   ),
-                ],
-                footerItems: [
-                  /*PaneItem(
-                    icon: Icon(MdiIcons.filterOutline),
-                    title: Text('Settings'),
-                    body: Placeholder(),
-                  ),*/ //TODO add settings
-                ],
-              ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: NavigationView(content: SchedulesFragment()),
+                  ),
+                ),
+              ],
+              footerItems: [
+                /*PaneItem(
+                  icon: Icon(MdiIcons.filterOutline),
+                  title: Text('Settings'),
+                  body: Placeholder(),
+                ),*/ //TODO add settings
+              ],
             ),
           ),
         ),

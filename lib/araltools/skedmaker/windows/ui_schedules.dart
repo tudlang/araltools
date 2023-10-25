@@ -54,13 +54,11 @@ class SchedulesFragment extends StatefulWidget {
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
   late int indexTabCurrent;
-  late FocusNode focusnode;
   late ScrollController controllerList;
 
   @override
   void initState() {
     super.initState();
-    focusnode = FocusNode();
     controllerList = ScrollController();
     indexTabCurrent = 0;
   }
@@ -69,7 +67,6 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   void dispose() {
     super.dispose();
     controllerList.dispose();
-    focusnode.dispose();
   }
 
   @override
@@ -78,8 +75,6 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
     final textTheme = Theme.of(context).textTheme;
 
     var indexWeekCurrent = model.tabs.elementAtOrNull(indexTabCurrent) ?? 0;
-
-    final random = Random();
 
     return model.schedules.isEmpty
         ? Column(
@@ -150,19 +145,20 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
               ))
             ],
           )
-        : RawKeyboardListener(
-            focusNode: focusnode,
-            onKey: (value) {
-              if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowDown &&
-                  indexWeekCurrent <= model.schedules.length - 2) {
-                model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
-              }
-              if (value is RawKeyDownEvent &&
-                  value.logicalKey == LogicalKeyboardKey.arrowUp &&
-                  indexWeekCurrent > 0) {
-                model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
-              }
+        : CallbackShortcuts(
+            bindings: {
+              SingleActivator(LogicalKeyboardKey.arrowDown): () {
+                final model = context.read<SkedmakerModel>();
+                if (indexWeekCurrent <= model.schedules.length - 2) {
+                  model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
+                }
+              },
+              SingleActivator(LogicalKeyboardKey.arrowUp): () {
+                final model = context.read<SkedmakerModel>();
+                if (indexWeekCurrent > 0) {
+                  model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
+                }
+              },
             },
             child: Row(children: [
               SizedBox(
@@ -267,11 +263,9 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                   final week = model.schedules.elementAt(weekIndex);
 
                   return Tab(
-                    key: ValueKey(random.nextDouble()),
                     icon: week.isStarred ? Icon(Icons.star) : null,
                     text: Text(week.name),
                     body: SchedulesFragmentTimetable(
-                      key: ValueKey(random.nextDouble()),
                       tabIndex: tabIndex,
                     ),
                     closeIcon: model.tabs.length == 1
