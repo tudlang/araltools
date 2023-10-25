@@ -204,11 +204,14 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
                     else
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Button(
-                          child: Text('Generate'),
+                        child: FilledButton(
                           onPressed: () {
                             context.read<SkedmakerModel>().scheduleGenerate();
                           },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Regenerate'),
+                          ),
                         ),
                       ),
                     Text(
