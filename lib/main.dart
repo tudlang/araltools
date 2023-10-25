@@ -18,6 +18,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:araltools/intl/fluent-tl.dart';
 import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
@@ -31,14 +32,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'araltools/araltools.dart';
 import 'home_activity.dart';
+import 'intl/cupertino-tl-QP.dart';
+import 'intl/fluent-tl_QP.dart';
+import 'intl/material-tl_QP.dart';
 
 void main(List<String> args) {
   // do platform-specific things
   onPlatform(
-    all: ()=>null,
+    all: () => null,
     windows: () async {
       final appdata = await getApplicationSupportDirectory();
       // create data folders
@@ -52,10 +57,12 @@ void main(List<String> args) {
   )();
 
   WidgetsFlutterBinding.ensureInitialized(); // add this
-  LocaleSettings.useDeviceLocale(); // and this
+  LocaleSettings.setLocale(AppLocale.tl);
 
-  runApp(MyApp(
-    path: args.isNotEmpty ? args[0] : null,
+  runApp(TranslationProvider(
+    child: MyApp(
+      path: args.isNotEmpty ? args[0] : null,
+    ),
   ));
 }
 
@@ -92,10 +99,24 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+
+        //Tagalog (Taglish)
+        MaterialLocalizationTlQP.delegate,
+        CupertinoLocalizationTlQP.delegate,
+
+        //Platform-specific
         ...onPlatform(
           all: const [],
           windows: [
             FluentLocalizations.delegate,
+
+            //Tagalog
+            FluentLocalizationsTl.delegate,
+            //Taglish
+            FluentLocalizationsTlQP.delegate,
           ],
         )
       ],
@@ -106,8 +127,11 @@ class MyApp extends StatelessWidget {
           child: child,
         ),
       ),
+      locale: TranslationProvider.of(context).flutterLocale, // use provider
       supportedLocales: [
         const Locale('en'),
+        const Locale('tl'),
+        const Locale('tl', 'QP'),
         ...onPlatform(
           all: const [],
           windows: FluentLocalizations.supportedLocales,

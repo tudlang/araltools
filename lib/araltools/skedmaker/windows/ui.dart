@@ -24,6 +24,9 @@ import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as path;
 
+import '/intl/fluent-tl.dart';
+import '/intl/fluent-tl_QP.dart';
+import '/strings.g.dart';
 import '../../araltools.dart';
 import '../export_xml.dart';
 import '../models.dart';
@@ -66,7 +69,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
   void deactivate() {
     final model = provider.currentContext!.read<SkedmakerModel>();
     model.webview?.close();
-    
+
     // Makes the close button work again
     windowManager.setPreventClose(false);
     super.deactivate();
@@ -128,6 +131,20 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return FluentApp(
+      locale: TranslationProvider.of(context).flutterLocale, // use provider
+      localizationsDelegates: [
+        FluentLocalizations.delegate,
+        //Tagalog
+        FluentLocalizationsTl.delegate,
+        //Taglish
+        FluentLocalizationsTlQP.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('tl'),
+        const Locale('tl', 'QP'),
+        ...FluentLocalizations.supportedLocales,
+      ],
       debugShowCheckedModeBanner: false,
       theme: FluentThemeData.light()
           .copyWith(navigationPaneTheme: NavigationPaneThemeData()
@@ -188,7 +205,8 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   VerticalDivider(),
                 ]),
                 leading: Tooltip(
-                  message: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  message:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
                   child: IconButton(
                     icon: Icon(
                       MdiIcons.menu,

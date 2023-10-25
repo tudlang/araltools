@@ -53,7 +53,7 @@ enum AralTools {
   String get localizedName => strings["$name.info.name"];
 
   /// Gets the translated description
-  String get localizedDesc => strings["$name.info.description"];
+  String get localizedDesc => strings["$name.info.desc"];
 
   Widget getWidget(Map<String, dynamic> extras) => switch(this){
     skedmaker => SkedmakerActivity(

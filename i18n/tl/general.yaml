@@ -19,18 +19,15 @@ app:
   name: AralTools
 
 home:
-  name: Home
-  welcome: Welcome!
-  more:
-    title: More coming soon!
-    desc: Stay updated! :)
+  name: Tahanan
+  welcome: Maligayang pagdating!
 
 general:
-  go: Go
-  ok: OK
-  open: Open
-  delete: Delete
-  add: Add
+  go: Pumunta
+  ok: Okay
+  open: Buksan
+  delete: Ibura
+  add: Idagdag
   select: Select
-  save: Save
-  cancel: Cancel
+  save: I-save
+  cancel: Kansela

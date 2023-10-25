@@ -3,10 +3,10 @@
 /// Original: i18n
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 1
-/// Strings: 135
+/// Locales: 3
+/// Strings: 229 (76 per locale)
 ///
-/// Built on 2023-08-24 at 02:25 UTC
+/// Built on 2023-10-25 at 01:46 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -25,7 +25,9 @@ const AppLocale _baseLocale = AppLocale.en;
 /// - Locale locale = AppLocale.en.flutterLocale // get flutter locale from enum
 /// - if (LocaleSettings.currentLocale == AppLocale.en) // locale check
 enum AppLocale with BaseAppLocale<AppLocale, _StringsEn> {
-	en(languageCode: 'en', build: _StringsEn.build);
+	en(languageCode: 'en', build: _StringsEn.build),
+	tl(languageCode: 'tl', build: _StringsTl.build),
+	tlQp(languageCode: 'tl', countryCode: 'QP', build: _StringsTlQp.build);
 
 	const AppLocale({required this.languageCode, this.scriptCode, this.countryCode, required this.build}); // ignore: unused_element
 
@@ -174,9 +176,10 @@ class _StringsSkedmakerEn {
 	// Translations
 	late final _StringsSkedmakerInfoEn info = _StringsSkedmakerInfoEn._(_root);
 	late final _StringsSkedmakerSubjectsEn subjects = _StringsSkedmakerSubjectsEn._(_root);
-	late final _StringsSkedmakerSchedulesEn schedules = _StringsSkedmakerSchedulesEn._(_root);
 	late final _StringsSkedmakerFiltersEn filters = _StringsSkedmakerFiltersEn._(_root);
+	late final _StringsSkedmakerSchedulesEn schedules = _StringsSkedmakerSchedulesEn._(_root);
 	late final _StringsSkedmakerScheduleDayEn scheduleDay = _StringsSkedmakerScheduleDayEn._(_root);
+	String get mlsCourseOfferings => 'My.LaSalle\'s Course Offerings';
 }
 
 // Path: general.app
@@ -208,7 +211,12 @@ class _StringsGeneralGeneralEn {
 
 	// Translations
 	String get go => 'Go';
+	String get ok => 'OK';
+	String get open => 'Open';
 	String get delete => 'Delete';
+	String get add => 'Add';
+	String get select => 'Select';
+	String get save => 'Save';
 	String get cancel => 'Cancel';
 }
 
@@ -220,7 +228,7 @@ class _StringsSkedmakerInfoEn {
 
 	// Translations
 	String get name => 'SkedMaker';
-	String get description => 'The automatic class schedule maker for DLSU students';
+	String get desc => 'The automatic class schedule maker for DLSU students';
 }
 
 // Path: skedmaker.subjects
@@ -230,20 +238,9 @@ class _StringsSkedmakerSubjectsEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String title({required Object number}) => 'Subjects (${number})';
-	String get add => 'Add';
-}
-
-// Path: skedmaker.schedules
-class _StringsSkedmakerSchedulesEn {
-	_StringsSkedmakerSchedulesEn._(this._root);
-
-	final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	String title({required Object number}) => 'Possible schedules (${number})';
-	String get generate => 'Generate';
-	late final _StringsSkedmakerSchedulesTableEn table = _StringsSkedmakerSchedulesTableEn._(_root);
+	String get name => 'Subjects';
+	late final _StringsSkedmakerSubjectsAddEn add = _StringsSkedmakerSubjectsAddEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectEn subject = _StringsSkedmakerSubjectsSubjectEn._(_root);
 }
 
 // Path: skedmaker.filters
@@ -253,9 +250,23 @@ class _StringsSkedmakerFiltersEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Filters';
+	String get name => 'Filters';
 	late final _StringsSkedmakerFiltersCategoriesEn categories = _StringsSkedmakerFiltersCategoriesEn._(_root);
 	String get any => 'Any subject';
+}
+
+// Path: skedmaker.schedules
+class _StringsSkedmakerSchedulesEn {
+	_StringsSkedmakerSchedulesEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Schedules';
+	late final _StringsSkedmakerSchedulesGenerateEn generate = _StringsSkedmakerSchedulesGenerateEn._(_root);
+	late final _StringsSkedmakerSchedulesCommandbarEn commandbar = _StringsSkedmakerSchedulesCommandbarEn._(_root);
+	late final _StringsSkedmakerSchedulesDetailsEn details = _StringsSkedmakerSchedulesDetailsEn._(_root);
+	late final _StringsSkedmakerSchedulesOptionsEn options = _StringsSkedmakerSchedulesOptionsEn._(_root);
 }
 
 // Path: skedmaker.scheduleDay
@@ -307,16 +318,32 @@ class _StringsSkedmakerScheduleDayEn {
 	late final _StringsSkedmakerScheduleDayUnknownEn unknown = _StringsSkedmakerScheduleDayUnknownEn._(_root);
 }
 
-// Path: skedmaker.schedules.table
-class _StringsSkedmakerSchedulesTableEn {
-	_StringsSkedmakerSchedulesTableEn._(this._root);
+// Path: skedmaker.subjects.add
+class _StringsSkedmakerSubjectsAddEn {
+	_StringsSkedmakerSubjectsAddEn._(this._root);
 
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	String get name => 'Name';
-	String get days => 'Days';
-	String get weight => 'Weight';
+	String get title => 'Add subject';
+	late final _StringsSkedmakerSubjectsAddButtonMlsEn buttonMls = _StringsSkedmakerSubjectsAddButtonMlsEn._(_root);
+	late final _StringsSkedmakerSubjectsAddButtonManualEn buttonManual = _StringsSkedmakerSubjectsAddButtonManualEn._(_root);
+	late final _StringsSkedmakerSubjectsAddButtonCodeEn buttonCode = _StringsSkedmakerSubjectsAddButtonCodeEn._(_root);
+}
+
+// Path: skedmaker.subjects.subject
+class _StringsSkedmakerSubjectsSubjectEn {
+	_StringsSkedmakerSubjectsSubjectEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String title({required num n, required Object subject, required Object offerings, required Object available}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${subject} - ${offerings} offering (${available} available)',
+		other: '${subject} - ${offerings} offerings (${available} available)',
+	);
+	late final _StringsSkedmakerSubjectsSubjectActionsEn actions = _StringsSkedmakerSubjectsSubjectActionsEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableEn table = _StringsSkedmakerSubjectsSubjectTableEn._(_root);
 }
 
 // Path: skedmaker.filters.categories
@@ -329,6 +356,56 @@ class _StringsSkedmakerFiltersCategoriesEn {
 	late final _StringsSkedmakerFiltersCategoriesOfferingsEn offerings = _StringsSkedmakerFiltersCategoriesOfferingsEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesDayEn day = _StringsSkedmakerFiltersCategoriesDayEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationEn location = _StringsSkedmakerFiltersCategoriesLocationEn._(_root);
+}
+
+// Path: skedmaker.schedules.generate
+class _StringsSkedmakerSchedulesGenerateEn {
+	_StringsSkedmakerSchedulesGenerateEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Generate possible schedules';
+	String get button => 'Generate';
+	String found({required num n, required Object number}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${number} schedule found',
+		other: '${number} schedules found',
+	);
+	String defaultName({required Object number}) => 'Schedule ${number}';
+}
+
+// Path: skedmaker.schedules.commandbar
+class _StringsSkedmakerSchedulesCommandbarEn {
+	_StringsSkedmakerSchedulesCommandbarEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerSchedulesCommandbarRenameEn rename = _StringsSkedmakerSchedulesCommandbarRenameEn._(_root);
+	late final _StringsSkedmakerSchedulesCommandbarDeleteEn delete = _StringsSkedmakerSchedulesCommandbarDeleteEn._(_root);
+	late final _StringsSkedmakerSchedulesCommandbarStarEn star = _StringsSkedmakerSchedulesCommandbarStarEn._(_root);
+	late final _StringsSkedmakerSchedulesCommandbarSaveImageEn saveImage = _StringsSkedmakerSchedulesCommandbarSaveImageEn._(_root);
+}
+
+// Path: skedmaker.schedules.details
+class _StringsSkedmakerSchedulesDetailsEn {
+	_StringsSkedmakerSchedulesDetailsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get notes => 'Notes';
+	String get subjects => 'Subjects';
+}
+
+// Path: skedmaker.schedules.options
+class _StringsSkedmakerSchedulesOptionsEn {
+	_StringsSkedmakerSchedulesOptionsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get hoverEffects => 'Enable hover effects';
 }
 
 // Path: skedmaker.scheduleDay.mondayFace
@@ -771,6 +848,75 @@ class _StringsSkedmakerScheduleDayUnknownEn {
 	String get nameShort => 'Unknown';
 }
 
+// Path: skedmaker.subjects.add.buttonMls
+class _StringsSkedmakerSubjectsAddButtonMlsEn {
+	_StringsSkedmakerSubjectsAddButtonMlsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Add from My.LaSalle';
+	String get title => 'Add subject';
+	String get desc => 'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".';
+}
+
+// Path: skedmaker.subjects.add.buttonManual
+class _StringsSkedmakerSubjectsAddButtonManualEn {
+	_StringsSkedmakerSubjectsAddButtonManualEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Add manually';
+	String get title => 'Create new subject';
+	String get desc => 'Enter a 7-character subject code:';
+}
+
+// Path: skedmaker.subjects.add.buttonCode
+class _StringsSkedmakerSubjectsAddButtonCodeEn {
+	_StringsSkedmakerSubjectsAddButtonCodeEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Add subjects via code';
+	String get desc => 'Open ${_root.skedmaker.mlsCourseOfferings} on a browser and enter your ID number and subject code as normal. Once the offerings are displayed, open the Developer Console and enter this command:\n';
+	String get field => 'Copy the output and paste it here:';
+	String get hint => 'The command output';
+}
+
+// Path: skedmaker.subjects.subject.actions
+class _StringsSkedmakerSubjectsSubjectActionsEn {
+	_StringsSkedmakerSubjectsSubjectActionsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerSubjectsSubjectActionsRecolorEn recolor = _StringsSkedmakerSubjectsSubjectActionsRecolorEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectActionsDeleteEn delete = _StringsSkedmakerSubjectsSubjectActionsDeleteEn._(_root);
+	String get showhide => 'Show/Hide';
+	String get offeringAdd => 'Add offering';
+	String get offeringDelete => 'Delete offering';
+}
+
+// Path: skedmaker.subjects.subject.table
+class _StringsSkedmakerSubjectsSubjectTableEn {
+	_StringsSkedmakerSubjectsSubjectTableEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerSubjectsSubjectTableStatusEn status = _StringsSkedmakerSubjectsSubjectTableStatusEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableClassnoEn classno = _StringsSkedmakerSubjectsSubjectTableClassnoEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableSectionEn section = _StringsSkedmakerSubjectsSubjectTableSectionEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableRoomEn room = _StringsSkedmakerSubjectsSubjectTableRoomEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableDayEn day = _StringsSkedmakerSubjectsSubjectTableDayEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableTimeEn time = _StringsSkedmakerSubjectsSubjectTableTimeEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableTeacherEn teacher = _StringsSkedmakerSubjectsSubjectTableTeacherEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableSlotsEn slots = _StringsSkedmakerSubjectsSubjectTableSlotsEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectTableRemarksEn remarks = _StringsSkedmakerSubjectsSubjectTableRemarksEn._(_root);
+}
+
 // Path: skedmaker.filters.categories.offerings
 class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsEn._(this._root);
@@ -823,6 +969,184 @@ class _StringsSkedmakerFiltersCategoriesLocationEn {
 	late final _StringsSkedmakerFiltersCategoriesLocationEnabledEn enabled = _StringsSkedmakerFiltersCategoriesLocationEnabledEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn checkingDistanceMinutes = _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn maxAllowedDistanceMeters = _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(_root);
+}
+
+// Path: skedmaker.schedules.commandbar.rename
+class _StringsSkedmakerSchedulesCommandbarRenameEn {
+	_StringsSkedmakerSchedulesCommandbarRenameEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Rename';
+	String get edit => 'Enter new name';
+}
+
+// Path: skedmaker.schedules.commandbar.delete
+class _StringsSkedmakerSchedulesCommandbarDeleteEn {
+	_StringsSkedmakerSchedulesCommandbarDeleteEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Delete';
+	String desc({required Object name}) => 'Delete ${name}? You cannot un-delete this. All tabs with this schedule will be removed.\n';
+}
+
+// Path: skedmaker.schedules.commandbar.star
+class _StringsSkedmakerSchedulesCommandbarStarEn {
+	_StringsSkedmakerSchedulesCommandbarStarEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get star => 'Star';
+	String get unstar => 'Unstar';
+}
+
+// Path: skedmaker.schedules.commandbar.saveImage
+class _StringsSkedmakerSchedulesCommandbarSaveImageEn {
+	_StringsSkedmakerSchedulesCommandbarSaveImageEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Save as image';
+	String get desc => 'Resize the window to adjust the image formatting. When done, click "Save".';
+	String get credits => 'generated by ${_root.general.app.name} @skedmaker.info.name';
+}
+
+// Path: skedmaker.subjects.subject.actions.recolor
+class _StringsSkedmakerSubjectsSubjectActionsRecolorEn {
+	_StringsSkedmakerSubjectsSubjectActionsRecolorEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Recolor';
+	String get primary => 'Primary';
+	String get wheel => 'Wheel';
+	String get shades => 'Shades';
+}
+
+// Path: skedmaker.subjects.subject.actions.delete
+class _StringsSkedmakerSubjectsSubjectActionsDeleteEn {
+	_StringsSkedmakerSubjectsSubjectActionsDeleteEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Delete';
+	String warning({required Object subject}) => 'Delete ${subject}? \nYou cannot un-delete this.';
+}
+
+// Path: skedmaker.subjects.subject.table.status
+class _StringsSkedmakerSubjectsSubjectTableStatusEn {
+	_StringsSkedmakerSubjectsSubjectTableStatusEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Status';
+	String get open => 'Open';
+	String get closed => 'Closed';
+}
+
+// Path: skedmaker.subjects.subject.table.classno
+class _StringsSkedmakerSubjectsSubjectTableClassnoEn {
+	_StringsSkedmakerSubjectsSubjectTableClassnoEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Class \#';
+	String get edit => 'Edit class number:';
+}
+
+// Path: skedmaker.subjects.subject.table.section
+class _StringsSkedmakerSubjectsSubjectTableSectionEn {
+	_StringsSkedmakerSubjectsSubjectTableSectionEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Section';
+	String get edit => 'Edit section:';
+}
+
+// Path: skedmaker.subjects.subject.table.room
+class _StringsSkedmakerSubjectsSubjectTableRoomEn {
+	_StringsSkedmakerSubjectsSubjectTableRoomEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Room';
+	String get edit => 'Edit room (can be empty):';
+}
+
+// Path: skedmaker.subjects.subject.table.day
+class _StringsSkedmakerSubjectsSubjectTableDayEn {
+	_StringsSkedmakerSubjectsSubjectTableDayEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Day';
+	String get edit => 'Edit day:';
+}
+
+// Path: skedmaker.subjects.subject.table.time
+class _StringsSkedmakerSubjectsSubjectTableTimeEn {
+	_StringsSkedmakerSubjectsSubjectTableTimeEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Time';
+	String data({required Object from, required Object to}) => '${from} - ${to}';
+	String get edit => 'Edit time:';
+	String get to => ' to ';
+	String get secondTimeInterval => 'Second time interval';
+	String get errorStartTimeBeforeEndTime => 'Start time must be before end time';
+	String get errorSecondTimeInterval => 'This must have a second time interval';
+	String get errorConflict => 'The two time intervals must not conflict since it\'s on the same day';
+}
+
+// Path: skedmaker.subjects.subject.table.teacher
+class _StringsSkedmakerSubjectsSubjectTableTeacherEn {
+	_StringsSkedmakerSubjectsSubjectTableTeacherEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Teacher';
+	String get edit => 'Edit teacher (can be empty):';
+}
+
+// Path: skedmaker.subjects.subject.table.slots
+class _StringsSkedmakerSubjectsSubjectTableSlotsEn {
+	_StringsSkedmakerSubjectsSubjectTableSlotsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Slots';
+	String data({required Object taken, required Object capacity}) => '${taken} / ${capacity}';
+	String percent({required Object percent}) => '${percent}%';
+	String get edit => 'Edit slots:';
+	String get outOf => ' out of ';
+}
+
+// Path: skedmaker.subjects.subject.table.remarks
+class _StringsSkedmakerSubjectsSubjectTableRemarksEn {
+	_StringsSkedmakerSubjectsSubjectTableRemarksEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Remarks';
+	String get edit => 'Edit remarks (can be empty):';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeClosed
@@ -986,6 +1310,210 @@ class _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn {
 	String get name => 'Maximum distance from one subject to the next (in meters)';
 }
 
+// Path: <root>
+class _StringsTl extends _StringsEn {
+
+	/// You can call this constructor and build your own translation instance of this locale.
+	/// Constructing via the enum [AppLocale.build] is preferred.
+	_StringsTl.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
+		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
+		  $meta = TranslationMetadata(
+		    locale: AppLocale.tl,
+		    overrides: overrides ?? {},
+		    cardinalResolver: cardinalResolver,
+		    ordinalResolver: ordinalResolver,
+		  ),
+		  super.build(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
+		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
+		$meta.setFlatMapFunction(_flatMapFunction);
+	}
+
+	/// Metadata for the translations of <tl>.
+	@override final TranslationMetadata<AppLocale, _StringsEn> $meta;
+
+	/// Access flat map
+	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+
+	@override late final _StringsTl _root = this; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsGeneralTl general = _StringsGeneralTl._(_root);
+	@override late final _StringsSkedmakerTl skedmaker = _StringsSkedmakerTl._(_root);
+}
+
+// Path: general
+class _StringsGeneralTl extends _StringsGeneralEn {
+	_StringsGeneralTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsGeneralAppTl app = _StringsGeneralAppTl._(_root);
+	@override late final _StringsGeneralHomeTl home = _StringsGeneralHomeTl._(_root);
+	@override late final _StringsGeneralGeneralTl general = _StringsGeneralGeneralTl._(_root);
+}
+
+// Path: skedmaker
+class _StringsSkedmakerTl extends _StringsSkedmakerEn {
+	_StringsSkedmakerTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsSkedmakerInfoTl info = _StringsSkedmakerInfoTl._(_root);
+}
+
+// Path: general.app
+class _StringsGeneralAppTl extends _StringsGeneralAppEn {
+	_StringsGeneralAppTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'AralTools';
+}
+
+// Path: general.home
+class _StringsGeneralHomeTl extends _StringsGeneralHomeEn {
+	_StringsGeneralHomeTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Tahanan';
+	@override String get welcome => 'Maligayang pagdating!';
+}
+
+// Path: general.general
+class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
+	_StringsGeneralGeneralTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get go => 'Pumunta';
+	@override String get ok => 'Okay';
+	@override String get open => 'Buksan';
+	@override String get delete => 'Ibura';
+	@override String get add => 'Idagdag';
+	@override String get select => 'Select';
+	@override String get save => 'I-save';
+	@override String get cancel => 'Kansela';
+}
+
+// Path: skedmaker.info
+class _StringsSkedmakerInfoTl extends _StringsSkedmakerInfoEn {
+	_StringsSkedmakerInfoTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'SkedMaker';
+	@override String get desc => 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
+}
+
+// Path: <root>
+class _StringsTlQp extends _StringsEn {
+
+	/// You can call this constructor and build your own translation instance of this locale.
+	/// Constructing via the enum [AppLocale.build] is preferred.
+	_StringsTlQp.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
+		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
+		  $meta = TranslationMetadata(
+		    locale: AppLocale.tlQp,
+		    overrides: overrides ?? {},
+		    cardinalResolver: cardinalResolver,
+		    ordinalResolver: ordinalResolver,
+		  ),
+		  super.build(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
+		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
+		$meta.setFlatMapFunction(_flatMapFunction);
+	}
+
+	/// Metadata for the translations of <tl-QP>.
+	@override final TranslationMetadata<AppLocale, _StringsEn> $meta;
+
+	/// Access flat map
+	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+
+	@override late final _StringsTlQp _root = this; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsGeneralTlQp general = _StringsGeneralTlQp._(_root);
+	@override late final _StringsSkedmakerTlQp skedmaker = _StringsSkedmakerTlQp._(_root);
+}
+
+// Path: general
+class _StringsGeneralTlQp extends _StringsGeneralEn {
+	_StringsGeneralTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsGeneralAppTlQp app = _StringsGeneralAppTlQp._(_root);
+	@override late final _StringsGeneralHomeTlQp home = _StringsGeneralHomeTlQp._(_root);
+	@override late final _StringsGeneralGeneralTlQp general = _StringsGeneralGeneralTlQp._(_root);
+}
+
+// Path: skedmaker
+class _StringsSkedmakerTlQp extends _StringsSkedmakerEn {
+	_StringsSkedmakerTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsSkedmakerInfoTlQp info = _StringsSkedmakerInfoTlQp._(_root);
+}
+
+// Path: general.app
+class _StringsGeneralAppTlQp extends _StringsGeneralAppEn {
+	_StringsGeneralAppTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'AralTools';
+}
+
+// Path: general.home
+class _StringsGeneralHomeTlQp extends _StringsGeneralHomeEn {
+	_StringsGeneralHomeTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Home';
+	@override String get welcome => 'Welcome!';
+}
+
+// Path: general.general
+class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
+	_StringsGeneralGeneralTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get go => 'Go';
+	@override String get ok => 'OK';
+	@override String get open => 'I-open';
+	@override String get delete => 'I-delete';
+	@override String get add => 'I-add';
+	@override String get select => 'I-select';
+	@override String get save => 'I-save';
+	@override String get cancel => 'I-cancel';
+}
+
+// Path: skedmaker.info
+class _StringsSkedmakerInfoTlQp extends _StringsSkedmakerInfoEn {
+	_StringsSkedmakerInfoTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'SkedMaker';
+	@override String get desc => 'Ang automatic na class schedule maker para sa DLSU students';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -996,18 +1524,69 @@ extension on _StringsEn {
 			case 'general.home.name': return 'Home';
 			case 'general.home.welcome': return 'Welcome!';
 			case 'general.general.go': return 'Go';
+			case 'general.general.ok': return 'OK';
+			case 'general.general.open': return 'Open';
 			case 'general.general.delete': return 'Delete';
+			case 'general.general.add': return 'Add';
+			case 'general.general.select': return 'Select';
+			case 'general.general.save': return 'Save';
 			case 'general.general.cancel': return 'Cancel';
 			case 'skedmaker.info.name': return 'SkedMaker';
-			case 'skedmaker.info.description': return 'The automatic class schedule maker for DLSU students';
-			case 'skedmaker.subjects.title': return ({required Object number}) => 'Subjects (${number})';
-			case 'skedmaker.subjects.add': return 'Add';
-			case 'skedmaker.schedules.title': return ({required Object number}) => 'Possible schedules (${number})';
-			case 'skedmaker.schedules.generate': return 'Generate';
-			case 'skedmaker.schedules.table.name': return 'Name';
-			case 'skedmaker.schedules.table.days': return 'Days';
-			case 'skedmaker.schedules.table.weight': return 'Weight';
-			case 'skedmaker.filters.title': return 'Filters';
+			case 'skedmaker.info.desc': return 'The automatic class schedule maker for DLSU students';
+			case 'skedmaker.subjects.name': return 'Subjects';
+			case 'skedmaker.subjects.add.title': return 'Add subject';
+			case 'skedmaker.subjects.add.buttonMls.name': return 'Add from My.LaSalle';
+			case 'skedmaker.subjects.add.buttonMls.title': return 'Add subject';
+			case 'skedmaker.subjects.add.buttonMls.desc': return 'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".';
+			case 'skedmaker.subjects.add.buttonManual.name': return 'Add manually';
+			case 'skedmaker.subjects.add.buttonManual.title': return 'Create new subject';
+			case 'skedmaker.subjects.add.buttonManual.desc': return 'Enter a 7-character subject code:';
+			case 'skedmaker.subjects.add.buttonCode.name': return 'Add subjects via code';
+			case 'skedmaker.subjects.add.buttonCode.desc': return 'Open ${_root.skedmaker.mlsCourseOfferings} on a browser and enter your ID number and subject code as normal. Once the offerings are displayed, open the Developer Console and enter this command:\n';
+			case 'skedmaker.subjects.add.buttonCode.field': return 'Copy the output and paste it here:';
+			case 'skedmaker.subjects.add.buttonCode.hint': return 'The command output';
+			case 'skedmaker.subjects.subject.title': return ({required num n, required Object subject, required Object offerings, required Object available}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				one: '${subject} - ${offerings} offering (${available} available)',
+				other: '${subject} - ${offerings} offerings (${available} available)',
+			);
+			case 'skedmaker.subjects.subject.actions.recolor.name': return 'Recolor';
+			case 'skedmaker.subjects.subject.actions.recolor.primary': return 'Primary';
+			case 'skedmaker.subjects.subject.actions.recolor.wheel': return 'Wheel';
+			case 'skedmaker.subjects.subject.actions.recolor.shades': return 'Shades';
+			case 'skedmaker.subjects.subject.actions.delete.name': return 'Delete';
+			case 'skedmaker.subjects.subject.actions.delete.warning': return ({required Object subject}) => 'Delete ${subject}? \nYou cannot un-delete this.';
+			case 'skedmaker.subjects.subject.actions.showhide': return 'Show/Hide';
+			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Add offering';
+			case 'skedmaker.subjects.subject.actions.offeringDelete': return 'Delete offering';
+			case 'skedmaker.subjects.subject.table.status.name': return 'Status';
+			case 'skedmaker.subjects.subject.table.status.open': return 'Open';
+			case 'skedmaker.subjects.subject.table.status.closed': return 'Closed';
+			case 'skedmaker.subjects.subject.table.classno.name': return 'Class \#';
+			case 'skedmaker.subjects.subject.table.classno.edit': return 'Edit class number:';
+			case 'skedmaker.subjects.subject.table.section.name': return 'Section';
+			case 'skedmaker.subjects.subject.table.section.edit': return 'Edit section:';
+			case 'skedmaker.subjects.subject.table.room.name': return 'Room';
+			case 'skedmaker.subjects.subject.table.room.edit': return 'Edit room (can be empty):';
+			case 'skedmaker.subjects.subject.table.day.name': return 'Day';
+			case 'skedmaker.subjects.subject.table.day.edit': return 'Edit day:';
+			case 'skedmaker.subjects.subject.table.time.name': return 'Time';
+			case 'skedmaker.subjects.subject.table.time.data': return ({required Object from, required Object to}) => '${from} - ${to}';
+			case 'skedmaker.subjects.subject.table.time.edit': return 'Edit time:';
+			case 'skedmaker.subjects.subject.table.time.to': return ' to ';
+			case 'skedmaker.subjects.subject.table.time.secondTimeInterval': return 'Second time interval';
+			case 'skedmaker.subjects.subject.table.time.errorStartTimeBeforeEndTime': return 'Start time must be before end time';
+			case 'skedmaker.subjects.subject.table.time.errorSecondTimeInterval': return 'This must have a second time interval';
+			case 'skedmaker.subjects.subject.table.time.errorConflict': return 'The two time intervals must not conflict since it\'s on the same day';
+			case 'skedmaker.subjects.subject.table.teacher.name': return 'Teacher';
+			case 'skedmaker.subjects.subject.table.teacher.edit': return 'Edit teacher (can be empty):';
+			case 'skedmaker.subjects.subject.table.slots.name': return 'Slots';
+			case 'skedmaker.subjects.subject.table.slots.data': return ({required Object taken, required Object capacity}) => '${taken} / ${capacity}';
+			case 'skedmaker.subjects.subject.table.slots.percent': return ({required Object percent}) => '${percent}%';
+			case 'skedmaker.subjects.subject.table.slots.edit': return 'Edit slots:';
+			case 'skedmaker.subjects.subject.table.slots.outOf': return ' out of ';
+			case 'skedmaker.subjects.subject.table.remarks.name': return 'Remarks';
+			case 'skedmaker.subjects.subject.table.remarks.edit': return 'Edit remarks (can be empty):';
+			case 'skedmaker.filters.name': return 'Filters';
 			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
 			case 'skedmaker.filters.categories.offerings.desc': return 'Filter the offerings to include/exclude';
 			case 'skedmaker.filters.categories.offerings.includeClosed.name': return 'Include closed offerings';
@@ -1047,6 +1626,26 @@ extension on _StringsEn {
 			case 'skedmaker.filters.categories.location.checkingDistanceMinutes.name': return 'Time gap between subjects to check for distance (in minutes)';
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Maximum distance from one subject to the next (in meters)';
 			case 'skedmaker.filters.any': return 'Any subject';
+			case 'skedmaker.schedules.name': return 'Schedules';
+			case 'skedmaker.schedules.generate.title': return 'Generate possible schedules';
+			case 'skedmaker.schedules.generate.button': return 'Generate';
+			case 'skedmaker.schedules.generate.found': return ({required num n, required Object number}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				one: '${number} schedule found',
+				other: '${number} schedules found',
+			);
+			case 'skedmaker.schedules.generate.defaultName': return ({required Object number}) => 'Schedule ${number}';
+			case 'skedmaker.schedules.commandbar.rename.name': return 'Rename';
+			case 'skedmaker.schedules.commandbar.rename.edit': return 'Enter new name';
+			case 'skedmaker.schedules.commandbar.delete.name': return 'Delete';
+			case 'skedmaker.schedules.commandbar.delete.desc': return ({required Object name}) => 'Delete ${name}? You cannot un-delete this. All tabs with this schedule will be removed.\n';
+			case 'skedmaker.schedules.commandbar.star.star': return 'Star';
+			case 'skedmaker.schedules.commandbar.star.unstar': return 'Unstar';
+			case 'skedmaker.schedules.commandbar.saveImage.name': return 'Save as image';
+			case 'skedmaker.schedules.commandbar.saveImage.desc': return 'Resize the window to adjust the image formatting. When done, click "Save".';
+			case 'skedmaker.schedules.commandbar.saveImage.credits': return 'generated by ${_root.general.app.name} @skedmaker.info.name';
+			case 'skedmaker.schedules.details.notes': return 'Notes';
+			case 'skedmaker.schedules.details.subjects': return 'Subjects';
+			case 'skedmaker.schedules.options.hoverEffects': return 'Enable hover effects';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';
 			case 'skedmaker.scheduleDay.mondayOnline.name': return 'Monday (online)';
@@ -1127,6 +1726,49 @@ extension on _StringsEn {
 			case 'skedmaker.scheduleDay.wednesdaysaturdayUnknown.nameShort': return 'W & S';
 			case 'skedmaker.scheduleDay.unknown.name': return 'Unknown';
 			case 'skedmaker.scheduleDay.unknown.nameShort': return 'Unknown';
+			case 'skedmaker.mlsCourseOfferings': return 'My.LaSalle\'s Course Offerings';
+			default: return null;
+		}
+	}
+}
+
+extension on _StringsTl {
+	dynamic _flatMapFunction(String path) {
+		switch (path) {
+			case 'general.app.name': return 'AralTools';
+			case 'general.home.name': return 'Tahanan';
+			case 'general.home.welcome': return 'Maligayang pagdating!';
+			case 'general.general.go': return 'Pumunta';
+			case 'general.general.ok': return 'Okay';
+			case 'general.general.open': return 'Buksan';
+			case 'general.general.delete': return 'Ibura';
+			case 'general.general.add': return 'Idagdag';
+			case 'general.general.select': return 'Select';
+			case 'general.general.save': return 'I-save';
+			case 'general.general.cancel': return 'Kansela';
+			case 'skedmaker.info.name': return 'SkedMaker';
+			case 'skedmaker.info.desc': return 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
+			default: return null;
+		}
+	}
+}
+
+extension on _StringsTlQp {
+	dynamic _flatMapFunction(String path) {
+		switch (path) {
+			case 'general.app.name': return 'AralTools';
+			case 'general.home.name': return 'Home';
+			case 'general.home.welcome': return 'Welcome!';
+			case 'general.general.go': return 'Go';
+			case 'general.general.ok': return 'OK';
+			case 'general.general.open': return 'I-open';
+			case 'general.general.delete': return 'I-delete';
+			case 'general.general.add': return 'I-add';
+			case 'general.general.select': return 'I-select';
+			case 'general.general.save': return 'I-save';
+			case 'general.general.cancel': return 'I-cancel';
+			case 'skedmaker.info.name': return 'SkedMaker';
+			case 'skedmaker.info.desc': return 'Ang automatic na class schedule maker para sa DLSU students';
 			default: return null;
 		}
 	}

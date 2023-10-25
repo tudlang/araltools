@@ -21,16 +21,13 @@ app:
 home:
   name: Home
   welcome: Welcome!
-  more:
-    title: More coming soon!
-    desc: Stay updated! :)
 
 general:
   go: Go
   ok: OK
-  open: Open
-  delete: Delete
-  add: Add
-  select: Select
-  save: Save
-  cancel: Cancel
+  open: I-open
+  delete: I-delete
+  add: I-add
+  select: I-select
+  save: I-save
+  cancel: I-cancel

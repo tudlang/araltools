@@ -457,7 +457,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                 selectedColor = value;
                               },
                               pickerTypeLabels: {
-                                ColorPickerType.both: 'Primary'
+                                ColorPickerType.both: 'Primary',
+                                ColorPickerType.wheel: 'Wheel',
                               },
                               pickersEnabled: {
                                 ColorPickerType.wheel: true,
