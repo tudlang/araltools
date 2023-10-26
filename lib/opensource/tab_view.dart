@@ -696,6 +696,12 @@ class __TabBodyState extends State<_TabBody> {
   }
 
   @override
+  void dispose() {                      //TODO ADDED THIS
+    super.dispose();
+    pageController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PageView.builder(
       key: _pageKey,
