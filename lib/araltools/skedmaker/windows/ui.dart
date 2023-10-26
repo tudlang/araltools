@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as path;
 
+import '/intl/locales.dart';
 import '/intl/fluent-tl.dart';
 import '/intl/fluent-tl_QP.dart';
 import '/strings.g.dart';
@@ -140,9 +141,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
         FluentLocalizationsTlQP.delegate,
       ],
       supportedLocales: [
-        const Locale('en'),
-        const Locale('tl'),
-        const Locale('tl', 'QP'),
+        for (final i in locales) i.locale, //add all supported locales
         ...FluentLocalizations.supportedLocales,
       ],
       debugShowCheckedModeBanner: false,

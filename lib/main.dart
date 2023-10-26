@@ -38,6 +38,7 @@ import 'araltools/araltools.dart';
 import 'home_activity.dart';
 import 'intl/cupertino-tl-QP.dart';
 import 'intl/fluent-tl_QP.dart';
+import 'intl/locales.dart';
 import 'intl/material-tl_QP.dart';
 
 void main(List<String> args) {
@@ -129,9 +130,7 @@ class MyApp extends StatelessWidget {
       ),
       locale: TranslationProvider.of(context).flutterLocale, // use provider
       supportedLocales: [
-        const Locale('en'),
-        const Locale('tl'),
-        const Locale('tl', 'QP'),
+        for (final i in locales) i.locale, //add all supported locales
         ...onPlatform(
           all: const [],
           windows: FluentLocalizations.supportedLocales,
