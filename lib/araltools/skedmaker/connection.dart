@@ -25,6 +25,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:path_provider/path_provider.dart';
 import 'package:string_unescape/string_unescape.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../strings.g.dart';
 import 'functions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
@@ -82,13 +83,13 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
             ),
             actions: [
               Button(
-                child: Text('Close'),
+                child: Text(strings.general.general.cancel),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               FilledButton(
-                  child: Text('Download'),
+                  child: Text(strings.general.general.go),
                   onPressed: () {
                     launchUrl(Uri.parse(
                         'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
@@ -126,12 +127,12 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
       bool isError = false;
       return StatefulBuilder(builder: (context, setState) {
         return ContentDialog(
-          title: Text('Add subject'),
-          content: Text(
-              'Enter your ID number and the subject code on the pop-up window. Once the offerings are displayed, click "Add".${isError ? '\nError' : ''}'),
+          title: Text(strings.skedmaker.subjects.add.buttonMls.title),
+          content: Text(strings.skedmaker.subjects.add.buttonMls.desc +
+              (isError ? '\nError' : '')),
           actions: [
             Button(
-              child: Text('Cancel'),
+              child: Text(strings.general.general.cancel),
               onPressed: () {
                 Navigator.pop(context, (
                   list: null,
@@ -155,7 +156,7 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
                   });
                 }
               },
-              child: Text('Add'),
+              child: Text(strings.general.general.add),
             )
           ],
         );
@@ -203,15 +204,17 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
                 readOnly: true,
                 controller: TextEditingController(
                     text: "document.querySelector('td>form>table').outerHTML"),
-                    suffix: Tooltip(
-                      message: 'Copy to clipboard',
-                      child: IconButton(
-                        icon: Icon(MdiIcons.contentCopy, size: 15),
-                        onPressed: (){
-                          Clipboard.setData(ClipboardData(text: "document.querySelector('td>form>table').outerHTML"));
-                        },
-                      ),
-                    ),
+                suffix: Tooltip(
+                  message: 'Copy to clipboard',
+                  child: IconButton(
+                    icon: Icon(MdiIcons.contentCopy, size: 15),
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(
+                          text:
+                              "document.querySelector('td>form>table').outerHTML"));
+                    },
+                  ),
+                ),
               ),
               SizedBox(height: 8),
               Text('Copy the output and paste it here:'),

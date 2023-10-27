@@ -40,12 +40,11 @@ subjects:
       hint: The command output
   
   subject:
-    title: 
-      one: ${subject} - ${offerings} offering (${available} available)
-      other: ${subject} - ${offerings} offerings (${available} available)
+    title: ${subject} - ${offering} offerings (${available} available)
     actions:
       recolor: 
         name: Recolor 
+        title: Select color
         primary: Primary
         wheel: Wheel
         shades: Shades
@@ -93,6 +92,9 @@ subjects:
       remarks: 
         name: Remarks
         edit: "Edit remarks (can be empty):"
+  
+  empty: 
+    title: ${subject} has no offerings
 
 filters:
   name: Filters
@@ -154,7 +156,19 @@ filters:
         name: Time gap between subjects to check for distance (in minutes)
       maxAllowedDistanceMeters:
         name: Maximum distance from one subject to the next (in meters)
+      calculator:
+        name: Open distance calculator
+        title: Distance calculator
+        desc: "Note: This is only an estimate."
+        from: "From:"
+        to: "To:"
+        hint: Room code (eg. A1105)
+        calculate: Calculate
+        result: 
+          one: ~${n} meter
+          other: ~${n} meters
   any: Any subject
+  reset: Reset all
 
 
 schedules:
@@ -278,19 +292,19 @@ scheduleDay:
     name: Monday and Thursday
     nameShort: M & H
   tuesdayfridayFace: 
-    name: Thursday and Friday (both face-to-face)
+    name: Tuesday and Friday (both face-to-face)
     nameShort: T & F (both f2f)
   tuesdayfridayOnline: 
-    name: Thursday and Friday (both online)
+    name: Tuesday and Friday (both online)
     nameShort: T & F (both online)
   tuesdayfridayOnlineface: 
-    name: Thursday (online) and Friday (face-to-face)
+    name: Tuesday (online) and Friday (face-to-face)
     nameShort: T (online) & F (f2f)
   tuesdayfridayFaceonline: 
-    name: Thursday (face-to-face) and Friday (online)
+    name: Tuesday (face-to-face) and Friday (online)
     nameShort: T (f2f) & F (online)
   tuesdayfridayUnknown: 
-    name: Thursday and Friday
+    name: Tuesday and Friday
     nameShort: T & F
   wednesdaysaturdayFace: 
     name: Wednesday and Saturday (both face-to-face)
@@ -310,5 +324,13 @@ scheduleDay:
   unknown: 
     name: Unknown
     nameShort: Unknown
+
+scheduleRoom:
+  empty: No room
+  online: Online
+  hybrid: ${room} and online
+
+scheduleDefault:
+  name: Schedule ${n}
 
 mlsCourseOfferings: My.LaSalle's Course Offerings

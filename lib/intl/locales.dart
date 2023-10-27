@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-const locales = [
-  (name: 'English', locale: Locale('en')),
-  (name: 'Tagalog', locale: Locale('tl')),
-  (name: 'Tagalog (Taglish)', locale: Locale('tl', 'QP')),
-];
+const locales = {
+  'en': (name: 'English', locale: Locale('en')),
+  'tl': (name: 'Tagalog', locale: Locale('tl')),
+  'tl_QP': (name: 'Tagalog (Taglish)', locale: Locale('tl', 'QP')),
+};

@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:araltools/settings.dart';
 import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'araltools/araltools.dart';
+import 'intl/locales.dart';
 
 class HomeActivity extends StatelessWidget {
   const HomeActivity({super.key});
@@ -78,8 +80,8 @@ class HomeActivity extends StatelessWidget {
                 ),
               HomeCard(
                 icon: Icons.add,
-                name: 'More coming soon!',
-                description: 'Stay updated! :)',
+                name: strings.general.home.more.title,
+                description: strings.general.home.more.desc,
               )
             ],
           )
@@ -142,7 +144,7 @@ class HomeCard extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Open'),
+                    child: Text(strings.general.general.open),
                   ),
                 )
             ],
@@ -161,6 +163,8 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  final str = strings.general.drawer;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -208,8 +212,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             leading: Icon(MdiIcons.giftOutline),
             trailing: Icon(MdiIcons.openInNew),
-            title: Text('Buy Me A Coffee'),
-            subtitle: Text('Support me!'),
+            title: Text(str.support.title),
+            subtitle: Text(str.support.desc),
             onTap: () {
               Navigator.pop(context);
               launchUrl(Uri.parse("https://www.buymeacoffee.com/Yivan4"));
@@ -218,8 +222,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             leading: Icon(MdiIcons.fileCodeOutline),
             trailing: Icon(MdiIcons.openInNew),
-            title: Text('View source code'),
-            subtitle: Text('Contribute to AralTools!'),
+            title: Text(str.github.title),
+            subtitle: Text(str.github.desc),
             onTap: () {
               Navigator.pop(context);
               launchUrl(Uri.parse("https://github.com/tudlang/araltools"));
@@ -228,8 +232,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             leading: Icon(MdiIcons.bugOutline),
             trailing: Icon(MdiIcons.openInNew),
-            title: Text('Issue tracker'),
-            subtitle: Text('Report issues & bugs here!'),
+            title: Text(str.bugs.title),
+            subtitle: Text(str.bugs.desc),
             onTap: () {
               Navigator.pop(context);
               launchUrl(
@@ -237,6 +241,43 @@ class _HomeDrawerState extends State<HomeDrawer> {
             },
           ),
           Divider(),
+          PopupMenuButton(
+            position: PopupMenuPosition.under,
+            child: ListTile(
+              title: Text(str.language.title(
+                  language: locales[getSettings("general", "language")]?.name ??
+                      getSettings("general", "language"))),
+              leading: Icon(Icons.language_outlined),
+            ),
+            tooltip: str.language.tooltip,
+            itemBuilder: (context) => locales.entries
+                .map((e) => PopupMenuItem(
+                    value: e.key,
+                    padding: EdgeInsets.zero,
+                    child: ListTile(
+                      title: Text(e.value.name),
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4)),
+                          border: Border.all(
+                              color: Theme.of(context).iconTheme.color!),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child:
+                              Text(e.value.locale.languageCode.toUpperCase()),
+                        ),
+                      ),
+                    )))
+                .toList(),
+            onSelected: (value) {
+              setState(() {
+                setSettings('general', 'language', value);
+                LocaleSettings.setLocaleRaw(value);
+              });
+            },
+          ),
         ],
       ),
     );

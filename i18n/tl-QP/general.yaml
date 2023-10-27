@@ -21,6 +21,24 @@ app:
 home:
   name: Home
   welcome: Welcome!
+  more:
+    title: More pa coming soon!
+    desc: Maging updated! :)
+
+drawer:
+  about: About
+  support:
+    title: Buy Me A Coffee
+    desc: I-support ako!
+  github:
+    title: Tignan ang source code
+    desc: Mag-contribute sa AralTools!
+  bugs:
+    title: Issue tracker
+    desc: Mag-report ng mga issue at bug dito!
+  language:
+    title: "Language: ${language}"
+    tooltip: Palitan ang language
 
 general:
   go: Go
@@ -30,4 +48,5 @@ general:
   add: I-add
   select: I-select
   save: I-save
+  saveDont:  "'Wag i-save"
   cancel: I-cancel

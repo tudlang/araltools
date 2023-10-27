@@ -29,6 +29,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
@@ -41,7 +42,13 @@ import 'intl/fluent-tl_QP.dart';
 import 'intl/locales.dart';
 import 'intl/material-tl_QP.dart';
 
-void main(List<String> args) {
+late final SharedPreferences prefs;
+
+void main(List<String> args) async {
+
+  // get preferences
+  prefs = await SharedPreferences.getInstance();
+
   // do platform-specific things
   onPlatform(
     all: () => null,
@@ -58,7 +65,7 @@ void main(List<String> args) {
   )();
 
   WidgetsFlutterBinding.ensureInitialized(); // add this
-  LocaleSettings.setLocale(AppLocale.tl);
+  LocaleSettings.setLocale(AppLocale.tlQp);
 
   runApp(TranslationProvider(
     child: MyApp(
@@ -130,7 +137,7 @@ class MyApp extends StatelessWidget {
       ),
       locale: TranslationProvider.of(context).flutterLocale, // use provider
       supportedLocales: [
-        for (final i in locales) i.locale, //add all supported locales
+        for (final i in locales.values) i.locale, //add all supported locales
         ...onPlatform(
           all: const [],
           windows: FluentLocalizations.supportedLocales,

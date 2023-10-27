@@ -141,7 +141,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
         FluentLocalizationsTlQP.delegate,
       ],
       supportedLocales: [
-        for (final i in locales) i.locale, //add all supported locales
+        for (final i in locales.values) i.locale, //add all supported locales
         ...FluentLocalizations.supportedLocales,
       ],
       debugShowCheckedModeBanner: false,
@@ -227,7 +227,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                 PaneItem(
                   icon: Icon(MdiIcons.schoolOutline),
                   title: Text(
-                    'Subjects',
+                    strings.skedmaker.subjects.name,
                     style: textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -239,7 +239,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                 PaneItem(
                   icon: Icon(MdiIcons.filterOutline),
                   title: Text(
-                    'Filters',
+                    strings.skedmaker.filters.name,
                     style: textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -256,7 +256,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                 PaneItem(
                   icon: Icon(MdiIcons.calendarBlankMultiple),
                   title: Text(
-                    'Schedules',
+                    strings.skedmaker.schedules.name,
                     style: textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),

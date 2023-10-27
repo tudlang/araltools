@@ -107,7 +107,7 @@ class _FiltersFragmentState extends State<FiltersFragment> {
                   ],
                 ),
                 title: Text(
-                    strings["skedmaker.filters.categories.${category}.name"] ??
+                    strings["skedmaker.filters.categories.$category.name"] ??
                         category),
               )
 
@@ -478,7 +478,8 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
               Container(
                 padding: EdgeInsets.all(8),
                 child: FilledButton(
-                  child: Text('Open distance calculator'),
+                  child: Text(strings
+                      .skedmaker.filters.categories.location.calculator.name),
                   onPressed: () {
                     showDistanceDialog(context);
                   },
@@ -491,7 +492,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             Container(
               padding: EdgeInsets.all(8),
               child: Button(
-                child: Text('Reset all'),
+                child: Text(strings.skedmaker.filters.reset),
                 onPressed: () {
                   final model = context.read<SkedmakerModel>();
                   model.resetFilterCategory(widget.category);
@@ -513,41 +514,43 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
 
         var distance = '0';
 
+        final str = strings.skedmaker.filters.categories.location.calculator;
+
         return StatefulBuilder(builder: (context, setState) {
           return ContentDialog(
-            title: Text('Distance calculator'),
+            title: Text(str.title),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
                     Text(
-                      'Note: This is only an estimate.',
+                      str.desc,
                       textAlign: TextAlign.start,
                     ),
                   ],
                 ),
                 SizedBox(height: 16),
                 InfoLabel(
-                  label: 'From:',
+                  label: str.from,
                   child: TextBox(
                     controller: controllerFrom,
-                    placeholder: 'Room code (eg. A1105)',
+                    placeholder: str.hint,
                   ),
                 ),
                 SizedBox(height: 8),
                 InfoLabel(
-                  label: 'To:',
+                  label: str.to,
                   child: TextBox(
                     controller: controllerTo,
-                    placeholder: 'Room code (eg. A1105)',
+                    placeholder: str.hint,
                   ),
                 ),
                 SizedBox(height: 8),
                 Row(
                   children: [
                     Button(
-                      child: Text('Calculate'),
+                      child: Text(str.calculate),
                       onPressed: () {
                         final from = (controllerFrom.text);
                         final to = (controllerTo.text);
@@ -561,7 +564,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
                     ),
                     SizedBox(width: 8),
                     SelectableText(
-                      "~$distance meters",
+                      str.result(n: distance.toInt()),
                       contextMenuBuilder: (context, state) =>
                           AdaptiveTextSelectionToolbar.editableText(
                               editableTextState: state),

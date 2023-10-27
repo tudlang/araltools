@@ -362,7 +362,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                           content: Text('All unsaved data will be lost.'),
                           actions: [
                             Button(
-                                child: Text('Cancel'),
+                                child: Text(strings.general.general.cancel),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 }),
@@ -418,7 +418,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                     content: Text('All unsaved data will be lost.'),
                     actions: [
                       Button(
-                          child: Text('Cancel'),
+                          child: Text(strings.general.general.cancel),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -428,7 +428,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                             ..pop()
                             ..pushReplacement(AralTools.skedmaker.route);
                         },
-                        child: Text('OK'),
+                        child: Text(strings.general.general.ok),
                       )
                     ],
                   );

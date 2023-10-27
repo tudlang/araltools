@@ -30,6 +30,7 @@ import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '/strings.g.dart';
 import '../classes.dart';
 import '../connection.dart';
 import '../functions.dart';
@@ -55,6 +56,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
     indexSubject = 0;
   }
 
+  final str = strings.skedmaker.subjects;
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
@@ -66,7 +69,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
         items: [
           PaneItem(
             icon: Icon(MdiIcons.plus),
-            title: Text('Add subject'),
+            title: Text(str.add.title),
             body: Column(
               children: [
                 if (model.isGenerating)
@@ -84,7 +87,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Add subject',
+                      str.add.title,
                       style: textTheme.headlineMedium,
                     ),
                     SizedBox(height: 8),
@@ -97,7 +100,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                           FilledButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Add from My.LaSalle'),
+                              child: Text(str.add.buttonMls.name),
                             ),
                             onPressed: () async {
                               final model = provider.currentContext!
@@ -117,7 +120,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                           FilledButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Add manually'),
+                              child: Text(str.add.buttonManual.name),
                             ),
                             onPressed: () async {
                               final subject = await showDialog<String>(
@@ -125,10 +128,9 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 builder: (context) {
                                   final controller = TextEditingController();
                                   return ContentDialog(
-                                    title: Text('Create new subject'),
+                                    title: Text(str.add.buttonManual.title),
                                     content: InfoLabel(
-                                      label:
-                                          'Enter a 7-character subject code:',
+                                      label: str.add.buttonManual.desc,
                                       child: TextBox(
                                         controller: controller,
                                         autofocus: true,
@@ -145,12 +147,14 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                     ),
                                     actions: [
                                       Button(
-                                          child: Text('Cancel'),
+                                          child: Text(
+                                              strings.general.general.cancel),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           }),
                                       FilledButton(
-                                          child: Text('Add'),
+                                          child:
+                                              Text(strings.general.general.add),
                                           onPressed: () {
                                             if (controller.text.isEmpty ||
                                                 controller.text.length != 7)
@@ -193,7 +197,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Button(
-                    child: Text('Add subjects via code'),
+                    child: Text(str.add.buttonCode.name),
                     onPressed: () async {
                       final list = await getSubjectFromString(context);
 
@@ -208,7 +212,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             ),
           ),
           PaneItemSeparator(),
-          for (final subject in model.subjects.entries.sorted((a, b) => a.key.compareTo(b.key)))
+          for (final subject in model.subjects.entries
+              .sorted((a, b) => a.key.compareTo(b.key)))
             () {
               // empty subject, no offerings
               if (subject.value.isEmpty) {
@@ -233,7 +238,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                             FilledButton(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Delete'),
+                                  child: Text(strings.general.general.delete),
                                 ),
                                 onPressed: () {
                                   final model = context.read<SkedmakerModel>();
@@ -320,6 +325,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
   final offeringNotAvailable = [];
   bool deleteMode = false;
 
+  final str = strings.skedmaker.subjects.subject;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -400,7 +407,11 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    "${widget.subject} - ${offerings.length} offerings (${offerings.length - offeringNotAvailable.length} available)",
+                    str.title(
+                        offering: offerings.length,
+                        subject: widget.subject,
+                        available:
+                            offerings.length - offeringNotAvailable.length),
                     textAlign: TextAlign.start,
                     style: textTheme.headlineMedium!.copyWith(
                         //  color: offerings.first.color.basedOnLuminance(
@@ -419,7 +430,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
             primaryItems: [
               CommandBarButton(
                 icon: Icon(Icons.palette_outlined),
-                label: Text("Recolor"),
+                label: Text(str.actions.recolor.name),
                 onPressed: () async {
                   final selected = await showDialog<Color>(
                     context: context,
@@ -434,7 +445,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8),
-                                child: Text('Select color'),
+                                child: Text(str.actions.recolor.title),
                               ),
                               Spacer(),
                               IconButton(
@@ -457,8 +468,10 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                 selectedColor = value;
                               },
                               pickerTypeLabels: {
-                                ColorPickerType.both: 'Primary',
-                                ColorPickerType.wheel: 'Wheel',
+                                ColorPickerType.both:
+                                    str.actions.recolor.primary,
+                                ColorPickerType.wheel:
+                                    str.actions.recolor.wheel,
                               },
                               pickersEnabled: {
                                 ColorPickerType.wheel: true,
@@ -476,18 +489,20 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               ),
                               wheelDiameter: 260,
                               wheelWidth: 22,
-                              subheading: Text('Shades'),
-                              wheelSubheading: Text('Shades'),
+                              subheading:
+                                  Text(str.actions.recolor.shades),
+                              wheelSubheading:
+                                  Text(str.actions.recolor.shades),
                             ),
                           ),
                           actions: [
                             Button(
-                                child: Text('Cancel'),
+                                child: Text(strings.general.general.cancel),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 }),
                             FilledButton(
-                              child: Text('Select'),
+                              child: Text(strings.general.general.select),
                               onPressed: () {
                                 Navigator.pop(context, selectedColor);
                               },
@@ -534,13 +549,13 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 InfoLabel(
-                                  label:
-                                      'Delete ${widget.subject}?\nYou cannot un-delete this.',
+                                  label: str.actions.delete
+                                      .warning(subject: widget.subject),
                                   labelStyle: FluentTheme.maybeOf(context)
                                       ?.typography
                                       .bodyStrong,
                                   child: Button(
-                                    child: Text('Delete'),
+                                    child: Text(strings.general.general.delete),
                                     onPressed: () {
                                       context
                                           .read<SkedmakerModel>()
@@ -555,7 +570,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                         },
                       );
                     },
-                    label: Text("Delete"),
+                    label: Text(str.actions.delete.name),
                   ),
                 );
               }(),
@@ -569,7 +584,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                     model.hideSubject(widget.subject);
                   }
                 },
-                label: Text("Show/Hide"),
+                label: Text(str.actions.showhide),
               ),
               CommandBarSeparator(),
               CommandBarButton(
@@ -581,18 +596,18 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                         Offering.blank(widget.subject, offerings.first.color));
                   });
                 },
-                label: Text("Add offering"),
+                label: Text(str.actions.offeringAdd),
               ),
               CommandBarButton(
                 icon: Icon(MdiIcons.deleteClockOutline),
                 onPressed: () {
-                  final model = context.read<SkedmakerModel>();
+                  //final model = context.read<SkedmakerModel>();
 
                   setState(() {
                     deleteMode = !deleteMode;
                   });
                 },
-                label: Text("Delete offering"),
+                label: Text(str.actions.offeringDelete),
               ),
               /*
               CommandBarBuilderItem(
@@ -666,15 +681,15 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
               columnSpacing: 10,
               columns: [
                 if (deleteMode) DataColumn(label: SizedBox.shrink()),
-                DataColumn(label: Text('Status')),
-                DataColumn(label: Text('Class #')),
-                DataColumn(label: Text('Section')),
-                DataColumn(label: Text('Room')),
-                DataColumn(label: Text('Day')),
-                DataColumn(label: Text('Time')),
-                DataColumn(label: Text('Teacher')),
-                DataColumn(label: Text('Slots')),
-                DataColumn(label: Text('Remarks')),
+                DataColumn(label: Text(str.table.status.name)),
+                DataColumn(label: Text(str.table.classno.name)),
+                DataColumn(label: Text(str.table.section.name)),
+                DataColumn(label: Text(str.table.room.name)),
+                DataColumn(label: Text(str.table.day.name)),
+                DataColumn(label: Text(str.table.time.name)),
+                DataColumn(label: Text(str.table.teacher.name)),
+                DataColumn(label: Text(str.table.slots.name)),
+                DataColumn(label: Text(str.table.remarks.name)),
               ],
               rows: [
                 for (var i = 0; i < offerings.length; i++)
@@ -700,14 +715,14 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                       DataCell(
                         offerings[i].isClosed
                             ? Tooltip(
-                                message: 'Closed',
+                                message: str.table.status.closed,
                                 child: Icon(
                                   MdiIcons.closeCircleOutline,
                                   size: 25,
                                 ),
                               )
                             : Tooltip(
-                                message: 'Open',
+                                message: str.table.status.open,
                                 child: Icon(
                                   MdiIcons.checkCircleOutline,
                                   size: 25,
@@ -732,7 +747,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
 
                               return SubjectsFragmentFlyout(
                                 controllerText: controllerText,
-                                label: 'Edit class number:',
+                                label: str.table.classno.edit,
                                 submit: (model) {
                                   model.modifySubjectOffering(
                                     widget.subject,
@@ -761,7 +776,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
 
                               return SubjectsFragmentFlyout(
                                 controllerText: controllerText,
-                                label: 'Edit section:',
+                                label: str.table.section.edit,
                                 submit: (model) {
                                   model.modifySubjectOffering(
                                     widget.subject,
@@ -785,7 +800,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
 
                               return SubjectsFragmentFlyout(
                                 controllerText: controllerText,
-                                label: 'Edit room (can be empty):',
+                                label: str.table.room.edit,
                                 submit: (model) {
                                   model.modifySubjectOffering(
                                     widget.subject,
@@ -813,7 +828,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               return StatefulBuilder(
                                   builder: (context, setState) {
                                 return SubjectsFragmentFlyout(
-                                  label: 'Edit day:',
+                                  label:str.table.day.edit,
                                   input: ComboBox<ScheduleDay>(
                                     value: selected,
                                     items: ScheduleDay.values
@@ -864,7 +879,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               return StatefulBuilder(
                                   builder: (context, setState) {
                                 return SubjectsFragmentFlyout(
-                                  label: 'Edit time:',
+                                  label: str.table.time.edit,
                                   input: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -897,7 +912,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                             ),
                                           ),
                                           // ==== end1
-                                          Text(' to '),
+                                          Text(str.table.time.to),
                                           // ==== start2
                                           ConstrainedBox(
                                             constraints:
@@ -931,7 +946,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                       SizedBox(height: 8),
                                       ToggleSwitch(
                                         checked: selectedStart2 != null,
-                                        content: Text('Second time interval'),
+                                        content: Text(str.table.time.secondTimeInterval),
                                         onChanged: (value) {
                                           setState(() {
                                             if (value) {
@@ -976,7 +991,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                               ),
                                             ),
                                             // ==== end1
-                                            Text(' to '),
+                                            Text(str.table.time.to),
                                             // ==== start2
                                             ConstrainedBox(
                                               constraints:
@@ -1014,7 +1029,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                         (selectedStart2 != null &&
                                             selectedStart2! >= selectedEnd2!)) {
                                       throw ArgumentError(
-                                          'Start time must be before end time');
+                                          str.table.time.errorStartTimeBeforeEndTime);
                                     }
                                     model.modifySubjectOffering(
                                       widget.subject,
@@ -1023,7 +1038,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                         if (p0.scheduleDay.isMultipleDays &&
                                             selectedStart2 == null) {
                                           throw ArgumentError(
-                                              'This must have a second time interval');
+                                              str.table.time.errorSecondTimeInterval);
                                         }
 
                                         if (!p0.scheduleDay.isMultipleDays &&
@@ -1031,7 +1046,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                             selectedStart <= selectedEnd2! &&
                                             selectedStart2! <= selectedEnd) {
                                           throw ArgumentError(
-                                              'The two time intervals must not conflict since it\'s on the same day');
+                                              str.table.time.errorStartTimeBeforeEndTime);
                                         }
 
                                         p0.scheduleTime = (
@@ -1067,7 +1082,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
 
                               return SubjectsFragmentFlyout(
                                 controllerText: controllerText,
-                                label: 'Edit teacher (can be empty):',
+                                label: str.table.teacher.edit,
                                 submit: (model) {
                                   model.modifySubjectOffering(
                                     widget.subject,
@@ -1089,7 +1104,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                             dimension: 25,
                             child: Tooltip(
                               message:
-                                  "${(offerings[i].slotPercentage * 100).round()}%",
+                              str.table.slots.percent(percent: (offerings[i].slotPercentage * 100).round()),
                               child: ProgressRing(
                                 // min because the slot taken might be greater than capacity
                                 value:
@@ -1109,7 +1124,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               return StatefulBuilder(
                                   builder: (context, setState) {
                                 return SubjectsFragmentFlyout(
-                                  label: 'Edit slots:',
+                                  label: str.table.slots.edit,
                                   input: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -1133,7 +1148,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                           min: 0,
                                         ),
                                       ),
-                                      Text(' out of '),
+                                      Text(str.table.slots.outOf),
                                       ConstrainedBox(
                                         constraints:
                                             BoxConstraints(maxWidth: 60),
@@ -1183,7 +1198,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
 
                               return SubjectsFragmentFlyout(
                                 controllerText: controllerText,
-                                label: 'Edit remarks (can be empty):',
+                                label: str.table.remarks.edit,
                                 submit: (model) {
                                   model.modifySubjectOffering(
                                     widget.subject,
@@ -1274,7 +1289,7 @@ class _SubjectsFragmentFlyoutState extends State<SubjectsFragmentFlyout> {
               spacing: 8,
               children: [
                 Button(
-                  child: Text('Save'),
+                  child: Text(strings.general.general.save),
                   onPressed: () {
                     if (widget.input == null &&
                         !widget.isEmptyAllowed &&
@@ -1290,7 +1305,7 @@ class _SubjectsFragmentFlyoutState extends State<SubjectsFragmentFlyout> {
                   },
                 ),
                 Button(
-                  child: Text('Cancel'),
+                  child: Text(strings.general.general.cancel),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],

@@ -18,3 +18,279 @@
 info:
   name: SkedMaker
   desc: Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU
+
+subjects:
+  name: Asignatura
+
+  add: 
+    title: Magdagdag ng asignatura
+    buttonMls: 
+      name: Magdagdag mula My.LaSalle
+      title: Magdagdag ng asignatura
+      desc: Ilagay ang iyong numero ng ID at ang code ng asignatura sa  pop-up window. Nang nakalista na ang mga alok, i-klik ang "@:general.general.add".
+    buttonManual: 
+      name: Magdagdag nang manu-mano
+      title: Gumawa ng bagong asignatura
+      desc: "Maglagay ng 7 karakter na code ng asignatura:"
+
+
+
+  subject:
+    title: ${subject} - ${offering} alok (${available} maaari)
+    actions:
+      recolor: 
+        name: Kulayin 
+        title: Pumili ng kulay
+        primary: Pangunahin
+        wheel: Gulong
+        shades: Shades
+      delete: 
+        name: Burahin
+        warning: "Burahin ang ${subject}? \nHindi mo 'to maibabalik."
+      showhide: Ipakita/Itago
+      offeringAdd: Magdagdag ng alok
+      offeringDelete: Magbura ng alok
+    table:
+      status: 
+        name: Istado
+        open: Bukás
+        closed: Sarado
+      classno: 
+        name: \# ng Klase
+        edit: "Palitan ang bilang ng klase:"
+      section: 
+        name: Pangkat
+        edit: "Palitan ang pangkat:"
+      room: 
+        name: Silid
+        edit: "Palitan ang silid (maaaring wala):"
+      day: 
+        name: Araw
+        edit: "Palitan ang araw:"
+      time: 
+        name: Oras
+        data: ${from} - ${to}
+        edit: "Palitan ang oras:"
+        to: " hanggang "
+        secondTimeInterval: "Pangalawang pagitan"
+        errorStartTimeBeforeEndTime: "Ang pansimulang oras ay dapat bágo sa hulihang oras"
+        errorSecondTimeInterval: "Dapat mayroon itong pangalawang pagitan"
+        errorConflict: Ang magkadalawang pagitan ay dapat hindi magsagabal dahil sila'y nasa parehong araw
+      teacher:
+        name: Guro
+        edit: "Palitan ang guro (maaaring wala):"
+      slots: 
+        name: Slot
+        data: ${taken} / ${capacity}
+        percent: ${percent}%
+        edit: "Palitan ang mga slot:"
+        outOf: " mula sa "
+      remarks: 
+        name: Puna
+        edit: "Palitan ang mga puna (maaaring wala):"
+  
+  empty: 
+    title: Ang ${subject} ay walang alok
+
+  
+filters:
+  name: Panalà
+  categories:
+    offerings:
+      name: Alok
+      desc: Ipanalà ang mga alok kung ano ang isasama
+      includeClosed:
+        name: Isáma ang nakasarang alok
+        desc: Paganahin 'to para 'wag pansinin kung bukas o sarado
+      includeFullSlots:
+        name: Isáma ang punóng alok
+        desc: Paganahin 'to para 'wag pansinin ang kapasidad
+      includeUnknownModality:
+        name: Isáma ang mga alok na 'di alam ang modalidad
+      includeNoTeachers:
+        name: Isáma ang mga alok na walang guro
+      excludeSectionLetter:
+        name: Ibukod ang mga pangkat na naglalaman ng mga ito
+        desc: Gamitin 'to para ibukod ang mga alok na ang pangkat ay naglalaman ng (mga) titik
+      includeFreshmanBlock:
+        name: Isáma ang block ng mga presman
+    day:        
+      name: Tiyak na araw
+      desc: Mga panalà sa kada araw ng linggo
+      commonMaxNumberOfSubjects: 
+        name: Pinakamaraming bilang ng asignatura
+        desc: Ilagay ang -1 'pag walang hanggan; ilagay ang 0 'pag wala talaga
+      commonTimeInterval:
+        name: Dapat sa gantong oras lang may asignatura
+      commonModality: 
+        name: Modalidad ng mga asignatura
+        hybrid: Online o harap-harapan
+        online: Online
+        face: Harap-harapan
+        any: Kahit anong modalidad
+        unknown: "'Di alam ang modalidad"
+      commonStartWithSubject:  
+        name: Unang asignatura ng araw
+      commonEndWithSubject:  
+        name: Huling asignatura ng araw
+      commonBreaktime:  
+        name: Oras-pahinga
+        desc: Oras na dapat walang asignatura
+        
+      mondayName: Lunes
+      tuesdayName: Martes
+      wednesdayName: Miyerkules
+      thursdayName: Huwebes
+      fridayName: Biyernes
+      saturdayName: Sabado
+    location:
+      name: Lokasyon (tílawin)
+      desc: Ipanalà ang mga alok base sa kanilang lokasyon
+      enabled:
+        name: Paganahin ang pagpapanalà gamit ang lokasyon at layo
+        desc: "Kinokonsidera nito ang layo ng: Nakaraang klase → ang unang palapag → \nang unang palapag ng susunod na klase → ang susunod na klase. Kapag parehas sila ng\ngusali, ito lamang ang layo mula sa nakaraan hanggang sa susunod."
+      checkingDistanceMinutes:
+        name: Pagitan ng mga asignatura upang tignan ang layo (minuto)
+      maxAllowedDistanceMeters:
+        name: Pinakamataas na layo mula sa isang asignatura patungo sa susunod (metro)
+      calculator:
+        name: Buksan ang kalkulator ng distansya
+        title: Kalkulator ng distansya
+        desc: "Tandaan: Tantyahin lamang ito."
+        from: "Mula:"
+        to: "Patungo:"
+        hint: Code ng silid (eg. A1105)
+        calculate: Kalkulahin
+        result: 
+          one: ~${n} metro
+          other: ~${n} (na) metro
+  any: Kahit anong asignatura
+  reset: Baguhin lahat muli
+
+
+scheduleDay:
+  mondayFace: 
+    name: Lunes (face-to-face)
+    nameShort: Lun (f2f)
+  mondayOnline: 
+    name: Lunes (online)
+    nameShort: Lun (online)
+  mondayHybrid: 
+    name: Lunes (hybrid)
+    nameShort: Lun (hybrid)
+  mondayUnknown: 
+    name: Lunes
+    nameShort: Lun
+  tuesdayFace: 
+    name: Martes (face-to-face)
+    nameShort: Mar (f2f)
+  tuesdayOnline: 
+    name: Martes (online)
+    nameShort: Mar (online)
+  tuesdayHybrid: 
+    name: Martes (hybrid)
+    nameShort: Mar (hybrid)
+  tuesdayUnknown: 
+    name: Martes
+    nameShort: Mar
+  wednesdayFace: 
+    name: Miyerkules (face-to-face)
+    nameShort: Miy (f2f)
+  wednesdayOnline: 
+    name: Miyerkules (online)
+    nameShort: Miy (online)
+  wednesdayHybrid: 
+    name: Miyerkules (hybrid)
+    nameShort: Miy (hybrid)
+  wednesdayUnknown: 
+    name: Miyerkules
+    nameShort: Miy
+  thursdayFace: 
+    name: Huwebes (face-to-face)
+    nameShort: Huw (f2f)
+  thursdayOnline: 
+    name: Huwebes (online)
+    nameShort: Huw (online)
+  thursdayHybrid: 
+    name: Huwebes (hybrid)
+    nameShort: Huw (hybrid)
+  thursdayUnknown: 
+    name: Huwebes
+    nameShort: Huw
+  fridayFace: 
+    name: Biyernes (face-to-face)
+    nameShort: Biy (f2f)
+  fridayOnline: 
+    name: Biyernes (online)
+    nameShort: Biy (online)
+  fridayHybrid: 
+    name: Biyernes (hybrid)
+    nameShort: Biy (hybrid)
+  fridayUnknown: 
+    name: Biyernes
+    nameShort: Biy
+  saturdayFace: 
+    name: Sabado (face-to-face)
+    nameShort: Sab (f2f)
+  saturdayOnline: 
+    name: Sabado (online)
+    nameShort: Sab (online)
+  saturdayHybrid: 
+    name: Sabado (hybrid)
+    nameShort: Sab (hybrid)
+  saturdayUnknown: 
+    name: Sabado
+    nameShort: Sab
+  mondaythursdayFace: 
+    name: Lunes at Huwebes (parehong face-to-face)
+    nameShort: Lun & Huw (parehong f2f)
+  mondaythursdayOnline: 
+    name: Lunes at Huwebes  (parehong online)
+    nameShort: Lun & Huw (parehong online)
+  mondaythursdayOnlineface: 
+    name: Lunes (online) at Huwebes (face-to-face)
+    nameShort: Lun (online) & Huw (f2f)
+  mondaythursdayFaceonline: 
+    name: Lunes (face-to-face) at Huwebes (online)
+    nameShort: Lun (f2f) & Huw (online)
+  mondaythursdayUnknown: 
+    name: Lunes
+    nameShort: Lun & Huw
+  tuesdayfridayFace: 
+    name: Martes at Biyernes (parehong face-to-face)
+    nameShort: Mar & Biy (parehong f2f)
+  tuesdayfridayOnline: 
+    name: Martes at Biyernes (both online)
+    nameShort: Mar & Biy (both online)
+  tuesdayfridayOnlineface: 
+    name: Martes (online) at Biyernes (face-to-face)
+    nameShort: Mar (online) & Biy (f2f)
+  tuesdayfridayFaceonline: 
+    name: Martes (face-to-face) at Biyernes (online)
+    nameShort: Mar (f2f) & Biy (online)
+  tuesdayfridayUnknown: 
+    name: Martes at Biyernes
+    nameShort: Mar & Biy
+  wednesdaysaturdayFace: 
+    name: Miyerkules at Sabado (parehong face-to-face)
+    nameShort: Miy & Sab (parehong f2f)
+  wednesdaysaturdayOnline: 
+    name: Miyerkules at Sabado (both online)
+    nameShort: Miy & Sab (both online)
+  wednesdaysaturdayOnlineface: 
+    name: Miyerkules (online) at Sabado (face-to-face)
+    nameShort: Miy (online) & Sab (f2f)
+  wednesdaysaturdayFaceonline: 
+    name: Miyerkules (face-to-face) at Sabado (online)
+    nameShort: Miy (f2f) & Sab (online)
+  wednesdaysaturdayUnknown: 
+    name: Miyerkules at Sabado
+    nameShort: Miy & Sab
+  unknown: 
+    name: Hindi alam
+    nameShort: "'Di alam"
+
+scheduleRoom:
+  empty: Walang silid
+  online: Online
+  hybrid: ${room} at online

@@ -25,6 +25,21 @@ home:
     title: More coming soon!
     desc: Stay updated! :)
 
+drawer:
+  about: About
+  support:
+    title: Buy Me A Coffee
+    desc: Support me!
+  github:
+    title: View source code
+    desc: Contribute to AralTools!
+  bugs:
+    title: Issue tracker
+    desc: Report issues & bugs here!
+  language:
+    title: "Language: ${language}"
+    tooltip: Change language
+
 general:
   go: Go
   ok: OK
@@ -33,4 +48,5 @@ general:
   add: Add
   select: Select
   save: Save
+  saveDont:  Don't save
   cancel: Cancel

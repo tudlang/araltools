@@ -21,6 +21,24 @@ app:
 home:
   name: Tahanan
   welcome: Maligayang pagdating!
+  more:
+    title: Marami pang dadating!
+    desc: Maging updated! :)
+
+drawer:
+  about: Patungkol
+  support:
+    title: Buy Me A Coffee
+    desc: Suportahan ako!
+  github:
+    title: Tignan ang source code
+    desc: Mag-ambag sa AralTools!
+  bugs:
+    title: Subaybayanan ng Isyu
+    desc: Umulat ng mga isyu dito!
+  language:
+    title: "Wika: ${language}"
+    tooltip: Palitan ang wika
 
 general:
   go: Pumunta
@@ -28,6 +46,7 @@ general:
   open: Buksan
   delete: Ibura
   add: Idagdag
-  select: Select
+  select: Piliin
   save: I-save
+  saveDont:  "'Wag i-save"
   cancel: Kansela

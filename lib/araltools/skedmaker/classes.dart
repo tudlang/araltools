@@ -408,10 +408,10 @@ enum ScheduleModality {
   ;
 
   String getRoom(String room) {
-    if (room.trim().isEmpty) room = 'No room';
+    if (room.trim().isEmpty) room = strings.skedmaker.scheduleRoom.empty;
     return switch (this) {
-      online => 'Online',
-      hybrid => '$room & online',
+      online => strings.skedmaker.scheduleRoom.online,
+      hybrid => strings.skedmaker.scheduleRoom.hybrid(room: room),
       _ => room
     };
   }
