@@ -53,9 +53,109 @@ class SchedulesFragment extends StatefulWidget {
 }
 
 class _SchedulesFragmentState extends State<SchedulesFragment> {
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<SkedmakerModel>();
+
+    return model.schedules.isEmpty
+        ? SchedulesFragmentBlank()
+        : SchedulesFragmentProper();
+  }
+}
+
+class SchedulesFragmentBlank extends StatelessWidget {
+  const SchedulesFragmentBlank({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<SkedmakerModel>();
+
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      children: [
+        Expanded(
+            child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Generate possible schedules',
+                style: textTheme.headlineMedium,
+              ),
+              SizedBox(height: 8),
+              if (model.isGenerating) ...[
+                Text("No schedules found yet. This will take some time."),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: InfoLabel(
+                    label:
+                        "\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                    child: ProgressBar(
+                      value: model.schedulePercentage.isNaN
+                          ? null
+                          : model.schedulePercentage.clamp(0, 100),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Button(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Cancel'),
+                      ),
+                      onPressed: () {
+                        context.read<SkedmakerModel>().scheduleCancel();
+                      }),
+                ),
+              ] else
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FilledButton(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Generate'),
+                      ),
+                      onPressed: () {
+                        context.read<SkedmakerModel>().scheduleGenerate();
+                      }),
+                ),
+              if (!model.isGenerating && model.hasGenerated)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InfoBar(
+                      title: Text(
+                        'No schedules found. Maybe check your filters and try again.',
+                        textAlign: TextAlign.center,
+                      ),
+                      severity: InfoBarSeverity.error,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ))
+      ],
+    );
+  }
+}
+
+class SchedulesFragmentProper extends StatefulWidget {
+  const SchedulesFragmentProper({super.key});
+
+  @override
+  State<SchedulesFragmentProper> createState() =>
+      _SchedulesFragmentProperState();
+}
+
+class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
   late int indexTabCurrent;
   late ScrollController controllerList;
-
   @override
   void initState() {
     super.initState();
@@ -72,285 +172,208 @@ class _SchedulesFragmentState extends State<SchedulesFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
-    final textTheme = Theme.of(context).textTheme;
 
     var indexWeekCurrent = model.tabs.elementAtOrNull(indexTabCurrent) ?? 0;
 
     final random = Random();
-
-    return model.schedules.isEmpty
-        ? Column(
+    return CallbackShortcuts(
+      bindings: {
+        SingleActivator(LogicalKeyboardKey.arrowDown): () {
+          final model = context.read<SkedmakerModel>();
+          if (indexWeekCurrent <= model.schedules.length - 2) {
+            model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
+          }
+        },
+        SingleActivator(LogicalKeyboardKey.arrowUp): () {
+          final model = context.read<SkedmakerModel>();
+          if (indexWeekCurrent > 0) {
+            model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
+          }
+        },
+      },
+      child: Row(children: [
+        SizedBox(
+          width: 200,
+          child: Column(
             children: [
-              Expanded(
-                  child: Center(
-                child: Column(
+              if (model.isGenerating)
+                Row(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Generate possible schedules',
-                      style: textTheme.headlineMedium,
-                    ),
-                    SizedBox(height: 8),
-                    if (model.isGenerating) ...[
-                      Text("No schedules found yet. This will take some time."),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: InfoLabel(
-                          label:
-                              "\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
-                          child: ProgressBar(
-                            value: model.schedulePercentage.isNaN
-                                ? null
-                                : model.schedulePercentage.clamp(0, 100),
-                          ),
-                        ),
-                      ),
+                    if (model.schedulesIsPaused)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Button(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Cancel'),
-                            ),
-                            onPressed: () {
-                              context.read<SkedmakerModel>().scheduleCancel();
-                            }),
-                      ),
-                    ] else
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FilledButton(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Generate'),
-                            ),
-                            onPressed: () {
-                              context.read<SkedmakerModel>().scheduleGenerate();
-                            }),
-                      ),
-                    if (!model.isGenerating && model.hasGenerated)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InfoBar(
-                            title: Text(
-                              'No schedules found. Maybe check your filters and try again.',
-                              textAlign: TextAlign.center,
-                            ),
-                            severity: InfoBarSeverity.error,
-                          ),
+                          child: Text('Resume'),
+                          onPressed: () {
+                            context.read<SkedmakerModel>().scheduleResume();
+                          },
                         ),
-                      ),
-                  ],
-                ),
-              ))
-            ],
-          )
-        : CallbackShortcuts(
-            bindings: {
-              SingleActivator(LogicalKeyboardKey.arrowDown): () {
-                final model = context.read<SkedmakerModel>();
-                if (indexWeekCurrent <= model.schedules.length - 2) {
-                  model.updateTab(indexTabCurrent, indexWeekCurrent + 1);
-                }
-              },
-              SingleActivator(LogicalKeyboardKey.arrowUp): () {
-                final model = context.read<SkedmakerModel>();
-                if (indexWeekCurrent > 0) {
-                  model.updateTab(indexTabCurrent, indexWeekCurrent - 1);
-                }
-              },
-            },
-            child: Row(children: [
-              SizedBox(
-                width: 200,
-                child: Column(
-                  children: [
-                    if (model.isGenerating)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (model.schedulesIsPaused)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Button(
-                                child: Text('Resume'),
-                                onPressed: () {
-                                  context
-                                      .read<SkedmakerModel>()
-                                      .scheduleResume();
-                                },
-                              ),
-                            )
-                          else
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Button(
-                                child: Text('Pause'),
-                                onPressed: () {
-                                  context
-                                      .read<SkedmakerModel>()
-                                      .schedulePause();
-                                },
-                              ),
-                            ),
-                          Button(
-                            child: Text('Stop'),
-                            onPressed: () {
-                              context.read<SkedmakerModel>().scheduleCancel();
-                            },
-                          ),
-                        ],
                       )
                     else
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FilledButton(
+                        child: Button(
+                          child: Text('Pause'),
                           onPressed: () {
-                            context.read<SkedmakerModel>().scheduleGenerate();
+                            context.read<SkedmakerModel>().schedulePause();
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Regenerate'),
-                          ),
                         ),
                       ),
-                    Text(
-                      "${model.schedules.length} schedules found",
-                      textAlign: TextAlign.center,
-                    ),
-                    if (model.isGenerating)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InfoLabel(
-                          label:
-                              "${model.schedulePercentage.toStringAsFixed(2)}% complete",
-                          child: ProgressBar(
-                            value: model.schedulePercentage.isNaN
-                                ? null
-                                : model.schedulePercentage.clamp(0, 100),
-                          ),
-                        ),
-                      ),
-                    SizedBox(height: 8),
-                    Divider(),
-                    Expanded(
-                        child: ListView.builder(
-                      controller: controllerList,
-                      itemCount: model.schedules.length,
-                      itemBuilder: (context, weekIndex) {
-                        final week = model.schedules.elementAt(weekIndex);
-                        return ListTile.selectable(
-                          selected: indexWeekCurrent == weekIndex,
-                          title: Text(week.name),
-                          onPressed: () {
-                            final model = context.read<SkedmakerModel>();
-                            if (model.tabs.isEmpty) {
-                              model.addTab(weekIndex);
-                            } else {
-                              model.updateTab(indexTabCurrent, weekIndex);
-                            }
-                          },
-                          trailing: week.isStarred ? Icon(Icons.star) : null,
-                        );
+                    Button(
+                      child: Text('Stop'),
+                      onPressed: () {
+                        context.read<SkedmakerModel>().scheduleCancel();
                       },
-                    )),
-                  ],
-                ),
-              ),
-              VerticalDivider(),
-              Expanded(
-                  child: TabView(
-                tabWidthBehavior: TabWidthBehavior.sizeToContent,
-                currentIndex: indexTabCurrent,
-                tabs: model.tabs.mapIndexed((tabIndex, weekIndex) {
-                  final week = model.schedules.elementAt(weekIndex);
-
-                  return Tab(
-                    key: ValueKey((tabIndex ^ weekIndex) * random.nextDouble()),
-                    icon: week.isStarred ? Icon(Icons.star) : null,
-                    text: Text(week.name),
-                    body: SchedulesFragmentTimetable(
-                      key: ValueKey(
-                          (tabIndex ^ weekIndex) * random.nextDouble()),
-                      tabIndex: tabIndex,
                     ),
-                    closeIcon: model.tabs.length == 1
-                        ? IconData(0xFEFF)
-                        : FluentIcons.chrome_close,
-                    onClosed: model.tabs.length == 1
-                        ? null
-                        : () {
-                            context.read<SkedmakerModel>().removeTab(tabIndex);
-                          },
-                  );
-                }).toList(),
-                onReorder: (oldIndex, newIndex) {
-                  // https://stackoverflow.com/questions/53176432/how-do-i-use-reorderablelistview-specifically-what-do-i-put-in-onreorder
-                  if (newIndex > oldIndex) {
-                    newIndex -= 1;
-                  }
-                  context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
-                  setState(() {
-                    // If the old index was before the current index and the new index is after it,
-                    // adjust the current index accordingly
-                    if (oldIndex < indexTabCurrent &&
-                        newIndex >= indexTabCurrent) {
-                      indexTabCurrent--;
-                    }
-                    // If the old index was after the current index and the new index is before it,
-                    // adjust the current index accordingly
-                    else if (oldIndex > indexTabCurrent &&
-                        newIndex <= indexTabCurrent) {
-                      indexTabCurrent++;
-                      // If the current tab is being moved, change the current tab to the new index
-                    } else if (oldIndex == indexTabCurrent) {
-                      indexTabCurrent = newIndex;
-                    }
-                  });
-                },
-                onNewPressed: () {
-                  final model = context.read<SkedmakerModel>();
-                  model.addTab(indexWeekCurrent);
-                  setState(() {
-                    indexTabCurrent = model.tabs.length - 1;
-                  });
-                },
-                onChanged: (index) {
-                  setState(() {
-                    indexTabCurrent = index;
-                  });
-                },
-                header: Tooltip(
-                  message: 'Info',
-                  child: IconButton(
-                    icon: Icon(Icons.info_outline),
+                  ],
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FilledButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return ContentDialog(
-                              title: Text('Info'),
-                              content: Text(
-                                  'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab'),
-                              actions: [
-                                SizedBox.shrink(),
-                                Button(
-                                    child: Text('Close'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }),
-                              ],
-                            );
-                          },
-                          barrierDismissible: true);
+                      context.read<SkedmakerModel>().scheduleGenerate();
                     },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Regenerate'),
+                    ),
                   ),
                 ),
+              Text(
+                "${model.schedules.length} schedules found",
+                textAlign: TextAlign.center,
+              ),
+              if (model.isGenerating)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InfoLabel(
+                    label:
+                        "${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                    child: ProgressBar(
+                      value: model.schedulePercentage.isNaN
+                          ? null
+                          : model.schedulePercentage.clamp(0, 100),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 8),
+              Divider(),
+              Expanded(
+                  child: ListView.builder(
+                controller: controllerList,
+                itemCount: model.schedules.length,
+                itemBuilder: (context, weekIndex) {
+                  final week = model.schedules.elementAt(weekIndex);
+                  return ListTile.selectable(
+                    selected: indexWeekCurrent == weekIndex,
+                    title: Text(week.name),
+                    onPressed: () {
+                      final model = context.read<SkedmakerModel>();
+                      if (model.tabs.isEmpty) {
+                        model.addTab(weekIndex);
+                      } else {
+                        model.updateTab(indexTabCurrent, weekIndex);
+                      }
+                    },
+                    trailing: week.isStarred ? Icon(Icons.star) : null,
+                  );
+                },
               )),
-            ]),
-          );
+            ],
+          ),
+        ),
+        VerticalDivider(),
+        Expanded(
+            child: TabView(
+          tabWidthBehavior: TabWidthBehavior.sizeToContent,
+          currentIndex: indexTabCurrent,
+          tabs: model.tabs.mapIndexed((tabIndex, weekIndex) {
+            final week = model.schedules.elementAt(weekIndex);
+
+            return Tab(
+              key: ValueKey((tabIndex ^ weekIndex) * random.nextDouble()),
+              icon: week.isStarred ? Icon(Icons.star) : null,
+              text: Text(week.name),
+              body: SchedulesFragmentTimetable(
+                key: ValueKey((tabIndex ^ weekIndex) * random.nextDouble()),
+                tabIndex: tabIndex,
+              ),
+              closeIcon: model.tabs.length == 1
+                  ? IconData(0xFEFF)
+                  : FluentIcons.chrome_close,
+              onClosed: model.tabs.length == 1
+                  ? null
+                  : () {
+                      context.read<SkedmakerModel>().removeTab(tabIndex);
+                    },
+            );
+          }).toList(),
+          onReorder: (oldIndex, newIndex) {
+            // https://stackoverflow.com/questions/53176432/how-do-i-use-reorderablelistview-specifically-what-do-i-put-in-onreorder
+            if (newIndex > oldIndex) {
+              newIndex -= 1;
+            }
+            context.read<SkedmakerModel>().reorderTab(oldIndex, newIndex);
+            setState(() {
+              // If the old index was before the current index and the new index is after it,
+              // adjust the current index accordingly
+              if (oldIndex < indexTabCurrent && newIndex >= indexTabCurrent) {
+                indexTabCurrent--;
+              }
+              // If the old index was after the current index and the new index is before it,
+              // adjust the current index accordingly
+              else if (oldIndex > indexTabCurrent &&
+                  newIndex <= indexTabCurrent) {
+                indexTabCurrent++;
+                // If the current tab is being moved, change the current tab to the new index
+              } else if (oldIndex == indexTabCurrent) {
+                indexTabCurrent = newIndex;
+              }
+            });
+          },
+          onNewPressed: () {
+            final model = context.read<SkedmakerModel>();
+            model.addTab(indexWeekCurrent);
+            setState(() {
+              indexTabCurrent = model.tabs.length - 1;
+            });
+          },
+          onChanged: (index) {
+            setState(() {
+              indexTabCurrent = index;
+            });
+          },
+          header: Tooltip(
+            message: 'Info',
+            child: IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ContentDialog(
+                        title: Text('Info'),
+                        content: Text(
+                            'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab'),
+                        actions: [
+                          SizedBox.shrink(),
+                          Button(
+                              child: Text('Close'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                        ],
+                      );
+                    },
+                    barrierDismissible: true);
+              },
+            ),
+          ),
+        )),
+      ]),
+    );
   }
 }
 
