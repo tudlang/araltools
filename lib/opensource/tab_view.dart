@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
@@ -403,6 +404,8 @@ class _TabViewState extends State<TabView> {
     final theme = FluentTheme.of(context);
     final localizations = FluentLocalizations.of(context);
 
+    final random = Random(); //TODO ADD RANDOM
+
     final headerFooterTextStyle =
         theme.typography.bodyLarge ?? const TextStyle();
 
@@ -584,6 +587,7 @@ class _TabViewState extends State<TabView> {
           child: Focus(
             autofocus: true,
             child: _TabBody(
+              key: ValueKey(random.nextDouble()*1000*random.nextDouble()),     // TODO ADD KEY PARAM
               index: widget.currentIndex,
               tabs: widget.tabs,
             ),
@@ -666,7 +670,7 @@ class _TabBody extends StatefulWidget {
   final int index;
   final List<Tab> tabs;
 
-  const _TabBody({required this.index, required this.tabs});
+  const _TabBody({super.key, required this.index, required this.tabs});  // TODO ADD KEY PARAM
 
   @override
   State<_TabBody> createState() => __TabBodyState();
