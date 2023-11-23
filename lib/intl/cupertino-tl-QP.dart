@@ -231,4 +231,16 @@ class CupertinoLocalizationTlQP extends GlobalCupertinoLocalizations {
 
   @override
   String get todayLabel => 'Today';
+  
+  @override
+  String get lookUpButtonLabel => 'Mag-look Up';
+  
+  @override
+  String get menuDismissLabel => 'I-dismiss ang menu';
+  
+  @override
+  String get searchWebButtonLabel => 'I-search sa Web';
+  
+  @override
+  String get shareButtonLabel => 'I-share...';
 }

@@ -16,13 +16,14 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:araltools/araltools/araltools.dart';
-import 'package:araltools/araltools/skedmaker/import_xml.dart';
+import 'package:araltools/settings.dart';
 import 'package:araltools/utils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart'
     hide OutlinedButton, Colors, ListTile, Divider;
 import 'package:flutter/material.dart' hide Card, showDialog, FilledButton;
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
@@ -37,6 +38,7 @@ import 'classes.dart';
 import 'connection.dart';
 import 'export_xml.dart';
 import 'models.dart';
+import 'import_xml.dart';
 // Here contains hardcoded HTML of the "View course offerrings" table, used for testing
 // ignore: unused_import
 import 'test_tables.dart';
@@ -342,12 +344,14 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
   @override
   Widget build(BuildContext context) {
     final model = provider.currentContext!.watch<SkedmakerModel>();
+
+    final theme = Theme.of(context);
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorLight,
+              color: theme.colorScheme.primaryContainer,
             ),
             child: Column(
               children: [
@@ -371,7 +375,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                                 Navigator.pop(context);
                                 GoRouter.of(context).go('/');
                               },
-                              child: Text('OK'),
+                              child: Text(strings.general.general.ok),
                             )
                           ],
                         );
@@ -390,17 +394,18 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
                 SizedBox(height: 15),
                 Text(
                   strings.general.app.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(fontFamily: 'Raleway'),
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontFamily: 'Raleway',
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
                 ),
                 Text(
                   AralTools.skedmaker.localizedName,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
                 ),
               ],
             ),

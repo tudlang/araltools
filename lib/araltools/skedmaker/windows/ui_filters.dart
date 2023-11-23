@@ -51,9 +51,17 @@ class _FiltersFragmentState extends State<FiltersFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
+
+    final theme = Theme.of(context);
+    
+    final textTheme = theme.textTheme;
+
     return NavigationView(
       pane: NavigationPane(
           selected: paneIndex,
+          indicator: StickyNavigationIndicator(
+            color: theme.colorScheme.primary,
+          ),
           onChanged: (value) {
             setState(() {
               paneIndex = value;
@@ -87,7 +95,7 @@ class _FiltersFragmentState extends State<FiltersFragment> {
                           padding: const EdgeInsets.all(8.0),
                           child: InfoBar(
                             title: Text(
-                                'Currently generating schedules. Changes here will not apply until you generate again.'),
+                                strings.skedmaker.infobar.currentlyGeneratingSchedules),
                             severity: InfoBarSeverity.warning,
                           ),
                         ),
@@ -171,7 +179,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
           TextOrNull(
               strings[
                   'skedmaker.filters.categories.${widget.category}.${filter.keyLocalized ?? filter.key}.desc'],
-              style: textTheme.labelMedium),
+              style: textTheme.bodySmall),
           ...additional
         ],
       );
@@ -576,7 +584,7 @@ class _FiltersFragmentCategoryState extends State<FiltersFragmentCategory>
             actions: [
               SizedBox.shrink(),
               Button(
-                child: Text('Close'),
+                child: Text(strings.general.general.close),
                 onPressed: () {
                   Navigator.pop(context);
                 },

@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:araltools/intl/fluent-tl.dart';
+import 'package:araltools/settings.dart';
 import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
@@ -45,7 +46,6 @@ import 'intl/material-tl_QP.dart';
 late final SharedPreferences prefs;
 
 void main(List<String> args) async {
-
   // get preferences
   prefs = await SharedPreferences.getInstance();
 
@@ -65,7 +65,7 @@ void main(List<String> args) async {
   )();
 
   WidgetsFlutterBinding.ensureInitialized(); // add this
-  LocaleSettings.setLocale(AppLocale.tlQp);
+  LocaleSettings.setLocaleRaw(getSettings('general', 'language'));
 
   runApp(TranslationProvider(
     child: MyApp(
@@ -103,9 +103,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: strings.general.app.name,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+      theme:  ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

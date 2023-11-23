@@ -27,12 +27,11 @@ subjects:
     buttonMls: 
       name: Magdagdag mula My.LaSalle
       title: Magdagdag ng asignatura
-      desc: Ilagay ang iyong numero ng ID at ang code ng asignatura sa  pop-up window. Nang nakalista na ang mga alok, i-klik ang "@:general.general.add".
+      desc: Ilagay ang iyong numero ng ID at ang code ng asignatura sa bagong durungawan. Nang nakalista na ang mga alok, pindutin ang "@:general.general.add".
     buttonManual: 
       name: Magdagdag nang manu-mano
       title: Gumawa ng bagong asignatura
       desc: "Maglagay ng 7 karakter na code ng asignatura:"
-
 
 
   subject:
@@ -52,7 +51,7 @@ subjects:
       offeringDelete: Magbura ng alok
     table:
       status: 
-        name: Istado
+        name: Kalagayan
         open: Bukás
         closed: Sarado
       classno: 
@@ -88,7 +87,12 @@ subjects:
       remarks: 
         name: Puna
         edit: "Palitan ang mga puna (maaaring wala):"
-  
+
+    infobar:
+      noAvailableOffering: Walang maaaring alok ang ${subject}.
+      hidden: Nakatago ang ${subject}. Hindi ito maisasama kapag bumubuo ng palátuntunan.
+
+
   empty: 
     title: Ang ${subject} ay walang alok
 
@@ -156,7 +160,7 @@ filters:
       calculator:
         name: Buksan ang kalkulator ng distansya
         title: Kalkulator ng distansya
-        desc: "Tandaan: Tantyahin lamang ito."
+        desc: "Tandaan: Tantya-tantyahin lamang ito."
         from: "Mula:"
         to: "Patungo:"
         hint: Code ng silid (eg. A1105)
@@ -167,6 +171,57 @@ filters:
   any: Kahit anong asignatura
   reset: Baguhin lahat muli
 
+
+schedules:
+  name: Palátuntunan
+  generate: 
+    title: Bumuo ng mga posibleng palátuntunan
+    button: Bumuo
+    pending: Wala pang nabuong talàan. Maaaring matagal ito.
+    found: 
+      one: ${n} nabuong palátuntunan
+      other: ${n} (na) nabuong palátuntunan
+    progress: ${percent}% tapos
+  commandbar:
+    rename: 
+      name: Pangalánin
+      edit: Maglagay ng bagong pangalan
+    delete:
+      name: Burahin
+      desc: |
+        Burahin ang ${name}?
+        Hindi mo ito maibabalik.
+        Mabubura rin ang lahat ng tab na may ganitong talàan.
+    star:
+      star: Ibituin
+      unstar: "'Wag ibituin"
+    saveImage: 
+      name: Iimpok bilang larawan
+      title: Iimpok bilang larawan
+      desc: Palitan ang laki ng durungawan para maayos ang larawan. Pagkatapos, pindutin ang "@:general.general.save".
+      credits: 
+        s1: binuo ng
+        s2: " @:general.app.name @:skedmaker.info.name"
+  details:
+    name: Mga detalye
+    notes: Talâ
+    subjects: Mga asignatura
+  info:
+    name: Impo
+    title: Impormasyon
+    desc: |
+      Pumili ng palátuntunan sa kaliwa.
+      Tignan at kumparahin ang mga palátuntunan gamit ang mga tab sa itaas.
+
+      Mga shortcut sa palapindutan:
+      Up/Down arrow key - pumunta sa susunod/nakaraang palátuntunan
+      Ctrl + T - gumawa ng bagong tab
+      Ctrl + W o Ctrl + F4 - isara ang kasalukuyang tab
+      Ctrl + 1 hanggang 8 - pumunta sa una hanggang pang-walong tab
+      Ctrl + 9 - pumunta sa huling tab
+      
+  options:
+    hoverEffects: Paganahin ang epektong hover # I am not sure with this translation
 
 scheduleDay:
   mondayFace: 
@@ -294,3 +349,9 @@ scheduleRoom:
   empty: Walang silid
   online: Online
   hybrid: ${room} at online
+
+scheduleDefault:
+  name: Palátuntunan ${n}
+
+infobar: 
+  currentlyGeneratingSchedules: Currently generating schedules. Changes here will not apply until you generate again.

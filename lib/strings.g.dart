@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 641 (213 per locale)
+/// Strings: 844 (281 per locale)
 ///
-/// Built on 2023-10-27 at 03:43 UTC
+/// Built on 2023-11-23 at 16:48 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -181,7 +181,9 @@ class _StringsSkedmakerEn {
 	late final _StringsSkedmakerSchedulesEn schedules = _StringsSkedmakerSchedulesEn._(_root);
 	late final _StringsSkedmakerScheduleDayEn scheduleDay = _StringsSkedmakerScheduleDayEn._(_root);
 	late final _StringsSkedmakerScheduleRoomEn scheduleRoom = _StringsSkedmakerScheduleRoomEn._(_root);
+	late final _StringsSkedmakerScheduleDefaultEn scheduleDefault = _StringsSkedmakerScheduleDefaultEn._(_root);
 	String get mlsCourseOfferings => 'My.LaSalle\'s Course Offerings';
+	late final _StringsSkedmakerInfobarEn infobar = _StringsSkedmakerInfobarEn._(_root);
 }
 
 // Path: general.app
@@ -236,6 +238,12 @@ class _StringsGeneralGeneralEn {
 	String get save => 'Save';
 	String get saveDont => 'Don\'t save';
 	String get cancel => 'Cancel';
+	String get resume => 'Resume';
+	String get pause => 'Pause';
+	String get stop => 'Stop';
+	String get close => 'Close';
+	String get rename => 'Rename';
+	late final _StringsGeneralGeneralDateEn date = _StringsGeneralGeneralDateEn._(_root);
 }
 
 // Path: skedmaker.info
@@ -286,6 +294,7 @@ class _StringsSkedmakerSchedulesEn {
 	late final _StringsSkedmakerSchedulesGenerateEn generate = _StringsSkedmakerSchedulesGenerateEn._(_root);
 	late final _StringsSkedmakerSchedulesCommandbarEn commandbar = _StringsSkedmakerSchedulesCommandbarEn._(_root);
 	late final _StringsSkedmakerSchedulesDetailsEn details = _StringsSkedmakerSchedulesDetailsEn._(_root);
+	late final _StringsSkedmakerSchedulesInfoEn info = _StringsSkedmakerSchedulesInfoEn._(_root);
 	late final _StringsSkedmakerSchedulesOptionsEn options = _StringsSkedmakerSchedulesOptionsEn._(_root);
 }
 
@@ -350,6 +359,26 @@ class _StringsSkedmakerScheduleRoomEn {
 	String hybrid({required Object room}) => '${room} and online';
 }
 
+// Path: skedmaker.scheduleDefault
+class _StringsSkedmakerScheduleDefaultEn {
+	_StringsSkedmakerScheduleDefaultEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String name({required Object n}) => 'Schedule ${n}';
+}
+
+// Path: skedmaker.infobar
+class _StringsSkedmakerInfobarEn {
+	_StringsSkedmakerInfobarEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get currentlyGeneratingSchedules => 'Currently generating schedules. Changes here will not apply until you generate again.';
+}
+
 // Path: general.home.more
 class _StringsGeneralHomeMoreEn {
 	_StringsGeneralHomeMoreEn._(this._root);
@@ -405,6 +434,201 @@ class _StringsGeneralDrawerLanguageEn {
 	String get tooltip => 'Change language';
 }
 
+// Path: general.general.date
+class _StringsGeneralGeneralDateEn {
+	_StringsGeneralGeneralDateEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	List<String> get eras => [
+		'BC',
+		'AD',
+	];
+	List<String> get eraNames => [
+		'Before Christ',
+		'Anno Domini',
+	];
+	List<String> get narrowMonths => [
+		'J',
+		'F',
+		'M',
+		'A',
+		'M',
+		'J',
+		'J',
+		'A',
+		'S',
+		'O',
+		'N',
+		'D',
+	];
+	List<String> get standaloneNarrowMonths => [
+		'J',
+		'F',
+		'M',
+		'A',
+		'M',
+		'J',
+		'J',
+		'A',
+		'S',
+		'O',
+		'N',
+		'D',
+	];
+	List<String> get months => [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	List<String> get standaloneMonths => [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	List<String> get shortMonths => [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec',
+	];
+	List<String> get standaloneShortMonths => [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec',
+	];
+	List<String> get weekdays => [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
+	List<String> get standaloneWeekdays => [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
+	List<String> get shortWeekdays => [
+		'Sun',
+		'Mon',
+		'Tue',
+		'Wed',
+		'Thu',
+		'Fri',
+		'Sat',
+	];
+	List<String> get standaloneShortWeekdays => [
+		'Sun',
+		'Mon',
+		'Tue',
+		'Wed',
+		'Thu',
+		'Fri',
+		'Sat',
+	];
+	List<String> get narrowWeekdays => [
+		'S',
+		'M',
+		'T',
+		'W',
+		'T',
+		'F',
+		'S',
+	];
+	List<String> get standaloneNarrowWeekdays => [
+		'S',
+		'M',
+		'T',
+		'W',
+		'T',
+		'F',
+		'S',
+	];
+	List<String> get shortQuarters => [
+		'Q1',
+		'Q2',
+		'Q3',
+		'Q4',
+	];
+	List<String> get quarters => [
+		'1st quarter',
+		'2nd quarter',
+		'3rd quarter',
+		'4th quarter',
+	];
+	List<String> get ampms => [
+		'AM',
+		'PM',
+	];
+	List<String> get dateFormats => [
+		'EEEE, MMMM d, y',
+		'MMMM d, y',
+		'MMM d, y',
+		'M/d/yy',
+	];
+	List<String> get timeFormats => [
+		'h:mm:ss a zzzz',
+		'h:mm:ss a z',
+		'h:mm:ss a',
+		'h:mm a',
+	];
+	String get firstDayOfWeek => '6';
+	List<String> get weekendRange => [
+		'5',
+		'6',
+	];
+	String get firstWeekCutoffDay => '5';
+	List<String> get dateTimeFormats => [
+		'{1}, {0}',
+		'{1}, {0}',
+		'{1}, {0}',
+		'{1}, {0}',
+	];
+}
+
 // Path: skedmaker.subjects.add
 class _StringsSkedmakerSubjectsAddEn {
 	_StringsSkedmakerSubjectsAddEn._(this._root);
@@ -428,6 +652,7 @@ class _StringsSkedmakerSubjectsSubjectEn {
 	String title({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} offerings (${available} available)';
 	late final _StringsSkedmakerSubjectsSubjectActionsEn actions = _StringsSkedmakerSubjectsSubjectActionsEn._(_root);
 	late final _StringsSkedmakerSubjectsSubjectTableEn table = _StringsSkedmakerSubjectsSubjectTableEn._(_root);
+	late final _StringsSkedmakerSubjectsSubjectInfobarEn infobar = _StringsSkedmakerSubjectsSubjectInfobarEn._(_root);
 }
 
 // Path: skedmaker.subjects.empty
@@ -461,11 +686,12 @@ class _StringsSkedmakerSchedulesGenerateEn {
 	// Translations
 	String get title => 'Generate possible schedules';
 	String get button => 'Generate';
-	String found({required num n, required Object number}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '${number} schedule found',
-		other: '${number} schedules found',
+	String get pending => 'No schedules found yet. This will take some time.';
+	String found({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} schedule found',
+		other: '${n} schedules found',
 	);
-	String defaultName({required Object number}) => 'Schedule ${number}';
+	String progress({required Object percent}) => '${percent}% complete';
 }
 
 // Path: skedmaker.schedules.commandbar
@@ -488,8 +714,21 @@ class _StringsSkedmakerSchedulesDetailsEn {
 	final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	String get name => 'Details';
 	String get notes => 'Notes';
 	String get subjects => 'Subjects';
+}
+
+// Path: skedmaker.schedules.info
+class _StringsSkedmakerSchedulesInfoEn {
+	_StringsSkedmakerSchedulesInfoEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Info';
+	String get title => 'Information';
+	String get desc => 'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab\n';
 }
 
 // Path: skedmaker.schedules.options
@@ -1011,6 +1250,17 @@ class _StringsSkedmakerSubjectsSubjectTableEn {
 	late final _StringsSkedmakerSubjectsSubjectTableRemarksEn remarks = _StringsSkedmakerSubjectsSubjectTableRemarksEn._(_root);
 }
 
+// Path: skedmaker.subjects.subject.infobar
+class _StringsSkedmakerSubjectsSubjectInfobarEn {
+	_StringsSkedmakerSubjectsSubjectInfobarEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String noAvailableOffering({required Object subject}) => '${subject} has no available offerings.';
+	String hidden({required Object subject}) => '${subject} is hidden. It won\'t be included when generating schedules.';
+}
+
 // Path: skedmaker.filters.categories.offerings
 class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsEn._(this._root);
@@ -1085,7 +1335,7 @@ class _StringsSkedmakerSchedulesCommandbarDeleteEn {
 
 	// Translations
 	String get name => 'Delete';
-	String desc({required Object name}) => 'Delete ${name}? You cannot un-delete this. All tabs with this schedule will be removed.\n';
+	String desc({required Object name}) => 'Delete ${name}?\nYou cannot un-delete this.\nAll tabs with this schedule will be removed.\n';
 }
 
 // Path: skedmaker.schedules.commandbar.star
@@ -1107,8 +1357,9 @@ class _StringsSkedmakerSchedulesCommandbarSaveImageEn {
 
 	// Translations
 	String get name => 'Save as image';
-	String get desc => 'Resize the window to adjust the image formatting. When done, click "Save".';
-	String get credits => 'generated by ${_root.general.app.name} @skedmaker.info.name';
+	String get title => 'Save as image';
+	String get desc => 'Resize the window to adjust the image formatting. When done, click "${_root.general.general.save}".';
+	late final _StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn credits = _StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn._(_root);
 }
 
 // Path: skedmaker.subjects.subject.actions.recolor
@@ -1426,6 +1677,17 @@ class _StringsSkedmakerFiltersCategoriesLocationCalculatorEn {
 	);
 }
 
+// Path: skedmaker.schedules.commandbar.saveImage.credits
+class _StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn {
+	_StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get s1 => 'generated by';
+	String get s2 => '${_root.general.app.name} @skedmaker.info.name';
+}
+
 // Path: <root>
 class _StringsTl extends _StringsEn {
 
@@ -1480,8 +1742,11 @@ class _StringsSkedmakerTl extends _StringsSkedmakerEn {
 	@override late final _StringsSkedmakerInfoTl info = _StringsSkedmakerInfoTl._(_root);
 	@override late final _StringsSkedmakerSubjectsTl subjects = _StringsSkedmakerSubjectsTl._(_root);
 	@override late final _StringsSkedmakerFiltersTl filters = _StringsSkedmakerFiltersTl._(_root);
+	@override late final _StringsSkedmakerSchedulesTl schedules = _StringsSkedmakerSchedulesTl._(_root);
 	@override late final _StringsSkedmakerScheduleDayTl scheduleDay = _StringsSkedmakerScheduleDayTl._(_root);
 	@override late final _StringsSkedmakerScheduleRoomTl scheduleRoom = _StringsSkedmakerScheduleRoomTl._(_root);
+	@override late final _StringsSkedmakerScheduleDefaultTl scheduleDefault = _StringsSkedmakerScheduleDefaultTl._(_root);
+	@override late final _StringsSkedmakerInfobarTl infobar = _StringsSkedmakerInfobarTl._(_root);
 }
 
 // Path: general.app
@@ -1533,9 +1798,14 @@ class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
 	@override String get delete => 'Ibura';
 	@override String get add => 'Idagdag';
 	@override String get select => 'Piliin';
-	@override String get save => 'I-save';
-	@override String get saveDont => '\'Wag i-save';
+	@override String get save => 'Impukin';
+	@override String get saveDont => '\'Wag impukin';
 	@override String get cancel => 'Kansela';
+	@override String get resume => 'Itulóy';
+	@override String get pause => 'Ihinto';
+	@override String get stop => 'Itigil';
+	@override String get close => 'Isara';
+	@override String get rename => 'Ipangalan';
 }
 
 // Path: skedmaker.info
@@ -1573,6 +1843,21 @@ class _StringsSkedmakerFiltersTl extends _StringsSkedmakerFiltersEn {
 	@override late final _StringsSkedmakerFiltersCategoriesTl categories = _StringsSkedmakerFiltersCategoriesTl._(_root);
 	@override String get any => 'Kahit anong asignatura';
 	@override String get reset => 'Baguhin lahat muli';
+}
+
+// Path: skedmaker.schedules
+class _StringsSkedmakerSchedulesTl extends _StringsSkedmakerSchedulesEn {
+	_StringsSkedmakerSchedulesTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Palátuntunan';
+	@override late final _StringsSkedmakerSchedulesGenerateTl generate = _StringsSkedmakerSchedulesGenerateTl._(_root);
+	@override late final _StringsSkedmakerSchedulesCommandbarTl commandbar = _StringsSkedmakerSchedulesCommandbarTl._(_root);
+	@override late final _StringsSkedmakerSchedulesDetailsTl details = _StringsSkedmakerSchedulesDetailsTl._(_root);
+	@override late final _StringsSkedmakerSchedulesInfoTl info = _StringsSkedmakerSchedulesInfoTl._(_root);
+	@override late final _StringsSkedmakerSchedulesOptionsTl options = _StringsSkedmakerSchedulesOptionsTl._(_root);
 }
 
 // Path: skedmaker.scheduleDay
@@ -1636,6 +1921,26 @@ class _StringsSkedmakerScheduleRoomTl extends _StringsSkedmakerScheduleRoomEn {
 	@override String hybrid({required Object room}) => '${room} at online';
 }
 
+// Path: skedmaker.scheduleDefault
+class _StringsSkedmakerScheduleDefaultTl extends _StringsSkedmakerScheduleDefaultEn {
+	_StringsSkedmakerScheduleDefaultTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String name({required Object n}) => 'Palátuntunan ${n}';
+}
+
+// Path: skedmaker.infobar
+class _StringsSkedmakerInfobarTl extends _StringsSkedmakerInfobarEn {
+	_StringsSkedmakerInfobarTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get currentlyGeneratingSchedules => 'Currently generating schedules. Changes here will not apply until you generate again.';
+}
+
 // Path: general.home.more
 class _StringsGeneralHomeMoreTl extends _StringsGeneralHomeMoreEn {
 	_StringsGeneralHomeMoreTl._(_StringsTl root) : this._root = root, super._(root);
@@ -1676,7 +1981,7 @@ class _StringsGeneralDrawerBugsTl extends _StringsGeneralDrawerBugsEn {
 	@override final _StringsTl _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Subaybayanan ng Isyu';
+	@override String get title => 'Subaybayánan ng isyu';
 	@override String get desc => 'Umulat ng mga isyu dito!';
 }
 
@@ -1713,6 +2018,7 @@ class _StringsSkedmakerSubjectsSubjectTl extends _StringsSkedmakerSubjectsSubjec
 	@override String title({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} alok (${available} maaari)';
 	@override late final _StringsSkedmakerSubjectsSubjectActionsTl actions = _StringsSkedmakerSubjectsSubjectActionsTl._(_root);
 	@override late final _StringsSkedmakerSubjectsSubjectTableTl table = _StringsSkedmakerSubjectsSubjectTableTl._(_root);
+	@override late final _StringsSkedmakerSubjectsSubjectInfobarTl infobar = _StringsSkedmakerSubjectsSubjectInfobarTl._(_root);
 }
 
 // Path: skedmaker.subjects.empty
@@ -1735,6 +2041,70 @@ class _StringsSkedmakerFiltersCategoriesTl extends _StringsSkedmakerFiltersCateg
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsTl offerings = _StringsSkedmakerFiltersCategoriesOfferingsTl._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesDayTl day = _StringsSkedmakerFiltersCategoriesDayTl._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesLocationTl location = _StringsSkedmakerFiltersCategoriesLocationTl._(_root);
+}
+
+// Path: skedmaker.schedules.generate
+class _StringsSkedmakerSchedulesGenerateTl extends _StringsSkedmakerSchedulesGenerateEn {
+	_StringsSkedmakerSchedulesGenerateTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Bumuo ng mga posibleng palátuntunan';
+	@override String get button => 'Bumuo';
+	@override String get pending => 'Wala pang nabuong talàan. Maaaring matagal ito.';
+	@override String found({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('tl'))(n,
+		one: '${n} nabuong palátuntunan',
+		other: '${n} (na) nabuong palátuntunan',
+	);
+	@override String progress({required Object percent}) => '${percent}% tapos';
+}
+
+// Path: skedmaker.schedules.commandbar
+class _StringsSkedmakerSchedulesCommandbarTl extends _StringsSkedmakerSchedulesCommandbarEn {
+	_StringsSkedmakerSchedulesCommandbarTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsSkedmakerSchedulesCommandbarRenameTl rename = _StringsSkedmakerSchedulesCommandbarRenameTl._(_root);
+	@override late final _StringsSkedmakerSchedulesCommandbarDeleteTl delete = _StringsSkedmakerSchedulesCommandbarDeleteTl._(_root);
+	@override late final _StringsSkedmakerSchedulesCommandbarStarTl star = _StringsSkedmakerSchedulesCommandbarStarTl._(_root);
+	@override late final _StringsSkedmakerSchedulesCommandbarSaveImageTl saveImage = _StringsSkedmakerSchedulesCommandbarSaveImageTl._(_root);
+}
+
+// Path: skedmaker.schedules.details
+class _StringsSkedmakerSchedulesDetailsTl extends _StringsSkedmakerSchedulesDetailsEn {
+	_StringsSkedmakerSchedulesDetailsTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Mga detalye';
+	@override String get notes => 'Talâ';
+	@override String get subjects => 'Mga asignatura';
+}
+
+// Path: skedmaker.schedules.info
+class _StringsSkedmakerSchedulesInfoTl extends _StringsSkedmakerSchedulesInfoEn {
+	_StringsSkedmakerSchedulesInfoTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Impo';
+	@override String get title => 'Impormasyon';
+	@override String get desc => 'Pumili ng palátuntunan sa kaliwa.\nTignan at kumparahin ang mga palátuntunan gamit ang mga tab sa itaas.\n\nMga shortcut sa palapindutan:\nUp/Down arrow key - pumunta sa susunod/nakaraang palátuntunan\nCtrl + T - gumawa ng bagong tab\nCtrl + W o Ctrl + F4 - isara ang kasalukuyang tab\nCtrl + 1 hanggang 8 - pumunta sa una hanggang pang-walong tab\nCtrl + 9 - pumunta sa huling tab\n';
+}
+
+// Path: skedmaker.schedules.options
+class _StringsSkedmakerSchedulesOptionsTl extends _StringsSkedmakerSchedulesOptionsEn {
+	_StringsSkedmakerSchedulesOptionsTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get hoverEffects => 'Paganahin ang epektong hover';
 }
 
 // Path: skedmaker.scheduleDay.mondayFace
@@ -2186,7 +2556,7 @@ class _StringsSkedmakerSubjectsAddButtonMlsTl extends _StringsSkedmakerSubjectsA
 	// Translations
 	@override String get name => 'Magdagdag mula My.LaSalle';
 	@override String get title => 'Magdagdag ng asignatura';
-	@override String get desc => 'Ilagay ang iyong numero ng ID at ang code ng asignatura sa  pop-up window. Nang nakalista na ang mga alok, i-klik ang "${_root.general.general.add}".';
+	@override String get desc => 'Ilagay ang iyong numero ng ID at ang code ng asignatura sa bagong durungawan. Nang nakalista na ang mga alok, pindutin ang "${_root.general.general.add}".';
 }
 
 // Path: skedmaker.subjects.add.buttonManual
@@ -2231,6 +2601,17 @@ class _StringsSkedmakerSubjectsSubjectTableTl extends _StringsSkedmakerSubjectsS
 	@override late final _StringsSkedmakerSubjectsSubjectTableTeacherTl teacher = _StringsSkedmakerSubjectsSubjectTableTeacherTl._(_root);
 	@override late final _StringsSkedmakerSubjectsSubjectTableSlotsTl slots = _StringsSkedmakerSubjectsSubjectTableSlotsTl._(_root);
 	@override late final _StringsSkedmakerSubjectsSubjectTableRemarksTl remarks = _StringsSkedmakerSubjectsSubjectTableRemarksTl._(_root);
+}
+
+// Path: skedmaker.subjects.subject.infobar
+class _StringsSkedmakerSubjectsSubjectInfobarTl extends _StringsSkedmakerSubjectsSubjectInfobarEn {
+	_StringsSkedmakerSubjectsSubjectInfobarTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String noAvailableOffering({required Object subject}) => 'Walang maaaring alok ang ${subject}.';
+	@override String hidden({required Object subject}) => 'Nakatago ang ${subject}. Hindi ito maisasama kapag bumubuo ng palátuntunan.';
 }
 
 // Path: skedmaker.filters.categories.offerings
@@ -2288,6 +2669,52 @@ class _StringsSkedmakerFiltersCategoriesLocationTl extends _StringsSkedmakerFilt
 	@override late final _StringsSkedmakerFiltersCategoriesLocationCalculatorTl calculator = _StringsSkedmakerFiltersCategoriesLocationCalculatorTl._(_root);
 }
 
+// Path: skedmaker.schedules.commandbar.rename
+class _StringsSkedmakerSchedulesCommandbarRenameTl extends _StringsSkedmakerSchedulesCommandbarRenameEn {
+	_StringsSkedmakerSchedulesCommandbarRenameTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Pangalánin';
+	@override String get edit => 'Maglagay ng bagong pangalan';
+}
+
+// Path: skedmaker.schedules.commandbar.delete
+class _StringsSkedmakerSchedulesCommandbarDeleteTl extends _StringsSkedmakerSchedulesCommandbarDeleteEn {
+	_StringsSkedmakerSchedulesCommandbarDeleteTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Burahin';
+	@override String desc({required Object name}) => 'Burahin ang ${name}?\nHindi mo ito maibabalik.\nMabubura rin ang lahat ng tab na may ganitong talàan.\n';
+}
+
+// Path: skedmaker.schedules.commandbar.star
+class _StringsSkedmakerSchedulesCommandbarStarTl extends _StringsSkedmakerSchedulesCommandbarStarEn {
+	_StringsSkedmakerSchedulesCommandbarStarTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get star => 'Ibituin';
+	@override String get unstar => '\'Wag ibituin';
+}
+
+// Path: skedmaker.schedules.commandbar.saveImage
+class _StringsSkedmakerSchedulesCommandbarSaveImageTl extends _StringsSkedmakerSchedulesCommandbarSaveImageEn {
+	_StringsSkedmakerSchedulesCommandbarSaveImageTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Iimpok bilang larawan';
+	@override String get title => 'Iimpok bilang larawan';
+	@override String get desc => 'Palitan ang laki ng durungawan para maayos ang larawan. Pagkatapos, pindutin ang "${_root.general.general.save}".';
+	@override late final _StringsSkedmakerSchedulesCommandbarSaveImageCreditsTl credits = _StringsSkedmakerSchedulesCommandbarSaveImageCreditsTl._(_root);
+}
+
 // Path: skedmaker.subjects.subject.actions.recolor
 class _StringsSkedmakerSubjectsSubjectActionsRecolorTl extends _StringsSkedmakerSubjectsSubjectActionsRecolorEn {
 	_StringsSkedmakerSubjectsSubjectActionsRecolorTl._(_StringsTl root) : this._root = root, super._(root);
@@ -2320,7 +2747,7 @@ class _StringsSkedmakerSubjectsSubjectTableStatusTl extends _StringsSkedmakerSub
 	@override final _StringsTl _root; // ignore: unused_field
 
 	// Translations
-	@override String get name => 'Istado';
+	@override String get name => 'Kalagayan';
 	@override String get open => 'Bukás';
 	@override String get closed => 'Sarado';
 }
@@ -2592,7 +3019,7 @@ class _StringsSkedmakerFiltersCategoriesLocationCalculatorTl extends _StringsSke
 	// Translations
 	@override String get name => 'Buksan ang kalkulator ng distansya';
 	@override String get title => 'Kalkulator ng distansya';
-	@override String get desc => 'Tandaan: Tantyahin lamang ito.';
+	@override String get desc => 'Tandaan: Tantya-tantyahin lamang ito.';
 	@override String get from => 'Mula:';
 	@override String get to => 'Patungo:';
 	@override String get hint => 'Code ng silid (eg. A1105)';
@@ -2601,6 +3028,17 @@ class _StringsSkedmakerFiltersCategoriesLocationCalculatorTl extends _StringsSke
 		one: '~${n} metro',
 		other: '~${n} (na) metro',
 	);
+}
+
+// Path: skedmaker.schedules.commandbar.saveImage.credits
+class _StringsSkedmakerSchedulesCommandbarSaveImageCreditsTl extends _StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn {
+	_StringsSkedmakerSchedulesCommandbarSaveImageCreditsTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get s1 => 'binuo ng';
+	@override String get s2 => ' ${_root.general.app.name} ${_root.skedmaker.info.name}';
 }
 
 // Path: <root>
@@ -2659,6 +3097,8 @@ class _StringsSkedmakerTlQp extends _StringsSkedmakerEn {
 	@override late final _StringsSkedmakerFiltersTlQp filters = _StringsSkedmakerFiltersTlQp._(_root);
 	@override late final _StringsSkedmakerScheduleDayTlQp scheduleDay = _StringsSkedmakerScheduleDayTlQp._(_root);
 	@override late final _StringsSkedmakerScheduleRoomTlQp scheduleRoom = _StringsSkedmakerScheduleRoomTlQp._(_root);
+	@override late final _StringsSkedmakerScheduleDefaultTlQp scheduleDefault = _StringsSkedmakerScheduleDefaultTlQp._(_root);
+	@override late final _StringsSkedmakerInfobarTlQp infobar = _StringsSkedmakerInfobarTlQp._(_root);
 }
 
 // Path: general.app
@@ -2713,6 +3153,11 @@ class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
 	@override String get save => 'I-save';
 	@override String get saveDont => '\'Wag i-save';
 	@override String get cancel => 'I-cancel';
+	@override String get resume => 'I-resume';
+	@override String get pause => 'I-pause';
+	@override String get stop => 'I-stop';
+	@override String get close => 'I-close';
+	@override String get rename => 'I-rename';
 }
 
 // Path: skedmaker.info
@@ -2813,6 +3258,26 @@ class _StringsSkedmakerScheduleRoomTlQp extends _StringsSkedmakerScheduleRoomEn 
 	@override String hybrid({required Object room}) => '${room} at online';
 }
 
+// Path: skedmaker.scheduleDefault
+class _StringsSkedmakerScheduleDefaultTlQp extends _StringsSkedmakerScheduleDefaultEn {
+	_StringsSkedmakerScheduleDefaultTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String name({required Object n}) => 'Schedule ${n}';
+}
+
+// Path: skedmaker.infobar
+class _StringsSkedmakerInfobarTlQp extends _StringsSkedmakerInfobarEn {
+	_StringsSkedmakerInfobarTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get currentlyGeneratingSchedules => 'Currently generating schedules. Changes here will not apply until you generate again.';
+}
+
 // Path: general.home.more
 class _StringsGeneralHomeMoreTlQp extends _StringsGeneralHomeMoreEn {
 	_StringsGeneralHomeMoreTlQp._(_StringsTlQp root) : this._root = root, super._(root);
@@ -2890,6 +3355,7 @@ class _StringsSkedmakerSubjectsSubjectTlQp extends _StringsSkedmakerSubjectsSubj
 	@override String title({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} offerings (${available} available)';
 	@override late final _StringsSkedmakerSubjectsSubjectActionsTlQp actions = _StringsSkedmakerSubjectsSubjectActionsTlQp._(_root);
 	@override late final _StringsSkedmakerSubjectsSubjectTableTlQp table = _StringsSkedmakerSubjectsSubjectTableTlQp._(_root);
+	@override late final _StringsSkedmakerSubjectsSubjectInfobarTlQp infobar = _StringsSkedmakerSubjectsSubjectInfobarTlQp._(_root);
 }
 
 // Path: skedmaker.subjects.empty
@@ -3410,6 +3876,17 @@ class _StringsSkedmakerSubjectsSubjectTableTlQp extends _StringsSkedmakerSubject
 	@override late final _StringsSkedmakerSubjectsSubjectTableRemarksTlQp remarks = _StringsSkedmakerSubjectsSubjectTableRemarksTlQp._(_root);
 }
 
+// Path: skedmaker.subjects.subject.infobar
+class _StringsSkedmakerSubjectsSubjectInfobarTlQp extends _StringsSkedmakerSubjectsSubjectInfobarEn {
+	_StringsSkedmakerSubjectsSubjectInfobarTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String noAvailableOffering({required Object subject}) => '${subject} ay walang available na offering.';
+	@override String hidden({required Object subject}) => 'Naka-hide ang ${subject}. Hindi ito included kapag nag-gegenerate ng mga schedule.';
+}
+
 // Path: skedmaker.filters.categories.offerings
 class _StringsSkedmakerFiltersCategoriesOfferingsTlQp extends _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsTlQp._(_StringsTlQp root) : this._root = root, super._(root);
@@ -3809,6 +4286,155 @@ extension on _StringsEn {
 			case 'general.general.save': return 'Save';
 			case 'general.general.saveDont': return 'Don\'t save';
 			case 'general.general.cancel': return 'Cancel';
+			case 'general.general.resume': return 'Resume';
+			case 'general.general.pause': return 'Pause';
+			case 'general.general.stop': return 'Stop';
+			case 'general.general.close': return 'Close';
+			case 'general.general.rename': return 'Rename';
+			case 'general.general.date.eras.0': return 'BC';
+			case 'general.general.date.eras.1': return 'AD';
+			case 'general.general.date.eraNames.0': return 'Before Christ';
+			case 'general.general.date.eraNames.1': return 'Anno Domini';
+			case 'general.general.date.narrowMonths.0': return 'J';
+			case 'general.general.date.narrowMonths.1': return 'F';
+			case 'general.general.date.narrowMonths.2': return 'M';
+			case 'general.general.date.narrowMonths.3': return 'A';
+			case 'general.general.date.narrowMonths.4': return 'M';
+			case 'general.general.date.narrowMonths.5': return 'J';
+			case 'general.general.date.narrowMonths.6': return 'J';
+			case 'general.general.date.narrowMonths.7': return 'A';
+			case 'general.general.date.narrowMonths.8': return 'S';
+			case 'general.general.date.narrowMonths.9': return 'O';
+			case 'general.general.date.narrowMonths.10': return 'N';
+			case 'general.general.date.narrowMonths.11': return 'D';
+			case 'general.general.date.standaloneNarrowMonths.0': return 'J';
+			case 'general.general.date.standaloneNarrowMonths.1': return 'F';
+			case 'general.general.date.standaloneNarrowMonths.2': return 'M';
+			case 'general.general.date.standaloneNarrowMonths.3': return 'A';
+			case 'general.general.date.standaloneNarrowMonths.4': return 'M';
+			case 'general.general.date.standaloneNarrowMonths.5': return 'J';
+			case 'general.general.date.standaloneNarrowMonths.6': return 'J';
+			case 'general.general.date.standaloneNarrowMonths.7': return 'A';
+			case 'general.general.date.standaloneNarrowMonths.8': return 'S';
+			case 'general.general.date.standaloneNarrowMonths.9': return 'O';
+			case 'general.general.date.standaloneNarrowMonths.10': return 'N';
+			case 'general.general.date.standaloneNarrowMonths.11': return 'D';
+			case 'general.general.date.months.0': return 'January';
+			case 'general.general.date.months.1': return 'February';
+			case 'general.general.date.months.2': return 'March';
+			case 'general.general.date.months.3': return 'April';
+			case 'general.general.date.months.4': return 'May';
+			case 'general.general.date.months.5': return 'June';
+			case 'general.general.date.months.6': return 'July';
+			case 'general.general.date.months.7': return 'August';
+			case 'general.general.date.months.8': return 'September';
+			case 'general.general.date.months.9': return 'October';
+			case 'general.general.date.months.10': return 'November';
+			case 'general.general.date.months.11': return 'December';
+			case 'general.general.date.standaloneMonths.0': return 'January';
+			case 'general.general.date.standaloneMonths.1': return 'February';
+			case 'general.general.date.standaloneMonths.2': return 'March';
+			case 'general.general.date.standaloneMonths.3': return 'April';
+			case 'general.general.date.standaloneMonths.4': return 'May';
+			case 'general.general.date.standaloneMonths.5': return 'June';
+			case 'general.general.date.standaloneMonths.6': return 'July';
+			case 'general.general.date.standaloneMonths.7': return 'August';
+			case 'general.general.date.standaloneMonths.8': return 'September';
+			case 'general.general.date.standaloneMonths.9': return 'October';
+			case 'general.general.date.standaloneMonths.10': return 'November';
+			case 'general.general.date.standaloneMonths.11': return 'December';
+			case 'general.general.date.shortMonths.0': return 'Jan';
+			case 'general.general.date.shortMonths.1': return 'Feb';
+			case 'general.general.date.shortMonths.2': return 'Mar';
+			case 'general.general.date.shortMonths.3': return 'Apr';
+			case 'general.general.date.shortMonths.4': return 'May';
+			case 'general.general.date.shortMonths.5': return 'Jun';
+			case 'general.general.date.shortMonths.6': return 'Jul';
+			case 'general.general.date.shortMonths.7': return 'Aug';
+			case 'general.general.date.shortMonths.8': return 'Sep';
+			case 'general.general.date.shortMonths.9': return 'Oct';
+			case 'general.general.date.shortMonths.10': return 'Nov';
+			case 'general.general.date.shortMonths.11': return 'Dec';
+			case 'general.general.date.standaloneShortMonths.0': return 'Jan';
+			case 'general.general.date.standaloneShortMonths.1': return 'Feb';
+			case 'general.general.date.standaloneShortMonths.2': return 'Mar';
+			case 'general.general.date.standaloneShortMonths.3': return 'Apr';
+			case 'general.general.date.standaloneShortMonths.4': return 'May';
+			case 'general.general.date.standaloneShortMonths.5': return 'Jun';
+			case 'general.general.date.standaloneShortMonths.6': return 'Jul';
+			case 'general.general.date.standaloneShortMonths.7': return 'Aug';
+			case 'general.general.date.standaloneShortMonths.8': return 'Sep';
+			case 'general.general.date.standaloneShortMonths.9': return 'Oct';
+			case 'general.general.date.standaloneShortMonths.10': return 'Nov';
+			case 'general.general.date.standaloneShortMonths.11': return 'Dec';
+			case 'general.general.date.weekdays.0': return 'Sunday';
+			case 'general.general.date.weekdays.1': return 'Monday';
+			case 'general.general.date.weekdays.2': return 'Tuesday';
+			case 'general.general.date.weekdays.3': return 'Wednesday';
+			case 'general.general.date.weekdays.4': return 'Thursday';
+			case 'general.general.date.weekdays.5': return 'Friday';
+			case 'general.general.date.weekdays.6': return 'Saturday';
+			case 'general.general.date.standaloneWeekdays.0': return 'Sunday';
+			case 'general.general.date.standaloneWeekdays.1': return 'Monday';
+			case 'general.general.date.standaloneWeekdays.2': return 'Tuesday';
+			case 'general.general.date.standaloneWeekdays.3': return 'Wednesday';
+			case 'general.general.date.standaloneWeekdays.4': return 'Thursday';
+			case 'general.general.date.standaloneWeekdays.5': return 'Friday';
+			case 'general.general.date.standaloneWeekdays.6': return 'Saturday';
+			case 'general.general.date.shortWeekdays.0': return 'Sun';
+			case 'general.general.date.shortWeekdays.1': return 'Mon';
+			case 'general.general.date.shortWeekdays.2': return 'Tue';
+			case 'general.general.date.shortWeekdays.3': return 'Wed';
+			case 'general.general.date.shortWeekdays.4': return 'Thu';
+			case 'general.general.date.shortWeekdays.5': return 'Fri';
+			case 'general.general.date.shortWeekdays.6': return 'Sat';
+			case 'general.general.date.standaloneShortWeekdays.0': return 'Sun';
+			case 'general.general.date.standaloneShortWeekdays.1': return 'Mon';
+			case 'general.general.date.standaloneShortWeekdays.2': return 'Tue';
+			case 'general.general.date.standaloneShortWeekdays.3': return 'Wed';
+			case 'general.general.date.standaloneShortWeekdays.4': return 'Thu';
+			case 'general.general.date.standaloneShortWeekdays.5': return 'Fri';
+			case 'general.general.date.standaloneShortWeekdays.6': return 'Sat';
+			case 'general.general.date.narrowWeekdays.0': return 'S';
+			case 'general.general.date.narrowWeekdays.1': return 'M';
+			case 'general.general.date.narrowWeekdays.2': return 'T';
+			case 'general.general.date.narrowWeekdays.3': return 'W';
+			case 'general.general.date.narrowWeekdays.4': return 'T';
+			case 'general.general.date.narrowWeekdays.5': return 'F';
+			case 'general.general.date.narrowWeekdays.6': return 'S';
+			case 'general.general.date.standaloneNarrowWeekdays.0': return 'S';
+			case 'general.general.date.standaloneNarrowWeekdays.1': return 'M';
+			case 'general.general.date.standaloneNarrowWeekdays.2': return 'T';
+			case 'general.general.date.standaloneNarrowWeekdays.3': return 'W';
+			case 'general.general.date.standaloneNarrowWeekdays.4': return 'T';
+			case 'general.general.date.standaloneNarrowWeekdays.5': return 'F';
+			case 'general.general.date.standaloneNarrowWeekdays.6': return 'S';
+			case 'general.general.date.shortQuarters.0': return 'Q1';
+			case 'general.general.date.shortQuarters.1': return 'Q2';
+			case 'general.general.date.shortQuarters.2': return 'Q3';
+			case 'general.general.date.shortQuarters.3': return 'Q4';
+			case 'general.general.date.quarters.0': return '1st quarter';
+			case 'general.general.date.quarters.1': return '2nd quarter';
+			case 'general.general.date.quarters.2': return '3rd quarter';
+			case 'general.general.date.quarters.3': return '4th quarter';
+			case 'general.general.date.ampms.0': return 'AM';
+			case 'general.general.date.ampms.1': return 'PM';
+			case 'general.general.date.dateFormats.0': return 'EEEE, MMMM d, y';
+			case 'general.general.date.dateFormats.1': return 'MMMM d, y';
+			case 'general.general.date.dateFormats.2': return 'MMM d, y';
+			case 'general.general.date.dateFormats.3': return 'M/d/yy';
+			case 'general.general.date.timeFormats.0': return 'h:mm:ss a zzzz';
+			case 'general.general.date.timeFormats.1': return 'h:mm:ss a z';
+			case 'general.general.date.timeFormats.2': return 'h:mm:ss a';
+			case 'general.general.date.timeFormats.3': return 'h:mm a';
+			case 'general.general.date.firstDayOfWeek': return '6';
+			case 'general.general.date.weekendRange.0': return '5';
+			case 'general.general.date.weekendRange.1': return '6';
+			case 'general.general.date.firstWeekCutoffDay': return '5';
+			case 'general.general.date.dateTimeFormats.0': return '{1}, {0}';
+			case 'general.general.date.dateTimeFormats.1': return '{1}, {0}';
+			case 'general.general.date.dateTimeFormats.2': return '{1}, {0}';
+			case 'general.general.date.dateTimeFormats.3': return '{1}, {0}';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.desc': return 'The automatic class schedule maker for DLSU students';
 			case 'skedmaker.subjects.name': return 'Subjects';
@@ -3862,6 +4488,8 @@ extension on _StringsEn {
 			case 'skedmaker.subjects.subject.table.slots.outOf': return ' out of ';
 			case 'skedmaker.subjects.subject.table.remarks.name': return 'Remarks';
 			case 'skedmaker.subjects.subject.table.remarks.edit': return 'Edit remarks (can be empty):';
+			case 'skedmaker.subjects.subject.infobar.noAvailableOffering': return ({required Object subject}) => '${subject} has no available offerings.';
+			case 'skedmaker.subjects.subject.infobar.hidden': return ({required Object subject}) => '${subject} is hidden. It won\'t be included when generating schedules.';
 			case 'skedmaker.subjects.empty.title': return ({required Object subject}) => '${subject} has no offerings';
 			case 'skedmaker.filters.name': return 'Filters';
 			case 'skedmaker.filters.categories.offerings.name': return 'Offerings';
@@ -3918,22 +4546,29 @@ extension on _StringsEn {
 			case 'skedmaker.schedules.name': return 'Schedules';
 			case 'skedmaker.schedules.generate.title': return 'Generate possible schedules';
 			case 'skedmaker.schedules.generate.button': return 'Generate';
-			case 'skedmaker.schedules.generate.found': return ({required num n, required Object number}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				one: '${number} schedule found',
-				other: '${number} schedules found',
+			case 'skedmaker.schedules.generate.pending': return 'No schedules found yet. This will take some time.';
+			case 'skedmaker.schedules.generate.found': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				one: '${n} schedule found',
+				other: '${n} schedules found',
 			);
-			case 'skedmaker.schedules.generate.defaultName': return ({required Object number}) => 'Schedule ${number}';
+			case 'skedmaker.schedules.generate.progress': return ({required Object percent}) => '${percent}% complete';
 			case 'skedmaker.schedules.commandbar.rename.name': return 'Rename';
 			case 'skedmaker.schedules.commandbar.rename.edit': return 'Enter new name';
 			case 'skedmaker.schedules.commandbar.delete.name': return 'Delete';
-			case 'skedmaker.schedules.commandbar.delete.desc': return ({required Object name}) => 'Delete ${name}? You cannot un-delete this. All tabs with this schedule will be removed.\n';
+			case 'skedmaker.schedules.commandbar.delete.desc': return ({required Object name}) => 'Delete ${name}?\nYou cannot un-delete this.\nAll tabs with this schedule will be removed.\n';
 			case 'skedmaker.schedules.commandbar.star.star': return 'Star';
 			case 'skedmaker.schedules.commandbar.star.unstar': return 'Unstar';
 			case 'skedmaker.schedules.commandbar.saveImage.name': return 'Save as image';
-			case 'skedmaker.schedules.commandbar.saveImage.desc': return 'Resize the window to adjust the image formatting. When done, click "Save".';
-			case 'skedmaker.schedules.commandbar.saveImage.credits': return 'generated by ${_root.general.app.name} @skedmaker.info.name';
+			case 'skedmaker.schedules.commandbar.saveImage.title': return 'Save as image';
+			case 'skedmaker.schedules.commandbar.saveImage.desc': return 'Resize the window to adjust the image formatting. When done, click "${_root.general.general.save}".';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s1': return 'generated by';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s2': return '${_root.general.app.name} @skedmaker.info.name';
+			case 'skedmaker.schedules.details.name': return 'Details';
 			case 'skedmaker.schedules.details.notes': return 'Notes';
 			case 'skedmaker.schedules.details.subjects': return 'Subjects';
+			case 'skedmaker.schedules.info.name': return 'Info';
+			case 'skedmaker.schedules.info.title': return 'Information';
+			case 'skedmaker.schedules.info.desc': return 'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab\n';
 			case 'skedmaker.schedules.options.hoverEffects': return 'Enable hover effects';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';
@@ -4018,7 +4653,9 @@ extension on _StringsEn {
 			case 'skedmaker.scheduleRoom.empty': return 'No room';
 			case 'skedmaker.scheduleRoom.online': return 'Online';
 			case 'skedmaker.scheduleRoom.hybrid': return ({required Object room}) => '${room} and online';
+			case 'skedmaker.scheduleDefault.name': return ({required Object n}) => 'Schedule ${n}';
 			case 'skedmaker.mlsCourseOfferings': return 'My.LaSalle\'s Course Offerings';
+			case 'skedmaker.infobar.currentlyGeneratingSchedules': return 'Currently generating schedules. Changes here will not apply until you generate again.';
 			default: return null;
 		}
 	}
@@ -4037,7 +4674,7 @@ extension on _StringsTl {
 			case 'general.drawer.support.desc': return 'Suportahan ako!';
 			case 'general.drawer.github.title': return 'Tignan ang source code';
 			case 'general.drawer.github.desc': return 'Mag-ambag sa AralTools!';
-			case 'general.drawer.bugs.title': return 'Subaybayanan ng Isyu';
+			case 'general.drawer.bugs.title': return 'Subaybayánan ng isyu';
 			case 'general.drawer.bugs.desc': return 'Umulat ng mga isyu dito!';
 			case 'general.drawer.language.title': return ({required Object language}) => 'Wika: ${language}';
 			case 'general.drawer.language.tooltip': return 'Palitan ang wika';
@@ -4047,16 +4684,21 @@ extension on _StringsTl {
 			case 'general.general.delete': return 'Ibura';
 			case 'general.general.add': return 'Idagdag';
 			case 'general.general.select': return 'Piliin';
-			case 'general.general.save': return 'I-save';
-			case 'general.general.saveDont': return '\'Wag i-save';
+			case 'general.general.save': return 'Impukin';
+			case 'general.general.saveDont': return '\'Wag impukin';
 			case 'general.general.cancel': return 'Kansela';
+			case 'general.general.resume': return 'Itulóy';
+			case 'general.general.pause': return 'Ihinto';
+			case 'general.general.stop': return 'Itigil';
+			case 'general.general.close': return 'Isara';
+			case 'general.general.rename': return 'Ipangalan';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.desc': return 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
 			case 'skedmaker.subjects.name': return 'Asignatura';
 			case 'skedmaker.subjects.add.title': return 'Magdagdag ng asignatura';
 			case 'skedmaker.subjects.add.buttonMls.name': return 'Magdagdag mula My.LaSalle';
 			case 'skedmaker.subjects.add.buttonMls.title': return 'Magdagdag ng asignatura';
-			case 'skedmaker.subjects.add.buttonMls.desc': return 'Ilagay ang iyong numero ng ID at ang code ng asignatura sa  pop-up window. Nang nakalista na ang mga alok, i-klik ang "${_root.general.general.add}".';
+			case 'skedmaker.subjects.add.buttonMls.desc': return 'Ilagay ang iyong numero ng ID at ang code ng asignatura sa bagong durungawan. Nang nakalista na ang mga alok, pindutin ang "${_root.general.general.add}".';
 			case 'skedmaker.subjects.add.buttonManual.name': return 'Magdagdag nang manu-mano';
 			case 'skedmaker.subjects.add.buttonManual.title': return 'Gumawa ng bagong asignatura';
 			case 'skedmaker.subjects.add.buttonManual.desc': return 'Maglagay ng 7 karakter na code ng asignatura:';
@@ -4071,7 +4713,7 @@ extension on _StringsTl {
 			case 'skedmaker.subjects.subject.actions.showhide': return 'Ipakita/Itago';
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Magdagdag ng alok';
 			case 'skedmaker.subjects.subject.actions.offeringDelete': return 'Magbura ng alok';
-			case 'skedmaker.subjects.subject.table.status.name': return 'Istado';
+			case 'skedmaker.subjects.subject.table.status.name': return 'Kalagayan';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Bukás';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Sarado';
 			case 'skedmaker.subjects.subject.table.classno.name': return '\# ng Klase';
@@ -4099,6 +4741,8 @@ extension on _StringsTl {
 			case 'skedmaker.subjects.subject.table.slots.outOf': return ' mula sa ';
 			case 'skedmaker.subjects.subject.table.remarks.name': return 'Puna';
 			case 'skedmaker.subjects.subject.table.remarks.edit': return 'Palitan ang mga puna (maaaring wala):';
+			case 'skedmaker.subjects.subject.infobar.noAvailableOffering': return ({required Object subject}) => 'Walang maaaring alok ang ${subject}.';
+			case 'skedmaker.subjects.subject.infobar.hidden': return ({required Object subject}) => 'Nakatago ang ${subject}. Hindi ito maisasama kapag bumubuo ng palátuntunan.';
 			case 'skedmaker.subjects.empty.title': return ({required Object subject}) => 'Ang ${subject} ay walang alok';
 			case 'skedmaker.filters.name': return 'Panalà';
 			case 'skedmaker.filters.categories.offerings.name': return 'Alok';
@@ -4141,7 +4785,7 @@ extension on _StringsTl {
 			case 'skedmaker.filters.categories.location.maxAllowedDistanceMeters.name': return 'Pinakamataas na layo mula sa isang asignatura patungo sa susunod (metro)';
 			case 'skedmaker.filters.categories.location.calculator.name': return 'Buksan ang kalkulator ng distansya';
 			case 'skedmaker.filters.categories.location.calculator.title': return 'Kalkulator ng distansya';
-			case 'skedmaker.filters.categories.location.calculator.desc': return 'Tandaan: Tantyahin lamang ito.';
+			case 'skedmaker.filters.categories.location.calculator.desc': return 'Tandaan: Tantya-tantyahin lamang ito.';
 			case 'skedmaker.filters.categories.location.calculator.from': return 'Mula:';
 			case 'skedmaker.filters.categories.location.calculator.to': return 'Patungo:';
 			case 'skedmaker.filters.categories.location.calculator.hint': return 'Code ng silid (eg. A1105)';
@@ -4152,6 +4796,33 @@ extension on _StringsTl {
 			);
 			case 'skedmaker.filters.any': return 'Kahit anong asignatura';
 			case 'skedmaker.filters.reset': return 'Baguhin lahat muli';
+			case 'skedmaker.schedules.name': return 'Palátuntunan';
+			case 'skedmaker.schedules.generate.title': return 'Bumuo ng mga posibleng palátuntunan';
+			case 'skedmaker.schedules.generate.button': return 'Bumuo';
+			case 'skedmaker.schedules.generate.pending': return 'Wala pang nabuong talàan. Maaaring matagal ito.';
+			case 'skedmaker.schedules.generate.found': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('tl'))(n,
+				one: '${n} nabuong palátuntunan',
+				other: '${n} (na) nabuong palátuntunan',
+			);
+			case 'skedmaker.schedules.generate.progress': return ({required Object percent}) => '${percent}% tapos';
+			case 'skedmaker.schedules.commandbar.rename.name': return 'Pangalánin';
+			case 'skedmaker.schedules.commandbar.rename.edit': return 'Maglagay ng bagong pangalan';
+			case 'skedmaker.schedules.commandbar.delete.name': return 'Burahin';
+			case 'skedmaker.schedules.commandbar.delete.desc': return ({required Object name}) => 'Burahin ang ${name}?\nHindi mo ito maibabalik.\nMabubura rin ang lahat ng tab na may ganitong talàan.\n';
+			case 'skedmaker.schedules.commandbar.star.star': return 'Ibituin';
+			case 'skedmaker.schedules.commandbar.star.unstar': return '\'Wag ibituin';
+			case 'skedmaker.schedules.commandbar.saveImage.name': return 'Iimpok bilang larawan';
+			case 'skedmaker.schedules.commandbar.saveImage.title': return 'Iimpok bilang larawan';
+			case 'skedmaker.schedules.commandbar.saveImage.desc': return 'Palitan ang laki ng durungawan para maayos ang larawan. Pagkatapos, pindutin ang "${_root.general.general.save}".';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s1': return 'binuo ng';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s2': return ' ${_root.general.app.name} ${_root.skedmaker.info.name}';
+			case 'skedmaker.schedules.details.name': return 'Mga detalye';
+			case 'skedmaker.schedules.details.notes': return 'Talâ';
+			case 'skedmaker.schedules.details.subjects': return 'Mga asignatura';
+			case 'skedmaker.schedules.info.name': return 'Impo';
+			case 'skedmaker.schedules.info.title': return 'Impormasyon';
+			case 'skedmaker.schedules.info.desc': return 'Pumili ng palátuntunan sa kaliwa.\nTignan at kumparahin ang mga palátuntunan gamit ang mga tab sa itaas.\n\nMga shortcut sa palapindutan:\nUp/Down arrow key - pumunta sa susunod/nakaraang palátuntunan\nCtrl + T - gumawa ng bagong tab\nCtrl + W o Ctrl + F4 - isara ang kasalukuyang tab\nCtrl + 1 hanggang 8 - pumunta sa una hanggang pang-walong tab\nCtrl + 9 - pumunta sa huling tab\n';
+			case 'skedmaker.schedules.options.hoverEffects': return 'Paganahin ang epektong hover';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Lunes (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'Lun (f2f)';
 			case 'skedmaker.scheduleDay.mondayOnline.name': return 'Lunes (online)';
@@ -4235,6 +4906,8 @@ extension on _StringsTl {
 			case 'skedmaker.scheduleRoom.empty': return 'Walang silid';
 			case 'skedmaker.scheduleRoom.online': return 'Online';
 			case 'skedmaker.scheduleRoom.hybrid': return ({required Object room}) => '${room} at online';
+			case 'skedmaker.scheduleDefault.name': return ({required Object n}) => 'Palátuntunan ${n}';
+			case 'skedmaker.infobar.currentlyGeneratingSchedules': return 'Currently generating schedules. Changes here will not apply until you generate again.';
 			default: return null;
 		}
 	}
@@ -4266,6 +4939,11 @@ extension on _StringsTlQp {
 			case 'general.general.save': return 'I-save';
 			case 'general.general.saveDont': return '\'Wag i-save';
 			case 'general.general.cancel': return 'I-cancel';
+			case 'general.general.resume': return 'I-resume';
+			case 'general.general.pause': return 'I-pause';
+			case 'general.general.stop': return 'I-stop';
+			case 'general.general.close': return 'I-close';
+			case 'general.general.rename': return 'I-rename';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.desc': return 'Ang automatic na class schedule maker para sa DLSU students';
 			case 'skedmaker.subjects.name': return 'Subjects';
@@ -4315,6 +4993,8 @@ extension on _StringsTlQp {
 			case 'skedmaker.subjects.subject.table.slots.outOf': return ' out of ';
 			case 'skedmaker.subjects.subject.table.remarks.name': return 'Remarks';
 			case 'skedmaker.subjects.subject.table.remarks.edit': return 'I-edit ang remarks (puwedeng empty):';
+			case 'skedmaker.subjects.subject.infobar.noAvailableOffering': return ({required Object subject}) => '${subject} ay walang available na offering.';
+			case 'skedmaker.subjects.subject.infobar.hidden': return ({required Object subject}) => 'Naka-hide ang ${subject}. Hindi ito included kapag nag-gegenerate ng mga schedule.';
 			case 'skedmaker.subjects.empty.title': return ({required Object subject}) => '${subject} ay walang offerings';
 			case 'skedmaker.filters.name': return 'Filters';
 			case 'skedmaker.filters.categories.offerings.name': return 'Mga offering';
@@ -4451,6 +5131,8 @@ extension on _StringsTlQp {
 			case 'skedmaker.scheduleRoom.empty': return 'Walang room';
 			case 'skedmaker.scheduleRoom.online': return 'Online';
 			case 'skedmaker.scheduleRoom.hybrid': return ({required Object room}) => '${room} at online';
+			case 'skedmaker.scheduleDefault.name': return ({required Object n}) => 'Schedule ${n}';
+			case 'skedmaker.infobar.currentlyGeneratingSchedules': return 'Currently generating schedules. Changes here will not apply until you generate again.';
 			default: return null;
 		}
 	}

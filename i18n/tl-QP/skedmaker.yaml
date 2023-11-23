@@ -86,7 +86,10 @@ subjects:
       remarks: 
         name: Remarks
         edit: "I-edit ang remarks (puwedeng empty):"
-  
+    infobar:
+      noAvailableOffering: ${subject} ay walang available na offering.
+      hidden: Naka-hide ang ${subject}. Hindi ito included kapag nag-gegenerate ng mga schedule.
+
   empty: 
     title: ${subject} ay walang offerings
 
@@ -292,3 +295,9 @@ scheduleRoom:
   empty: Walang room
   online: Online
   hybrid: ${room} at online
+
+scheduleDefault:
+  name: Schedule ${n}
+
+infobar: 
+  currentlyGeneratingSchedules: Currently generating schedules. Changes here will not apply until you generate again.

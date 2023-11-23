@@ -34,7 +34,7 @@ drawer:
     title: Tignan ang source code
     desc: Mag-ambag sa AralTools!
   bugs:
-    title: Subaybayanan ng Isyu
+    title: Subaybayánan ng isyu
     desc: Umulat ng mga isyu dito!
   language:
     title: "Wika: ${language}"
@@ -47,6 +47,11 @@ general:
   delete: Ibura
   add: Idagdag
   select: Piliin
-  save: I-save
-  saveDont:  "'Wag i-save"
+  save: Impukin
+  saveDont:  "'Wag impukin"
   cancel: Kansela
+  resume: Itulóy
+  pause: Ihinto
+  stop: Itigil
+  close: Isara
+  rename: Ipangalan

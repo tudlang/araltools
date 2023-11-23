@@ -130,7 +130,8 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     return FluentApp(
       locale: TranslationProvider.of(context).flutterLocale, // use provider
       localizationsDelegates: [
@@ -145,11 +146,10 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
         ...FluentLocalizations.supportedLocales,
       ],
       debugShowCheckedModeBanner: false,
-      theme: FluentThemeData.light()
-          .copyWith(navigationPaneTheme: NavigationPaneThemeData()
-              //accentColor: Colors.blue,
-              //micaBackgroundColor: Theme.of(context).colorScheme.primary
-              ),
+      theme: FluentThemeData.light().copyWith(
+        navigationPaneTheme: NavigationPaneThemeData(),
+        accentColor: theme.colorScheme.primary.toAccentColor(),
+      ),
       home: CallbackShortcuts(
         bindings: {
           // Trigger saving on Ctrl+S
@@ -187,7 +187,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
               header: Row(mainAxisSize: MainAxisSize.min, children: [
                 Icon(
                   AralTools.skedmaker.icon,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: theme.colorScheme.onPrimary,
                   size: 30,
                 ),
                 SizedBox(width: 8),
@@ -196,19 +196,18 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   style: textTheme.titleLarge?.copyWith(
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimary),
+                      color: theme.colorScheme.onPrimary),
                 ),
                 SizedBox(width: 16),
                 VerticalDivider(),
               ]),
               leading: Tooltip(
-                message:
-                    MaterialLocalizations.of(context).openAppDrawerTooltip,
+                message: MaterialLocalizations.of(context).openAppDrawerTooltip,
                 child: IconButton(
                   icon: Icon(
                     MdiIcons.menu,
                     size: 25,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: theme.colorScheme.onPrimary,
                   ),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
@@ -229,7 +228,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   title: Text(
                     strings.skedmaker.subjects.name,
                     style: textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                        color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
@@ -241,7 +240,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   title: Text(
                     strings.skedmaker.filters.name,
                     style: textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                        color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
@@ -258,7 +257,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   title: Text(
                     strings.skedmaker.schedules.name,
                     style: textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                        color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,

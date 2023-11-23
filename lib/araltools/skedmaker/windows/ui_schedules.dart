@@ -44,6 +44,7 @@ import '../classes.dart';
 import '../functions.dart';
 import '../models.dart';
 import '../skedmaker_activity.dart';
+import '/strings.g.dart';
 
 class SchedulesFragment extends StatefulWidget {
   const SchedulesFragment({super.key});
@@ -83,17 +84,18 @@ class SchedulesFragmentBlank extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Generate possible schedules',
+                strings.skedmaker.schedules.generate.title,
                 style: textTheme.headlineMedium,
               ),
               SizedBox(height: 8),
               if (model.isGenerating) ...[
                 Text("No schedules found yet. This will take some time."),
+                SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: InfoLabel(
-                    label:
-                        "\n${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                    label: strings.skedmaker.schedules.generate.progress(
+                        percent: model.schedulePercentage.toStringAsFixed(2)),
                     child: ProgressBar(
                       value: model.schedulePercentage.isNaN
                           ? null
@@ -106,7 +108,7 @@ class SchedulesFragmentBlank extends StatelessWidget {
                   child: Button(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Cancel'),
+                        child: Text(strings.general.general.cancel),
                       ),
                       onPressed: () {
                         context.read<SkedmakerModel>().scheduleCancel();
@@ -118,7 +120,8 @@ class SchedulesFragmentBlank extends StatelessWidget {
                   child: FilledButton(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Generate'),
+                        child:
+                            Text(strings.skedmaker.schedules.generate.button),
                       ),
                       onPressed: () {
                         context.read<SkedmakerModel>().scheduleGenerate();
@@ -204,7 +207,7 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Button(
-                          child: Text('Resume'),
+                          child: Text(strings.general.general.resume),
                           onPressed: () {
                             context.read<SkedmakerModel>().scheduleResume();
                           },
@@ -214,14 +217,14 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Button(
-                          child: Text('Pause'),
+                          child: Text(strings.general.general.pause),
                           onPressed: () {
                             context.read<SkedmakerModel>().schedulePause();
                           },
                         ),
                       ),
                     Button(
-                      child: Text('Stop'),
+                      child: Text(strings.general.general.stop),
                       onPressed: () {
                         context.read<SkedmakerModel>().scheduleCancel();
                       },
@@ -237,12 +240,13 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Regenerate'),
+                      child: Text(strings.skedmaker.schedules.generate.button),
                     ),
                   ),
                 ),
               Text(
-                "${model.schedules.length} schedules found",
+                strings.skedmaker.schedules.generate
+                    .found(n: model.schedules.length),
                 textAlign: TextAlign.center,
               ),
               if (model.isGenerating)
@@ -250,7 +254,8 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                   padding: const EdgeInsets.all(8.0),
                   child: InfoLabel(
                     label:
-                        "${model.schedulePercentage.toStringAsFixed(2)}% complete",
+                        strings.skedmaker.schedules.generate.progress(
+                        percent: model.schedulePercentage.toStringAsFixed(2)),
                     child: ProgressBar(
                       value: model.schedulePercentage.isNaN
                           ? null
@@ -346,7 +351,7 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
             });
           },
           header: Tooltip(
-            message: 'Info',
+            message: strings.skedmaker.schedules.info.name,
             child: IconButton(
               icon: Icon(Icons.info_outline),
               onPressed: () {
@@ -354,13 +359,12 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                     context: context,
                     builder: (context) {
                       return ContentDialog(
-                        title: Text('Info'),
-                        content: Text(
-                            'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab'),
+                        title: Text(strings.skedmaker.schedules.info.title),
+                        content: Text(strings.skedmaker.schedules.info.desc),
                         actions: [
                           SizedBox.shrink(),
                           Button(
-                              child: Text('Close'),
+                              child: Text(strings.general.general.ok),
                               onPressed: () {
                                 Navigator.pop(context);
                               }),
@@ -450,7 +454,7 @@ class _SchedulesFragmentTimetableState
                             controller: controllerFlyout, child: child);
                       },
                       wrappedItem: CommandBarButton(
-                        label: Text('Rename'),
+                        label: Text(strings.skedmaker.schedules.commandbar.rename.name),
                         icon: Icon(MdiIcons.renameOutline),
                         onPressed: () {
                           controllerFlyout.showFlyout(builder: (context) {
@@ -478,7 +482,7 @@ class _SchedulesFragmentTimetableState
                                   ),
                                   SizedBox(height: 8),
                                   Button(
-                                    child: Text('Rename'),
+                                    child: Text(strings.general.general.rename),
                                     onPressed: submit,
                                   )
                                 ],
@@ -487,7 +491,7 @@ class _SchedulesFragmentTimetableState
                           });
                         },
                       ));
-                }(),
+                }(), 
                 () {
                   final controllerFlyout = FlyoutController();
                   return CommandBarBuilderItem(
@@ -496,7 +500,7 @@ class _SchedulesFragmentTimetableState
                             controller: controllerFlyout, child: child);
                       },
                       wrappedItem: CommandBarButton(
-                        label: Text('Delete'),
+                        label: Text(strings.skedmaker.schedules.commandbar.delete.name),
                         icon: Icon(MdiIcons.deleteOutline),
                         onPressed: () {
                           controllerFlyout.showFlyout(
@@ -508,12 +512,12 @@ class _SchedulesFragmentTimetableState
                                   children: [
                                     InfoLabel(
                                       label:
-                                          'Delete ${week.name}?\nYou cannot un-delete this.\nAll tabs with this schedule will be removed.',
+                                      strings.skedmaker.schedules.commandbar.delete.desc(name: week.name),
                                       labelStyle: FluentTheme.maybeOf(context)
                                           ?.typography
                                           .bodyStrong,
                                       child: Button(
-                                        child: Text('Delete'),
+                                        child: Text(strings.general.general.delete),
                                         onPressed: () {
                                           context
                                               .read<SkedmakerModel>()
@@ -532,7 +536,7 @@ class _SchedulesFragmentTimetableState
                       ));
                 }(),
                 CommandBarButton(
-                  label: Text(week.isStarred ? 'Unstar' : 'Star'),
+                  label: Text(week.isStarred ? strings.skedmaker.schedules.commandbar.star.unstar : strings.skedmaker.schedules.commandbar.star.star),
                   icon: Icon(MdiIcons.starOutline),
                   onPressed: () {
                     context
@@ -543,7 +547,7 @@ class _SchedulesFragmentTimetableState
                   },
                 ),
                 CommandBarButton(
-                  label: Text('Save as image'),
+                  label: Text(strings.skedmaker.schedules.commandbar.saveImage.name),
                   icon: Icon(MdiIcons.imageOutline),
                   onPressed: () {
                     exportImage(context, week);
@@ -595,21 +599,21 @@ class _SchedulesFragmentTimetableState
                               enableHoverEffects = !enableHoverEffects;
                             });
                           },
-                          content: Text('Enable hover effects'),
+                          content: Text(strings.skedmaker.schedules.options.hoverEffects),
                         ),
                       ),
                       const Divider(style: DividerThemeData(thickness: 3)),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Details',
+                          strings.skedmaker.schedules.details.name,
                           style: textTheme.headlineSmall,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InfoLabel(
-                          label: 'Notes',
+                          label: strings.skedmaker.schedules.details.notes,
                           child: TextBox(
                             controller: controllerTextNotes,
                             maxLines: null,
@@ -619,7 +623,7 @@ class _SchedulesFragmentTimetableState
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InfoLabel(
-                          label: 'Subjects',
+                          label: strings.skedmaker.schedules.details.subjects,
                           child: Wrap(
                             spacing: 8,
                             runSpacing: 8,
@@ -704,7 +708,7 @@ class ScheduleFragmentCard extends StatelessWidget {
             ),
             TextSpan(
               text: " #${subject.classNumber}\n",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith  (color: colorLuminant),
             ),
             WidgetSpan(
                 child: Icon(
@@ -714,16 +718,16 @@ class ScheduleFragmentCard extends StatelessWidget {
             )),
             TextSpan(
               text: " ${subject.room.isEmpty ? '-' : subject.room}",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
             TextSpan(
               text:
                   "\n${subject.scheduleDay.nameShort}\n${subject.scheduleTimeString}",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
             TextSpan(
               text: "\n${subject.slots} slots\n",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
             WidgetSpan(
                 child: Icon(
@@ -733,7 +737,7 @@ class ScheduleFragmentCard extends StatelessWidget {
             )),
             TextSpan(
               text: " ${subject.teacher.isEmpty ? '-' : subject.teacher}\n",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
             WidgetSpan(
                 child: Icon(
@@ -743,7 +747,7 @@ class ScheduleFragmentCard extends StatelessWidget {
             )),
             TextSpan(
               text: " ${subject.remarks.isEmpty ? '-' : subject.remarks}",
-              style: textTheme.labelMedium!.copyWith(color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
           ],
         )),

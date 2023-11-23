@@ -50,3 +50,8 @@ general:
   save: I-save
   saveDont:  "'Wag i-save"
   cancel: I-cancel
+  resume: I-resume
+  pause: I-pause
+  stop: I-stop
+  close: I-close
+  rename: I-rename

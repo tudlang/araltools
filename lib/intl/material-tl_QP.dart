@@ -32,7 +32,7 @@ class _TlQPMaterialLocalizationsDelegate
 
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
-    final String localeName = Intl.canonicalizedLocale(locale.toString());
+    final String localeName = Intl.canonicalizedLocale("tl_QP");
 
     // The locale needs to be initialized into the custom
     // date symbols and patterns setup that Flutter uses.
@@ -742,4 +742,16 @@ class MaterialLocalizationTlQP extends GlobalMaterialLocalizations {
 
   @override
   String get viewLicensesButtonLabel => 'I-view ang licenses';
+  
+  @override
+  String get lookUpButtonLabel => 'Mag-look Up';
+  
+  @override
+  String get menuDismissLabel => 'I-dismiss ang menu';
+  
+  @override
+  String get searchWebButtonLabel => 'I-search sa Web';
+  
+  @override
+  String get shareButtonLabel => 'I-share...';
 }

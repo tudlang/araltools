@@ -253,7 +253,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
             itemBuilder: (context) => locales.entries
                 .map((e) => PopupMenuItem(
                     value: e.key,
-                    padding: EdgeInsets.zero,
                     child: ListTile(
                       title: Text(e.value.name),
                       leading: Container(

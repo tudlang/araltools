@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 
+import 'package:araltools/strings.g.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
@@ -284,7 +285,7 @@ Stream<ScheduleWeek?> generateSchedules({
         if (week == null) {
           controller.add(null);
         } else {
-          week.name = "Schedule ${++outputtedWeeks}";
+          week.name = strings.skedmaker.scheduleDefault.name(n: ++outputtedWeeks);
           controller.add(week);
         }
       }

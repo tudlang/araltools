@@ -61,11 +61,16 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SkedmakerModel>();
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+
+    final textTheme = theme.textTheme;
 
     return NavigationView(
       pane: NavigationPane(
         selected: indexSubject,
+        indicator: StickyNavigationIndicator(
+          color: theme.colorScheme.primary,
+        ),
         items: [
           PaneItem(
             icon: Icon(MdiIcons.plus),
@@ -227,7 +232,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '${subject.key} has no offerings',
+                          strings.skedmaker.subjects.empty
+                              .title(subject: subject.key),
                           style: textTheme.headlineMedium,
                         ),
                         SizedBox(height: 8),
@@ -247,7 +253,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                             FilledButton(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Add offering'),
+                                  child: Text(strings.skedmaker.subjects.subject.actions.offeringAdd),
                                 ),
                                 onPressed: () {
                                   final model = context.read<SkedmakerModel>();
@@ -366,7 +372,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
                       title: Text(
-                          'Currently generating schedules. Changes here will not apply until you generate again.'),
+                          strings.skedmaker.infobar.currentlyGeneratingSchedules),
                       severity: InfoBarSeverity.warning,
                     ),
                   ),
@@ -377,7 +383,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
                       title: Text(
-                          '${widget.subject} is hidden. It won\'t be included when generating schedules.'),
+                        strings.skedmaker.subjects.subject.infobar.hidden(subject: widget.subject)),
                       severity: InfoBarSeverity.info,
                     ),
                   ),
@@ -388,7 +394,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
                       title:
-                          Text('${widget.subject} has no available offerings.'),
+                          Text(strings.skedmaker.subjects.subject.infobar.noAvailableOffering(subject: widget.subject)),
                       severity: InfoBarSeverity.error,
                     ),
                   ),
@@ -489,10 +495,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               ),
                               wheelDiameter: 260,
                               wheelWidth: 22,
-                              subheading:
-                                  Text(str.actions.recolor.shades),
-                              wheelSubheading:
-                                  Text(str.actions.recolor.shades),
+                              subheading: Text(str.actions.recolor.shades),
+                              wheelSubheading: Text(str.actions.recolor.shades),
                             ),
                           ),
                           actions: [
@@ -828,7 +832,7 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                               return StatefulBuilder(
                                   builder: (context, setState) {
                                 return SubjectsFragmentFlyout(
-                                  label:str.table.day.edit,
+                                  label: str.table.day.edit,
                                   input: ComboBox<ScheduleDay>(
                                     value: selected,
                                     items: ScheduleDay.values
@@ -946,7 +950,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                       SizedBox(height: 8),
                                       ToggleSwitch(
                                         checked: selectedStart2 != null,
-                                        content: Text(str.table.time.secondTimeInterval),
+                                        content: Text(
+                                            str.table.time.secondTimeInterval),
                                         onChanged: (value) {
                                           setState(() {
                                             if (value) {
@@ -1028,8 +1033,8 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                     if (selectedStart >= selectedEnd ||
                                         (selectedStart2 != null &&
                                             selectedStart2! >= selectedEnd2!)) {
-                                      throw ArgumentError(
-                                          str.table.time.errorStartTimeBeforeEndTime);
+                                      throw ArgumentError(str.table.time
+                                          .errorStartTimeBeforeEndTime);
                                     }
                                     model.modifySubjectOffering(
                                       widget.subject,
@@ -1037,16 +1042,16 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                       (p0) {
                                         if (p0.scheduleDay.isMultipleDays &&
                                             selectedStart2 == null) {
-                                          throw ArgumentError(
-                                              str.table.time.errorSecondTimeInterval);
+                                          throw ArgumentError(str.table.time
+                                              .errorSecondTimeInterval);
                                         }
 
                                         if (!p0.scheduleDay.isMultipleDays &&
                                             selectedStart2 != null &&
                                             selectedStart <= selectedEnd2! &&
                                             selectedStart2! <= selectedEnd) {
-                                          throw ArgumentError(
-                                              str.table.time.errorStartTimeBeforeEndTime);
+                                          throw ArgumentError(str.table.time
+                                              .errorStartTimeBeforeEndTime);
                                         }
 
                                         p0.scheduleTime = (
@@ -1103,8 +1108,9 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                           SizedBox.square(
                             dimension: 25,
                             child: Tooltip(
-                              message:
-                              str.table.slots.percent(percent: (offerings[i].slotPercentage * 100).round()),
+                              message: str.table.slots.percent(
+                                  percent: (offerings[i].slotPercentage * 100)
+                                      .round()),
                               child: ProgressRing(
                                 // min because the slot taken might be greater than capacity
                                 value:
