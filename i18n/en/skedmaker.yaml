@@ -53,7 +53,9 @@ subjects:
         warning: "Delete ${subject}? \nYou cannot un-delete this."
       showhide: Show/Hide
       offeringAdd: Add offering
-      offeringDelete: Delete offering
+      offeringDelete: 
+        name: Delete offering
+        warning: "Delete this offering? \nYou cannot un-delete this."
     table:
       status: 
         name: Status

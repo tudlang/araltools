@@ -47,7 +47,9 @@ subjects:
         warning: "I-delete ang ${subject}? \n'Di mo 'to ma-uundelete."
       showhide: I-show/I-hide
       offeringAdd: Mag-add ng offering
-      offeringDelete: Mag-delete ng offering
+      offeringDelete: 
+        name: Mag-delete ng offering
+        warning: "I-delete 'tong offering? \n'Di mo 'to ma-uundelete."
     table:
       status: 
         name: Status

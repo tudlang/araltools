@@ -44,17 +44,16 @@ class HomeActivity extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(
-              strings.general.app.name,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
+        title: Center(
+          child: Text(
+            strings.general.app.name,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                ),
+          ),
         ),
       ),
       drawer: HomeDrawer(),

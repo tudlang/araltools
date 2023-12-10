@@ -48,7 +48,9 @@ subjects:
         warning: "Burahin ang ${subject}? \nHindi mo 'to maibabalik."
       showhide: Ipakita/Itago
       offeringAdd: Magdagdag ng alok
-      offeringDelete: Magbura ng alok
+      offeringDelete: 
+        name: Magbura ng alok
+        warning: "Burahin itong alok? \nHindi mo 'to maibabalik."
     table:
       status: 
         name: Kalagayan

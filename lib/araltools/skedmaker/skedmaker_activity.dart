@@ -119,7 +119,6 @@ class TimetableFragment extends StatelessWidget {
 
     if (data == null) return Container();
 
-    final theme = Theme.of(context);
     return TimetableView(
       timetableStyle: TimetableStyle(
         laneWidth: 110,

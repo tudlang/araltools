@@ -253,8 +253,7 @@ class _SchedulesFragmentProperState extends State<SchedulesFragmentProper> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InfoLabel(
-                    label:
-                        strings.skedmaker.schedules.generate.progress(
+                    label: strings.skedmaker.schedules.generate.progress(
                         percent: model.schedulePercentage.toStringAsFixed(2)),
                     child: ProgressBar(
                       value: model.schedulePercentage.isNaN
@@ -449,49 +448,52 @@ class _SchedulesFragmentTimetableState
                   final controllerFlyout = FlyoutController();
                   final controllerText = TextEditingController(text: week.name);
                   return CommandBarBuilderItem(
-                      builder: (context, displayMode, child) {
-                        return FlyoutTarget(
-                            controller: controllerFlyout, child: child);
-                      },
-                      wrappedItem: CommandBarButton(
-                        label: Text(strings.skedmaker.schedules.commandbar.rename.name),
-                        icon: Icon(MdiIcons.renameOutline),
-                        onPressed: () {
-                          controllerFlyout.showFlyout(builder: (context) {
-                            void submit() {
-                              if (controllerText.text.isEmpty) return;
-                              context
-                                  .read<SkedmakerModel>()
-                                  .modifySchedule(widget.tabIndex, (week) {
-                                week.name = controllerText.text;
-                              });
-                              Navigator.pop(context);
-                            }
+                    builder: (context, displayMode, child) {
+                      return FlyoutTarget(
+                          controller: controllerFlyout, child: child);
+                    },
+                    wrappedItem: CommandBarButton(
+                      label: Text(
+                          strings.skedmaker.schedules.commandbar.rename.name),
+                      icon: Icon(MdiIcons.renameOutline),
+                      onPressed: () {
+                        controllerFlyout.showFlyout(builder: (context) {
+                          void submit() {
+                            if (controllerText.text.isEmpty) return;
+                            context
+                                .read<SkedmakerModel>()
+                                .modifySchedule(widget.tabIndex, (week) {
+                              week.name = controllerText.text;
+                            });
+                            Navigator.pop(context);
+                          }
 
-                            return FlyoutContent(
-                                child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 200),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextBox(
-                                    controller: controllerText,
-                                    autofocus: true,
-                                    onSubmitted: (value) => submit(),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Button(
-                                    child: Text(strings.general.general.rename),
-                                    onPressed: submit,
-                                  )
-                                ],
-                              ),
-                            ));
-                          });
-                        },
-                      ));
-                }(), 
+                          return FlyoutContent(
+                              child: ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 200),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextBox(
+                                  controller: controllerText,
+                                  autofocus: true,
+                                  onSubmitted: (value) => submit(),
+                                  maxLength: 30, //30 is arbitrarily set.
+                                ),
+                                SizedBox(height: 8),
+                                Button(
+                                  child: Text(strings.general.general.rename),
+                                  onPressed: submit,
+                                )
+                              ],
+                            ),
+                          ));
+                        });
+                      },
+                    ),
+                  );
+                }(),
                 () {
                   final controllerFlyout = FlyoutController();
                   return CommandBarBuilderItem(
@@ -500,7 +502,8 @@ class _SchedulesFragmentTimetableState
                             controller: controllerFlyout, child: child);
                       },
                       wrappedItem: CommandBarButton(
-                        label: Text(strings.skedmaker.schedules.commandbar.delete.name),
+                        label: Text(
+                            strings.skedmaker.schedules.commandbar.delete.name),
                         icon: Icon(MdiIcons.deleteOutline),
                         onPressed: () {
                           controllerFlyout.showFlyout(
@@ -511,13 +514,15 @@ class _SchedulesFragmentTimetableState
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     InfoLabel(
-                                      label:
-                                      strings.skedmaker.schedules.commandbar.delete.desc(name: week.name),
+                                      label: strings
+                                          .skedmaker.schedules.commandbar.delete
+                                          .desc(name: week.name),
                                       labelStyle: FluentTheme.maybeOf(context)
                                           ?.typography
                                           .bodyStrong,
                                       child: Button(
-                                        child: Text(strings.general.general.delete),
+                                        child: Text(
+                                            strings.general.general.delete),
                                         onPressed: () {
                                           context
                                               .read<SkedmakerModel>()
@@ -536,7 +541,9 @@ class _SchedulesFragmentTimetableState
                       ));
                 }(),
                 CommandBarButton(
-                  label: Text(week.isStarred ? strings.skedmaker.schedules.commandbar.star.unstar : strings.skedmaker.schedules.commandbar.star.star),
+                  label: Text(week.isStarred
+                      ? strings.skedmaker.schedules.commandbar.star.unstar
+                      : strings.skedmaker.schedules.commandbar.star.star),
                   icon: Icon(MdiIcons.starOutline),
                   onPressed: () {
                     context
@@ -547,7 +554,8 @@ class _SchedulesFragmentTimetableState
                   },
                 ),
                 CommandBarButton(
-                  label: Text(strings.skedmaker.schedules.commandbar.saveImage.name),
+                  label: Text(
+                      strings.skedmaker.schedules.commandbar.saveImage.name),
                   icon: Icon(MdiIcons.imageOutline),
                   onPressed: () {
                     exportImage(context, week);
@@ -599,7 +607,8 @@ class _SchedulesFragmentTimetableState
                               enableHoverEffects = !enableHoverEffects;
                             });
                           },
-                          content: Text(strings.skedmaker.schedules.options.hoverEffects),
+                          content: Text(
+                              strings.skedmaker.schedules.options.hoverEffects),
                         ),
                       ),
                       const Divider(style: DividerThemeData(thickness: 3)),
@@ -708,7 +717,7 @@ class ScheduleFragmentCard extends StatelessWidget {
             ),
             TextSpan(
               text: " #${subject.classNumber}\n",
-              style: textTheme.bodySmall!.copyWith  (color: colorLuminant),
+              style: textTheme.bodySmall!.copyWith(color: colorLuminant),
             ),
             WidgetSpan(
                 child: Icon(

@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 844 (281 per locale)
+/// Strings: 847 (282 per locale)
 ///
-/// Built on 2023-11-23 at 16:48 UTC
+/// Built on 2023-12-10 at 06:03 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -1229,7 +1229,7 @@ class _StringsSkedmakerSubjectsSubjectActionsEn {
 	late final _StringsSkedmakerSubjectsSubjectActionsDeleteEn delete = _StringsSkedmakerSubjectsSubjectActionsDeleteEn._(_root);
 	String get showhide => 'Show/Hide';
 	String get offeringAdd => 'Add offering';
-	String get offeringDelete => 'Delete offering';
+	late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn._(_root);
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -1385,6 +1385,17 @@ class _StringsSkedmakerSubjectsSubjectActionsDeleteEn {
 	// Translations
 	String get name => 'Delete';
 	String warning({required Object subject}) => 'Delete ${subject}? \nYou cannot un-delete this.';
+}
+
+// Path: skedmaker.subjects.subject.actions.offeringDelete
+class _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn {
+	_StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn._(this._root);
+
+	final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Delete offering';
+	String get warning => 'Delete this offering? \nYou cannot un-delete this.';
 }
 
 // Path: skedmaker.subjects.subject.table.status
@@ -1949,7 +1960,7 @@ class _StringsGeneralHomeMoreTl extends _StringsGeneralHomeMoreEn {
 
 	// Translations
 	@override String get title => 'Marami pang dadating!';
-	@override String get desc => 'Maging updated! :)';
+	@override String get desc => 'Abangan! :)';
 }
 
 // Path: general.drawer.support
@@ -2582,7 +2593,7 @@ class _StringsSkedmakerSubjectsSubjectActionsTl extends _StringsSkedmakerSubject
 	@override late final _StringsSkedmakerSubjectsSubjectActionsDeleteTl delete = _StringsSkedmakerSubjectsSubjectActionsDeleteTl._(_root);
 	@override String get showhide => 'Ipakita/Itago';
 	@override String get offeringAdd => 'Magdagdag ng alok';
-	@override String get offeringDelete => 'Magbura ng alok';
+	@override late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl._(_root);
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -2738,6 +2749,17 @@ class _StringsSkedmakerSubjectsSubjectActionsDeleteTl extends _StringsSkedmakerS
 	// Translations
 	@override String get name => 'Burahin';
 	@override String warning({required Object subject}) => 'Burahin ang ${subject}? \nHindi mo \'to maibabalik.';
+}
+
+// Path: skedmaker.subjects.subject.actions.offeringDelete
+class _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl extends _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn {
+	_StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Magbura ng alok';
+	@override String get warning => 'Burahin itong alok? \nHindi mo \'to maibabalik.';
 }
 
 // Path: skedmaker.subjects.subject.table.status
@@ -3855,7 +3877,7 @@ class _StringsSkedmakerSubjectsSubjectActionsTlQp extends _StringsSkedmakerSubje
 	@override late final _StringsSkedmakerSubjectsSubjectActionsDeleteTlQp delete = _StringsSkedmakerSubjectsSubjectActionsDeleteTlQp._(_root);
 	@override String get showhide => 'I-show/I-hide';
 	@override String get offeringAdd => 'Mag-add ng offering';
-	@override String get offeringDelete => 'Mag-delete ng offering';
+	@override late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp._(_root);
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -3965,6 +3987,17 @@ class _StringsSkedmakerSubjectsSubjectActionsDeleteTlQp extends _StringsSkedmake
 	// Translations
 	@override String get name => 'I-delete';
 	@override String warning({required Object subject}) => 'I-delete ang ${subject}? \n\'Di mo \'to ma-uundelete.';
+}
+
+// Path: skedmaker.subjects.subject.actions.offeringDelete
+class _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp extends _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn {
+	_StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Mag-delete ng offering';
+	@override String get warning => 'I-delete \'tong offering? \n\'Di mo \'to ma-uundelete.';
 }
 
 // Path: skedmaker.subjects.subject.table.status
@@ -4459,7 +4492,8 @@ extension on _StringsEn {
 			case 'skedmaker.subjects.subject.actions.delete.warning': return ({required Object subject}) => 'Delete ${subject}? \nYou cannot un-delete this.';
 			case 'skedmaker.subjects.subject.actions.showhide': return 'Show/Hide';
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Add offering';
-			case 'skedmaker.subjects.subject.actions.offeringDelete': return 'Delete offering';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Delete offering';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'Delete this offering? \nYou cannot un-delete this.';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Status';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Open';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Closed';
@@ -4668,7 +4702,7 @@ extension on _StringsTl {
 			case 'general.home.name': return 'Tahanan';
 			case 'general.home.welcome': return 'Maligayang pagdating!';
 			case 'general.home.more.title': return 'Marami pang dadating!';
-			case 'general.home.more.desc': return 'Maging updated! :)';
+			case 'general.home.more.desc': return 'Abangan! :)';
 			case 'general.drawer.about': return 'Patungkol';
 			case 'general.drawer.support.title': return 'Buy Me A Coffee';
 			case 'general.drawer.support.desc': return 'Suportahan ako!';
@@ -4712,7 +4746,8 @@ extension on _StringsTl {
 			case 'skedmaker.subjects.subject.actions.delete.warning': return ({required Object subject}) => 'Burahin ang ${subject}? \nHindi mo \'to maibabalik.';
 			case 'skedmaker.subjects.subject.actions.showhide': return 'Ipakita/Itago';
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Magdagdag ng alok';
-			case 'skedmaker.subjects.subject.actions.offeringDelete': return 'Magbura ng alok';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Magbura ng alok';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'Burahin itong alok? \nHindi mo \'to maibabalik.';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Kalagayan';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Bukás';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Sarado';
@@ -4964,7 +4999,8 @@ extension on _StringsTlQp {
 			case 'skedmaker.subjects.subject.actions.delete.warning': return ({required Object subject}) => 'I-delete ang ${subject}? \n\'Di mo \'to ma-uundelete.';
 			case 'skedmaker.subjects.subject.actions.showhide': return 'I-show/I-hide';
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Mag-add ng offering';
-			case 'skedmaker.subjects.subject.actions.offeringDelete': return 'Mag-delete ng offering';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Mag-delete ng offering';
+			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'I-delete \'tong offering? \n\'Di mo \'to ma-uundelete.';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Status';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Naka-open';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Naka-close';
