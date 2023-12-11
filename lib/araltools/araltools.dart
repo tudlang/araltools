@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
+import 'package:araltools/araltools/gradechecker/gradechecker_activity.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -29,6 +31,12 @@ enum AralTools {
     platforms: ["windows"],
     extras: {'noAppbar': true},
     fileExtensions: ['.atsm'],
+  ),
+
+  gradechecker(
+    route: '/gradechecker',
+    icon: MdiIcons.fileChartOutline,
+    platforms: ["windows"],
   ),
   ;
 
@@ -50,18 +58,20 @@ enum AralTools {
   
 
   /// Gets the translated name
-  String get localizedName => strings["$name.info.name"];
+  String get localizedName => strings["$name.info.name"] ?? name;
 
   /// Gets the translated description
-  String get localizedDesc => strings["$name.info.desc"];
+  String get localizedDesc => strings["$name.info.desc"] ?? '';
 
   Widget getWidget(Map<String, dynamic> extras) => switch(this){
     skedmaker => SkedmakerActivity(
       path: extras['path'],
-    )
+    ),
+    gradechecker => GradecheckerActivity()
   };
   Widget getDrawer(Map<String, dynamic> extras) => switch(this){
-    skedmaker => SkedmakerDrawer()
+    skedmaker => SkedmakerDrawer(),
+    gradechecker => Drawer()
   };
 
 
