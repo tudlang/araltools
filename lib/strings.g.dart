@@ -6,7 +6,7 @@
 /// Locales: 3
 /// Strings: 847 (282 per locale)
 ///
-/// Built on 2023-12-10 at 06:03 UTC
+/// Built on 2023-12-12 at 05:22 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -24,8 +24,8 @@ const AppLocale _baseLocale = AppLocale.en;
 /// - LocaleSettings.setLocale(AppLocale.en) // set locale
 /// - Locale locale = AppLocale.en.flutterLocale // get flutter locale from enum
 /// - if (LocaleSettings.currentLocale == AppLocale.en) // locale check
-enum AppLocale with BaseAppLocale<AppLocale, _StringsEn> {
-	en(languageCode: 'en', build: _StringsEn.build),
+enum AppLocale with BaseAppLocale<AppLocale, Translations> {
+	en(languageCode: 'en', build: Translations.build),
 	tl(languageCode: 'tl', build: _StringsTl.build),
 	tlQp(languageCode: 'tl', countryCode: 'QP', build: _StringsTlQp.build);
 
@@ -34,10 +34,10 @@ enum AppLocale with BaseAppLocale<AppLocale, _StringsEn> {
 	@override final String languageCode;
 	@override final String? scriptCode;
 	@override final String? countryCode;
-	@override final TranslationBuilder<AppLocale, _StringsEn> build;
+	@override final TranslationBuilder<AppLocale, Translations> build;
 
 	/// Gets current instance managed by [LocaleSettings].
-	_StringsEn get translations => LocaleSettings.instance.translationMap[this]!;
+	Translations get translations => LocaleSettings.instance.translationMap[this]!;
 }
 
 /// Method A: Simple
@@ -49,7 +49,7 @@ enum AppLocale with BaseAppLocale<AppLocale, _StringsEn> {
 /// Usage:
 /// String a = strings.someKey.anotherKey;
 /// String b = strings['someKey.anotherKey']; // Only for edge cases!
-_StringsEn get strings => LocaleSettings.instance.currentTranslations;
+Translations get strings => LocaleSettings.instance.currentTranslations;
 
 /// Method B: Advanced
 ///
@@ -66,17 +66,10 @@ _StringsEn get strings => LocaleSettings.instance.currentTranslations;
 /// final strings = Translations.of(context); // Get strings variable.
 /// String a = strings.someKey.anotherKey; // Use strings variable.
 /// String b = strings['someKey.anotherKey']; // Only for edge cases!
-class Translations {
-	Translations._(); // no constructor
-
-	static _StringsEn of(BuildContext context) => InheritedLocaleData.of<AppLocale, _StringsEn>(context).translations;
-}
-
-/// The provider for method B
-class TranslationProvider extends BaseTranslationProvider<AppLocale, _StringsEn> {
+class TranslationProvider extends BaseTranslationProvider<AppLocale, Translations> {
 	TranslationProvider({required super.child}) : super(settings: LocaleSettings.instance);
 
-	static InheritedLocaleData<AppLocale, _StringsEn> of(BuildContext context) => InheritedLocaleData.of<AppLocale, _StringsEn>(context);
+	static InheritedLocaleData<AppLocale, Translations> of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context);
 }
 
 /// Method B shorthand via [BuildContext] extension method.
@@ -85,11 +78,11 @@ class TranslationProvider extends BaseTranslationProvider<AppLocale, _StringsEn>
 /// Usage (e.g. in a widget's build method):
 /// context.strings.someKey.anotherKey
 extension BuildContextTranslationsExtension on BuildContext {
-	_StringsEn get strings => TranslationProvider.of(this).translations;
+	Translations get strings => TranslationProvider.of(this).translations;
 }
 
 /// Manages all translation instances and the current locale
-class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, _StringsEn> {
+class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, Translations> {
 	LocaleSettings._() : super(utils: AppLocaleUtils.instance);
 
 	static final instance = LocaleSettings._();
@@ -111,7 +104,7 @@ class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, _StringsEn> {
 }
 
 /// Provides utility functions without any side effects.
-class AppLocaleUtils extends BaseAppLocaleUtils<AppLocale, _StringsEn> {
+class AppLocaleUtils extends BaseAppLocaleUtils<AppLocale, Translations> {
 	AppLocaleUtils._() : super(baseLocale: _baseLocale, locales: AppLocale.values);
 
 	static final instance = AppLocaleUtils._();
@@ -127,11 +120,16 @@ class AppLocaleUtils extends BaseAppLocaleUtils<AppLocale, _StringsEn> {
 // translations
 
 // Path: <root>
-class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
+class Translations implements BaseTranslations<AppLocale, Translations> {
+	/// Returns the current translations of the given [context].
+	///
+	/// Usage:
+	/// final strings = Translations.of(context);
+	static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
 
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
-	_StringsEn.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
+	Translations.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
 		  $meta = TranslationMetadata(
 		    locale: AppLocale.en,
@@ -143,12 +141,12 @@ class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, _StringsEn> $meta;
+	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
 	dynamic operator[](String key) => $meta.getTranslation(key);
 
-	late final _StringsEn _root = this; // ignore: unused_field
+	late final Translations _root = this; // ignore: unused_field
 
 	// Translations
 	late final _StringsGeneralEn general = _StringsGeneralEn._(_root);
@@ -159,7 +157,7 @@ class _StringsEn implements BaseTranslations<AppLocale, _StringsEn> {
 class _StringsGeneralEn {
 	_StringsGeneralEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsGeneralAppEn app = _StringsGeneralAppEn._(_root);
@@ -172,7 +170,7 @@ class _StringsGeneralEn {
 class _StringsSkedmakerEn {
 	_StringsSkedmakerEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerInfoEn info = _StringsSkedmakerInfoEn._(_root);
@@ -190,7 +188,7 @@ class _StringsSkedmakerEn {
 class _StringsGeneralAppEn {
 	_StringsGeneralAppEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'AralTools';
@@ -200,7 +198,7 @@ class _StringsGeneralAppEn {
 class _StringsGeneralHomeEn {
 	_StringsGeneralHomeEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Home';
@@ -212,7 +210,7 @@ class _StringsGeneralHomeEn {
 class _StringsGeneralDrawerEn {
 	_StringsGeneralDrawerEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get about => 'About';
@@ -226,7 +224,7 @@ class _StringsGeneralDrawerEn {
 class _StringsGeneralGeneralEn {
 	_StringsGeneralGeneralEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get go => 'Go';
@@ -250,7 +248,7 @@ class _StringsGeneralGeneralEn {
 class _StringsSkedmakerInfoEn {
 	_StringsSkedmakerInfoEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'SkedMaker';
@@ -261,7 +259,7 @@ class _StringsSkedmakerInfoEn {
 class _StringsSkedmakerSubjectsEn {
 	_StringsSkedmakerSubjectsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Subjects';
@@ -274,7 +272,7 @@ class _StringsSkedmakerSubjectsEn {
 class _StringsSkedmakerFiltersEn {
 	_StringsSkedmakerFiltersEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Filters';
@@ -287,7 +285,7 @@ class _StringsSkedmakerFiltersEn {
 class _StringsSkedmakerSchedulesEn {
 	_StringsSkedmakerSchedulesEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Schedules';
@@ -302,7 +300,7 @@ class _StringsSkedmakerSchedulesEn {
 class _StringsSkedmakerScheduleDayEn {
 	_StringsSkedmakerScheduleDayEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerScheduleDayMondayFaceEn mondayFace = _StringsSkedmakerScheduleDayMondayFaceEn._(_root);
@@ -351,7 +349,7 @@ class _StringsSkedmakerScheduleDayEn {
 class _StringsSkedmakerScheduleRoomEn {
 	_StringsSkedmakerScheduleRoomEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get empty => 'No room';
@@ -363,7 +361,7 @@ class _StringsSkedmakerScheduleRoomEn {
 class _StringsSkedmakerScheduleDefaultEn {
 	_StringsSkedmakerScheduleDefaultEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String name({required Object n}) => 'Schedule ${n}';
@@ -373,7 +371,7 @@ class _StringsSkedmakerScheduleDefaultEn {
 class _StringsSkedmakerInfobarEn {
 	_StringsSkedmakerInfobarEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get currentlyGeneratingSchedules => 'Currently generating schedules. Changes here will not apply until you generate again.';
@@ -383,7 +381,7 @@ class _StringsSkedmakerInfobarEn {
 class _StringsGeneralHomeMoreEn {
 	_StringsGeneralHomeMoreEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'More coming soon!';
@@ -394,7 +392,7 @@ class _StringsGeneralHomeMoreEn {
 class _StringsGeneralDrawerSupportEn {
 	_StringsGeneralDrawerSupportEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'Buy Me A Coffee';
@@ -405,7 +403,7 @@ class _StringsGeneralDrawerSupportEn {
 class _StringsGeneralDrawerGithubEn {
 	_StringsGeneralDrawerGithubEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'View source code';
@@ -416,7 +414,7 @@ class _StringsGeneralDrawerGithubEn {
 class _StringsGeneralDrawerBugsEn {
 	_StringsGeneralDrawerBugsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'Issue tracker';
@@ -427,7 +425,7 @@ class _StringsGeneralDrawerBugsEn {
 class _StringsGeneralDrawerLanguageEn {
 	_StringsGeneralDrawerLanguageEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String title({required Object language}) => 'Language: ${language}';
@@ -438,7 +436,7 @@ class _StringsGeneralDrawerLanguageEn {
 class _StringsGeneralGeneralDateEn {
 	_StringsGeneralGeneralDateEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	List<String> get eras => [
@@ -633,7 +631,7 @@ class _StringsGeneralGeneralDateEn {
 class _StringsSkedmakerSubjectsAddEn {
 	_StringsSkedmakerSubjectsAddEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'Add subject';
@@ -646,7 +644,7 @@ class _StringsSkedmakerSubjectsAddEn {
 class _StringsSkedmakerSubjectsSubjectEn {
 	_StringsSkedmakerSubjectsSubjectEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String title({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} offerings (${available} available)';
@@ -659,7 +657,7 @@ class _StringsSkedmakerSubjectsSubjectEn {
 class _StringsSkedmakerSubjectsEmptyEn {
 	_StringsSkedmakerSubjectsEmptyEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String title({required Object subject}) => '${subject} has no offerings';
@@ -669,7 +667,7 @@ class _StringsSkedmakerSubjectsEmptyEn {
 class _StringsSkedmakerFiltersCategoriesEn {
 	_StringsSkedmakerFiltersCategoriesEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerFiltersCategoriesOfferingsEn offerings = _StringsSkedmakerFiltersCategoriesOfferingsEn._(_root);
@@ -681,7 +679,7 @@ class _StringsSkedmakerFiltersCategoriesEn {
 class _StringsSkedmakerSchedulesGenerateEn {
 	_StringsSkedmakerSchedulesGenerateEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get title => 'Generate possible schedules';
@@ -698,7 +696,7 @@ class _StringsSkedmakerSchedulesGenerateEn {
 class _StringsSkedmakerSchedulesCommandbarEn {
 	_StringsSkedmakerSchedulesCommandbarEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerSchedulesCommandbarRenameEn rename = _StringsSkedmakerSchedulesCommandbarRenameEn._(_root);
@@ -711,7 +709,7 @@ class _StringsSkedmakerSchedulesCommandbarEn {
 class _StringsSkedmakerSchedulesDetailsEn {
 	_StringsSkedmakerSchedulesDetailsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Details';
@@ -723,7 +721,7 @@ class _StringsSkedmakerSchedulesDetailsEn {
 class _StringsSkedmakerSchedulesInfoEn {
 	_StringsSkedmakerSchedulesInfoEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Info';
@@ -735,7 +733,7 @@ class _StringsSkedmakerSchedulesInfoEn {
 class _StringsSkedmakerSchedulesOptionsEn {
 	_StringsSkedmakerSchedulesOptionsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get hoverEffects => 'Enable hover effects';
@@ -745,7 +743,7 @@ class _StringsSkedmakerSchedulesOptionsEn {
 class _StringsSkedmakerScheduleDayMondayFaceEn {
 	_StringsSkedmakerScheduleDayMondayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday (face-to-face)';
@@ -756,7 +754,7 @@ class _StringsSkedmakerScheduleDayMondayFaceEn {
 class _StringsSkedmakerScheduleDayMondayOnlineEn {
 	_StringsSkedmakerScheduleDayMondayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday (online)';
@@ -767,7 +765,7 @@ class _StringsSkedmakerScheduleDayMondayOnlineEn {
 class _StringsSkedmakerScheduleDayMondayHybridEn {
 	_StringsSkedmakerScheduleDayMondayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday (hybrid)';
@@ -778,7 +776,7 @@ class _StringsSkedmakerScheduleDayMondayHybridEn {
 class _StringsSkedmakerScheduleDayMondayUnknownEn {
 	_StringsSkedmakerScheduleDayMondayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday';
@@ -789,7 +787,7 @@ class _StringsSkedmakerScheduleDayMondayUnknownEn {
 class _StringsSkedmakerScheduleDayTuesdayFaceEn {
 	_StringsSkedmakerScheduleDayTuesdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday (face-to-face)';
@@ -800,7 +798,7 @@ class _StringsSkedmakerScheduleDayTuesdayFaceEn {
 class _StringsSkedmakerScheduleDayTuesdayOnlineEn {
 	_StringsSkedmakerScheduleDayTuesdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday (online)';
@@ -811,7 +809,7 @@ class _StringsSkedmakerScheduleDayTuesdayOnlineEn {
 class _StringsSkedmakerScheduleDayTuesdayHybridEn {
 	_StringsSkedmakerScheduleDayTuesdayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday (hybrid)';
@@ -822,7 +820,7 @@ class _StringsSkedmakerScheduleDayTuesdayHybridEn {
 class _StringsSkedmakerScheduleDayTuesdayUnknownEn {
 	_StringsSkedmakerScheduleDayTuesdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday';
@@ -833,7 +831,7 @@ class _StringsSkedmakerScheduleDayTuesdayUnknownEn {
 class _StringsSkedmakerScheduleDayWednesdayFaceEn {
 	_StringsSkedmakerScheduleDayWednesdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday (face-to-face)';
@@ -844,7 +842,7 @@ class _StringsSkedmakerScheduleDayWednesdayFaceEn {
 class _StringsSkedmakerScheduleDayWednesdayOnlineEn {
 	_StringsSkedmakerScheduleDayWednesdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday (online)';
@@ -855,7 +853,7 @@ class _StringsSkedmakerScheduleDayWednesdayOnlineEn {
 class _StringsSkedmakerScheduleDayWednesdayHybridEn {
 	_StringsSkedmakerScheduleDayWednesdayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday (hybrid)';
@@ -866,7 +864,7 @@ class _StringsSkedmakerScheduleDayWednesdayHybridEn {
 class _StringsSkedmakerScheduleDayWednesdayUnknownEn {
 	_StringsSkedmakerScheduleDayWednesdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday';
@@ -877,7 +875,7 @@ class _StringsSkedmakerScheduleDayWednesdayUnknownEn {
 class _StringsSkedmakerScheduleDayThursdayFaceEn {
 	_StringsSkedmakerScheduleDayThursdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Thursday (face-to-face)';
@@ -888,7 +886,7 @@ class _StringsSkedmakerScheduleDayThursdayFaceEn {
 class _StringsSkedmakerScheduleDayThursdayOnlineEn {
 	_StringsSkedmakerScheduleDayThursdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Thursday (online)';
@@ -899,7 +897,7 @@ class _StringsSkedmakerScheduleDayThursdayOnlineEn {
 class _StringsSkedmakerScheduleDayThursdayHybridEn {
 	_StringsSkedmakerScheduleDayThursdayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Thursday (hybrid)';
@@ -910,7 +908,7 @@ class _StringsSkedmakerScheduleDayThursdayHybridEn {
 class _StringsSkedmakerScheduleDayThursdayUnknownEn {
 	_StringsSkedmakerScheduleDayThursdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Thursday';
@@ -921,7 +919,7 @@ class _StringsSkedmakerScheduleDayThursdayUnknownEn {
 class _StringsSkedmakerScheduleDayFridayFaceEn {
 	_StringsSkedmakerScheduleDayFridayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Friday (face-to-face)';
@@ -932,7 +930,7 @@ class _StringsSkedmakerScheduleDayFridayFaceEn {
 class _StringsSkedmakerScheduleDayFridayOnlineEn {
 	_StringsSkedmakerScheduleDayFridayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Friday (online)';
@@ -943,7 +941,7 @@ class _StringsSkedmakerScheduleDayFridayOnlineEn {
 class _StringsSkedmakerScheduleDayFridayHybridEn {
 	_StringsSkedmakerScheduleDayFridayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Friday (hybrid)';
@@ -954,7 +952,7 @@ class _StringsSkedmakerScheduleDayFridayHybridEn {
 class _StringsSkedmakerScheduleDayFridayUnknownEn {
 	_StringsSkedmakerScheduleDayFridayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Friday';
@@ -965,7 +963,7 @@ class _StringsSkedmakerScheduleDayFridayUnknownEn {
 class _StringsSkedmakerScheduleDaySaturdayFaceEn {
 	_StringsSkedmakerScheduleDaySaturdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Saturday (face-to-face)';
@@ -976,7 +974,7 @@ class _StringsSkedmakerScheduleDaySaturdayFaceEn {
 class _StringsSkedmakerScheduleDaySaturdayOnlineEn {
 	_StringsSkedmakerScheduleDaySaturdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Saturday (online)';
@@ -987,7 +985,7 @@ class _StringsSkedmakerScheduleDaySaturdayOnlineEn {
 class _StringsSkedmakerScheduleDaySaturdayHybridEn {
 	_StringsSkedmakerScheduleDaySaturdayHybridEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Saturday (hybrid)';
@@ -998,7 +996,7 @@ class _StringsSkedmakerScheduleDaySaturdayHybridEn {
 class _StringsSkedmakerScheduleDaySaturdayUnknownEn {
 	_StringsSkedmakerScheduleDaySaturdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Saturday';
@@ -1009,7 +1007,7 @@ class _StringsSkedmakerScheduleDaySaturdayUnknownEn {
 class _StringsSkedmakerScheduleDayMondaythursdayFaceEn {
 	_StringsSkedmakerScheduleDayMondaythursdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday and Thursday (both face-to-face)';
@@ -1020,7 +1018,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayFaceEn {
 class _StringsSkedmakerScheduleDayMondaythursdayOnlineEn {
 	_StringsSkedmakerScheduleDayMondaythursdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday and Thursday (both online)';
@@ -1031,7 +1029,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayOnlineEn {
 class _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn {
 	_StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday (online) and Thursday (face-to-face)';
@@ -1042,7 +1040,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayOnlinefaceEn {
 class _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn {
 	_StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday (face-to-face) and Thursday (online)';
@@ -1053,7 +1051,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayFaceonlineEn {
 class _StringsSkedmakerScheduleDayMondaythursdayUnknownEn {
 	_StringsSkedmakerScheduleDayMondaythursdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Monday and Thursday';
@@ -1064,7 +1062,7 @@ class _StringsSkedmakerScheduleDayMondaythursdayUnknownEn {
 class _StringsSkedmakerScheduleDayTuesdayfridayFaceEn {
 	_StringsSkedmakerScheduleDayTuesdayfridayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday and Friday (both face-to-face)';
@@ -1075,7 +1073,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayFaceEn {
 class _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn {
 	_StringsSkedmakerScheduleDayTuesdayfridayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday and Friday (both online)';
@@ -1086,7 +1084,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayOnlineEn {
 class _StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn {
 	_StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday (online) and Friday (face-to-face)';
@@ -1097,7 +1095,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayOnlinefaceEn {
 class _StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn {
 	_StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday (face-to-face) and Friday (online)';
@@ -1108,7 +1106,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayFaceonlineEn {
 class _StringsSkedmakerScheduleDayTuesdayfridayUnknownEn {
 	_StringsSkedmakerScheduleDayTuesdayfridayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Tuesday and Friday';
@@ -1119,7 +1117,7 @@ class _StringsSkedmakerScheduleDayTuesdayfridayUnknownEn {
 class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn {
 	_StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday and Saturday (both face-to-face)';
@@ -1130,7 +1128,7 @@ class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceEn {
 class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn {
 	_StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday and Saturday (both online)';
@@ -1141,7 +1139,7 @@ class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlineEn {
 class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn {
 	_StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday (online) and Saturday (face-to-face)';
@@ -1152,7 +1150,7 @@ class _StringsSkedmakerScheduleDayWednesdaysaturdayOnlinefaceEn {
 class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn {
 	_StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday (face-to-face) and Saturday (online)';
@@ -1163,7 +1161,7 @@ class _StringsSkedmakerScheduleDayWednesdaysaturdayFaceonlineEn {
 class _StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn {
 	_StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Wednesday and Saturday';
@@ -1174,7 +1172,7 @@ class _StringsSkedmakerScheduleDayWednesdaysaturdayUnknownEn {
 class _StringsSkedmakerScheduleDayUnknownEn {
 	_StringsSkedmakerScheduleDayUnknownEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Unknown';
@@ -1185,7 +1183,7 @@ class _StringsSkedmakerScheduleDayUnknownEn {
 class _StringsSkedmakerSubjectsAddButtonMlsEn {
 	_StringsSkedmakerSubjectsAddButtonMlsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Add from My.LaSalle';
@@ -1197,7 +1195,7 @@ class _StringsSkedmakerSubjectsAddButtonMlsEn {
 class _StringsSkedmakerSubjectsAddButtonManualEn {
 	_StringsSkedmakerSubjectsAddButtonManualEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Add manually';
@@ -1209,7 +1207,7 @@ class _StringsSkedmakerSubjectsAddButtonManualEn {
 class _StringsSkedmakerSubjectsAddButtonCodeEn {
 	_StringsSkedmakerSubjectsAddButtonCodeEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Add subjects via code';
@@ -1222,7 +1220,7 @@ class _StringsSkedmakerSubjectsAddButtonCodeEn {
 class _StringsSkedmakerSubjectsSubjectActionsEn {
 	_StringsSkedmakerSubjectsSubjectActionsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerSubjectsSubjectActionsRecolorEn recolor = _StringsSkedmakerSubjectsSubjectActionsRecolorEn._(_root);
@@ -1236,7 +1234,7 @@ class _StringsSkedmakerSubjectsSubjectActionsEn {
 class _StringsSkedmakerSubjectsSubjectTableEn {
 	_StringsSkedmakerSubjectsSubjectTableEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	late final _StringsSkedmakerSubjectsSubjectTableStatusEn status = _StringsSkedmakerSubjectsSubjectTableStatusEn._(_root);
@@ -1254,7 +1252,7 @@ class _StringsSkedmakerSubjectsSubjectTableEn {
 class _StringsSkedmakerSubjectsSubjectInfobarEn {
 	_StringsSkedmakerSubjectsSubjectInfobarEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String noAvailableOffering({required Object subject}) => '${subject} has no available offerings.';
@@ -1265,7 +1263,7 @@ class _StringsSkedmakerSubjectsSubjectInfobarEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Offerings';
@@ -1282,7 +1280,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 class _StringsSkedmakerFiltersCategoriesDayEn {
 	_StringsSkedmakerFiltersCategoriesDayEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Day-specific';
@@ -1305,7 +1303,7 @@ class _StringsSkedmakerFiltersCategoriesDayEn {
 class _StringsSkedmakerFiltersCategoriesLocationEn {
 	_StringsSkedmakerFiltersCategoriesLocationEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Location (experimental)';
@@ -1320,7 +1318,7 @@ class _StringsSkedmakerFiltersCategoriesLocationEn {
 class _StringsSkedmakerSchedulesCommandbarRenameEn {
 	_StringsSkedmakerSchedulesCommandbarRenameEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Rename';
@@ -1331,7 +1329,7 @@ class _StringsSkedmakerSchedulesCommandbarRenameEn {
 class _StringsSkedmakerSchedulesCommandbarDeleteEn {
 	_StringsSkedmakerSchedulesCommandbarDeleteEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Delete';
@@ -1342,7 +1340,7 @@ class _StringsSkedmakerSchedulesCommandbarDeleteEn {
 class _StringsSkedmakerSchedulesCommandbarStarEn {
 	_StringsSkedmakerSchedulesCommandbarStarEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get star => 'Star';
@@ -1353,7 +1351,7 @@ class _StringsSkedmakerSchedulesCommandbarStarEn {
 class _StringsSkedmakerSchedulesCommandbarSaveImageEn {
 	_StringsSkedmakerSchedulesCommandbarSaveImageEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Save as image';
@@ -1366,7 +1364,7 @@ class _StringsSkedmakerSchedulesCommandbarSaveImageEn {
 class _StringsSkedmakerSubjectsSubjectActionsRecolorEn {
 	_StringsSkedmakerSubjectsSubjectActionsRecolorEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Recolor';
@@ -1380,7 +1378,7 @@ class _StringsSkedmakerSubjectsSubjectActionsRecolorEn {
 class _StringsSkedmakerSubjectsSubjectActionsDeleteEn {
 	_StringsSkedmakerSubjectsSubjectActionsDeleteEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Delete';
@@ -1391,7 +1389,7 @@ class _StringsSkedmakerSubjectsSubjectActionsDeleteEn {
 class _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn {
 	_StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Delete offering';
@@ -1402,7 +1400,7 @@ class _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn {
 class _StringsSkedmakerSubjectsSubjectTableStatusEn {
 	_StringsSkedmakerSubjectsSubjectTableStatusEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Status';
@@ -1414,7 +1412,7 @@ class _StringsSkedmakerSubjectsSubjectTableStatusEn {
 class _StringsSkedmakerSubjectsSubjectTableClassnoEn {
 	_StringsSkedmakerSubjectsSubjectTableClassnoEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Class \#';
@@ -1425,7 +1423,7 @@ class _StringsSkedmakerSubjectsSubjectTableClassnoEn {
 class _StringsSkedmakerSubjectsSubjectTableSectionEn {
 	_StringsSkedmakerSubjectsSubjectTableSectionEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Section';
@@ -1436,7 +1434,7 @@ class _StringsSkedmakerSubjectsSubjectTableSectionEn {
 class _StringsSkedmakerSubjectsSubjectTableRoomEn {
 	_StringsSkedmakerSubjectsSubjectTableRoomEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Room';
@@ -1447,7 +1445,7 @@ class _StringsSkedmakerSubjectsSubjectTableRoomEn {
 class _StringsSkedmakerSubjectsSubjectTableDayEn {
 	_StringsSkedmakerSubjectsSubjectTableDayEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Day';
@@ -1458,7 +1456,7 @@ class _StringsSkedmakerSubjectsSubjectTableDayEn {
 class _StringsSkedmakerSubjectsSubjectTableTimeEn {
 	_StringsSkedmakerSubjectsSubjectTableTimeEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Time';
@@ -1475,7 +1473,7 @@ class _StringsSkedmakerSubjectsSubjectTableTimeEn {
 class _StringsSkedmakerSubjectsSubjectTableTeacherEn {
 	_StringsSkedmakerSubjectsSubjectTableTeacherEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Teacher';
@@ -1486,7 +1484,7 @@ class _StringsSkedmakerSubjectsSubjectTableTeacherEn {
 class _StringsSkedmakerSubjectsSubjectTableSlotsEn {
 	_StringsSkedmakerSubjectsSubjectTableSlotsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Slots';
@@ -1500,7 +1498,7 @@ class _StringsSkedmakerSubjectsSubjectTableSlotsEn {
 class _StringsSkedmakerSubjectsSubjectTableRemarksEn {
 	_StringsSkedmakerSubjectsSubjectTableRemarksEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Remarks';
@@ -1511,7 +1509,7 @@ class _StringsSkedmakerSubjectsSubjectTableRemarksEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Include closed offerings';
@@ -1522,7 +1520,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeClosedEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Include offerings with full slots';
@@ -1533,7 +1531,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFullSlotsEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Include offerings with unknown modality';
@@ -1543,7 +1541,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Include offerings with no teachers';
@@ -1553,7 +1551,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Exclude sections that contains the following';
@@ -1564,7 +1562,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn {
 	_StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Include freshman block';
@@ -1574,7 +1572,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Maximum number of subjects';
@@ -1585,7 +1583,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonMaxNumberOfSubjectsEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Only have subjects at this time interval';
@@ -1595,7 +1593,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonTimeIntervalEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonModalityEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonModalityEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Modality of subjects';
@@ -1610,7 +1608,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonModalityEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'First subject of the day';
@@ -1620,7 +1618,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonStartWithSubjectEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Last subject of the day';
@@ -1630,7 +1628,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonEndWithSubjectEn {
 class _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn {
 	_StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Breaktime';
@@ -1641,7 +1639,7 @@ class _StringsSkedmakerFiltersCategoriesDayCommonBreaktimeEn {
 class _StringsSkedmakerFiltersCategoriesLocationEnabledEn {
 	_StringsSkedmakerFiltersCategoriesLocationEnabledEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Enable filtering using location & distances';
@@ -1652,7 +1650,7 @@ class _StringsSkedmakerFiltersCategoriesLocationEnabledEn {
 class _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn {
 	_StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Time gap between subjects to check for distance (in minutes)';
@@ -1662,7 +1660,7 @@ class _StringsSkedmakerFiltersCategoriesLocationCheckingDistanceMinutesEn {
 class _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn {
 	_StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Maximum distance from one subject to the next (in meters)';
@@ -1672,7 +1670,7 @@ class _StringsSkedmakerFiltersCategoriesLocationMaxAllowedDistanceMetersEn {
 class _StringsSkedmakerFiltersCategoriesLocationCalculatorEn {
 	_StringsSkedmakerFiltersCategoriesLocationCalculatorEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
 	String get name => 'Open distance calculator';
@@ -1692,16 +1690,15 @@ class _StringsSkedmakerFiltersCategoriesLocationCalculatorEn {
 class _StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn {
 	_StringsSkedmakerSchedulesCommandbarSaveImageCreditsEn._(this._root);
 
-	final _StringsEn _root; // ignore: unused_field
+	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get s1 => 'generated by';
-	String get s2 => '${_root.general.app.name} @skedmaker.info.name';
+	String get s1 => 'generated by ';
+	String get s2 => '${_root.general.app.name} ${_root.skedmaker.info.name}';
 }
 
 // Path: <root>
-class _StringsTl extends _StringsEn {
-
+class _StringsTl extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	_StringsTl.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
@@ -1718,7 +1715,7 @@ class _StringsTl extends _StringsEn {
 	}
 
 	/// Metadata for the translations of <tl>.
-	@override final TranslationMetadata<AppLocale, _StringsEn> $meta;
+	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
 	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
@@ -3064,8 +3061,7 @@ class _StringsSkedmakerSchedulesCommandbarSaveImageCreditsTl extends _StringsSke
 }
 
 // Path: <root>
-class _StringsTlQp extends _StringsEn {
-
+class _StringsTlQp extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	_StringsTlQp.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
@@ -3082,7 +3078,7 @@ class _StringsTlQp extends _StringsEn {
 	}
 
 	/// Metadata for the translations of <tl-QP>.
-	@override final TranslationMetadata<AppLocale, _StringsEn> $meta;
+	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
 	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
@@ -4293,7 +4289,7 @@ class _StringsSkedmakerFiltersCategoriesLocationCalculatorTlQp extends _StringsS
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
-extension on _StringsEn {
+extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'general.app.name': return 'AralTools';
@@ -4595,8 +4591,8 @@ extension on _StringsEn {
 			case 'skedmaker.schedules.commandbar.saveImage.name': return 'Save as image';
 			case 'skedmaker.schedules.commandbar.saveImage.title': return 'Save as image';
 			case 'skedmaker.schedules.commandbar.saveImage.desc': return 'Resize the window to adjust the image formatting. When done, click "${_root.general.general.save}".';
-			case 'skedmaker.schedules.commandbar.saveImage.credits.s1': return 'generated by';
-			case 'skedmaker.schedules.commandbar.saveImage.credits.s2': return '${_root.general.app.name} @skedmaker.info.name';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s1': return 'generated by ';
+			case 'skedmaker.schedules.commandbar.saveImage.credits.s2': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.schedules.details.name': return 'Details';
 			case 'skedmaker.schedules.details.notes': return 'Notes';
 			case 'skedmaker.schedules.details.subjects': return 'Subjects';
