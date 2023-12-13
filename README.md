@@ -22,6 +22,7 @@ AralTools is a suite of tools designed to help students.
 
 ## Download
 AralTools is available for Windows on the [Microsoft Store](https://www.microsoft.com/store/apps/9P7HM10PL0ZJ).
+**For now, only Windows is supported.**
 
 ## List of AralTools
 | Name | Description |
@@ -29,5 +30,5 @@ AralTools is available for Windows on the [Microsoft Store](https://www.microsof
 | [SkedMaker](./lib/araltools/skedmaker) | An automatic class schedule maker for DLSU students. |
 
 ## Contributing
-Feel free to contribute! Make sure that [Flutter](https://flutter.dev) and [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) is installed on your machine (WebView 2 is already pre-installed on Windows 11). **For now, only Windows is supported.**
+Feel free to contribute! Make sure that [Flutter](https://flutter.dev) and [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) is installed on your machine (WebView 2 is already pre-installed on Windows 11). 
 
