@@ -71,7 +71,7 @@ class HomeActivity extends StatelessWidget {
             children: [
               for (final araltool in AralTools.values)
                 HomeCard(
-                  icon: araltool.icon,
+                  icon: araltool.iconData,
                   name: araltool.localizedName,
                   description: araltool.localizedDesc,
                   route: araltool.route,

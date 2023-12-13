@@ -505,7 +505,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
           ),
           Divider(),
           ListTile(
-            title: Text('Filepath'),
+            title: Text('File location'),
             subtitle: SelectableText(model.path ?? '-'),
           ),
         ],

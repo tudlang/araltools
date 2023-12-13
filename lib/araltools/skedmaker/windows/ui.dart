@@ -186,7 +186,7 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
               ),
               header: Row(mainAxisSize: MainAxisSize.min, children: [
                 Icon(
-                  AralTools.skedmaker.icon,
+                  AralTools.skedmaker.iconData,
                   color: theme.colorScheme.onPrimary,
                   size: 30,
                 ),

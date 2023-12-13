@@ -51,7 +51,7 @@ dependencies:
   slang_flutter: ^3.17.0
   uuid: ^3.0.7
   lazy_memo: ^0.1.7
-  material_design_icons_flutter: ^6.0.7096
+  material_design_icons_flutter: ^7.0.7296
   stream_isolate: ^0.1.1
   async: ^2.11.0
   fluent_ui: ^4.6.1
@@ -60,7 +60,7 @@ dependencies:
   package_info_plus: ^4.0.2
   simple_timetable: ^1.0.3
   screenshot: ^2.1.0
-  file_picker: ^5.3.2
+  file_picker: ^6.1.1 
   archive: ^3.3.7
   xml: ^6.3.0
   flex_color_picker: ^3.3.0
