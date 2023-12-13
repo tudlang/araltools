@@ -42,44 +42,30 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
         barrierDismissible: true,
         builder: (context) {
           return ContentDialog(
-            title: Text('WebView2 is not installed'),
-            content: RichText(
-              text: TextSpan(
-                  style: FluentTheme.of(context).typography.body,
-                  children: [
-                    TextSpan(
-                      text: 'You need to download and install the ',
-                    ),
-                    TextSpan(
-                        text: 'Microsoft Edge WebView2 Runtime',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(Uri.parse(
-                                'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
-                          },
-                        style: FluentTheme.of(context)
-                            .typography
-                            .body!
-                            .copyWith(
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline)),
-                    TextSpan(
-                        text:
-                            ' to access My.LaSalle within AralTools SkedMaker. This program is already included with Windows 11, but your device doesn\'t.\n\n'),
-                    TextSpan(
-                        text: 'Click here to learn more.',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(Uri.parse(
-                                'https://developer.microsoft.com/en-us/microsoft-edge/webview2'));
-                          },
-                        style: FluentTheme.of(context)
-                            .typography
-                            .body!
-                            .copyWith(
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline)),
-                  ]),
+            title: Text(strings.skedmaker.subjects.add.buttonMls.webviewTitle),
+            content: Text.rich(
+              strings.skedmaker.subjects.add.buttonMls.webviewDesc(
+                webview: (webviewStr) => TextSpan(
+                  text: webviewStr,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launchUrl(Uri.parse(
+                          'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
+                    },
+                  style: FluentTheme.of(context).typography.body!.copyWith(
+                      color: Colors.blue, decoration: TextDecoration.underline),
+                ),
+                learn: (learnStr) => TextSpan(
+                  text: learnStr,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launchUrl(Uri.parse(
+                          'https://developer.microsoft.com/en-us/microsoft-edge/webview2'));
+                    },
+                  style: FluentTheme.of(context).typography.body!.copyWith(
+                      color: Colors.blue, decoration: TextDecoration.underline),
+                ),
+              ),
             ),
             actions: [
               Button(
@@ -89,11 +75,12 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
                 },
               ),
               FilledButton(
-                  child: Text(strings.general.general.go),
-                  onPressed: () {
-                    launchUrl(Uri.parse(
-                        'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
-                  })
+                child: Text(strings.general.general.go),
+                onPressed: () {
+                  launchUrl(Uri.parse(
+                      'https://go.microsoft.com/fwlink/p/?LinkId=2124703'));
+                },
+              )
             ],
           );
         });
@@ -112,7 +99,7 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
           '${(await getApplicationSupportDirectory()).path}/skedmaker',
       // I wish there was a way to customize the "title bar" (supposed to be appbar) further
       titleBarHeight: 0,
-      title: 'View course offerings',
+      title: strings.skedmaker.mlsCourseOfferings,
     ));
     window.launch('https://enroll.dlsu.edu.ph/dlsu/view_course_offerings');
   }
@@ -165,6 +152,7 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
   );
 }
 
+/// Dialog for adding subjects via HTML
 Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
   return await showDialog<List<Offering>>(
     context: context,
@@ -175,68 +163,61 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
 
       return StatefulBuilder(builder: (context, setState) {
         return ContentDialog(
-          title: Text('Add subjects via code'),
+          title: Text(strings.skedmaker.subjects.add.buttonCode.title),
           content: ListView(
             shrinkWrap: true,
             children: [
-              RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                    text: 'Open ',
-                    style: FluentTheme.of(context).typography.body),
-                TextSpan(
-                    text: 'My.LaSalle\'s Course Offerings',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrl(Uri.parse(
-                            'https://enroll.dlsu.edu.ph/dlsu/view_course_offerings'));
-                      },
-                    style: FluentTheme.of(context).typography.body!.copyWith(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline)),
-                TextSpan(
-                    text:
-                        ' on a browser and enter your ID number and subject code as normal. Once the offerings are displayed, open the Developer Console and enter this command:',
-                    style: FluentTheme.of(context).typography.body)
-              ])),
-              SizedBox(height: 8),
+              Text.rich(strings.skedmaker.subjects.add.buttonCode.desc(
+                mls: (mls) => TextSpan(
+                  text: mls,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launchUrl(Uri.parse(
+                          'https://enroll.dlsu.edu.ph/dlsu/view_course_offerings'));
+                    },
+                  style: FluentTheme.of(context).typography.body!.copyWith(
+                      color: Colors.blue, decoration: TextDecoration.underline),
+                ),
+              )),
               TextBox(
                 readOnly: true,
                 controller: TextEditingController(
                     text: "document.querySelector('td>form>table').outerHTML"),
                 suffix: Tooltip(
-                  message: 'Copy to clipboard',
+                  message: strings.general.general.copy,
                   child: IconButton(
                     icon: Icon(MdiIcons.contentCopy, size: 15),
                     onPressed: () {
                       Clipboard.setData(ClipboardData(
-                          text:
-                              "document.querySelector('td>form>table').outerHTML"));
+                        text:
+                            "document.querySelector('td>form>table').outerHTML",
+                      ));
                     },
                   ),
                 ),
               ),
               SizedBox(height: 8),
-              Text('Copy the output and paste it here:'),
+              Text(strings.skedmaker.subjects.add.buttonCode.field),
               SizedBox(height: 8),
               TextBox(
                 controller: controller,
-                placeholder: 'The command output',
+                placeholder: strings.skedmaker.subjects.add.buttonCode.hint,
                 maxLines: null,
                 autofocus: true,
               ),
-              if (isError) Text('Invalid input'),
+              if (isError)
+                Text(strings.skedmaker.subjects.add.buttonCode.error),
             ],
           ),
           actions: [
             Button(
-              child: Text('Cancel'),
+              child: Text(strings.general.general.cancel),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             FilledButton(
-              child: Text('Add'),
+              child: Text(strings.general.general.add),
               onPressed: () {
                 final table = controller.text;
                 try {

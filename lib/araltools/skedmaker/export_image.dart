@@ -75,8 +75,7 @@ class _ExportImagePreviewState extends State<ExportImagePreview> {
               ),
             ),
             SizedBox(width: 15),
-            Text(
-                strings.skedmaker.schedules.commandbar.saveImage.desc),
+            Text(strings.skedmaker.schedules.commandbar.saveImage.desc),
             Spacer(),
             IconButton(
               onPressed: () {
@@ -123,7 +122,8 @@ class _ExportImagePreviewState extends State<ExportImagePreview> {
             FilledButton(
               onPressed: () async {
                 final path = await FilePicker.platform.saveFile(
-                  dialogTitle: strings.skedmaker.schedules.commandbar.saveImage.title,
+                  dialogTitle:
+                      strings.skedmaker.schedules.commandbar.saveImage.title,
                   fileName: "${widget.schedule.name}.png",
                   lockParentWindow: true,
                   type: FileType.image,
@@ -216,18 +216,18 @@ class ExportImageLandscape extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10),
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(text: strings.skedmaker.schedules.commandbar.saveImage.credits.s1),
-                        TextSpan(
-                          text: strings.skedmaker.schedules.commandbar.saveImage.credits.s2,
+                    Text.rich(
+                      strings.skedmaker.schedules.commandbar.saveImage.credits(
+                        name: (name) => TextSpan(
+                          text: name,
                           style: textTheme.bodyLarge?.copyWith(
                               fontFamily: 'Raleway',
                               color: Colors.white,
                               fontSize: 20),
                         ),
-                      ]),
+                      ),
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge?.copyWith(color: Colors.white),
                     )
                   ],
                 ),

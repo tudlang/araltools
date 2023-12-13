@@ -17,6 +17,7 @@
 
 info:
   name: SkedMaker
+  nameFull: "@:general.app.name @:skedmaker.info.name"
   desc: Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU
 
 subjects:
@@ -28,11 +29,23 @@ subjects:
       name: Magdagdag mula My.LaSalle
       title: Magdagdag ng asignatura
       desc: Ilagay ang iyong numero ng ID at ang code ng asignatura sa bagong durungawan. Nang nakalista na ang mga alok, pindutin ang "@:general.general.add".
+      webviewTitle: Hindi naka-install ang WebView2
+      webviewDesc(rich): |-
+        Kailangan mong i-download at i-install ang ${webview(Microsoft Edge WebView2 Runtime)} para magamit ang My.LaSalle sa loob ng AralTools SkedMaker. Ito'y kasama na sa Windows 11, ngunit wala sa device mo.
+
+        ${learn(Pindutin ito upang matuto pa.)}
     buttonManual: 
       name: Magdagdag nang manu-mano
       title: Gumawa ng bagong asignatura
       desc: "Maglagay ng 7 karakter na code ng asignatura:"
-
+    buttonCode: 
+      name: Magdagdag gamit code
+      title: Magdagdag ng asignatura gamit code
+      desc(rich): |
+        Buksan ang ${mls(@:skedmaker.mlsCourseOfferings)} sa browser at ilagay ang iyong ID number at ang code ng asignatura. Nang natalá na ang mga alok, buksan ang Developer Console at ilagay ang command na ito:
+      field: "Kopyahin ang kinalalabasan at ilagay dito:"
+      hint: Kinalalabasan ng command
+      error: Mali ang nàilagay
 
   subject:
     title: ${subject} - ${offering} alok (${available} maaari)
@@ -184,6 +197,7 @@ schedules:
       one: ${n} nabuong palátuntunan
       other: ${n} (na) nabuong palátuntunan
     progress: ${percent}% tapos
+    none: Walang mahanap na palátuntunan. Marahil tignan ang iyong panalá at subukan muli.
   commandbar:
     rename: 
       name: Pangalánin
@@ -201,9 +215,7 @@ schedules:
       name: Iimpok bilang larawan
       title: Iimpok bilang larawan
       desc: Palitan ang laki ng durungawan para maayos ang larawan. Pagkatapos, pindutin ang "@:general.general.save".
-      credits: 
-        s1: binuo ng
-        s2: " @:general.app.name @:skedmaker.info.name"
+      credits(rich): binuo ng ${name(@:skedmaker.info.nameFull)}
   details:
     name: Mga detalye
     notes: Talâ
@@ -355,5 +367,7 @@ scheduleRoom:
 scheduleDefault:
   name: Palátuntunan ${n}
 
+mlsCourseOfferings: Mga Alok ng Kurso sa My.LaSalle
+
 infobar: 
-  currentlyGeneratingSchedules: Currently generating schedules. Changes here will not apply until you generate again.
+  currentlyGeneratingSchedules: Kasalukuyang bumubuo ng mga palátuntunan. Walang epekto ang mga pagbabago rito hangga't bumuo ka muli.

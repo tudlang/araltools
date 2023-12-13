@@ -77,12 +77,13 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
             title: Text(str.add.title),
             body: Column(
               children: [
+                // "currently generating schedules" infobar
                 if (model.isGenerating)
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
                       title: Text(
-                          'Currently generating. Changes here will not apply until you generate again.'),
+                          strings.skedmaker.infobar.currentlyGeneratingSchedules),
                       severity: InfoBarSeverity.warning,
                     ),
                   ),

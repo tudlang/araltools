@@ -89,7 +89,7 @@ class SchedulesFragmentBlank extends StatelessWidget {
               ),
               SizedBox(height: 8),
               if (model.isGenerating) ...[
-                Text("No schedules found yet. This will take some time."),
+                Text(strings.skedmaker.schedules.generate.pending),
                 SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -133,7 +133,7 @@ class SchedulesFragmentBlank extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
                       title: Text(
-                        'No schedules found. Maybe check your filters and try again.',
+                        strings.skedmaker.schedules.generate.none,
                         textAlign: TextAlign.center,
                       ),
                       severity: InfoBarSeverity.error,

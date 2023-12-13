@@ -55,3 +55,4 @@ general:
   stop: I-stop
   close: I-close
   rename: I-rename
+  copy: I-copy

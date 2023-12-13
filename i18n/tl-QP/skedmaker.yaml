@@ -17,6 +17,7 @@
 
 info:
   name: SkedMaker
+  nameFull: "@:general.app.name @:skedmaker.info.name"
   desc: Ang automatic na class schedule maker para sa DLSU students
 
 subjects:
@@ -28,10 +29,23 @@ subjects:
       name: Mag-add mula My.LaSalle
       title: Mag-add ng subject
       desc: I-enter ang ID number mo at ang subject code sa pop-up window. 'Pag naka-display na ang mga offerings, i-click ang "@:general.general.add".
+      webviewTitle: WebView2 ay 'di installed
+      webviewDesc(rich): |-
+        Need mong i-download at i-install ang ${webview(Microsoft Edge WebView2 Runtime)} para ma-access ang My.LaSalle within AralTools SkedMaker. Included na 'to sa Windows 11, pero wala sa device mo.
+
+        ${learn(Click here para matuto pa.)}
     buttonManual: 
       name: Mag-add manu-mano
       title: Mag-create ng new subject
       desc: "Mag-enter ng 7-character na subject code:"
+    buttonCode: 
+      name: Mag-add gamit code
+      title: Mag-add ng subjects gamit code
+      desc(rich): |
+        I-open ang ${mls(@:skedmaker.mlsCourseOfferings)} sa browser at i-enter ang iyong ID number at subject code. Once na-display ang offerings, i-open ang Developer Console at i-enter 'tong command:
+      field: "I-copy ang output at i-paste dito:"
+      hint: Ang command output
+      error: Invalid ang input
 
   subject:
     title: ${subject} - ${offering} offerings (${available} available)
@@ -171,6 +185,55 @@ filters:
   reset: I-reset lahat
 
 
+schedules:
+  name: Schedules
+  generate: 
+    title: Mag-generate ng possible schedules
+    button: Generate
+    pending: No schedules found pa. Medyo matagal 'to.
+    found: 
+      one: ${n} schedule found
+      other: ${n} schedules found
+    progress: ${percent}% complete
+    none: No schedules found. Baká i-check ang mga filters mo tapós try ulit.
+  commandbar:
+    rename: 
+      name: I-rename
+      edit: Mag-enter ng bagong name
+    delete:
+      name: I-delete
+      desc: |
+        I-delete ang ${name}?
+        'Di mo 'to ma-uundelete..
+        Madedelete lahat ng tabs with this schedule.
+    star:
+      star: I-star
+      unstar: I-unstar
+    saveImage: 
+      name: I-save as image
+      title: Save as image
+      desc: I-resize 'tong window para i-adjust ang formatting. 'Pag tapos, i-click ang "@:general.general.save".
+      credits(rich): na-generate ng ${name(@:skedmaker.info.nameFull)}
+  details:
+    name: Details
+    notes: Notes
+    subjects: Subjects
+  info:
+    name: Info
+    title: Information
+    desc: |
+      Mag-select ng schedule sa left.
+      I-view at i-compare multiple schedules by opening new tabs at the top.
+
+      Keyboard shortcuts:
+      Up/Down arrow key - pumunta sa next/previous schedule
+      Ctrl + T - gumawa ng new tab
+      Ctrl + W o Ctrl + F4 - i-close current tab
+      Ctrl + 1 hanggang 8 - pumunta sa first to eighth tab
+      Ctrl + 9 - pumunta sa last tab
+  options:
+    hoverEffects: I-enable ang hover effects
+
 scheduleDay:
   mondayFace: 
     name: Monday (face-to-face)
@@ -301,5 +364,7 @@ scheduleRoom:
 scheduleDefault:
   name: Schedule ${n}
 
+mlsCourseOfferings: My.LaSalle's Course Offerings
+
 infobar: 
-  currentlyGeneratingSchedules: Currently generating schedules. Changes here will not apply until you generate again.
+  currentlyGeneratingSchedules: Naggegenerate ng schedules ngayon. Hindi mag-aapply ang mga changes dito hanggang sa mag-generate ka ulit.

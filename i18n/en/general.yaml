@@ -55,6 +55,7 @@ general:
   stop: Stop
   close: Close
   rename: Rename
+  copy: Copy
 
   date:
     eras: ["BC", "AD"]
