@@ -24,7 +24,7 @@ import 'package:araltools/strings.g.dart';
 import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:fluent_ui/fluent_ui.dart'
-    show FluentLocalizations, FluentTheme, FluentThemeData;
+    show ColorExtension, FluentLocalizations, FluentTheme, FluentThemeData, NavigationPaneThemeData;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -103,7 +103,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: strings.general.app.name,
-      theme:  ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
+      theme: ThemeData.from(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -129,7 +130,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => onPlatform(
         all: child!,
         windows: FluentTheme(
-          data: FluentThemeData(),
+          data: FluentThemeData.light().copyWith(
+            navigationPaneTheme: NavigationPaneThemeData(),
+            accentColor: ColorScheme.fromSeed(seedColor: Colors.green).primary.toAccentColor(),
+          ),
           child: child,
         ),
       ),

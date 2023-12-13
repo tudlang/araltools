@@ -397,7 +397,7 @@ class ScheduleFilters {
     },
   };
 
-  static const filterIcons = {
+  static final filterIcons = {
     'offerings': MdiIcons.schoolOutline,
     'day': MdiIcons.viewDayOutline,
     'location': MdiIcons.mapMarkerOutline,
