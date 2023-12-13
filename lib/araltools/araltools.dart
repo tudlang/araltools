@@ -35,7 +35,7 @@ enum AralTools {
 
   gradechecker(
     route: '/gradechecker',
-    icon: MdiIcons.fileChartOutline,
+    icon: ('mdi', 'fileChartOutline'),
     platforms: ["windows"],
   ),
   ;
