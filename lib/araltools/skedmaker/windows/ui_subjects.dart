@@ -82,8 +82,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InfoBar(
-                      title: Text(
-                          strings.skedmaker.infobar.currentlyGeneratingSchedules),
+                      title: Text(strings
+                          .skedmaker.infobar.currentlyGeneratingSchedules),
                       severity: InfoBarSeverity.warning,
                     ),
                   ),
@@ -103,6 +103,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                         spacing: 10,
                         runSpacing: 10,
                         children: [
+                          // ADD FROM MY.LASALLE
+
                           FilledButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -123,6 +125,9 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               model.webview = output.webview;
                             },
                           ),
+
+                          // ADD MANUALLY
+
                           FilledButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -135,21 +140,25 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                   final controller = TextEditingController();
                                   return ContentDialog(
                                     title: Text(str.add.buttonManual.title),
-                                    content: InfoLabel(
-                                      label: str.add.buttonManual.desc,
-                                      child: TextBox(
-                                        controller: controller,
-                                        autofocus: true,
-                                        maxLength: 7,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[A-Za-z0-9]'))
-                                        ],
-                                        onSubmitted: (value) {
-                                          Navigator.pop(
-                                              context, value.toUpperCase());
-                                        },
-                                      ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(str.add.buttonManual.desc),
+                                        TextBox(
+                                          controller: controller,
+                                          autofocus: true,
+                                          maxLength: 7,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'[A-Za-z0-9]'))
+                                          ],
+                                          onSubmitted: (value) {
+                                            Navigator.pop(
+                                                context, value.toUpperCase());
+                                          },
+                                        ),
+                                      ],
                                     ),
                                     actions: [
                                       Button(
@@ -179,6 +188,9 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               }
                             },
                           ),
+
+                          // ADD DEBUG SUBJECTS
+
                           if (kDebugMode)
                             FilledButton(
                               child: Padding(
