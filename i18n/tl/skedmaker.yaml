@@ -70,6 +70,8 @@ subjects:
       offeringDelete: 
         name: Magbura ng alok
         warning: "Burahin itong alok? \nHindi mo 'to maibabalik."
+      offeringCloseAll: Isara lahat ng alok
+      offeringOpenAll: Ibukás lahat ng alok
     table:
       status: 
         name: Kalagayan

@@ -627,6 +627,32 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                 },
                 label: Text(str.actions.offeringDelete.name),
               ),
+              CommandBarButton(
+                icon: Icon(MdiIcons.closeCircleMultipleOutline),
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+
+                  model.modifySubject(widget.subject, (p0) {
+                    for (var element in p0) {
+                      element.isClosed = true;
+                    }
+                  });
+                },
+                label: Text(str.actions.offeringCloseAll),
+              ),
+              CommandBarButton(
+                icon: Icon(MdiIcons.checkboxMultipleMarkedCircleOutline),
+                onPressed: () {
+                  final model = context.read<SkedmakerModel>();
+
+                  model.modifySubject(widget.subject, (p0) {
+                    for (var element in p0) {
+                      element.isClosed = false;
+                    }
+                  });
+                },
+                label: Text(str.actions.offeringOpenAll),
+              ),
               /*
               CommandBarBuilderItem(
                 builder: (context, displayMode, child) {

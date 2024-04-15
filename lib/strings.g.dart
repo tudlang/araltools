@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 945 (315 per locale)
+/// Strings: 951 (317 per locale)
 ///
-/// Built on 2024-04-15 at 10:42 UTC
+/// Built on 2024-04-15 at 11:11 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -1339,6 +1339,8 @@ class _StringsSkedmakerSubjectsSubjectActionsEn {
 	String get showhide => 'Show/Hide';
 	String get offeringAdd => 'Add offering';
 	late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteEn._(_root);
+	String get offeringCloseAll => 'Close all offerings';
+	String get offeringOpenAll => 'Open all offerings';
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -2820,6 +2822,8 @@ class _StringsSkedmakerSubjectsSubjectActionsTl extends _StringsSkedmakerSubject
 	@override String get showhide => 'Ipakita/Itago';
 	@override String get offeringAdd => 'Magdagdag ng alok';
 	@override late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTl._(_root);
+	@override String get offeringCloseAll => 'Isara lahat ng alok';
+	@override String get offeringOpenAll => 'Ibukás lahat ng alok';
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -4301,6 +4305,8 @@ class _StringsSkedmakerSubjectsSubjectActionsTlQp extends _StringsSkedmakerSubje
 	@override String get showhide => 'I-show/I-hide';
 	@override String get offeringAdd => 'Mag-add ng offering';
 	@override late final _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp offeringDelete = _StringsSkedmakerSubjectsSubjectActionsOfferingDeleteTlQp._(_root);
+	@override String get offeringCloseAll => 'I-close lahat ng offerings';
+	@override String get offeringOpenAll => 'I-open lahat ng offerings';
 }
 
 // Path: skedmaker.subjects.subject.table
@@ -4996,6 +5002,8 @@ extension on Translations {
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Add offering';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Delete offering';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'Delete this offering? \nYou cannot un-delete this.';
+			case 'skedmaker.subjects.subject.actions.offeringCloseAll': return 'Close all offerings';
+			case 'skedmaker.subjects.subject.actions.offeringOpenAll': return 'Open all offerings';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Status';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Open';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Closed';
@@ -5287,6 +5295,8 @@ extension on _StringsTl {
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Magdagdag ng alok';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Magbura ng alok';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'Burahin itong alok? \nHindi mo \'to maibabalik.';
+			case 'skedmaker.subjects.subject.actions.offeringCloseAll': return 'Isara lahat ng alok';
+			case 'skedmaker.subjects.subject.actions.offeringOpenAll': return 'Ibukás lahat ng alok';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Kalagayan';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Bukás';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Sarado';
@@ -5578,6 +5588,8 @@ extension on _StringsTlQp {
 			case 'skedmaker.subjects.subject.actions.offeringAdd': return 'Mag-add ng offering';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.name': return 'Mag-delete ng offering';
 			case 'skedmaker.subjects.subject.actions.offeringDelete.warning': return 'I-delete \'tong offering? \n\'Di mo \'to ma-uundelete.';
+			case 'skedmaker.subjects.subject.actions.offeringCloseAll': return 'I-close lahat ng offerings';
+			case 'skedmaker.subjects.subject.actions.offeringOpenAll': return 'I-open lahat ng offerings';
 			case 'skedmaker.subjects.subject.table.status.name': return 'Status';
 			case 'skedmaker.subjects.subject.table.status.open': return 'Naka-open';
 			case 'skedmaker.subjects.subject.table.status.closed': return 'Naka-close';

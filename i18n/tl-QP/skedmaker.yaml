@@ -70,6 +70,8 @@ subjects:
       offeringDelete: 
         name: Mag-delete ng offering
         warning: "I-delete 'tong offering? \n'Di mo 'to ma-uundelete."
+      offeringCloseAll: I-close lahat ng offerings
+      offeringOpenAll: I-open lahat ng offerings
     table:
       status: 
         name: Status

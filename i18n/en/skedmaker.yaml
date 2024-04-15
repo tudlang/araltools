@@ -70,6 +70,8 @@ subjects:
       offeringDelete: 
         name: Delete offering
         warning: "Delete this offering? \nYou cannot un-delete this."
+      offeringCloseAll: Close all offerings
+      offeringOpenAll: Open all offerings
     table:
       status: 
         name: Status
