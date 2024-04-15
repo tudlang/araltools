@@ -243,4 +243,7 @@ class CupertinoLocalizationTlQP extends GlobalCupertinoLocalizations {
   
   @override
   String get shareButtonLabel => 'I-share...';
+  
+  @override
+  String get clearButtonLabel => 'I-clear';
 }

@@ -43,12 +43,17 @@ drawer:
 general:
   go: Go
   ok: OK
-  open: Open
+  open: 
+    regular: Open
+    ellipsis: Open...
   delete: Delete
   add: Add
   select: Select
   save: Save
   saveDont: Don't save
+  saveAs: 
+    regular: Save as
+    ellipsis: Save as...
   cancel: Cancel
   resume: Resume
   pause: Pause
@@ -56,6 +61,7 @@ general:
   close: Close
   rename: Rename
   copy: Copy
+  new_: New
 
   date:
     eras: ["BC", "AD"]

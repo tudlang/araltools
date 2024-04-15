@@ -43,12 +43,17 @@ drawer:
 general:
   go: Pumunta
   ok: Okay
-  open: Buksan
+  open: 
+    regular: Buksan
+    ellipsis: Buksan...
   delete: Ibura
   add: Idagdag
   select: Piliin
   save: Impukin
   saveDont:  "'Wag impukin"
+  saveAs: 
+    regular: Impukin bilang
+    ellipsis: Impukin bilang...
   cancel: Kansela
   resume: Itulóy
   pause: Ihinto
@@ -56,3 +61,4 @@ general:
   close: Isara
   rename: Ipangalan
   copy: Kopyahin
+  new_: Bágo

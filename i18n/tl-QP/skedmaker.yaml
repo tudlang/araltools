@@ -20,6 +20,12 @@ info:
   nameFull: "@:general.app.name @:skedmaker.info.name"
   desc: Ang automatic na class schedule maker para sa DLSU students
 
+drawer:
+  fileLocation:
+    name: File location
+    empty: "-"
+    open: I-open ang file location
+
 subjects:
   name: Subjects
 

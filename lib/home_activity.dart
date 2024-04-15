@@ -143,7 +143,7 @@ class HomeCard extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(strings.general.general.open),
+                    child: Text(strings.general.general.open.regular),
                   ),
                 )
             ],
@@ -195,7 +195,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.info_outline),
-            title: Text('About'),
+            title: Text(str.about),
             onTap: () async {
               PackageInfo packageInfo = await PackageInfo.fromPlatform();
               Navigator.pop(context);

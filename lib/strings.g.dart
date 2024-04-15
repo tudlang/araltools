@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 900 (300 per locale)
+/// Strings: 921 (307 per locale)
 ///
-/// Built on 2023-12-13 at 05:35 UTC
+/// Built on 2024-04-15 at 08:56 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -174,6 +174,7 @@ class _StringsSkedmakerEn {
 
 	// Translations
 	late final _StringsSkedmakerInfoEn info = _StringsSkedmakerInfoEn._(_root);
+	late final _StringsSkedmakerDrawerEn drawer = _StringsSkedmakerDrawerEn._(_root);
 	late final _StringsSkedmakerSubjectsEn subjects = _StringsSkedmakerSubjectsEn._(_root);
 	late final _StringsSkedmakerFiltersEn filters = _StringsSkedmakerFiltersEn._(_root);
 	late final _StringsSkedmakerSchedulesEn schedules = _StringsSkedmakerSchedulesEn._(_root);
@@ -229,12 +230,13 @@ class _StringsGeneralGeneralEn {
 	// Translations
 	String get go => 'Go';
 	String get ok => 'OK';
-	String get open => 'Open';
+	late final _StringsGeneralGeneralOpenEn open = _StringsGeneralGeneralOpenEn._(_root);
 	String get delete => 'Delete';
 	String get add => 'Add';
 	String get select => 'Select';
 	String get save => 'Save';
 	String get saveDont => 'Don\'t save';
+	late final _StringsGeneralGeneralSaveAsEn saveAs = _StringsGeneralGeneralSaveAsEn._(_root);
 	String get cancel => 'Cancel';
 	String get resume => 'Resume';
 	String get pause => 'Pause';
@@ -242,6 +244,7 @@ class _StringsGeneralGeneralEn {
 	String get close => 'Close';
 	String get rename => 'Rename';
 	String get copy => 'Copy';
+	String get new_ => 'New';
 	late final _StringsGeneralGeneralDateEn date = _StringsGeneralGeneralDateEn._(_root);
 }
 
@@ -255,6 +258,16 @@ class _StringsSkedmakerInfoEn {
 	String get name => 'SkedMaker';
 	String get nameFull => '${_root.general.app.name} ${_root.skedmaker.info.name}';
 	String get desc => 'The automatic class schedule maker for DLSU students';
+}
+
+// Path: skedmaker.drawer
+class _StringsSkedmakerDrawerEn {
+	_StringsSkedmakerDrawerEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsSkedmakerDrawerFileLocationEn fileLocation = _StringsSkedmakerDrawerFileLocationEn._(_root);
 }
 
 // Path: skedmaker.subjects
@@ -432,6 +445,28 @@ class _StringsGeneralDrawerLanguageEn {
 	// Translations
 	String title({required Object language}) => 'Language: ${language}';
 	String get tooltip => 'Change language';
+}
+
+// Path: general.general.open
+class _StringsGeneralGeneralOpenEn {
+	_StringsGeneralGeneralOpenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get regular => 'Open';
+	String get ellipsis => 'Open...';
+}
+
+// Path: general.general.saveAs
+class _StringsGeneralGeneralSaveAsEn {
+	_StringsGeneralGeneralSaveAsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get regular => 'Save as';
+	String get ellipsis => 'Save as...';
 }
 
 // Path: general.general.date
@@ -627,6 +662,18 @@ class _StringsGeneralGeneralDateEn {
 		'{1}, {0}',
 		'{1}, {0}',
 	];
+}
+
+// Path: skedmaker.drawer.fileLocation
+class _StringsSkedmakerDrawerFileLocationEn {
+	_StringsSkedmakerDrawerFileLocationEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'File location';
+	String get empty => '-';
+	String get open => 'Open file location';
 }
 
 // Path: skedmaker.subjects.add
@@ -1756,6 +1803,7 @@ class _StringsSkedmakerTl extends _StringsSkedmakerEn {
 
 	// Translations
 	@override late final _StringsSkedmakerInfoTl info = _StringsSkedmakerInfoTl._(_root);
+	@override late final _StringsSkedmakerDrawerTl drawer = _StringsSkedmakerDrawerTl._(_root);
 	@override late final _StringsSkedmakerSubjectsTl subjects = _StringsSkedmakerSubjectsTl._(_root);
 	@override late final _StringsSkedmakerFiltersTl filters = _StringsSkedmakerFiltersTl._(_root);
 	@override late final _StringsSkedmakerSchedulesTl schedules = _StringsSkedmakerSchedulesTl._(_root);
@@ -1811,12 +1859,13 @@ class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
 	// Translations
 	@override String get go => 'Pumunta';
 	@override String get ok => 'Okay';
-	@override String get open => 'Buksan';
+	@override late final _StringsGeneralGeneralOpenTl open = _StringsGeneralGeneralOpenTl._(_root);
 	@override String get delete => 'Ibura';
 	@override String get add => 'Idagdag';
 	@override String get select => 'Piliin';
 	@override String get save => 'Impukin';
 	@override String get saveDont => '\'Wag impukin';
+	@override late final _StringsGeneralGeneralSaveAsTl saveAs = _StringsGeneralGeneralSaveAsTl._(_root);
 	@override String get cancel => 'Kansela';
 	@override String get resume => 'Itulóy';
 	@override String get pause => 'Ihinto';
@@ -1824,6 +1873,7 @@ class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
 	@override String get close => 'Isara';
 	@override String get rename => 'Ipangalan';
 	@override String get copy => 'Kopyahin';
+	@override String get new_ => 'Bágo';
 }
 
 // Path: skedmaker.info
@@ -1836,6 +1886,16 @@ class _StringsSkedmakerInfoTl extends _StringsSkedmakerInfoEn {
 	@override String get name => 'SkedMaker';
 	@override String get nameFull => '${_root.general.app.name} ${_root.skedmaker.info.name}';
 	@override String get desc => 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
+}
+
+// Path: skedmaker.drawer
+class _StringsSkedmakerDrawerTl extends _StringsSkedmakerDrawerEn {
+	_StringsSkedmakerDrawerTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsSkedmakerDrawerFileLocationTl fileLocation = _StringsSkedmakerDrawerFileLocationTl._(_root);
 }
 
 // Path: skedmaker.subjects
@@ -2013,6 +2073,40 @@ class _StringsGeneralDrawerLanguageTl extends _StringsGeneralDrawerLanguageEn {
 	// Translations
 	@override String title({required Object language}) => 'Wika: ${language}';
 	@override String get tooltip => 'Palitan ang wika';
+}
+
+// Path: general.general.open
+class _StringsGeneralGeneralOpenTl extends _StringsGeneralGeneralOpenEn {
+	_StringsGeneralGeneralOpenTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get regular => 'Buksan';
+	@override String get ellipsis => 'Buksan...';
+}
+
+// Path: general.general.saveAs
+class _StringsGeneralGeneralSaveAsTl extends _StringsGeneralGeneralSaveAsEn {
+	_StringsGeneralGeneralSaveAsTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get regular => 'Impukin bilang';
+	@override String get ellipsis => 'Impukin bilang...';
+}
+
+// Path: skedmaker.drawer.fileLocation
+class _StringsSkedmakerDrawerFileLocationTl extends _StringsSkedmakerDrawerFileLocationEn {
+	_StringsSkedmakerDrawerFileLocationTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Lokasyon ng talaksán';
+	@override String get empty => '-';
+	@override String get open => 'Buksan ang lokasyon ng talaksán';
 }
 
 // Path: skedmaker.subjects.add
@@ -3142,6 +3236,7 @@ class _StringsSkedmakerTlQp extends _StringsSkedmakerEn {
 
 	// Translations
 	@override late final _StringsSkedmakerInfoTlQp info = _StringsSkedmakerInfoTlQp._(_root);
+	@override late final _StringsSkedmakerDrawerTlQp drawer = _StringsSkedmakerDrawerTlQp._(_root);
 	@override late final _StringsSkedmakerSubjectsTlQp subjects = _StringsSkedmakerSubjectsTlQp._(_root);
 	@override late final _StringsSkedmakerFiltersTlQp filters = _StringsSkedmakerFiltersTlQp._(_root);
 	@override late final _StringsSkedmakerSchedulesTlQp schedules = _StringsSkedmakerSchedulesTlQp._(_root);
@@ -3197,12 +3292,13 @@ class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
 	// Translations
 	@override String get go => 'Go';
 	@override String get ok => 'OK';
-	@override String get open => 'I-open';
+	@override late final _StringsGeneralGeneralOpenTlQp open = _StringsGeneralGeneralOpenTlQp._(_root);
 	@override String get delete => 'I-delete';
 	@override String get add => 'I-add';
 	@override String get select => 'I-select';
 	@override String get save => 'I-save';
 	@override String get saveDont => '\'Wag i-save';
+	@override late final _StringsGeneralGeneralSaveAsTlQp saveAs = _StringsGeneralGeneralSaveAsTlQp._(_root);
 	@override String get cancel => 'I-cancel';
 	@override String get resume => 'I-resume';
 	@override String get pause => 'I-pause';
@@ -3210,6 +3306,7 @@ class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
 	@override String get close => 'I-close';
 	@override String get rename => 'I-rename';
 	@override String get copy => 'I-copy';
+	@override String get new_ => 'New';
 }
 
 // Path: skedmaker.info
@@ -3222,6 +3319,16 @@ class _StringsSkedmakerInfoTlQp extends _StringsSkedmakerInfoEn {
 	@override String get name => 'SkedMaker';
 	@override String get nameFull => '${_root.general.app.name} ${_root.skedmaker.info.name}';
 	@override String get desc => 'Ang automatic na class schedule maker para sa DLSU students';
+}
+
+// Path: skedmaker.drawer
+class _StringsSkedmakerDrawerTlQp extends _StringsSkedmakerDrawerEn {
+	_StringsSkedmakerDrawerTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsSkedmakerDrawerFileLocationTlQp fileLocation = _StringsSkedmakerDrawerFileLocationTlQp._(_root);
 }
 
 // Path: skedmaker.subjects
@@ -3399,6 +3506,40 @@ class _StringsGeneralDrawerLanguageTlQp extends _StringsGeneralDrawerLanguageEn 
 	// Translations
 	@override String title({required Object language}) => 'Language: ${language}';
 	@override String get tooltip => 'Palitan ang language';
+}
+
+// Path: general.general.open
+class _StringsGeneralGeneralOpenTlQp extends _StringsGeneralGeneralOpenEn {
+	_StringsGeneralGeneralOpenTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get regular => 'I-open';
+	@override String get ellipsis => 'I-open...';
+}
+
+// Path: general.general.saveAs
+class _StringsGeneralGeneralSaveAsTlQp extends _StringsGeneralGeneralSaveAsEn {
+	_StringsGeneralGeneralSaveAsTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get regular => 'I-save as';
+	@override String get ellipsis => 'I-save as...';
+}
+
+// Path: skedmaker.drawer.fileLocation
+class _StringsSkedmakerDrawerFileLocationTlQp extends _StringsSkedmakerDrawerFileLocationEn {
+	_StringsSkedmakerDrawerFileLocationTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'File location';
+	@override String get empty => '-';
+	@override String get open => 'I-open ang file location';
 }
 
 // Path: skedmaker.subjects.add
@@ -4499,12 +4640,15 @@ extension on Translations {
 			case 'general.drawer.language.tooltip': return 'Change language';
 			case 'general.general.go': return 'Go';
 			case 'general.general.ok': return 'OK';
-			case 'general.general.open': return 'Open';
+			case 'general.general.open.regular': return 'Open';
+			case 'general.general.open.ellipsis': return 'Open...';
 			case 'general.general.delete': return 'Delete';
 			case 'general.general.add': return 'Add';
 			case 'general.general.select': return 'Select';
 			case 'general.general.save': return 'Save';
 			case 'general.general.saveDont': return 'Don\'t save';
+			case 'general.general.saveAs.regular': return 'Save as';
+			case 'general.general.saveAs.ellipsis': return 'Save as...';
 			case 'general.general.cancel': return 'Cancel';
 			case 'general.general.resume': return 'Resume';
 			case 'general.general.pause': return 'Pause';
@@ -4512,6 +4656,7 @@ extension on Translations {
 			case 'general.general.close': return 'Close';
 			case 'general.general.rename': return 'Rename';
 			case 'general.general.copy': return 'Copy';
+			case 'general.general.new_': return 'New';
 			case 'general.general.date.eras.0': return 'BC';
 			case 'general.general.date.eras.1': return 'AD';
 			case 'general.general.date.eraNames.0': return 'Before Christ';
@@ -4659,6 +4804,9 @@ extension on Translations {
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'The automatic class schedule maker for DLSU students';
+			case 'skedmaker.drawer.fileLocation.name': return 'File location';
+			case 'skedmaker.drawer.fileLocation.empty': return '-';
+			case 'skedmaker.drawer.fileLocation.open': return 'Open file location';
 			case 'skedmaker.subjects.name': return 'Subjects';
 			case 'skedmaker.subjects.add.title': return 'Add subject';
 			case 'skedmaker.subjects.add.buttonMls.name': return 'Add from My.LaSalle';
@@ -4919,12 +5067,15 @@ extension on _StringsTl {
 			case 'general.drawer.language.tooltip': return 'Palitan ang wika';
 			case 'general.general.go': return 'Pumunta';
 			case 'general.general.ok': return 'Okay';
-			case 'general.general.open': return 'Buksan';
+			case 'general.general.open.regular': return 'Buksan';
+			case 'general.general.open.ellipsis': return 'Buksan...';
 			case 'general.general.delete': return 'Ibura';
 			case 'general.general.add': return 'Idagdag';
 			case 'general.general.select': return 'Piliin';
 			case 'general.general.save': return 'Impukin';
 			case 'general.general.saveDont': return '\'Wag impukin';
+			case 'general.general.saveAs.regular': return 'Impukin bilang';
+			case 'general.general.saveAs.ellipsis': return 'Impukin bilang...';
 			case 'general.general.cancel': return 'Kansela';
 			case 'general.general.resume': return 'Itulóy';
 			case 'general.general.pause': return 'Ihinto';
@@ -4932,9 +5083,13 @@ extension on _StringsTl {
 			case 'general.general.close': return 'Isara';
 			case 'general.general.rename': return 'Ipangalan';
 			case 'general.general.copy': return 'Kopyahin';
+			case 'general.general.new_': return 'Bágo';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
+			case 'skedmaker.drawer.fileLocation.name': return 'Lokasyon ng talaksán';
+			case 'skedmaker.drawer.fileLocation.empty': return '-';
+			case 'skedmaker.drawer.fileLocation.open': return 'Buksan ang lokasyon ng talaksán';
 			case 'skedmaker.subjects.name': return 'Asignatura';
 			case 'skedmaker.subjects.add.title': return 'Magdagdag ng asignatura';
 			case 'skedmaker.subjects.add.buttonMls.name': return 'Magdagdag mula My.LaSalle';
@@ -5195,12 +5350,15 @@ extension on _StringsTlQp {
 			case 'general.drawer.language.tooltip': return 'Palitan ang language';
 			case 'general.general.go': return 'Go';
 			case 'general.general.ok': return 'OK';
-			case 'general.general.open': return 'I-open';
+			case 'general.general.open.regular': return 'I-open';
+			case 'general.general.open.ellipsis': return 'I-open...';
 			case 'general.general.delete': return 'I-delete';
 			case 'general.general.add': return 'I-add';
 			case 'general.general.select': return 'I-select';
 			case 'general.general.save': return 'I-save';
 			case 'general.general.saveDont': return '\'Wag i-save';
+			case 'general.general.saveAs.regular': return 'I-save as';
+			case 'general.general.saveAs.ellipsis': return 'I-save as...';
 			case 'general.general.cancel': return 'I-cancel';
 			case 'general.general.resume': return 'I-resume';
 			case 'general.general.pause': return 'I-pause';
@@ -5208,9 +5366,13 @@ extension on _StringsTlQp {
 			case 'general.general.close': return 'I-close';
 			case 'general.general.rename': return 'I-rename';
 			case 'general.general.copy': return 'I-copy';
+			case 'general.general.new_': return 'New';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang automatic na class schedule maker para sa DLSU students';
+			case 'skedmaker.drawer.fileLocation.name': return 'File location';
+			case 'skedmaker.drawer.fileLocation.empty': return '-';
+			case 'skedmaker.drawer.fileLocation.open': return 'I-open ang file location';
 			case 'skedmaker.subjects.name': return 'Subjects';
 			case 'skedmaker.subjects.add.title': return 'Mag-add ng subject';
 			case 'skedmaker.subjects.add.buttonMls.name': return 'Mag-add mula My.LaSalle';

@@ -410,7 +410,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             ),
           ),
           ListTile(
-            title: Text('New'),
+            title: Text(strings.general.general.new_),
             leading: Icon(MdiIcons.plusBoxOutline, size: 25),
             onTap: () {
               showDialog(
@@ -441,7 +441,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             },
           ),
           ListTile(
-            title: Text('Open...'),
+            title: Text(strings.general.general.open.ellipsis),
             leading: Icon(Icons.open_in_new_outlined, size: 25),
             onTap: () async {
               final path = (await FilePicker.platform.pickFiles(
@@ -463,7 +463,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             },
           ),
           ListTile(
-            title: Text('Save'),
+            title: Text(strings.general.general.save),
             leading: Icon(Icons.save_outlined, size: 25),
             onTap: () async {
               final model = provider.currentContext!.read<SkedmakerModel>();
@@ -489,7 +489,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             },
           ),
           ListTile(
-            title: Text('Save as...'),
+            title: Text(strings.general.general.saveAs.ellipsis),
             leading: Icon(MdiIcons.contentSavePlusOutline, size: 25),
             onTap: () async {
               final model = provider.currentContext!.read<SkedmakerModel>();
@@ -505,8 +505,8 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
           ),
           Divider(),
           ListTile(
-            title: Text('File location'),
-            subtitle: SelectableText(model.path ?? '-'),
+            title: Text(strings.skedmaker.drawer.fileLocation.name),
+            subtitle: SelectableText(model.path ?? strings.skedmaker.drawer.fileLocation.empty),
           ),
         ],
       ),

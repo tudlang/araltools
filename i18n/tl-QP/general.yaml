@@ -43,12 +43,17 @@ drawer:
 general:
   go: Go
   ok: OK
-  open: I-open
+  open: 
+    regular: I-open
+    ellipsis: I-open...
   delete: I-delete
   add: I-add
   select: I-select
   save: I-save
   saveDont:  "'Wag i-save"
+  saveAs: 
+    regular: I-save as
+    ellipsis: I-save as...
   cancel: I-cancel
   resume: I-resume
   pause: I-pause
@@ -56,3 +61,4 @@ general:
   close: I-close
   rename: I-rename
   copy: I-copy
+  new_: New

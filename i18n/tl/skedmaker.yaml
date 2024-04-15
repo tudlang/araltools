@@ -20,6 +20,12 @@ info:
   nameFull: "@:general.app.name @:skedmaker.info.name"
   desc: Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU
 
+drawer:
+  fileLocation:
+    name: Lokasyon ng talaksán
+    empty: "-"
+    open: Buksan ang lokasyon ng talaksán
+
 subjects:
   name: Asignatura
 
