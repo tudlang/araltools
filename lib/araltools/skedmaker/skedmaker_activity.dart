@@ -16,6 +16,7 @@
 // along with AralTools.  If not, see <http://www.gnu.org/licenses/>.
 
 import 'package:araltools/araltools/araltools.dart';
+import 'package:araltools/araltools/functions.dart';
 import 'package:araltools/settings.dart';
 import 'package:araltools/utils.dart';
 import 'package:file_picker/file_picker.dart';
@@ -356,37 +357,14 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
               children: [
                 OutlinedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (context) {
-                        return ContentDialog(
-                          title: Text('Go back to main menu?'),
-                          content: Text('All unsaved data will be lost.'),
-                          actions: [
-                            Button(
-                                child: Text(strings.general.general.cancel),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }),
-                            FilledButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                GoRouter.of(context).go('/');
-                              },
-                              child: Text(strings.general.general.ok),
-                            )
-                          ],
-                        );
-                      },
-                    );
+                    showBackHomeDialog(context);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.arrow_back),
                       SizedBox(width: 8),
-                      Text('Back to home'),
+                      Text(strings.general.functions.backToHome.name),
                     ],
                   ),
                 ),

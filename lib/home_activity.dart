@@ -195,16 +195,17 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.info_outline),
-            title: Text(str.about),
+            title: Text(str.about.name),
             onTap: () async {
               PackageInfo packageInfo = await PackageInfo.fromPlatform();
               Navigator.pop(context);
               showAboutDialog(
                 context: context,
                 applicationName: packageInfo.appName,
-                applicationVersion:
-                    "Version ${packageInfo.version} build ${packageInfo.buildNumber}",
-                applicationLegalese: "Copyright (C) 2023 Tudlang",
+                applicationVersion: str.about.version(
+                    version: packageInfo.version,
+                    build: packageInfo.buildNumber),
+                applicationLegalese: str.about.copyright,
               );
             },
           ),

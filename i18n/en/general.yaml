@@ -26,7 +26,10 @@ home:
     desc: Stay updated! :)
 
 drawer:
-  about: About
+  about: 
+    name: About
+    version: Version ${version} build ${build}
+    copyright: Copyright (C) 2024 Yivan Andrei Padsoyan
   support:
     title: Buy Me A Coffee
     desc: Support me!
@@ -39,6 +42,12 @@ drawer:
   language:
     title: "Language: ${language}"
     tooltip: Change language
+
+functions:
+  backToHome: 
+    name: Back to home
+    title: Go back to home?
+    desc: All unsaved data will be lost.
 
 general:
   go: Go

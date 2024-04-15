@@ -23,11 +23,11 @@ const locales = {
     locale: Locale('en'),
   ),
   'tl': (
-    name: 'Tagalog (beta)',
+    name: 'Tagalog',
     locale: Locale('tl'),
   ),
   'tl_QP': (
-    name: 'Tagalog (Taglish) (beta)',
+    name: 'Tagalog (Taglish)',
     locale: Locale('tl', 'QP'),
   ),
 };

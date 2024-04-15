@@ -26,7 +26,10 @@ home:
     desc: Maging updated! :)
 
 drawer:
-  about: About
+  about: 
+    name: About
+    version: Version ${version} build ${build}
+    copyright: Copyright (C) 2024 Yivan Andrei Padsoyan
   support:
     title: Buy Me A Coffee
     desc: I-support ako!
@@ -39,6 +42,12 @@ drawer:
   language:
     title: "Language: ${language}"
     tooltip: Palitan ang language
+
+functions:
+  backToHome: 
+    name: Bumalik sa home
+    title: Bumalik sa home?
+    desc: Lahat ng unsaved data ay mawawala.
 
 general:
   go: Go

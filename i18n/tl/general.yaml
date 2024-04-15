@@ -26,7 +26,10 @@ home:
     desc: Abangan! :)
 
 drawer:
-  about: Patungkol
+  about: 
+    name: Patungkol
+    version: Bersyon ${version} build ${build}
+    copyright: Karapatang-sipi (C) 2024 Yivan Andrei Padsoyan
   support:
     title: Buy Me A Coffee
     desc: Suportahan ako!
@@ -39,6 +42,12 @@ drawer:
   language:
     title: "Wika: ${language}"
     tooltip: Palitan ang wika
+
+functions:
+  backToHome: 
+    name: Bumalik sa tahanan
+    title: Bumalik sa tahanan?
+    desc: "Lahat ng 'di naimpok na data ay mawawala."
 
 general:
   go: Pumunta
