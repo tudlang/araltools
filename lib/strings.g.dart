@@ -6,7 +6,7 @@
 /// Locales: 3
 /// Strings: 951 (317 per locale)
 ///
-/// Built on 2024-04-15 at 11:11 UTC
+/// Built on 2024-04-15 at 11:35 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -425,7 +425,7 @@ class _StringsGeneralDrawerAboutEn {
 	// Translations
 	String get name => 'About';
 	String version({required Object version, required Object build}) => 'Version ${version} build ${build}';
-	String get copyright => 'Copyright (C) 2024 Yivan Andrei Padsoyan';
+	String get copyright => 'Copyright (C) 2024 Yivan Padsoyan';
 }
 
 // Path: general.drawer.support
@@ -2103,7 +2103,7 @@ class _StringsGeneralDrawerAboutTl extends _StringsGeneralDrawerAboutEn {
 	// Translations
 	@override String get name => 'Patungkol';
 	@override String version({required Object version, required Object build}) => 'Bersyon ${version} build ${build}';
-	@override String get copyright => 'Karapatang-sipi (C) 2024 Yivan Andrei Padsoyan';
+	@override String get copyright => 'Karapatang-sipi (C) 2024 Yivan Padsoyan';
 }
 
 // Path: general.drawer.support
@@ -3586,7 +3586,7 @@ class _StringsGeneralDrawerAboutTlQp extends _StringsGeneralDrawerAboutEn {
 	// Translations
 	@override String get name => 'About';
 	@override String version({required Object version, required Object build}) => 'Version ${version} build ${build}';
-	@override String get copyright => 'Copyright (C) 2024 Yivan Andrei Padsoyan';
+	@override String get copyright => 'Copyright (C) 2024 Yivan Padsoyan';
 }
 
 // Path: general.drawer.support
@@ -4781,7 +4781,7 @@ extension on Translations {
 			case 'general.home.more.desc': return 'Stay updated! :)';
 			case 'general.drawer.about.name': return 'About';
 			case 'general.drawer.about.version': return ({required Object version, required Object build}) => 'Version ${version} build ${build}';
-			case 'general.drawer.about.copyright': return 'Copyright (C) 2024 Yivan Andrei Padsoyan';
+			case 'general.drawer.about.copyright': return 'Copyright (C) 2024 Yivan Padsoyan';
 			case 'general.drawer.support.title': return 'Buy Me A Coffee';
 			case 'general.drawer.support.desc': return 'Support me!';
 			case 'general.drawer.github.title': return 'View source code';
@@ -5218,7 +5218,7 @@ extension on _StringsTl {
 			case 'general.home.more.desc': return 'Abangan! :)';
 			case 'general.drawer.about.name': return 'Patungkol';
 			case 'general.drawer.about.version': return ({required Object version, required Object build}) => 'Bersyon ${version} build ${build}';
-			case 'general.drawer.about.copyright': return 'Karapatang-sipi (C) 2024 Yivan Andrei Padsoyan';
+			case 'general.drawer.about.copyright': return 'Karapatang-sipi (C) 2024 Yivan Padsoyan';
 			case 'general.drawer.support.title': return 'Buy Me A Coffee';
 			case 'general.drawer.support.desc': return 'Suportahan ako!';
 			case 'general.drawer.github.title': return 'Tignan ang source code';
@@ -5511,7 +5511,7 @@ extension on _StringsTlQp {
 			case 'general.home.more.desc': return 'Maging updated! :)';
 			case 'general.drawer.about.name': return 'About';
 			case 'general.drawer.about.version': return ({required Object version, required Object build}) => 'Version ${version} build ${build}';
-			case 'general.drawer.about.copyright': return 'Copyright (C) 2024 Yivan Andrei Padsoyan';
+			case 'general.drawer.about.copyright': return 'Copyright (C) 2024 Yivan Padsoyan';
 			case 'general.drawer.support.title': return 'Buy Me A Coffee';
 			case 'general.drawer.support.desc': return 'I-support ako!';
 			case 'general.drawer.github.title': return 'Tignan ang source code';

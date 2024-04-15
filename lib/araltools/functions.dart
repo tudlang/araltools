@@ -1,3 +1,20 @@
+// Copyright (C) 2024 Tudlang
+// 
+// This file is part of AralTools.
+// 
+// AralTools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AralTools is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AralTools.  If not, see <https://www.gnu.org/licenses/>.
+
 import 'package:araltools/araltools/araltools.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -34,6 +51,8 @@ Future showBackHomeDialog(BuildContext context) => onPlatform(
       ),
     );
 
+
+/// Shows the "create new project" dialog
 Future showNewProjectDialog(BuildContext context, AralTools araltool) =>
     onPlatform(
         all: Future.value(),

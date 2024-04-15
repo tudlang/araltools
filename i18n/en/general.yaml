@@ -29,7 +29,7 @@ drawer:
   about: 
     name: About
     version: Version ${version} build ${build}
-    copyright: Copyright (C) 2024 Yivan Andrei Padsoyan
+    copyright: Copyright (C) 2024 Yivan Padsoyan
   support:
     title: Buy Me A Coffee
     desc: Support me!
