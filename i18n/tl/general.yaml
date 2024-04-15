@@ -48,6 +48,9 @@ functions:
     name: Bumalik sa tahanan
     title: Bumalik sa tahanan?
     desc: "Lahat ng 'di naimpok na data ay mawawala."
+  newProject:
+    title: Gumawa ng bagong proyekto?
+    desc: "Lahat ng 'di naimpok na data ay mawawala."
 
 general:
   go: Pumunta

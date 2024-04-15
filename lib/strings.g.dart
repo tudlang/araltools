@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 936 (312 per locale)
+/// Strings: 942 (314 per locale)
 ///
-/// Built on 2024-04-15 at 09:51 UTC
+/// Built on 2024-04-15 at 10:18 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -230,6 +230,7 @@ class _StringsGeneralFunctionsEn {
 
 	// Translations
 	late final _StringsGeneralFunctionsBackToHomeEn backToHome = _StringsGeneralFunctionsBackToHomeEn._(_root);
+	late final _StringsGeneralFunctionsNewProjectEn newProject = _StringsGeneralFunctionsNewProjectEn._(_root);
 }
 
 // Path: general.general
@@ -479,6 +480,17 @@ class _StringsGeneralFunctionsBackToHomeEn {
 	// Translations
 	String get name => 'Back to home';
 	String get title => 'Go back to home?';
+	String get desc => 'All unsaved data will be lost.';
+}
+
+// Path: general.functions.newProject
+class _StringsGeneralFunctionsNewProjectEn {
+	_StringsGeneralFunctionsNewProjectEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Create new project?';
 	String get desc => 'All unsaved data will be lost.';
 }
 
@@ -1894,6 +1906,7 @@ class _StringsGeneralFunctionsTl extends _StringsGeneralFunctionsEn {
 
 	// Translations
 	@override late final _StringsGeneralFunctionsBackToHomeTl backToHome = _StringsGeneralFunctionsBackToHomeTl._(_root);
+	@override late final _StringsGeneralFunctionsNewProjectTl newProject = _StringsGeneralFunctionsNewProjectTl._(_root);
 }
 
 // Path: general.general
@@ -2142,6 +2155,17 @@ class _StringsGeneralFunctionsBackToHomeTl extends _StringsGeneralFunctionsBackT
 	// Translations
 	@override String get name => 'Bumalik sa tahanan';
 	@override String get title => 'Bumalik sa tahanan?';
+	@override String get desc => 'Lahat ng \'di naimpok na data ay mawawala.';
+}
+
+// Path: general.functions.newProject
+class _StringsGeneralFunctionsNewProjectTl extends _StringsGeneralFunctionsNewProjectEn {
+	_StringsGeneralFunctionsNewProjectTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Gumawa ng bagong proyekto?';
 	@override String get desc => 'Lahat ng \'di naimpok na data ay mawawala.';
 }
 
@@ -3362,6 +3386,7 @@ class _StringsGeneralFunctionsTlQp extends _StringsGeneralFunctionsEn {
 
 	// Translations
 	@override late final _StringsGeneralFunctionsBackToHomeTlQp backToHome = _StringsGeneralFunctionsBackToHomeTlQp._(_root);
+	@override late final _StringsGeneralFunctionsNewProjectTlQp newProject = _StringsGeneralFunctionsNewProjectTlQp._(_root);
 }
 
 // Path: general.general
@@ -3610,6 +3635,17 @@ class _StringsGeneralFunctionsBackToHomeTlQp extends _StringsGeneralFunctionsBac
 	// Translations
 	@override String get name => 'Bumalik sa home';
 	@override String get title => 'Bumalik sa home?';
+	@override String get desc => 'Lahat ng unsaved data ay mawawala.';
+}
+
+// Path: general.functions.newProject
+class _StringsGeneralFunctionsNewProjectTlQp extends _StringsGeneralFunctionsNewProjectEn {
+	_StringsGeneralFunctionsNewProjectTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Gumawa ng bagong project?';
 	@override String get desc => 'Lahat ng unsaved data ay mawawala.';
 }
 
@@ -4748,6 +4784,8 @@ extension on Translations {
 			case 'general.functions.backToHome.name': return 'Back to home';
 			case 'general.functions.backToHome.title': return 'Go back to home?';
 			case 'general.functions.backToHome.desc': return 'All unsaved data will be lost.';
+			case 'general.functions.newProject.title': return 'Create new project?';
+			case 'general.functions.newProject.desc': return 'All unsaved data will be lost.';
 			case 'general.general.go': return 'Go';
 			case 'general.general.ok': return 'OK';
 			case 'general.general.open.regular': return 'Open';
@@ -5180,6 +5218,8 @@ extension on _StringsTl {
 			case 'general.functions.backToHome.name': return 'Bumalik sa tahanan';
 			case 'general.functions.backToHome.title': return 'Bumalik sa tahanan?';
 			case 'general.functions.backToHome.desc': return 'Lahat ng \'di naimpok na data ay mawawala.';
+			case 'general.functions.newProject.title': return 'Gumawa ng bagong proyekto?';
+			case 'general.functions.newProject.desc': return 'Lahat ng \'di naimpok na data ay mawawala.';
 			case 'general.general.go': return 'Pumunta';
 			case 'general.general.ok': return 'Okay';
 			case 'general.general.open.regular': return 'Buksan';
@@ -5468,6 +5508,8 @@ extension on _StringsTlQp {
 			case 'general.functions.backToHome.name': return 'Bumalik sa home';
 			case 'general.functions.backToHome.title': return 'Bumalik sa home?';
 			case 'general.functions.backToHome.desc': return 'Lahat ng unsaved data ay mawawala.';
+			case 'general.functions.newProject.title': return 'Gumawa ng bagong project?';
+			case 'general.functions.newProject.desc': return 'Lahat ng unsaved data ay mawawala.';
 			case 'general.general.go': return 'Go';
 			case 'general.general.ok': return 'OK';
 			case 'general.general.open.regular': return 'I-open';

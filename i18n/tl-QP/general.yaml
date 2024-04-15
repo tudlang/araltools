@@ -48,6 +48,9 @@ functions:
     name: Bumalik sa home
     title: Bumalik sa home?
     desc: Lahat ng unsaved data ay mawawala.
+  newProject:
+    title: Gumawa ng bagong project?
+    desc: Lahat ng unsaved data ay mawawala.
 
 general:
   go: Go

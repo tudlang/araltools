@@ -48,6 +48,9 @@ functions:
     name: Back to home
     title: Go back to home?
     desc: All unsaved data will be lost.
+  newProject:
+    title: Create new project?
+    desc: All unsaved data will be lost.
 
 general:
   go: Go

@@ -391,31 +391,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             title: Text(strings.general.general.new_),
             leading: Icon(MdiIcons.plusBoxOutline, size: 25),
             onTap: () {
-              showDialog(
-                context: context,
-                barrierDismissible: true,
-                builder: (context) {
-                  return ContentDialog(
-                    title: Text('Create new project?'),
-                    content: Text('All unsaved data will be lost.'),
-                    actions: [
-                      Button(
-                          child: Text(strings.general.general.cancel),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      FilledButton(
-                        onPressed: () {
-                          GoRouter.of(context)
-                            ..pop()
-                            ..pushReplacement(AralTools.skedmaker.route);
-                        },
-                        child: Text(strings.general.general.ok),
-                      )
-                    ],
-                  );
-                },
-              );
+                showNewProjectDialog(context, AralTools.skedmaker);
             },
           ),
           ListTile(
