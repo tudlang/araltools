@@ -171,7 +171,7 @@ class ExportImageLandscape extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(16),
                 width: 110 * 7 - 11,
-                height: 60 * 14 + 68,
+                height: 71 * 14,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: IgnorePointer(
