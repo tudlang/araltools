@@ -74,3 +74,4 @@ general:
   rename: I-rename
   copy: I-copy
   new_: New
+  moreInfo: More info

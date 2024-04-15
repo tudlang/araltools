@@ -76,6 +76,7 @@ class HomeActivity extends StatelessWidget {
                   description: araltool.localizedDesc,
                   route: araltool.route,
                   extras: araltool.extras,
+                  urlInfo: araltool.urlInfo,
                 ),
               HomeCard(
                 icon: Icons.add,
@@ -96,6 +97,7 @@ class HomeCard extends StatelessWidget {
   final String description;
   final String route;
   final Map<String, dynamic> extras;
+  final String urlInfo;
   const HomeCard({
     super.key,
     this.icon,
@@ -103,6 +105,7 @@ class HomeCard extends StatelessWidget {
     this.description = '',
     this.route = '',
     this.extras = const {},
+    this.urlInfo = '',
   });
 
   @override
@@ -135,17 +138,38 @@ class HomeCard extends StatelessWidget {
               ),
               Text(description),
               SizedBox(height: 20),
-              if (route.isNotEmpty)
-                FilledButton(
-                  onPressed: () {
-                    GoRouter.of(context)
-                        .go(route, extra: {'title': name, ...extras});
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(strings.general.general.open.regular),
-                  ),
-                )
+              Wrap( 
+                spacing: 10,
+                children: [
+                  if (route.isNotEmpty)
+                    FilledButton(
+                      onPressed: () {
+                        GoRouter.of(context)
+                            .go(route, extra: {'title': name, ...extras});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(strings.general.general.open.regular),
+                      ),
+                    ),
+                  if (urlInfo.isNotEmpty)
+                    OutlinedButton(
+                      onPressed: () {
+                        launchUrl(Uri.parse(urlInfo));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(strings.general.general.moreInfo),
+                          ),
+                          Icon(MdiIcons.openInNew)
+                        ],
+                      ),
+                    )
+                ],
+              )
             ],
           ),
         ),

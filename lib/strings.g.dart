@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 942 (314 per locale)
+/// Strings: 945 (315 per locale)
 ///
-/// Built on 2024-04-15 at 10:18 UTC
+/// Built on 2024-04-15 at 10:42 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -257,6 +257,7 @@ class _StringsGeneralGeneralEn {
 	String get rename => 'Rename';
 	String get copy => 'Copy';
 	String get new_ => 'New';
+	String get moreInfo => 'More info';
 	late final _StringsGeneralGeneralDateEn date = _StringsGeneralGeneralDateEn._(_root);
 }
 
@@ -1933,6 +1934,7 @@ class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
 	@override String get rename => 'Ipangalan';
 	@override String get copy => 'Kopyahin';
 	@override String get new_ => 'Bágo';
+	@override String get moreInfo => 'Karagdagang impo';
 }
 
 // Path: skedmaker.info
@@ -3413,6 +3415,7 @@ class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
 	@override String get rename => 'I-rename';
 	@override String get copy => 'I-copy';
 	@override String get new_ => 'New';
+	@override String get moreInfo => 'More info';
 }
 
 // Path: skedmaker.info
@@ -4805,6 +4808,7 @@ extension on Translations {
 			case 'general.general.rename': return 'Rename';
 			case 'general.general.copy': return 'Copy';
 			case 'general.general.new_': return 'New';
+			case 'general.general.moreInfo': return 'More info';
 			case 'general.general.date.eras.0': return 'BC';
 			case 'general.general.date.eras.1': return 'AD';
 			case 'general.general.date.eraNames.0': return 'Before Christ';
@@ -5239,6 +5243,7 @@ extension on _StringsTl {
 			case 'general.general.rename': return 'Ipangalan';
 			case 'general.general.copy': return 'Kopyahin';
 			case 'general.general.new_': return 'Bágo';
+			case 'general.general.moreInfo': return 'Karagdagang impo';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
@@ -5529,6 +5534,7 @@ extension on _StringsTlQp {
 			case 'general.general.rename': return 'I-rename';
 			case 'general.general.copy': return 'I-copy';
 			case 'general.general.new_': return 'New';
+			case 'general.general.moreInfo': return 'More info';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang automatic na class schedule maker para sa DLSU students';

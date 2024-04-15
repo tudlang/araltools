@@ -74,6 +74,7 @@ general:
   rename: Rename
   copy: Copy
   new_: New
+  moreInfo: More info
 
   date:
     eras: ["BC", "AD"]

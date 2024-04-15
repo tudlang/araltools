@@ -66,4 +66,6 @@ enum AralTools {
         'mdi' => iconMap[icon.$2]!,
         _ => IconData(0x0020) //empty space
       };
+
+  String get urlInfo => "https://github.com/tudlang/araltools/tree/main/lib/araltools/$name";
 }
