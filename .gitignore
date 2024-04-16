@@ -47,4 +47,3 @@ app.*.map.json
 
 # Remove hardcoded HTML tables from MLS
 /lib/araltools/skedmaker/test_tables.dart
-/web_old/sched.dart
