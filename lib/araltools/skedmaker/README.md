@@ -37,3 +37,7 @@ SkedMaker is a tool to create a list of possible schedules, given a list of subj
     3. If successful, output the week.
     4. Continue to the next possible list.
 
+## DISCLAIMER
+AralTools SkedMaker is not an official De La Salle University product, and is not approved by or associated with De La Salle University. This is a tool created by students in the hopes of adding convenience in the schedule creation process during enlistment/enrollment time.
+
+AralTools SkedMaker is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
