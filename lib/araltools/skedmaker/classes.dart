@@ -346,54 +346,30 @@ enum ScheduleDay {
     bool hasRoom = false,
   }) =>
       switch (code) {
-        'H' when old == ScheduleDay.mondayFace && hasRoom =>
-          ScheduleDay.mondaythursdayFace,
-        'H'
-            when (old == ScheduleDay.mondayHybrid ||
-                    old == ScheduleDay.mondayFace) &&
-                !hasRoom =>
-          ScheduleDay.mondaythursdayFaceonline,
-        'H'
-            when (old == ScheduleDay.mondayHybrid ||
-                    old == ScheduleDay.mondayOnline) &&
-                hasRoom =>
-          ScheduleDay.mondaythursdayOnlineface,
-        'H' when old == ScheduleDay.mondayOnline =>
-          ScheduleDay.mondaythursdayOnline,
-        'H' when old == ScheduleDay.mondayUnknown =>
-          ScheduleDay.mondaythursdayUnknown,
-        'F' when old == ScheduleDay.tuesdayFace && hasRoom =>
-          ScheduleDay.tuesdayfridayFace,
-        'F'
-            when (old == ScheduleDay.tuesdayHybrid ||
-                    old == ScheduleDay.tuesdayFace) &&
-                !hasRoom =>
-          ScheduleDay.tuesdayfridayFaceonline,
-        'F'
-            when (old == ScheduleDay.tuesdayHybrid ||
-                    old == ScheduleDay.tuesdayOnline) &&
-                hasRoom =>
-          ScheduleDay.tuesdayfridayOnlineface,
-        'F' when old == ScheduleDay.tuesdayOnline =>
-          ScheduleDay.tuesdayfridayOnline,
-        'F' when old == ScheduleDay.tuesdayUnknown =>
-          ScheduleDay.tuesdayfridayUnknown,
-        'S' when old == ScheduleDay.wednesdayFace && hasRoom =>
-          ScheduleDay.wednesdaysaturdayFace,
-        'S'
-            when (old == ScheduleDay.wednesdayHybrid ||
-                    old == ScheduleDay.wednesdayFace) &&
-                !hasRoom =>
-          ScheduleDay.wednesdaysaturdayFaceonline,
-        'S'
-            when (old == ScheduleDay.wednesdayHybrid ||
-                    old == ScheduleDay.wednesdayOnline) &&
-                hasRoom =>
-          ScheduleDay.wednesdaysaturdayOnlineface,
-        'S' when old == ScheduleDay.wednesdayOnline =>
-          ScheduleDay.wednesdaysaturdayOnline,
-        'S' when old == ScheduleDay.wednesdayUnknown =>
-          ScheduleDay.wednesdaysaturdayUnknown,
+        'H' => switch (old) {
+            mondayFace when hasRoom => mondaythursdayFace,
+            mondayHybrid || mondayFace when !hasRoom => mondaythursdayFaceonline,
+            mondayHybrid || mondayOnline when hasRoom => mondaythursdayOnlineface,
+            mondayOnline => mondaythursdayOnline,
+            mondayUnknown => mondaythursdayUnknown,
+            _ => old
+          },
+        'F' => switch (old) {
+            tuesdayFace when hasRoom => tuesdayfridayFace,
+            tuesdayHybrid || tuesdayFace when !hasRoom =>  tuesdayfridayFaceonline,
+            tuesdayHybrid || tuesdayOnline when hasRoom => tuesdayfridayOnlineface,
+            tuesdayOnline => tuesdayfridayOnline,
+            tuesdayUnknown => tuesdayfridayUnknown,
+            _ => old
+          },
+        'S' => switch (old) {
+            wednesdayFace when hasRoom => wednesdaysaturdayFace,
+            wednesdayHybrid || tuesdayFace when !hasRoom =>  wednesdaysaturdayFaceonline,
+            wednesdayHybrid || tuesdayOnline when hasRoom => wednesdaysaturdayOnlineface,
+            wednesdayOnline => wednesdaysaturdayOnline,
+            wednesdayUnknown => wednesdaysaturdayUnknown,
+            _ => old
+          },
         _ => old
       };
 
