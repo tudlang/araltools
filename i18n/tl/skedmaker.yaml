@@ -139,6 +139,9 @@ filters:
       excludeSectionLetter:
         name: Ibukod ang mga pangkat na naglalaman ng mga ito
         desc: Gamitin 'to para ibukod ang mga alok na ang pangkat ay naglalaman ng (mga) titik
+      excludeRemarksLetter:
+        name: Ibukod ang mga puna na naglalaman ng mga ito
+        desc: Gamitin 'to para ibukod ang mga alok na ang puna ay naglalaman ng (mga) titik
       includeFreshmanBlock:
         name: Isáma ang block ng mga presman
     day:        

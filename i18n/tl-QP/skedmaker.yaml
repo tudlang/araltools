@@ -137,6 +137,9 @@ filters:
       excludeSectionLetter:
         name: I-exclude ang sections na nag-cocontain ng gan'to
         desc: Gamitin 'to para mag-exclude ng offerings na ang section ay may gan'tong letter(s)
+      excludeRemarksLetter:
+        name: I-exclude ang remarks na nag-cocontain ng gan'to
+        desc: Gamitin 'to para mag-exclude ng offerings na ang remark ay may gan'tong letter(s)
       includeFreshmanBlock:
         name: I-include ang freshman block
     day:        

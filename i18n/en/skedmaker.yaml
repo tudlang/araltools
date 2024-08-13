@@ -136,6 +136,9 @@ filters:
       excludeSectionLetter:
         name: Exclude sections that contains the following
         desc: Use this to exclude offerings whose section contains certain letter(s)
+      excludeRemarksLetter:
+        name: Exclude remarks that contains the following
+        desc: Use this to exclude offerings whose remarks contains certain letter(s)
       includeFreshmanBlock:
         name: Include freshman block
     day:        

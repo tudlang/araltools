@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 951 (317 per locale)
+/// Strings: 957 (319 per locale)
 ///
-/// Built on 2024-04-15 at 11:35 UTC
+/// Built on 2024-08-13 at 09:38 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -1386,6 +1386,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsEn {
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn excludeSectionLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn._(_root);
+	late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn excludeRemarksLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn._(_root);
 	late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn includeFreshmanBlock = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockEn._(_root);
 }
 
@@ -1672,6 +1673,17 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterEn {
 	// Translations
 	String get name => 'Exclude sections that contains the following';
 	String get desc => 'Use this to exclude offerings whose section contains certain letter(s)';
+}
+
+// Path: skedmaker.filters.categories.offerings.excludeRemarksLetter
+class _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Exclude remarks that contains the following';
+	String get desc => 'Use this to exclude offerings whose remarks contains certain letter(s)';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeFreshmanBlock
@@ -2869,6 +2881,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsTl extends _StringsSkedmakerFil
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityTl includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityTl._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersTl includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersTl._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTl excludeSectionLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTl._(_root);
+	@override late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTl excludeRemarksLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTl._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockTl includeFreshmanBlock = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockTl._(_root);
 }
 
@@ -3155,6 +3168,17 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTl extends 
 	// Translations
 	@override String get name => 'Ibukod ang mga pangkat na naglalaman ng mga ito';
 	@override String get desc => 'Gamitin \'to para ibukod ang mga alok na ang pangkat ay naglalaman ng (mga) titik';
+}
+
+// Path: skedmaker.filters.categories.offerings.excludeRemarksLetter
+class _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTl extends _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Ibukod ang mga puna na naglalaman ng mga ito';
+	@override String get desc => 'Gamitin \'to para ibukod ang mga alok na ang puna ay naglalaman ng (mga) titik';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeFreshmanBlock
@@ -4352,6 +4376,7 @@ class _StringsSkedmakerFiltersCategoriesOfferingsTlQp extends _StringsSkedmakerF
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityTlQp includeUnknownModality = _StringsSkedmakerFiltersCategoriesOfferingsIncludeUnknownModalityTlQp._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersTlQp includeNoTeachers = _StringsSkedmakerFiltersCategoriesOfferingsIncludeNoTeachersTlQp._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTlQp excludeSectionLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTlQp._(_root);
+	@override late final _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTlQp excludeRemarksLetter = _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTlQp._(_root);
 	@override late final _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockTlQp includeFreshmanBlock = _StringsSkedmakerFiltersCategoriesOfferingsIncludeFreshmanBlockTlQp._(_root);
 }
 
@@ -4638,6 +4663,17 @@ class _StringsSkedmakerFiltersCategoriesOfferingsExcludeSectionLetterTlQp extend
 	// Translations
 	@override String get name => 'I-exclude ang sections na nag-cocontain ng gan\'to';
 	@override String get desc => 'Gamitin \'to para mag-exclude ng offerings na ang section ay may gan\'tong letter(s)';
+}
+
+// Path: skedmaker.filters.categories.offerings.excludeRemarksLetter
+class _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTlQp extends _StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterEn {
+	_StringsSkedmakerFiltersCategoriesOfferingsExcludeRemarksLetterTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'I-exclude ang remarks na nag-cocontain ng gan\'to';
+	@override String get desc => 'Gamitin \'to para mag-exclude ng offerings na ang remark ay may gan\'tong letter(s)';
 }
 
 // Path: skedmaker.filters.categories.offerings.includeFreshmanBlock
@@ -5046,6 +5082,8 @@ extension on Translations {
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Include offerings with no teachers';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Exclude sections that contains the following';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Use this to exclude offerings whose section contains certain letter(s)';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.name': return 'Exclude remarks that contains the following';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.desc': return 'Use this to exclude offerings whose remarks contains certain letter(s)';
 			case 'skedmaker.filters.categories.offerings.includeFreshmanBlock.name': return 'Include freshman block';
 			case 'skedmaker.filters.categories.day.name': return 'Day-specific';
 			case 'skedmaker.filters.categories.day.desc': return 'Add specific filters for each day of the week';
@@ -5339,6 +5377,8 @@ extension on _StringsTl {
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'Isáma ang mga alok na walang guro';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'Ibukod ang mga pangkat na naglalaman ng mga ito';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Gamitin \'to para ibukod ang mga alok na ang pangkat ay naglalaman ng (mga) titik';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.name': return 'Ibukod ang mga puna na naglalaman ng mga ito';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.desc': return 'Gamitin \'to para ibukod ang mga alok na ang puna ay naglalaman ng (mga) titik';
 			case 'skedmaker.filters.categories.offerings.includeFreshmanBlock.name': return 'Isáma ang block ng mga presman';
 			case 'skedmaker.filters.categories.day.name': return 'Tiyak na araw';
 			case 'skedmaker.filters.categories.day.desc': return 'Mga panalà sa kada araw ng linggo';
@@ -5632,6 +5672,8 @@ extension on _StringsTlQp {
 			case 'skedmaker.filters.categories.offerings.includeNoTeachers.name': return 'I-include ang offerings na walang teacher';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.name': return 'I-exclude ang sections na nag-cocontain ng gan\'to';
 			case 'skedmaker.filters.categories.offerings.excludeSectionLetter.desc': return 'Gamitin \'to para mag-exclude ng offerings na ang section ay may gan\'tong letter(s)';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.name': return 'I-exclude ang remarks na nag-cocontain ng gan\'to';
+			case 'skedmaker.filters.categories.offerings.excludeRemarksLetter.desc': return 'Gamitin \'to para mag-exclude ng offerings na ang remark ay may gan\'tong letter(s)';
 			case 'skedmaker.filters.categories.offerings.includeFreshmanBlock.name': return 'I-include ang freshman block';
 			case 'skedmaker.filters.categories.day.name': return 'Specific sa day';
 			case 'skedmaker.filters.categories.day.desc': return 'Mag-add ng specific filters kada araw ng linggo';

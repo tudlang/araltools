@@ -322,6 +322,9 @@ class ScheduleFilters {
       'excludeSectionLetter': ScheduleFilterStringWithChip(
         key: 'excludeSectionLetter',
       ),
+      'excludeRemarksLetter': ScheduleFilterStringWithChip(
+        key: 'excludeRemarksLetter',
+      ),
       'includeFreshmanBlock': ScheduleFilterSwitch(
         key: 'includeFreshmanBlock',
         valueDefault: false,
@@ -430,6 +433,13 @@ class ScheduleFilters {
             (filters['offerings']!['excludeSectionLetter']!.value
                     as Set<String>)
                 .any((e) => offering.section
+                    .toLowerCase()
+                    .contains(e.toLowerCase()))) ||
+        (filters['offerings']!['excludeRemarksLetter']!.value?.isNotEmpty ==
+                true &&
+            (filters['offerings']!['excludeRemarksLetter']!.value
+                    as Set<String>)
+                .any((e) => offering.remarks
                     .toLowerCase()
                     .contains(e.toLowerCase()))) ||
         (filters['offerings']!['includeFreshmanBlock']!.value == false &&
