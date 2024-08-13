@@ -20,6 +20,8 @@ import 'dart:math';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart'
+    show DataTable, DataCell, DataColumn, DataRow;
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,6 +30,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../strings.g.dart';
 import 'functions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'classes.dart';
 import 'parser.dart';
@@ -36,6 +39,7 @@ var isWebviewAvailable = false;
 
 Future<({List<Offering>? list, Webview webview})?> getSubject(
     BuildContext context, Webview? window) async {
+  // a different dialog will appear if the user does not support WebView2
   if (!isWebviewAvailable && !await WebviewWindow.isWebviewAvailable()) {
     return showDialog(
         context: context,
@@ -133,10 +137,15 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
                 final table = await window!.evaluateJavaScript(
                     "document.querySelector('td>form>table').outerHTML");
                 try {
-                  Navigator.pop(context, (
-                    list: parse(unescape(table!)),
-                    webview: window,
-                  ));
+                  final parsed = parse(unescape(table!));
+
+                  if (parsed.errors.isNotEmpty &&
+                      !await errorAskIfProceed(context, parsed.errors)) {
+                  } else
+                    Navigator.pop(context, (
+                      list: parsed.list,
+                      webview: window,
+                    ));
                 } catch (e) {
                   setState(() {
                     isError = true;
@@ -218,13 +227,20 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
             ),
             FilledButton(
               child: Text(strings.general.general.add),
-              onPressed: () {
+              onPressed: () async {
                 final table = controller.text;
                 try {
                   table.substring(1, table.length - 1);
 
-                  Navigator.pop(context, parse(unescape(table)));
+                  final parsed = parse(unescape(table));
+
+                  if (parsed.errors.isNotEmpty &&
+                      !await errorAskIfProceed(context, parsed.errors)) {
+                  } else {
+                    Navigator.pop(context, parsed.list);
+                  }
                 } catch (e) {
+                  print(e);
                   setState(() {
                     isError = true;
                   });
@@ -237,6 +253,72 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
     },
   );
 }
+
+Future<bool> errorAskIfProceed(
+    BuildContext context, List<CannotParseError> errors) async {
+  print(errors.first.header.outerHtml);
+  return await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        dismissWithEsc: false,
+        builder: (context) {
+          return ContentDialog(
+            constraints: BoxConstraints.tightFor(),
+            title: Text("Error while parsing"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InfoBar(
+                    title: Text("The following offerings cannot be parsed:"),
+                    severity: InfoBarSeverity.warning,
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                      child: HtmlWidget(
+                          "<table>${errors.first.header.outerHtml.replaceAll("<font color=\"#FFFFFF\">", "<font style='font-weight: bold;'>")} ${errors.fold("", (prev, cur) => prev + cur.row.outerHtml)}</table>")),
+                ),
+                Text("Proceeding will discard all of these offerings.")
+              ],
+            ),
+            actions: [
+              Button(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  }),
+              FilledButton(
+                  child: Text("Proceed"),
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  })
+            ],
+          );
+        },
+      ) ??
+      true;
+}
+
+/*
+ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              if (index == 0)
+                                for (var i in errors.first.header.children)
+                                  Text(i.text)
+                              else
+                                for (var i in errors[index - 1].row.children)
+                                  Text(i.text)
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount: errors.length + 1)
+*/
 
 // Currently an unused function
 /// Shows a dialog box that loads the possible schedules. Returns a [Future] that completes when the schedule generation is done.
