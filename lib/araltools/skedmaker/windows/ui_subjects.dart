@@ -200,10 +200,7 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                               onPressed: () {
                                 // THESE ARE FOR DEBUG PURPOSES
                                 final model = context.read<SkedmakerModel>();
-                                for (var subject in debugSubjects) {
-                                  model.addSubject(
-                                      subject.first.subject, subject);
-                                }
+                                importTestSubjects(model);
                                 import(context);
                               },
                             ),

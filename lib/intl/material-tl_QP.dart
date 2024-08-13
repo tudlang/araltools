@@ -754,4 +754,10 @@ class MaterialLocalizationTlQP extends GlobalMaterialLocalizations {
   
   @override
   String get shareButtonLabel => 'I-share...';
+  
+  @override
+  String get clearButtonTooltip => 'I-clear ang text';
+  
+  @override
+  String get selectedDateLabel => 'Naka-select';
 }

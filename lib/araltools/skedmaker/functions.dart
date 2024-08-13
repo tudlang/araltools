@@ -19,12 +19,12 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 
-import 'package:araltools/strings.g.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
 
 import '/utils.dart';
+import '/strings.g.dart';
 import 'classes.dart';
 import 'filters.dart';
 
@@ -32,7 +32,7 @@ void generateSchedulesIsolate(
     ({
       Map<String, List<Offering>> subjects,
       SendPort sendport,
-      ScheduleFilters filters
+      ScheduleFilters filters,
     }) arg) {
   final sendPort = arg.sendport;
   final filters = arg.filters.filters;

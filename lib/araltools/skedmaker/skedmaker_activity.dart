@@ -31,7 +31,9 @@ import 'package:simple_timetable/simple_timetable.dart' hide SimpleTimetable;
 import 'package:window_manager/window_manager.dart';
 import '../../strings.g.dart';
 import '/opensource/timetable_view.dart';
+@Deprecated("s")
 import 'package:timetable_view/timetable_view.dart';
+//import 'package:simple_timetable/simple_timetable.dart';
 import 'package:path/path.dart' as path;
 
 import 'classes.dart';
@@ -109,6 +111,7 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
         ),
       ), */
 
+@Deprecated("old code, to be deleted")
 class TimetableFragment extends StatelessWidget {
   const TimetableFragment({super.key, this.week});
 
@@ -206,23 +209,22 @@ class _Timetable2FragmentState extends State<Timetable2Fragment> {
           ("F", DateTime(1970, 1, 6)),
           ("S", DateTime(1970, 1, 7)),
         ])
-          ...widget.week!.daysOfferings[day.$1]!
-              .map((e) => Event(
-                  id: e.toString(),
-                  start: day.$2.add(Duration(
-                      hours: (e.scheduleTime.start / 100).floor(),
-                      minutes: e.scheduleTime.start % 100)),
-                  end: day.$2.add(Duration(
-                      hours: (e.scheduleTime.end / 100).floor(),
-                      minutes: e.scheduleTime.end % 100)),
-                  date: day.$2,
-                  payload: e))
-              .toList()
+          ...widget.week!.daysOfferings[day.$1]!.map((e) => Event(
+              id: e.toString(),
+              start: day.$2.add(Duration(
+                  hours: (e.scheduleTime.start / 100).floor(),
+                  minutes: e.scheduleTime.start % 100)),
+              end: day.$2.add(Duration(
+                  hours: (e.scheduleTime.end / 100).floor(),
+                  minutes: e.scheduleTime.end % 100)),
+              date: day.$2,
+              payload: e))
       ],
       buildCard: (event, isPast) {
         final offering = event.payload!;
         final bg = offering.color;
         final colorLuminant = offering.color.basedOnLuminance();
+
         return parentOrChild(
           condition: widget.currentlyHovered != null,
           parent: (child) {
@@ -391,7 +393,7 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
             title: Text(strings.general.general.new_),
             leading: Icon(MdiIcons.plusBoxOutline, size: 25),
             onTap: () {
-                showNewProjectDialog(context, AralTools.skedmaker);
+              showNewProjectDialog(context, AralTools.skedmaker);
             },
           ),
           ListTile(
@@ -460,7 +462,8 @@ class _SkedmakerDrawerState extends State<SkedmakerDrawer> {
           Divider(),
           ListTile(
             title: Text(strings.skedmaker.drawer.fileLocation.name),
-            subtitle: SelectableText(model.path ?? strings.skedmaker.drawer.fileLocation.empty),
+            subtitle: SelectableText(
+                model.path ?? strings.skedmaker.drawer.fileLocation.empty),
           ),
         ],
       ),

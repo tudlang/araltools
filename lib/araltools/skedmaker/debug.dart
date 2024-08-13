@@ -19,6 +19,12 @@ import 'package:flutter/material.dart';
 
 import 'classes.dart';
 
+importTestSubjects(model) {
+  for (var subject in debugSubjects) {
+    model.addSubject(subject.first.subject, subject);
+  }
+}
+
 /// These are subjects used for debug.
 /// Have fun adding more :)
 final debugSubjects = [

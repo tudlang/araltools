@@ -176,6 +176,7 @@ class SkedmakerModel extends ChangeNotifier {
 
     setScheduleCombinations();
 
+    print("COMBINATIONS: $_scheduleCombinations");
     generateStopwatch.start();
 
     _stream = generateSchedules(

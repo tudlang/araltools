@@ -571,18 +571,24 @@ class ScheduleWeek {
     _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
-  void add(Offering offering) {
+  void add(Offering offering, {bool debugBypassConflictCheker = false}) {
     if (subjects.contains(offering)) throw InvalidScheduleError();
 
     // make it a for loop so that the multiple days are allowed
     for (final _offering in offering.split()) {
+      
+      // bypass the byte conflict checker if this debug flag is on
+      if (debugBypassConflictCheker) continue;
+
       _addByte(
         daycode: _offering.scheduleDay.daycode,
         start: _offering.scheduleTime.start,
         end: _offering.scheduleTime.end,
       );
+
       daysOfferings[_offering.scheduleDay.daycode]!.add(_offering);
     }
+
     subjects.add(offering);
   }
 
