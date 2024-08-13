@@ -348,9 +348,15 @@ enum ScheduleDay {
       switch (code) {
         'H' when old == ScheduleDay.mondayFace && hasRoom =>
           ScheduleDay.mondaythursdayFace,
-        'H' when old == ScheduleDay.mondayHybrid && !hasRoom =>
+        'H'
+            when (old == ScheduleDay.mondayHybrid ||
+                    old == ScheduleDay.mondayFace) &&
+                !hasRoom =>
           ScheduleDay.mondaythursdayFaceonline,
-        'H' when old == ScheduleDay.mondayHybrid && hasRoom =>
+        'H'
+            when (old == ScheduleDay.mondayHybrid ||
+                    old == ScheduleDay.mondayOnline) &&
+                hasRoom =>
           ScheduleDay.mondaythursdayOnlineface,
         'H' when old == ScheduleDay.mondayOnline =>
           ScheduleDay.mondaythursdayOnline,
@@ -358,9 +364,15 @@ enum ScheduleDay {
           ScheduleDay.mondaythursdayUnknown,
         'F' when old == ScheduleDay.tuesdayFace && hasRoom =>
           ScheduleDay.tuesdayfridayFace,
-        'F' when old == ScheduleDay.tuesdayHybrid && !hasRoom =>
+        'F'
+            when (old == ScheduleDay.tuesdayHybrid ||
+                    old == ScheduleDay.tuesdayFace) &&
+                !hasRoom =>
           ScheduleDay.tuesdayfridayFaceonline,
-        'F' when old == ScheduleDay.tuesdayHybrid && hasRoom =>
+        'F'
+            when (old == ScheduleDay.tuesdayHybrid ||
+                    old == ScheduleDay.tuesdayOnline) &&
+                hasRoom =>
           ScheduleDay.tuesdayfridayOnlineface,
         'F' when old == ScheduleDay.tuesdayOnline =>
           ScheduleDay.tuesdayfridayOnline,
@@ -368,9 +380,15 @@ enum ScheduleDay {
           ScheduleDay.tuesdayfridayUnknown,
         'S' when old == ScheduleDay.wednesdayFace && hasRoom =>
           ScheduleDay.wednesdaysaturdayFace,
-        'S' when old == ScheduleDay.wednesdayHybrid && !hasRoom =>
+        'S'
+            when (old == ScheduleDay.wednesdayHybrid ||
+                    old == ScheduleDay.wednesdayFace) &&
+                !hasRoom =>
           ScheduleDay.wednesdaysaturdayFaceonline,
-        'S' when old == ScheduleDay.wednesdayHybrid && hasRoom =>
+        'S'
+            when (old == ScheduleDay.wednesdayHybrid ||
+                    old == ScheduleDay.wednesdayOnline) &&
+                hasRoom =>
           ScheduleDay.wednesdaysaturdayOnlineface,
         'S' when old == ScheduleDay.wednesdayOnline =>
           ScheduleDay.wednesdaysaturdayOnline,
@@ -576,7 +594,6 @@ class ScheduleWeek {
 
     // make it a for loop so that the multiple days are allowed
     for (final _offering in offering.split()) {
-      
       // bypass the byte conflict checker if this debug flag is on
       if (debugBypassConflictCheker) continue;
 
