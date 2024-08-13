@@ -52,6 +52,11 @@ subjects:
       field: "Copy the output and paste it here:"
       hint: The command output
       error: Invalid input
+    errorParse:
+      title: Error while parsing
+      messagebox: The following offerings cannot be parsed.
+      footer: Proceeding will discard all of these offerings.
+    
   
   subject:
     title: ${subject} - ${offering} offerings (${available} available)

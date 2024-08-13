@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 3
-/// Strings: 957 (319 per locale)
+/// Strings: 969 (323 per locale)
 ///
-/// Built on 2024-08-13 at 09:38 UTC
+/// Built on 2024-08-13 at 14:55 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -258,6 +258,7 @@ class _StringsGeneralGeneralEn {
 	String get copy => 'Copy';
 	String get new_ => 'New';
 	String get moreInfo => 'More info';
+	String get proceed => 'Proceed';
 	late final _StringsGeneralGeneralDateEn date = _StringsGeneralGeneralDateEn._(_root);
 }
 
@@ -735,6 +736,7 @@ class _StringsSkedmakerSubjectsAddEn {
 	late final _StringsSkedmakerSubjectsAddButtonMlsEn buttonMls = _StringsSkedmakerSubjectsAddButtonMlsEn._(_root);
 	late final _StringsSkedmakerSubjectsAddButtonManualEn buttonManual = _StringsSkedmakerSubjectsAddButtonManualEn._(_root);
 	late final _StringsSkedmakerSubjectsAddButtonCodeEn buttonCode = _StringsSkedmakerSubjectsAddButtonCodeEn._(_root);
+	late final _StringsSkedmakerSubjectsAddErrorParseEn errorParse = _StringsSkedmakerSubjectsAddErrorParseEn._(_root);
 }
 
 // Path: skedmaker.subjects.subject
@@ -1325,6 +1327,18 @@ class _StringsSkedmakerSubjectsAddButtonCodeEn {
 	String get field => 'Copy the output and paste it here:';
 	String get hint => 'The command output';
 	String get error => 'Invalid input';
+}
+
+// Path: skedmaker.subjects.add.errorParse
+class _StringsSkedmakerSubjectsAddErrorParseEn {
+	_StringsSkedmakerSubjectsAddErrorParseEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Error while parsing';
+	String get messagebox => 'The following offerings cannot be parsed.';
+	String get footer => 'Proceeding will discard all of these offerings.';
 }
 
 // Path: skedmaker.subjects.subject.actions
@@ -1949,6 +1963,7 @@ class _StringsGeneralGeneralTl extends _StringsGeneralGeneralEn {
 	@override String get copy => 'Kopyahin';
 	@override String get new_ => 'Bágo';
 	@override String get moreInfo => 'Karagdagang impo';
+	@override String get proceed => 'Magpatúloy';
 }
 
 // Path: skedmaker.info
@@ -2230,6 +2245,7 @@ class _StringsSkedmakerSubjectsAddTl extends _StringsSkedmakerSubjectsAddEn {
 	@override late final _StringsSkedmakerSubjectsAddButtonMlsTl buttonMls = _StringsSkedmakerSubjectsAddButtonMlsTl._(_root);
 	@override late final _StringsSkedmakerSubjectsAddButtonManualTl buttonManual = _StringsSkedmakerSubjectsAddButtonManualTl._(_root);
 	@override late final _StringsSkedmakerSubjectsAddButtonCodeTl buttonCode = _StringsSkedmakerSubjectsAddButtonCodeTl._(_root);
+	@override late final _StringsSkedmakerSubjectsAddErrorParseTl errorParse = _StringsSkedmakerSubjectsAddErrorParseTl._(_root);
 }
 
 // Path: skedmaker.subjects.subject
@@ -2820,6 +2836,18 @@ class _StringsSkedmakerSubjectsAddButtonCodeTl extends _StringsSkedmakerSubjects
 	@override String get field => 'Kopyahin ang kinalalabasan at ilagay dito:';
 	@override String get hint => 'Kinalalabasan ng command';
 	@override String get error => 'Mali ang nàilagay';
+}
+
+// Path: skedmaker.subjects.add.errorParse
+class _StringsSkedmakerSubjectsAddErrorParseTl extends _StringsSkedmakerSubjectsAddErrorParseEn {
+	_StringsSkedmakerSubjectsAddErrorParseTl._(_StringsTl root) : this._root = root, super._(root);
+
+	@override final _StringsTl _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Kamalian habang binabása';
+	@override String get messagebox => 'Ang mga alok na ito ay hindi maibása.';
+	@override String get footer => 'Kapag magtutuloy ay mabubura ang mga alok na ito.';
 }
 
 // Path: skedmaker.subjects.subject.actions
@@ -3444,6 +3472,7 @@ class _StringsGeneralGeneralTlQp extends _StringsGeneralGeneralEn {
 	@override String get copy => 'I-copy';
 	@override String get new_ => 'New';
 	@override String get moreInfo => 'More info';
+	@override String get proceed => 'Mag-proceed';
 }
 
 // Path: skedmaker.info
@@ -3725,6 +3754,7 @@ class _StringsSkedmakerSubjectsAddTlQp extends _StringsSkedmakerSubjectsAddEn {
 	@override late final _StringsSkedmakerSubjectsAddButtonMlsTlQp buttonMls = _StringsSkedmakerSubjectsAddButtonMlsTlQp._(_root);
 	@override late final _StringsSkedmakerSubjectsAddButtonManualTlQp buttonManual = _StringsSkedmakerSubjectsAddButtonManualTlQp._(_root);
 	@override late final _StringsSkedmakerSubjectsAddButtonCodeTlQp buttonCode = _StringsSkedmakerSubjectsAddButtonCodeTlQp._(_root);
+	@override late final _StringsSkedmakerSubjectsAddErrorParseTlQp errorParse = _StringsSkedmakerSubjectsAddErrorParseTlQp._(_root);
 }
 
 // Path: skedmaker.subjects.subject
@@ -4317,6 +4347,18 @@ class _StringsSkedmakerSubjectsAddButtonCodeTlQp extends _StringsSkedmakerSubjec
 	@override String get error => 'Invalid ang input';
 }
 
+// Path: skedmaker.subjects.add.errorParse
+class _StringsSkedmakerSubjectsAddErrorParseTlQp extends _StringsSkedmakerSubjectsAddErrorParseEn {
+	_StringsSkedmakerSubjectsAddErrorParseTlQp._(_StringsTlQp root) : this._root = root, super._(root);
+
+	@override final _StringsTlQp _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Error habang nagpa-parse';
+	@override String get messagebox => 'Hindi mai-parse \'tong mga offerings.';
+	@override String get footer => 'Madi-discard \'tong mga offerings kapag magpro-proceed.';
+}
+
 // Path: skedmaker.subjects.subject.actions
 class _StringsSkedmakerSubjectsSubjectActionsTlQp extends _StringsSkedmakerSubjectsSubjectActionsEn {
 	_StringsSkedmakerSubjectsSubjectActionsTlQp._(_StringsTlQp root) : this._root = root, super._(root);
@@ -4851,6 +4893,7 @@ extension on Translations {
 			case 'general.general.copy': return 'Copy';
 			case 'general.general.new_': return 'New';
 			case 'general.general.moreInfo': return 'More info';
+			case 'general.general.proceed': return 'Proceed';
 			case 'general.general.date.eras.0': return 'BC';
 			case 'general.general.date.eras.1': return 'AD';
 			case 'general.general.date.eraNames.0': return 'Before Christ';
@@ -5026,6 +5069,9 @@ extension on Translations {
 			case 'skedmaker.subjects.add.buttonCode.field': return 'Copy the output and paste it here:';
 			case 'skedmaker.subjects.add.buttonCode.hint': return 'The command output';
 			case 'skedmaker.subjects.add.buttonCode.error': return 'Invalid input';
+			case 'skedmaker.subjects.add.errorParse.title': return 'Error while parsing';
+			case 'skedmaker.subjects.add.errorParse.messagebox': return 'The following offerings cannot be parsed.';
+			case 'skedmaker.subjects.add.errorParse.footer': return 'Proceeding will discard all of these offerings.';
 			case 'skedmaker.subjects.subject.title': return ({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} offerings (${available} available)';
 			case 'skedmaker.subjects.subject.actions.recolor.name': return 'Recolor';
 			case 'skedmaker.subjects.subject.actions.recolor.title': return 'Select color';
@@ -5290,6 +5336,7 @@ extension on _StringsTl {
 			case 'general.general.copy': return 'Kopyahin';
 			case 'general.general.new_': return 'Bágo';
 			case 'general.general.moreInfo': return 'Karagdagang impo';
+			case 'general.general.proceed': return 'Magpatúloy';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang awtomatikong paggawa ng iskedyul sa klase ng mga estudyante ng DLSU';
@@ -5321,6 +5368,9 @@ extension on _StringsTl {
 			case 'skedmaker.subjects.add.buttonCode.field': return 'Kopyahin ang kinalalabasan at ilagay dito:';
 			case 'skedmaker.subjects.add.buttonCode.hint': return 'Kinalalabasan ng command';
 			case 'skedmaker.subjects.add.buttonCode.error': return 'Mali ang nàilagay';
+			case 'skedmaker.subjects.add.errorParse.title': return 'Kamalian habang binabása';
+			case 'skedmaker.subjects.add.errorParse.messagebox': return 'Ang mga alok na ito ay hindi maibása.';
+			case 'skedmaker.subjects.add.errorParse.footer': return 'Kapag magtutuloy ay mabubura ang mga alok na ito.';
 			case 'skedmaker.subjects.subject.title': return ({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} alok (${available} maaari)';
 			case 'skedmaker.subjects.subject.actions.recolor.name': return 'Kulayin';
 			case 'skedmaker.subjects.subject.actions.recolor.title': return 'Pumili ng kulay';
@@ -5585,6 +5635,7 @@ extension on _StringsTlQp {
 			case 'general.general.copy': return 'I-copy';
 			case 'general.general.new_': return 'New';
 			case 'general.general.moreInfo': return 'More info';
+			case 'general.general.proceed': return 'Mag-proceed';
 			case 'skedmaker.info.name': return 'SkedMaker';
 			case 'skedmaker.info.nameFull': return '${_root.general.app.name} ${_root.skedmaker.info.name}';
 			case 'skedmaker.info.desc': return 'Ang automatic na class schedule maker para sa DLSU students';
@@ -5616,6 +5667,9 @@ extension on _StringsTlQp {
 			case 'skedmaker.subjects.add.buttonCode.field': return 'I-copy ang output at i-paste dito:';
 			case 'skedmaker.subjects.add.buttonCode.hint': return 'Ang command output';
 			case 'skedmaker.subjects.add.buttonCode.error': return 'Invalid ang input';
+			case 'skedmaker.subjects.add.errorParse.title': return 'Error habang nagpa-parse';
+			case 'skedmaker.subjects.add.errorParse.messagebox': return 'Hindi mai-parse \'tong mga offerings.';
+			case 'skedmaker.subjects.add.errorParse.footer': return 'Madi-discard \'tong mga offerings kapag magpro-proceed.';
 			case 'skedmaker.subjects.subject.title': return ({required Object subject, required Object offering, required Object available}) => '${subject} - ${offering} offerings (${available} available)';
 			case 'skedmaker.subjects.subject.actions.recolor.name': return 'I-recolor';
 			case 'skedmaker.subjects.subject.actions.recolor.title': return 'Mag-select ng color';

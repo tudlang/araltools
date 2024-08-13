@@ -254,6 +254,7 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
   );
 }
 
+/// The dialog that pops up if there is any error in the parsing of the HTML.
 Future<bool> errorAskIfProceed(
     BuildContext context, List<CannotParseError> errors) async {
   print(errors.first.header.outerHtml);
@@ -264,33 +265,34 @@ Future<bool> errorAskIfProceed(
         builder: (context) {
           return ContentDialog(
             constraints: BoxConstraints.tightFor(),
-            title: Text("Error while parsing"),
+            title: Text(strings.skedmaker.subjects.add.errorParse.title),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InfoBar(
-                    title: Text("The following offerings cannot be parsed:"),
+                    title: Text(strings.skedmaker.subjects.add.errorParse.messagebox),
                     severity: InfoBarSeverity.warning,
                   ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
+                    // combine all of the rows into a single HTML widget.
                       child: HtmlWidget(
                           "<table>${errors.first.header.outerHtml.replaceAll("<font color=\"#FFFFFF\">", "<font style='font-weight: bold;'>")} ${errors.fold("", (prev, cur) => prev + cur.row.outerHtml)}</table>")),
                 ),
-                Text("Proceeding will discard all of these offerings.")
+                Text(strings.skedmaker.subjects.add.errorParse.footer)
               ],
             ),
             actions: [
               Button(
-                  child: Text("Cancel"),
+                  child: Text(strings.general.general.cancel),
                   onPressed: () {
                     Navigator.pop(context, false);
                   }),
               FilledButton(
-                  child: Text("Proceed"),
+                  child: Text(strings.general.general.proceed),
                   onPressed: () {
                     Navigator.pop(context, true);
                   })
@@ -300,25 +302,6 @@ Future<bool> errorAskIfProceed(
       ) ??
       true;
 }
-
-/*
-ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              if (index == 0)
-                                for (var i in errors.first.header.children)
-                                  Text(i.text)
-                              else
-                                for (var i in errors[index - 1].row.children)
-                                  Text(i.text)
-                            ],
-                          );
-                        },
-                        separatorBuilder: (context, index) => Divider(),
-                        itemCount: errors.length + 1)
-*/
 
 // Currently an unused function
 /// Shows a dialog box that loads the possible schedules. Returns a [Future] that completes when the schedule generation is done.

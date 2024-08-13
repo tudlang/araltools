@@ -52,6 +52,10 @@ subjects:
       field: "I-copy ang output at i-paste dito:"
       hint: Ang command output
       error: Invalid ang input
+    errorParse:
+      title: Error habang nagpa-parse
+      messagebox: Hindi mai-parse 'tong mga offerings.
+      footer: Madi-discard 'tong mga offerings kapag magpro-proceed.
 
   subject:
     title: ${subject} - ${offering} offerings (${available} available)

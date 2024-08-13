@@ -75,6 +75,7 @@ general:
   copy: Copy
   new_: New
   moreInfo: More info
+  proceed: Proceed
 
   date:
     eras: ["BC", "AD"]

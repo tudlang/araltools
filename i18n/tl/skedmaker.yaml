@@ -52,6 +52,10 @@ subjects:
       field: "Kopyahin ang kinalalabasan at ilagay dito:"
       hint: Kinalalabasan ng command
       error: Mali ang nàilagay
+    errorParse:
+      title: Kamalian habang binabása
+      messagebox: Ang mga alok na ito ay hindi maibása.
+      footer: Kapag magtutuloy ay mabubura ang mga alok na ito.
 
   subject:
     title: ${subject} - ${offering} alok (${available} maaari)
