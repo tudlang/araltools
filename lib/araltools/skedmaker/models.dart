@@ -167,7 +167,9 @@ class SkedmakerModel extends ChangeNotifier {
   // count execution time
   final generateStopwatch = Stopwatch();
   scheduleGenerate() {
-    _schedules.clear();
+    // remove all unstarred schedules
+    _schedules.removeWhere((e)=>!e.isStarred);
+
     _scheduleProgress = 0;
     _tabs
       ..clear()
