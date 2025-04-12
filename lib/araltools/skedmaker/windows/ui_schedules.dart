@@ -561,6 +561,33 @@ class _SchedulesFragmentTimetableState
                     exportImage(context, week);
                   },
                 ),
+                CommandBarButton(
+                  label: Text(
+                      strings.skedmaker.schedules.commandbar.mixandmatch.name),
+                  icon: Icon(MdiIcons.potMixOutline),
+                  onPressed: () {
+                    final model = context.read<SkedmakerModel>();
+
+                    final copy = week.copy();
+
+                    // put the copy on the mixandmatch var
+                    model.mixandmatchWeek = copy;
+
+                    // due to the processing, the offerings of the outputted week != offerings in subjects
+                    // so we must manually get the same subjects again via Offering.equals()
+                    model.mixandmatchOfferings =
+                        model.subjects.entries.fold([], (out, entry) {
+                      for (final i in copy.subjects) {
+                        out.addAll(entry.value.where((v) => v.equals(i)));
+                      }
+                      return out;
+                    });
+
+                    // direct user to mix and match pane
+                    context.read<SkedmakerUiModel>().paneIndex = 3;
+
+                  },
+                ),
               ],
             ))
           ],

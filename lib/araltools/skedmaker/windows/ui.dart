@@ -33,6 +33,7 @@ import '../export_xml.dart';
 import '../models.dart';
 import '../skedmaker_activity.dart';
 import 'ui_filters.dart';
+import 'ui_mixandmatch.dart';
 import 'ui_schedules.dart';
 import 'ui_subjects.dart';
 
@@ -47,12 +48,9 @@ class SkedmakerActivityWindows extends StatefulWidget {
 
 class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
     with WindowListener {
-  late int paneIndex;
-
   @override
   void initState() {
     super.initState();
-    paneIndex = 0;
     windowManager.addListener(this);
 
     // This is to prompt to save first when clicking the close button
@@ -199,7 +197,9 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                       color: theme.colorScheme.onPrimary),
                 ),
                 SizedBox(width: 16),
-                VerticalDivider(),
+                VerticalDivider(
+                  color: theme.colorScheme.onPrimary,
+                ),
               ]),
               leading: Tooltip(
                 message: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -215,10 +215,10 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   iconButtonMode: IconButtonMode.large,
                 ),
               ),
-              selected: paneIndex,
+              selected: context.watch<SkedmakerUiModel>().paneIndex,
               onChanged: (index) {
                 setState(() {
-                  paneIndex = index;
+                  context.read<SkedmakerUiModel>().paneIndex = index;
                 });
               },
               displayMode: PaneDisplayMode.top,
@@ -227,8 +227,8 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   icon: Icon(MdiIcons.schoolOutline),
                   title: Text(
                     strings.skedmaker.subjects.name,
-                    style: textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onPrimary),
+                    style: textTheme.bodyLarge
+                        ?.copyWith(color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
@@ -239,8 +239,8 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   icon: Icon(MdiIcons.filterOutline),
                   title: Text(
                     strings.skedmaker.filters.name,
-                    style: textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onPrimary),
+                    style: textTheme.bodyLarge
+                        ?.copyWith(color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
@@ -256,12 +256,25 @@ class _SkedmakerActivityWindowsState extends State<SkedmakerActivityWindows>
                   icon: Icon(MdiIcons.calendarBlankMultiple),
                   title: Text(
                     strings.skedmaker.schedules.name,
-                    style: textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onPrimary),
+                    style: textTheme.bodyLarge
+                        ?.copyWith(color: theme.colorScheme.onPrimary),
                   ),
                   body: NavigationPaneTheme(
                     data: FluentTheme.of(context).navigationPaneTheme,
                     child: NavigationView(content: SchedulesFragment()),
+                  ),
+                ),
+                PaneItemSeparator(color: theme.colorScheme.onPrimary),
+                PaneItem(
+                  icon: Icon(MdiIcons.potMixOutline),
+                  title: Text(
+                    strings.skedmaker.mixandmatch.name,
+                    style: textTheme.bodyLarge
+                        ?.copyWith(color: theme.colorScheme.onPrimary),
+                  ),
+                  body: NavigationPaneTheme(
+                    data: FluentTheme.of(context).navigationPaneTheme,
+                    child: NavigationView(content: MixandmatchFragment()),
                   ),
                 ),
               ],

@@ -901,7 +901,6 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                       p0.scheduleTime2 =
                                           p0.scheduleTime2 ?? p0.scheduleTime;
                                     }
-                                    return p0;
                                   },
                                 );
                               },
@@ -1103,7 +1102,6 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                                             start: selectedStart2!,
                                             end: selectedEnd2!
                                           );
-                                    return p0;
                                   },
                                 );
                               },

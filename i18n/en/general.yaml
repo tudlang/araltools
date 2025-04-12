@@ -76,6 +76,7 @@ general:
   new_: New
   moreInfo: More info
   proceed: Proceed
+  reset: Reset
 
   date:
     eras: ["BC", "AD"]

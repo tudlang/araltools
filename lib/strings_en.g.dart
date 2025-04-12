@@ -69,6 +69,7 @@ class TranslationsSkedmakerEn {
 	late final TranslationsSkedmakerSubjectsEn subjects = TranslationsSkedmakerSubjectsEn.internal(_root);
 	late final TranslationsSkedmakerFiltersEn filters = TranslationsSkedmakerFiltersEn.internal(_root);
 	late final TranslationsSkedmakerSchedulesEn schedules = TranslationsSkedmakerSchedulesEn.internal(_root);
+	late final TranslationsSkedmakerMixandmatchEn mixandmatch = TranslationsSkedmakerMixandmatchEn.internal(_root);
 	late final TranslationsSkedmakerScheduleDayEn scheduleDay = TranslationsSkedmakerScheduleDayEn.internal(_root);
 	late final TranslationsSkedmakerScheduleRoomEn scheduleRoom = TranslationsSkedmakerScheduleRoomEn.internal(_root);
 	late final TranslationsSkedmakerScheduleDefaultEn scheduleDefault = TranslationsSkedmakerScheduleDefaultEn.internal(_root);
@@ -149,6 +150,7 @@ class TranslationsGeneralGeneralEn {
 	String get new_ => 'New';
 	String get moreInfo => 'More info';
 	String get proceed => 'Proceed';
+	String get reset => 'Reset';
 	late final TranslationsGeneralGeneralDateEn date = TranslationsGeneralGeneralDateEn.internal(_root);
 }
 
@@ -213,6 +215,18 @@ class TranslationsSkedmakerSchedulesEn {
 	late final TranslationsSkedmakerSchedulesDetailsEn details = TranslationsSkedmakerSchedulesDetailsEn.internal(_root);
 	late final TranslationsSkedmakerSchedulesInfoEn info = TranslationsSkedmakerSchedulesInfoEn.internal(_root);
 	late final TranslationsSkedmakerSchedulesOptionsEn options = TranslationsSkedmakerSchedulesOptionsEn.internal(_root);
+}
+
+// Path: skedmaker.mixandmatch
+class TranslationsSkedmakerMixandmatchEn {
+	TranslationsSkedmakerMixandmatchEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Mix and match';
+	late final TranslationsSkedmakerMixandmatchOfferingsEn offerings = TranslationsSkedmakerMixandmatchOfferingsEn.internal(_root);
+	late final TranslationsSkedmakerMixandmatchScheduleEn schedule = TranslationsSkedmakerMixandmatchScheduleEn.internal(_root);
 }
 
 // Path: skedmaker.scheduleDay
@@ -694,6 +708,7 @@ class TranslationsSkedmakerSchedulesCommandbarEn {
 	late final TranslationsSkedmakerSchedulesCommandbarDeleteEn delete = TranslationsSkedmakerSchedulesCommandbarDeleteEn.internal(_root);
 	late final TranslationsSkedmakerSchedulesCommandbarStarEn star = TranslationsSkedmakerSchedulesCommandbarStarEn.internal(_root);
 	late final TranslationsSkedmakerSchedulesCommandbarSaveImageEn saveImage = TranslationsSkedmakerSchedulesCommandbarSaveImageEn.internal(_root);
+	late final TranslationsSkedmakerSchedulesCommandbarMixandmatchEn mixandmatch = TranslationsSkedmakerSchedulesCommandbarMixandmatchEn.internal(_root);
 }
 
 // Path: skedmaker.schedules.details
@@ -728,6 +743,28 @@ class TranslationsSkedmakerSchedulesOptionsEn {
 
 	// Translations
 	String get hoverEffects => 'Enable hover effects';
+}
+
+// Path: skedmaker.mixandmatch.offerings
+class TranslationsSkedmakerMixandmatchOfferingsEn {
+	TranslationsSkedmakerMixandmatchOfferingsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Pick your subject offerings';
+	String numberSelected({required Object number}) => '(${number} selected)';
+}
+
+// Path: skedmaker.mixandmatch.schedule
+class TranslationsSkedmakerMixandmatchScheduleEn {
+	TranslationsSkedmakerMixandmatchScheduleEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'View what your schedule may look like';
+	late final TranslationsSkedmakerMixandmatchScheduleCommandbarEn commandbar = TranslationsSkedmakerMixandmatchScheduleCommandbarEn.internal(_root);
 }
 
 // Path: skedmaker.scheduleDay.mondayFace
@@ -1396,6 +1433,26 @@ class TranslationsSkedmakerSchedulesCommandbarSaveImageEn {
 	]);
 }
 
+// Path: skedmaker.schedules.commandbar.mixandmatch
+class TranslationsSkedmakerSchedulesCommandbarMixandmatchEn {
+	TranslationsSkedmakerSchedulesCommandbarMixandmatchEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'View on Mix and match';
+}
+
+// Path: skedmaker.mixandmatch.schedule.commandbar
+class TranslationsSkedmakerMixandmatchScheduleCommandbarEn {
+	TranslationsSkedmakerMixandmatchScheduleCommandbarEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsSkedmakerMixandmatchScheduleCommandbarAddToSchedulesEn addToSchedules = TranslationsSkedmakerMixandmatchScheduleCommandbarAddToSchedulesEn.internal(_root);
+}
+
 // Path: skedmaker.subjects.subject.actions.recolor
 class TranslationsSkedmakerSubjectsSubjectActionsRecolorEn {
 	TranslationsSkedmakerSubjectsSubjectActionsRecolorEn.internal(this._root);
@@ -1765,6 +1822,18 @@ class TranslationsSkedmakerFiltersCategoriesSchedulesSameSectionEn {
 	String get desc => 'Useful for the management of schedules.';
 }
 
+// Path: skedmaker.mixandmatch.schedule.commandbar.addToSchedules
+class TranslationsSkedmakerMixandmatchScheduleCommandbarAddToSchedulesEn {
+	TranslationsSkedmakerMixandmatchScheduleCommandbarAddToSchedulesEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get name => 'Add to Schedules';
+	String get empty => 'Schedule is empty.';
+	String get success => 'Added to Schedules.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -1812,6 +1881,7 @@ extension on Translations {
 			case 'general.general.new_': return 'New';
 			case 'general.general.moreInfo': return 'More info';
 			case 'general.general.proceed': return 'Proceed';
+			case 'general.general.reset': return 'Reset';
 			case 'general.general.date.eras.0': return 'BC';
 			case 'general.general.date.eras.1': return 'AD';
 			case 'general.general.date.eraNames.0': return 'Before Christ';
@@ -2119,6 +2189,7 @@ extension on Translations {
 				const TextSpan(text: 'generated by '),
 				name(_root.skedmaker.info.nameFull),
 			]);
+			case 'skedmaker.schedules.commandbar.mixandmatch.name': return 'View on Mix and match';
 			case 'skedmaker.schedules.details.name': return 'Details';
 			case 'skedmaker.schedules.details.notes': return 'Notes';
 			case 'skedmaker.schedules.details.subjects': return 'Subjects';
@@ -2126,6 +2197,13 @@ extension on Translations {
 			case 'skedmaker.schedules.info.title': return 'Information';
 			case 'skedmaker.schedules.info.desc': return 'Select a schedule from the left.\nView and compare multiple schedules by opening new tabs at the top.\n\nKeyboard shortcuts:\nUp/Down arrow key - go to next/previous schedule\nCtrl + T - create new tab\nCtrl + W or Ctrl + F4 - close current tab\nCtrl + 1 to 8 - go to first to eighth tab\nCtrl + 9 - go to last tab';
 			case 'skedmaker.schedules.options.hoverEffects': return 'Enable hover effects';
+			case 'skedmaker.mixandmatch.name': return 'Mix and match';
+			case 'skedmaker.mixandmatch.offerings.title': return 'Pick your subject offerings';
+			case 'skedmaker.mixandmatch.offerings.numberSelected': return ({required Object number}) => '(${number} selected)';
+			case 'skedmaker.mixandmatch.schedule.title': return 'View what your schedule may look like';
+			case 'skedmaker.mixandmatch.schedule.commandbar.addToSchedules.name': return 'Add to Schedules';
+			case 'skedmaker.mixandmatch.schedule.commandbar.addToSchedules.empty': return 'Schedule is empty.';
+			case 'skedmaker.mixandmatch.schedule.commandbar.addToSchedules.success': return 'Added to Schedules.';
 			case 'skedmaker.scheduleDay.mondayFace.name': return 'Monday (face-to-face)';
 			case 'skedmaker.scheduleDay.mondayFace.nameShort': return 'M (f2f)';
 			case 'skedmaker.scheduleDay.mondayOnline.name': return 'Monday (online)';

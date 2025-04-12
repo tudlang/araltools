@@ -224,6 +224,23 @@ class Offering implements Comparable {
     else
       return 0;
   }
+
+  /// Check for equality with another [Offering]
+  bool equals(Offering other){
+    return this.subject == other.subject &&
+    this.section == other.section &&
+    this.room == other.room &&
+    this.teacher == other.teacher &&
+    this.slotCapacity == other.slotCapacity &&
+    this.slotTaken == other.slotTaken &&
+    this.scheduleDay == other.scheduleDay &&
+    this.scheduleTime == other.scheduleTime &&
+    this.scheduleTime2 == other.scheduleTime2 &&
+    this.classNumber == other.classNumber &&
+    this.isClosed == other.isClosed &&
+    this.color == other.color &&
+    this.remarks == other.remarks;
+  }
 }
 
 /// An enum containing all possible schedule days, including their modality
@@ -536,18 +553,12 @@ class ScheduleWeek {
   ScheduleWeek()
       // I am so sorry that this is repeated, but each set needs to be separately instantiated
       : daysOfferings = {
-          'M': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
-          'T': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
-          'W': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
-          'H': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
-          'F': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
-          'S': SplayTreeSet<Offering>((prev, next) =>
-              splayTreeSetCompare(prev, next)),
+          'M': SplayTreeSet<Offering>(splayTreeSetCompare),
+          'T': SplayTreeSet<Offering>(splayTreeSetCompare),
+          'W': SplayTreeSet<Offering>(splayTreeSetCompare),
+          'H': SplayTreeSet<Offering>(splayTreeSetCompare),
+          'F': SplayTreeSet<Offering>(splayTreeSetCompare),
+          'S': SplayTreeSet<Offering>(splayTreeSetCompare),
         },
         name = '',
         subjects = SplayTreeSet<Offering>(
@@ -555,10 +566,10 @@ class ScheduleWeek {
         notes = '',
         isStarred = false;
 
-  static int splayTreeSetCompare(Offering prev, Offering next){
+  static int splayTreeSetCompare(Offering prev, Offering next) {
     var out = prev.scheduleTime.start.compareTo(next.scheduleTime.start);
 
-    if (out == 0){
+    if (out == 0) {
       out = prev.subject.compareTo(next.subject);
     }
 
@@ -590,13 +601,17 @@ class ScheduleWeek {
     _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
-  void add(Offering offering, {bool debugBypassConflictCheker = true}) {
-    if (subjects.contains(offering)) throw InvalidScheduleError();
+  void add(
+    Offering offering, {
+    bool bypassConflictChecker = false,
+    bool bypassSubjectChecker = false,
+  }) {
+    if (!bypassSubjectChecker && subjects.contains(offering))
+      throw InvalidScheduleError();
 
     // make it a for loop so that the multiple days are allowed
     for (final _offering in offering.split()) {
-
-      if (!debugBypassConflictCheker) {
+      if (!bypassConflictChecker) {
         _addByte(
           daycode: _offering.scheduleDay.daycode,
           start: _offering.scheduleTime.start,
@@ -608,6 +623,14 @@ class ScheduleWeek {
     }
 
     subjects.add(offering);
+  }
+
+  void remove(Offering offering) {
+    for (final _offering in offering.split()) {
+      daysOfferings[_offering.scheduleDay.daycode]!.remove(_offering);
+    }
+
+    subjects.remove(offering);
   }
 
   String get daysOfferingsString =>
@@ -682,6 +705,24 @@ class ScheduleWeek {
       ..notes = notes
       ..daysOfferings = daysOfferings
       ..subjects = subjects
+      ..isStarred = isStarred;
+  }
+
+  /// Creates a new [ScheduleWeek] with the same fields
+  ScheduleWeek copy() {
+    return ScheduleWeek()
+      ..name = name
+      ..notes = notes
+      ..daysOfferings = daysOfferings.map(
+        (key, value) => MapEntry(
+          key,
+          SplayTreeSet<Offering>.from(value, splayTreeSetCompare),
+        ),
+      )
+      ..subjects = SplayTreeSet<Offering>.from(
+        subjects,
+        (prev, next) => prev.subject.compareTo(next.subject),
+      )
       ..isStarred = isStarred;
   }
 }

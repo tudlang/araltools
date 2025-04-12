@@ -70,12 +70,16 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SkedmakerModel>(
-      create: (context) {
-        if (widget.path == null) return SkedmakerModel();
-
-        return importXml(path: widget.path!);
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SkedmakerModel>(create: (context) {
+          if (widget.path == null) return SkedmakerModel();
+          return importXml(path: widget.path!);
+        }),
+        ChangeNotifierProvider<SkedmakerUiModel>(
+          create: (_) => SkedmakerUiModel(),
+        )
+      ],
       child: onPlatform(
         all: null,
         windows: SkedmakerActivityWindows(

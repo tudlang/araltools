@@ -39,17 +39,74 @@ class SkedmakerModel extends ChangeNotifier {
 
   void removeSubject(String code) {
     subjects.remove(code);
+
+    // update also mix and match if the user has made some stuff here
+    final offeringsInMixandmatch = mixandmatchOfferings
+        .where((element) => element.subject == code);
+    for (final o in offeringsInMixandmatch){
+        mixandmatchWeek.remove(o);
+    }
+    mixandmatchOfferings
+        .removeWhere((element) => element.subject == code);
+
     notifyListeners();
   }
 
   void modifySubject(String code, void Function(List<Offering>) modify) {
-    modify(subjects[code]!);
+    final subjectToModify = subjects[code]!;
+
+    // update also mix and match if the user has made some stuff here
+    final offeringsInMixandmatch = mixandmatchOfferings
+        .where((element) => subjectToModify.contains(element));
+
+    if (offeringsInMixandmatch.isNotEmpty) {
+      // remove first from its week
+      for (final o in offeringsInMixandmatch) {
+        mixandmatchWeek.remove(o);
+      }
+      // before removing from list of offerings
+      mixandmatchOfferings
+          .removeWhere((element) => subjectToModify.contains(element));
+    }
+
+    modify(subjectToModify);
+
+    // readd if it still exists
+    if (offeringsInMixandmatch.isNotEmpty) {
+      for (final o in offeringsInMixandmatch
+          .where((element) => subjectToModify.contains(element))) {
+        mixandmatchOfferings.add(o);
+        mixandmatchWeek.add(o,
+            bypassSubjectChecker: true, bypassConflictChecker: true);
+      }
+    }
+
     notifyListeners();
   }
 
   void modifySubjectOffering(
-      String code, int index, Offering Function(Offering) modify) {
-    subjects[code]![index] = modify(subjects[code]![index]);
+      String code, int index, void Function(Offering) modify) {
+    final offeringToModify = subjects[code]![index];
+    bool isInMixandmatch = false;
+
+    // update also mix and match if the user has made some stuff here
+    if (mixandmatchOfferings.isNotEmpty) {
+      isInMixandmatch = mixandmatchOfferings.remove(offeringToModify);
+      if (isInMixandmatch) {
+        mixandmatchWeek.remove(offeringToModify);
+      }
+    }
+
+    // proceed with the modification
+    modify(offeringToModify);
+
+    // readd back if so
+    if (isInMixandmatch) {
+      mixandmatchOfferings.add(offeringToModify);
+      mixandmatchWeek.add(offeringToModify,
+          bypassSubjectChecker: true, bypassConflictChecker: true);
+    }
+
     notifyListeners();
   }
 
@@ -168,7 +225,7 @@ class SkedmakerModel extends ChangeNotifier {
   final generateStopwatch = Stopwatch();
   scheduleGenerate() {
     // remove all unstarred schedules
-    _schedules.removeWhere((e)=>!e.isStarred);
+    _schedules.removeWhere((e) => !e.isStarred);
 
     _scheduleProgress = 0;
     _tabs
@@ -233,7 +290,7 @@ class SkedmakerModel extends ChangeNotifier {
 
     // remove hidden subjects
     for (final subject in subjectsHidden) {
-      removed[subject]= subjects.remove(subject)!;
+      removed[subject] = subjects.remove(subject)!;
     }
 
     // calculate the combinations
@@ -249,7 +306,6 @@ class SkedmakerModel extends ChangeNotifier {
 
     // return back the removed ones
     subjects.addAll(removed);
-
   }
 
   int _scheduleProgress = 0;
@@ -266,6 +322,35 @@ class SkedmakerModel extends ChangeNotifier {
 
   Webview? webview;
 
+  // =====
+  // MIX AND MATCH VARIABLES
+  // ====
+
+  ScheduleWeek mixandmatchWeek;
+  void modifyMixandmatchWeek(
+      void Function(ScheduleWeek mixandmatchWeek) update) {
+    update(mixandmatchWeek);
+    notifyListeners();
+  }
+
+  /// the selected offerings
+  List<Offering> mixandmatchOfferings;
+  void modifyMixandmatchOfferings(
+      void Function(List<Offering> mixandmatchOfferings) update) {
+    update(mixandmatchOfferings);
+    notifyListeners();
+  }
+
+  void resetMixandmatch(){
+    mixandmatchOfferings.clear();
+    mixandmatchWeek = ScheduleWeek();
+
+    notifyListeners();
+
+  }
+
+  //====
+
   SkedmakerModel({
     Map<String, List<Offering>>? subjects,
     Set<ScheduleWeek>? schedules,
@@ -277,5 +362,22 @@ class SkedmakerModel extends ChangeNotifier {
         _schedules = schedules ?? {},
         _tabs = tabs ?? [],
         _filters = filters ?? ScheduleFilters(),
-        _subjectsHidden = subjectsHidden ?? {};
+        _subjectsHidden = subjectsHidden ?? {},
+        mixandmatchWeek = ScheduleWeek(),
+        mixandmatchOfferings = [];
+}
+
+
+
+/// Model for all UI stuff.
+class SkedmakerUiModel extends ChangeNotifier {
+
+int _paneIndex = 0;
+
+set paneIndex(int i) {
+  _paneIndex = i;
+  notifyListeners();
+}
+int get paneIndex => _paneIndex;
+
 }

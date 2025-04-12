@@ -69,7 +69,7 @@ void generateSchedulesIsolate(
         for (final offering in offeringsCurrent) {
           week.add(
             offering,
-            debugBypassConflictCheker:
+            bypassConflictChecker:
                 ! filters['schedules']!['conflictChecker']!.value,
           );
         }
