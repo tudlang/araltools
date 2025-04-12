@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Tudlang
+# Copyright (C) 2025 Tudlang
 # 
 # This file is part of AralTools.
 # 
@@ -52,6 +52,7 @@ subjects:
       field: "Copy the output and paste it here:"
       hint: The command output
       error: Invalid input
+      consoleWarning: Only do this if you know what you're doing. Do not enter random code into the browser console.
     errorParse:
       title: Error while parsing
       messagebox: The following offerings cannot be parsed.
@@ -137,7 +138,9 @@ filters:
       includeUnknownModality:
         name: Include offerings with unknown modality
       includeNoTeachers:
-        name: Include offerings with no teachers
+        name: Include offerings with no teacher
+      includeNoRoom:
+        name: Include offerings with no room
       excludeSectionLetter:
         name: Exclude sections that contains the following
         desc: Use this to exclude offerings whose section contains certain letter(s)
@@ -196,6 +199,15 @@ filters:
         result: 
           one: ~${n} meter
           other: ~${n} meters
+    schedules:
+      name: Schedules
+      conflictChecker:
+        name: Enable conflict checker
+        desc: Disable this if you want offerings to conflict & overlap with each other.
+      sameSection:
+        name: Create schedules with the same section for all subjects
+        desc: Useful for the management of schedules.
+
   any: Any subject
   reset: Reset all
 

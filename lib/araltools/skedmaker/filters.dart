@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -319,6 +319,10 @@ class ScheduleFilters {
         key: 'includeNoTeachers',
         valueDefault: true,
       ),
+      'includeNoRoom': ScheduleFilterSwitch(
+        key: 'includeNoRoom',
+        valueDefault: true,
+      ),
       'excludeSectionLetter': ScheduleFilterStringWithChip(
         key: 'excludeSectionLetter',
       ),
@@ -398,12 +402,23 @@ class ScheduleFilters {
         valueLeast: -1,
       ),
     },
+    'schedules': {
+      'conflictChecker': ScheduleFilterSwitch(
+        key: 'conflictChecker',
+        valueDefault: true,
+      ),
+      'sameSection': ScheduleFilterSwitch(
+        key: 'sameSection',
+        valueDefault: false,
+      ),
+    }
   };
 
   static final filterIcons = {
     'offerings': MdiIcons.schoolOutline,
     'day': MdiIcons.viewDayOutline,
     'location': MdiIcons.mapMarkerOutline,
+    'schedules': MdiIcons.calendarBlankMultiple,
   };
 
   /// Function whether to exclude [offering] from generation, given the current filters
@@ -428,17 +443,15 @@ class ScheduleFilters {
             offering.scheduleDay.modality == ScheduleModality.unknown) ||
         (filters['offerings']!['includeNoTeachers']!.value == false &&
             offering.teacher.isEmpty) ||
-        (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty ==
-                true &&
-            (filters['offerings']!['excludeSectionLetter']!.value
-                    as Set<String>)
+        (filters['offerings']!['includeNoRoom']!.value == false &&
+            offering.room.isEmpty) ||
+        (filters['offerings']!['excludeSectionLetter']!.value?.isNotEmpty == true &&
+            (filters['offerings']!['excludeSectionLetter']!.value as Set<String>)
                 .any((e) => offering.section
                     .toLowerCase()
                     .contains(e.toLowerCase()))) ||
-        (filters['offerings']!['excludeRemarksLetter']!.value?.isNotEmpty ==
-                true &&
-            (filters['offerings']!['excludeRemarksLetter']!.value
-                    as Set<String>)
+        (filters['offerings']!['excludeRemarksLetter']!.value?.isNotEmpty == true &&
+            (filters['offerings']!['excludeRemarksLetter']!.value as Set<String>)
                 .any((e) => offering.remarks
                     .toLowerCase()
                     .contains(e.toLowerCase()))) ||

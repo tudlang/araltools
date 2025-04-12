@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -28,10 +28,13 @@ import 'models.dart';
 SkedmakerModel importXml({
   required String path,
 }) {
+
+  print("OPENING " + path);
+
   // Use an InputFileStream to access the zip file without storing it in memory.
   final inputStream = InputFileStream(path);
 
-  final archive = ZipDecoder().decodeBuffer(inputStream);
+  final archive = ZipDecoder().decodeStream(inputStream);
 
   final decoderUtf8 = Utf8Decoder();
 

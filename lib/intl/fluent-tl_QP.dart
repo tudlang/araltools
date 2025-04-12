@@ -139,4 +139,7 @@ class FluentLocalizationsTlQP extends FluentLocalizations {
 
   @override
   String get year => 'year';
+
+  @override //TODO TEMPORARY
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -85,31 +85,6 @@ class _SkedmakerActivityState extends State<SkedmakerActivity> {
     );
   }
 }
-/*
- MultiSplitViewTheme(
-        data: MultiSplitViewThemeData(
-          dividerPainter: DividerPainters.grooved1(
-            backgroundColor: Colors.grey[350],
-            color: Colors.indigo[100]!,
-            highlightedColor: Colors.indigo[900]!,
-          ),
-        ),
-        child: MultiSplitView(
-          initialAreas: [Area(weight: 0.3)],
-          axis: Axis.horizontal,
-          children: [
-            MultiSplitView(
-              initialAreas: [Area(weight: 0.3)],
-              axis: Axis.vertical,
-              children: [
-                SubjectsFragment(),
-                SchedulesFragment(),
-              ],
-            ),
-            TimetableFragment(),
-          ],
-        ),
-      ), */
 
 @Deprecated("old code, to be deleted")
 class TimetableFragment extends StatelessWidget {

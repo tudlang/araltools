@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -141,11 +141,12 @@ Future<({List<Offering>? list, Webview webview})?> getSubject(
 
                   if (parsed.errors.isNotEmpty &&
                       !await errorAskIfProceed(context, parsed.errors)) {
-                  } else
+                  } else {
                     Navigator.pop(context, (
                       list: parsed.list,
                       webview: window,
                     ));
+                  }
                 } catch (e) {
                   setState(() {
                     isError = true;
@@ -176,6 +177,12 @@ Future<List<Offering>?> getSubjectFromString(BuildContext context) async {
           content: ListView(
             shrinkWrap: true,
             children: [
+              InfoBar(
+                title: Text(
+                    strings.skedmaker.subjects.add.buttonCode.consoleWarning),
+                severity: InfoBarSeverity.warning,
+              ),
+              SizedBox(height: 8),
               Text.rich(strings.skedmaker.subjects.add.buttonCode.desc(
                 mls: (mls) => TextSpan(
                   text: mls,
@@ -272,13 +279,14 @@ Future<bool> errorAskIfProceed(
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InfoBar(
-                    title: Text(strings.skedmaker.subjects.add.errorParse.messagebox),
+                    title: Text(
+                        strings.skedmaker.subjects.add.errorParse.messagebox),
                     severity: InfoBarSeverity.warning,
                   ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    // combine all of the rows into a single HTML widget.
+                      // combine all of the rows into a single HTML widget.
                       child: HtmlWidget(
                           "<table>${errors.first.header.outerHtml.replaceAll("<font color=\"#FFFFFF\">", "<font style='font-weight: bold;'>")} ${errors.fold("", (prev, cur) => prev + cur.row.outerHtml)}</table>")),
                 ),

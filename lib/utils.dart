@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -60,6 +60,7 @@ Widget TextOrNull(
   bool? softWrap,
   TextOverflow? overflow,
   double? textScaleFactor,
+  TextScaler? textScaler,
   int? maxLines,
   String? semanticsLabel,
   TextWidthBasis? textWidthBasis,
@@ -79,6 +80,7 @@ Widget TextOrNull(
             softWrap: softWrap,
             overflow: overflow,
             textScaleFactor: textScaleFactor,
+            textScaler: textScaler,
             maxLines: maxLines,
             semanticsLabel: semanticsLabel,
             textWidthBasis: textWidthBasis,

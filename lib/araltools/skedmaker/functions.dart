@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -67,7 +67,22 @@ void generateSchedulesIsolate(
 
         // attempt to add the list of offerings to a weekly schedule
         for (final offering in offeringsCurrent) {
-          week.add(offering);
+          week.add(
+            offering,
+            debugBypassConflictCheker:
+                ! filters['schedules']!['conflictChecker']!.value,
+          );
+        }
+
+        String section = week.subjects.first.section;
+
+        for (final subject in week.subjects) {
+          // check if all offerings have the same _
+          if (filters['schedules']!['sameSection']!.value) {
+            if (subject.section != section) {
+              throw InvalidScheduleError();
+            }
+          }
         }
 
         // filter checker for each day
@@ -257,7 +272,7 @@ Stream<ScheduleWeek?> generateSchedules({
   subjects = Map.from(subjects);
 
   // remove hidden subjects
-  for (final subject in subjectsHidden){
+  for (final subject in subjectsHidden) {
     subjects.remove(subject);
   }
 
@@ -285,7 +300,8 @@ Stream<ScheduleWeek?> generateSchedules({
         if (week == null) {
           controller.add(null);
         } else {
-          week.name = strings.skedmaker.scheduleDefault.name(n: ++outputtedWeeks);
+          week.name =
+              strings.skedmaker.scheduleDefault.name(n: ++outputtedWeeks);
           controller.add(week);
         }
       }

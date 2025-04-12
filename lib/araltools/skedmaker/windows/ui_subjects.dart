@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -22,7 +22,7 @@ import 'package:araltools/araltools/skedmaker/filters.dart';
 import 'package:araltools/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:fluent_ui/fluent_ui.dart' hide Colors;
+import 'package:fluent_ui/fluent_ui.dart' hide Colors, ColorPicker;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
     hide FilledButton, Tooltip, showDialog, IconButton;
@@ -142,7 +142,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                     title: Text(str.add.buttonManual.title),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(str.add.buttonManual.desc),
                                         TextBox(
@@ -294,10 +295,10 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
               return PaneItem(
                 icon: subjectText.icon,
                 tileColor: switch (null) {
-                  _ when hasError => ButtonState.all(ResourceDictionary.light()
-                      .systemFillColorCriticalBackground),
                   _ when isHidden => ButtonState.all(ResourceDictionary.light()
                       .systemFillColorNeutralBackground),
+                  _ when hasError => ButtonState.all(ResourceDictionary.light()
+                      .systemFillColorCriticalBackground),
                   _ => NavigationPaneTheme.of(context).tileColor
                 },
                 title: subjectText.text,
@@ -307,8 +308,8 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                 trailing: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: switch (null) {
-                    _ when hasError => Icon(MdiIcons.alertCircleOutline),
                     _ when isHidden => Icon(MdiIcons.eyeOffOutline),
+                    _ when hasError => Icon(MdiIcons.alertCircleOutline),
                     _ => null
                   },
                 ),
@@ -791,12 +792,12 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   DataCell(
                     Text(offerings[i].classNumber.toString()),
                     onTapDown: (details) {
+                      final controllerText = TextEditingController(
+                          text: offerings[i].classNumber.toString());
+
                       flyoutController.showFlyout(
                         position: details.globalPosition,
                         builder: (context) {
-                          final controllerText = TextEditingController(
-                              text: offerings[i].classNumber.toString());
-
                           return SubjectsFragmentFlyout(
                             controllerText: controllerText,
                             label: str.table.classno.edit,
@@ -819,12 +820,12 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   DataCell(
                     Text(offerings[i].section),
                     onTapDown: (details) {
+                      final controllerText =
+                          TextEditingController(text: offerings[i].section);
+
                       flyoutController.showFlyout(
                         position: details.globalPosition,
                         builder: (context) {
-                          final controllerText =
-                              TextEditingController(text: offerings[i].section);
-
                           return SubjectsFragmentFlyout(
                             controllerText: controllerText,
                             label: str.table.section.edit,
@@ -843,12 +844,12 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   DataCell(
                     Text(offerings[i].room),
                     onTapDown: (details) {
+                      final controllerText =
+                          TextEditingController(text: offerings[i].room);
+
                       flyoutController.showFlyout(
                         position: details.globalPosition,
                         builder: (context) {
-                          final controllerText =
-                              TextEditingController(text: offerings[i].room);
-
                           return SubjectsFragmentFlyout(
                             controllerText: controllerText,
                             label: str.table.room.edit,
@@ -871,11 +872,11 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                       message: offerings[i].scheduleDay.nameLocalized,
                     ),
                     onTapDown: (details) {
+                      ScheduleDay selected = offerings[i].scheduleDay;
+
                       flyoutController.showFlyout(
                         position: details.globalPosition,
                         builder: (context) {
-                          ScheduleDay selected = offerings[i].scheduleDay;
-
                           return StatefulBuilder(builder: (context, setState) {
                             return SubjectsFragmentFlyout(
                               label: str.table.day.edit,
@@ -914,16 +915,15 @@ class _SubjectsFragmentSubjectState extends State<SubjectsFragmentSubject> {
                   DataCell(
                     Text(offerings[i].scheduleTimeString),
                     onTapDown: (details) {
+                      int selectedStart = offerings[i].scheduleTime.start;
+                      int selectedEnd = offerings[i].scheduleTime.end;
+
+                      int? selectedStart2 = offerings[i].scheduleTime2?.start;
+                      int? selectedEnd2 = offerings[i].scheduleTime2?.end;
+
                       flyoutController.showFlyout(
                         position: details.globalPosition,
                         builder: (context) {
-                          int selectedStart = offerings[i].scheduleTime.start;
-                          int selectedEnd = offerings[i].scheduleTime.end;
-
-                          int? selectedStart2 =
-                              offerings[i].scheduleTime2?.start;
-                          int? selectedEnd2 = offerings[i].scheduleTime2?.end;
-
                           return StatefulBuilder(builder: (context, setState) {
                             return SubjectsFragmentFlyout(
                               label: str.table.time.edit,

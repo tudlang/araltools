@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -17,6 +17,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:araltools/intl/fluent-tl.dart';
 import 'package:araltools/settings.dart';
@@ -78,10 +79,14 @@ class MyApp extends StatelessWidget {
   MyApp({
     super.key,
     this.path,
-  });
+  }){
+    random = Random();
+  }
 
   /// When the app is launched from a .at** file, [path] is the file path to the file. `null` if otherwise.
   final String? path;
+
+  late Random random;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +171,10 @@ class MyApp extends StatelessWidget {
                     : <String, dynamic>{};
 
                 print(extras);
+
+                // All Araltools have a root of a Scaffold
                 return Scaffold(
+                  key: ValueKey(random.nextDouble()),
                   drawer: araltool.getDrawer(extras),
                   body: araltool.getWidget(extras),
                 );

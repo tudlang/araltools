@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -23,11 +23,11 @@ const locales = {
     locale: Locale('en'),
   ),
   'tl': (
-    name: 'Tagalog',
+    name: 'Tagalog [beta]',
     locale: Locale('tl'),
   ),
   'tl_QP': (
-    name: 'Tagalog (Taglish)',
+    name: 'Tagalog (Taglish) [beta]',
     locale: Locale('tl', 'QP'),
   ),
 };

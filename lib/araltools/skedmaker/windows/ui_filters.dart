@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -53,8 +53,6 @@ class _FiltersFragmentState extends State<FiltersFragment> {
     final model = context.watch<SkedmakerModel>();
 
     final theme = Theme.of(context);
-    
-    final textTheme = theme.textTheme;
 
     return NavigationView(
       pane: NavigationPane(

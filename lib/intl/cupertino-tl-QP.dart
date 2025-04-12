@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -70,7 +70,8 @@ class _TlQPFluentLocalizationsDelegate
       singleDigitMinuteFormat: singleDigitMinuteFormat,
       doubleDigitMinuteFormat: doubleDigitMinuteFormat,
       singleDigitSecondFormat: singleDigitSecondFormat,
-      decimalFormat: decimalFormat,
+      decimalFormat: decimalFormat, 
+      weekdayFormat: dayFormat, //TODO TEMP
     ));
   }
 
@@ -92,7 +93,8 @@ class CupertinoLocalizationTlQP extends GlobalCupertinoLocalizations {
     required super.singleDigitMinuteFormat,
     required super.doubleDigitMinuteFormat,
     required super.singleDigitSecondFormat,
-    required super.decimalFormat,
+    required super.decimalFormat, 
+    required super.weekdayFormat,
   });
 
   

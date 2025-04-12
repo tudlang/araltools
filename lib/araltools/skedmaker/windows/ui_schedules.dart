@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -583,97 +583,101 @@ class _SchedulesFragmentTimetableState
             builder: (context, value, child) {
               return MultiSplitView(
                 axis: Axis.horizontal,
-                initialAreas: [Area(weight: 0.8)],
-                children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Timetable2Fragment(
-                          week: week,
-                          currentlyHovered:
-                              enableHoverEffects ? currentlyHovered : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ToggleSwitch(
-                          checked: enableHoverEffects,
-                          onChanged: (value) {
-                            setState(() {
-                              enableHoverEffects = !enableHoverEffects;
-                            });
-                          },
-                          content: Text(
-                              strings.skedmaker.schedules.options.hoverEffects),
-                        ),
-                      ),
-                      const Divider(style: DividerThemeData(thickness: 3)),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          strings.skedmaker.schedules.details.name,
-                          style: textTheme.headlineSmall,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InfoLabel(
-                          label: strings.skedmaker.schedules.details.notes,
-                          child: TextBox(
-                            controller: controllerTextNotes,
-                            maxLines: null,
+                initialAreas: [
+                  Area(
+                    flex: 2,
+                    builder: (context, area) => Column(
+                      children: [
+                        Expanded(
+                          child: Timetable2Fragment(
+                            week: week,
+                            currentlyHovered:
+                                enableHoverEffects ? currentlyHovered : null,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InfoLabel(
-                          label: strings.skedmaker.schedules.details.subjects,
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              for (final subject in week.subjects)
-                                parentOrChild(
-                                  condition: enableHoverEffects,
-                                  parent: (child) {
-                                    return MouseRegion(
-                                      onEnter: (event) {
-                                        currentlyHovered.value = subject;
-                                      },
-                                      onExit: (event) {
-                                        setState(() {
-                                          currentlyHovered.value = null;
-                                        });
-                                      },
-                                      child: Opacity(
-                                        opacity:
-                                            currentlyHovered.value != null &&
-                                                    currentlyHovered
-                                                            .value?.subject ==
-                                                        subject.subject
-                                                ? 1
-                                                : currentlyHovered.value != null
-                                                    ? 0.3
-                                                    : 1,
-                                        child: child,
-                                      ),
-                                    );
-                                  },
-                                  child: ScheduleFragmentCard(
-                                    subject: subject,
-                                  ),
-                                )
-                            ],
+                      ],
+                    ),
+                  ),
+                  Area(
+                    builder: (context, area) => ListView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ToggleSwitch(
+                            checked: enableHoverEffects,
+                            onChanged: (value) {
+                              setState(() {
+                                enableHoverEffects = !enableHoverEffects;
+                              });
+                            },
+                            content: Text(strings
+                                .skedmaker.schedules.options.hoverEffects),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                        const Divider(style: DividerThemeData(thickness: 3)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            strings.skedmaker.schedules.details.name,
+                            style: textTheme.headlineSmall,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InfoLabel(
+                            label: strings.skedmaker.schedules.details.notes,
+                            child: TextBox(
+                              controller: controllerTextNotes,
+                              maxLines: null,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InfoLabel(
+                            label: strings.skedmaker.schedules.details.subjects,
+                            child: Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                for (final subject in week.subjects)
+                                  parentOrChild(
+                                    condition: enableHoverEffects,
+                                    parent: (child) {
+                                      return MouseRegion(
+                                        onEnter: (event) {
+                                          currentlyHovered.value = subject;
+                                        },
+                                        onExit: (event) {
+                                          setState(() {
+                                            currentlyHovered.value = null;
+                                          });
+                                        },
+                                        child: Opacity(
+                                          opacity: currentlyHovered.value !=
+                                                      null &&
+                                                  currentlyHovered
+                                                          .value?.subject ==
+                                                      subject.subject
+                                              ? 1
+                                              : currentlyHovered.value != null
+                                                  ? 0.3
+                                                  : 1,
+                                          child: child,
+                                        ),
+                                      );
+                                    },
+                                    child: ScheduleFragmentCard(
+                                      subject: subject,
+                                    ),
+                                  )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
                 ],
               );
             },

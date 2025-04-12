@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -54,18 +54,20 @@ enum AralTools {
   /// Gets the translated description
   String get localizedDesc => strings["$name.info.desc"];
 
-  Widget getWidget(Map<String, dynamic> extras) => switch (this) {
-        skedmaker => SkedmakerActivity(
-            path: extras['path'],
-          )
+  Widget Function(Map<String, dynamic> extras) get getWidget => switch (this) {
+        skedmaker => (extras) => SkedmakerActivity(
+              path: extras['path'],
+            )
       };
-  Widget getDrawer(Map<String, dynamic> extras) =>
-      switch (this) { skedmaker => SkedmakerDrawer() };
+  Widget Function(Map<String, dynamic> extras) get getDrawer => switch (this) {
+        skedmaker => (extras) => SkedmakerDrawer(),
+      };
 
   IconData get iconData => switch (icon.$1) {
         'mdi' => iconMap[icon.$2]!,
         _ => IconData(0x0020) //empty space
       };
 
-  String get urlInfo => "https://github.com/tudlang/araltools/tree/main/lib/araltools/$name";
+  String get urlInfo =>
+      "https://github.com/tudlang/araltools/tree/main/lib/araltools/$name";
 }

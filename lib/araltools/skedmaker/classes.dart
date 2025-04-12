@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -348,24 +348,36 @@ enum ScheduleDay {
       switch (code) {
         'H' => switch (old) {
             mondayFace when hasRoom => mondaythursdayFace,
-            mondayHybrid || mondayFace when !hasRoom => mondaythursdayFaceonline,
-            mondayHybrid || mondayOnline when hasRoom => mondaythursdayOnlineface,
+            mondayHybrid ||
+            mondayFace when !hasRoom =>
+              mondaythursdayFaceonline,
+            mondayHybrid ||
+            mondayOnline when hasRoom =>
+              mondaythursdayOnlineface,
             mondayOnline => mondaythursdayOnline,
             mondayUnknown => mondaythursdayUnknown,
             _ => old
           },
         'F' => switch (old) {
             tuesdayFace when hasRoom => tuesdayfridayFace,
-            tuesdayHybrid || tuesdayFace when !hasRoom =>  tuesdayfridayFaceonline,
-            tuesdayHybrid || tuesdayOnline when hasRoom => tuesdayfridayOnlineface,
+            tuesdayHybrid ||
+            tuesdayFace when !hasRoom =>
+              tuesdayfridayFaceonline,
+            tuesdayHybrid ||
+            tuesdayOnline when hasRoom =>
+              tuesdayfridayOnlineface,
             tuesdayOnline => tuesdayfridayOnline,
             tuesdayUnknown => tuesdayfridayUnknown,
             _ => old
           },
         'S' => switch (old) {
             wednesdayFace when hasRoom => wednesdaysaturdayFace,
-            wednesdayHybrid || tuesdayFace when !hasRoom =>  wednesdaysaturdayFaceonline,
-            wednesdayHybrid || tuesdayOnline when hasRoom => wednesdaysaturdayOnlineface,
+            wednesdayHybrid ||
+            tuesdayFace when !hasRoom =>
+              wednesdaysaturdayFaceonline,
+            wednesdayHybrid ||
+            tuesdayOnline when hasRoom =>
+              wednesdaysaturdayOnlineface,
             wednesdayOnline => wednesdaysaturdayOnline,
             wednesdayUnknown => wednesdaysaturdayUnknown,
             _ => old
@@ -525,23 +537,33 @@ class ScheduleWeek {
       // I am so sorry that this is repeated, but each set needs to be separately instantiated
       : daysOfferings = {
           'M': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
           'T': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
           'W': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
           'H': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
           'F': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
           'S': SplayTreeSet<Offering>((prev, next) =>
-              prev.scheduleTime.start.compareTo(next.scheduleTime.start)),
+              splayTreeSetCompare(prev, next)),
         },
         name = '',
         subjects = SplayTreeSet<Offering>(
             (prev, next) => prev.subject.compareTo(next.subject)),
         notes = '',
         isStarred = false;
+
+  static int splayTreeSetCompare(Offering prev, Offering next){
+    var out = prev.scheduleTime.start.compareTo(next.scheduleTime.start);
+
+    if (out == 0){
+      out = prev.subject.compareTo(next.subject);
+    }
+
+    return out;
+  }
 
   String get identifierString =>
       "${daysOfferings['M']!.isNotEmpty ? '🄼' : ''}${daysOfferings['T']!.isNotEmpty ? ' 🅃' : ''}${daysOfferings['W']!.isNotEmpty ? ' 🅆' : ''}${daysOfferings['H']!.isNotEmpty ? ' 🄷' : ''}${daysOfferings['F']!.isNotEmpty ? ' 🄵' : ''}${daysOfferings['S']!.isNotEmpty ? ' 🅂' : ''}";
@@ -553,8 +575,11 @@ class ScheduleWeek {
 
   static bool isByteConflicting(BigInt a, BigInt b) => a & b != BigInt.zero;
 
-  void _addByte(
-      {required String daycode, required int start, required int end}) {
+  void _addByte({
+    required String daycode,
+    required int start,
+    required int end,
+  }) {
     final toAdd = toByte(start, end);
     final byteOfDay = _daysBytes[daycode]!;
 
@@ -565,19 +590,19 @@ class ScheduleWeek {
     _daysBytes[daycode] = byteOfDay | toAdd;
   }
 
-  void add(Offering offering, {bool debugBypassConflictCheker = false}) {
+  void add(Offering offering, {bool debugBypassConflictCheker = true}) {
     if (subjects.contains(offering)) throw InvalidScheduleError();
 
     // make it a for loop so that the multiple days are allowed
     for (final _offering in offering.split()) {
-      // bypass the byte conflict checker if this debug flag is on
-      if (debugBypassConflictCheker) continue;
 
-      _addByte(
-        daycode: _offering.scheduleDay.daycode,
-        start: _offering.scheduleTime.start,
-        end: _offering.scheduleTime.end,
-      );
+      if (!debugBypassConflictCheker) {
+        _addByte(
+          daycode: _offering.scheduleDay.daycode,
+          start: _offering.scheduleTime.start,
+          end: _offering.scheduleTime.end,
+        );
+      }
 
       daysOfferings[_offering.scheduleDay.daycode]!.add(_offering);
     }

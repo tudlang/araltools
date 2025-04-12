@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 // 
 // This file is part of AralTools.
 // 
@@ -139,4 +139,7 @@ class FluentLocalizationsTl extends FluentLocalizations {
 
   @override
   String get year => 'taon';
+
+  @override //TODO TEMPORARY
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
