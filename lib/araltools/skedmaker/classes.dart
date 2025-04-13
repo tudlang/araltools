@@ -68,10 +68,17 @@ class Offering implements Comparable {
     this.isClosed = false,
     this.remarks = '',
     required String scheduleTime,
-  }) : scheduleTime = (
+    String? scheduleTime2,
+  })  : this.scheduleTime = (
           start: scheduleTime.substring(0, 4).toInt(),
           end: scheduleTime.substring(7).toInt()
-        );
+        ),
+        this.scheduleTime2 = scheduleTime2 != null
+            ? (
+                start: scheduleTime2.substring(0, 4).toInt(),
+                end: scheduleTime2.substring(7).toInt()
+              )
+            : null;
 
   Offering.raw({
     required this.subject,
@@ -226,20 +233,20 @@ class Offering implements Comparable {
   }
 
   /// Check for equality with another [Offering]
-  bool equals(Offering other){
+  bool equals(Offering other) {
     return this.subject == other.subject &&
-    this.section == other.section &&
-    this.room == other.room &&
-    this.teacher == other.teacher &&
-    this.slotCapacity == other.slotCapacity &&
-    this.slotTaken == other.slotTaken &&
-    this.scheduleDay == other.scheduleDay &&
-    this.scheduleTime == other.scheduleTime &&
-    this.scheduleTime2 == other.scheduleTime2 &&
-    this.classNumber == other.classNumber &&
-    this.isClosed == other.isClosed &&
-    this.color == other.color &&
-    this.remarks == other.remarks;
+        this.section == other.section &&
+        this.room == other.room &&
+        this.teacher == other.teacher &&
+        this.slotCapacity == other.slotCapacity &&
+        this.slotTaken == other.slotTaken &&
+        this.scheduleDay == other.scheduleDay &&
+        this.scheduleTime == other.scheduleTime &&
+        this.scheduleTime2 == other.scheduleTime2 &&
+        this.classNumber == other.classNumber &&
+        this.isClosed == other.isClosed &&
+        this.color == other.color &&
+        this.remarks == other.remarks;
   }
 }
 

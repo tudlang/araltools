@@ -202,7 +202,6 @@ class _SubjectsFragmentState extends State<SubjectsFragment> {
                                 // THESE ARE FOR DEBUG PURPOSES
                                 final model = context.read<SkedmakerModel>();
                                 importTestSubjects(model);
-                                import(context);
                               },
                             ),
                         ],

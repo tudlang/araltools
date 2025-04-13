@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Tudlang
+// Copyright (C) 2025 Tudlang
 //
 // This file is part of AralTools.
 //
@@ -38,6 +38,7 @@ final debugSubjects = [
       slotCapacity: 20,
       slotTaken: 21,
       scheduleTime: '0730 - 0900',
+      scheduleTime2: '0730 - 0900',
     ),
     Offering(
       subject: 'FNAF101',
@@ -48,6 +49,7 @@ final debugSubjects = [
       slotCapacity: 20,
       slotTaken: 23,
       scheduleTime: '0915 - 1030',
+      scheduleTime2: '0915 - 1030',
     ),
     Offering(
       subject: 'FNAF101',
@@ -58,6 +60,7 @@ final debugSubjects = [
       slotCapacity: 30,
       slotTaken: 23,
       scheduleTime: '1100 - 1230',
+      scheduleTime2: '1100 - 1230',
     ),
     Offering(
       subject: 'FNAF101',
@@ -68,6 +71,7 @@ final debugSubjects = [
       slotCapacity: 30,
       slotTaken: 23,
       scheduleTime: '1300 - 1530',
+      scheduleTime2: '1300 - 1530',
     ),
     Offering(
       subject: 'FNAF101',
@@ -77,7 +81,8 @@ final debugSubjects = [
       teacher: 'FUHNAF',
       slotCapacity: 30,
       slotTaken: 0,
-      scheduleTime: '0730 - 0930',
+      scheduleTime: '0730 - 0900',
+      scheduleTime2: '0730 - 0900',
     ),
     Offering(
       subject: 'FNAF101',
@@ -88,7 +93,8 @@ final debugSubjects = [
       slotCapacity: 30,
       slotTaken: 22,
       room: 'AG1101',
-      scheduleTime: '0950 - 1030',
+      scheduleTime: '0900 - 1030',
+      scheduleTime2: '0900 - 1030',
     ),
     Offering(
       subject: 'FNAF101',
@@ -99,7 +105,8 @@ final debugSubjects = [
       slotCapacity: 23,
       slotTaken: 20,
       room: 'AG1201',
-      scheduleTime: '1245 - 1400',
+      scheduleTime: '1245 - 1415',
+      scheduleTime2: '1245 - 1415',
     ),
     Offering(
       subject: 'FNAF101',
@@ -111,9 +118,10 @@ final debugSubjects = [
       slotTaken: 9,
       room: 'SJ201',
       scheduleTime: '1415 - 1545',
+      scheduleTime2: '1415 - 1545',
     ),
   ]..forEach((element) {
-      element.color = Colors.red;
+      element.color = Color(0xFFFFCDD2);
     }),
   [
     Offering(
@@ -183,7 +191,7 @@ final debugSubjects = [
       scheduleTime: '1300 - 1730',
     ),
   ]..forEach((element) {
-      element.color = Colors.orange;
+      element.color = Color(0xFFEBE7AD);
     }),
   [
     Offering(
@@ -196,6 +204,7 @@ final debugSubjects = [
       slotTaken: 16,
       room: 'VL301',
       scheduleTime: '1500 - 1700',
+      scheduleTime2: '1500 - 1700',
     ),
     Offering(
       subject: 'STRWRS1',
@@ -206,6 +215,7 @@ final debugSubjects = [
       slotCapacity: 35,
       slotTaken: 9,
       scheduleTime: '1730 - 1930',
+      scheduleTime2: '1730 - 1930',
     ),
     Offering(
       subject: 'STRWRS1',
@@ -215,7 +225,7 @@ final debugSubjects = [
       teacher: "MAULER",
       slotCapacity: 35,
       slotTaken: 16,
-      scheduleTime: '1300 - 1800',
+      scheduleTime: '1300 - 1500',
     ),
     Offering(
       subject: 'STRWRS1',
@@ -225,7 +235,7 @@ final debugSubjects = [
       teacher: "MAULER",
       slotCapacity: 40,
       slotTaken: 9,
-      scheduleTime: '1300 - 1800',
+      scheduleTime: '1300 - 1500',
     ),
     Offering(
       subject: 'STRWRS1',
@@ -238,7 +248,7 @@ final debugSubjects = [
       scheduleTime: '1900 - 2000',
     ),
   ]..forEach((element) {
-      element.color = Colors.yellow;
+      element.color = Color(0xFFD8CDF4);
     }),
   [
     Offering(
@@ -269,7 +279,7 @@ final debugSubjects = [
       teacher: "PEWDIEPIE",
       slotCapacity: 50,
       slotTaken: 50,
-      scheduleTime: '1030 - 1100',
+      scheduleTime: '1030 - 1200',
     ),
     Offering(
       subject: 'CLKBAIT',
@@ -279,41 +289,54 @@ final debugSubjects = [
       teacher: "PEWDIEPIE",
       slotCapacity: 50,
       slotTaken: 15,
-      scheduleTime: '0900 - 1015',
+      scheduleTime: '0900 - 1030',
     ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX5',
-      scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
+      scheduleDay: ScheduleDay.mondayUnknown,
       classNumber: 20,
       teacher: "JACKSFILMS",
       slotCapacity: 20,
       slotTaken: 15,
-      scheduleTime: '1030 - 1115',
+      scheduleTime: '1030 - 1200',
+      scheduleTime2: '1030 - 1200',
     ),
     Offering(
       subject: 'CLKBAIT',
       section: 'XX6',
-      scheduleDay: ScheduleDay.wednesdaysaturdayFaceonline,
+      scheduleDay: ScheduleDay.tuesdayUnknown,
       classNumber: 21,
       teacher: "JACKSFILMS",
       slotCapacity: 20,
       slotTaken: 12,
-      scheduleTime: '1300 - 1445',
+      scheduleTime: '1300 - 1430',
     ),
   ]..forEach((element) {
-      element.color = Colors.purple;
+      element.color = Color(0xFFEFC9F8);
     }),
   [
     Offering(
       subject: 'LEGALYT',
-      section: 'LE',
+      section: 'LE1',
       scheduleDay: ScheduleDay.wednesdayOnline,
       classNumber: 210,
       teacher: "LEGAL EAGLE",
       slotCapacity: 45,
       slotTaken: 18,
-      scheduleTime: '1300 - 1545',
+      scheduleTime: '1300 - 1530',
     ),
-  ]
+    Offering(
+      subject: 'LEGALYT',
+      section: 'LE2',
+      scheduleDay: ScheduleDay.wednesdayOnline,
+      classNumber: 210,
+      teacher: "LEGAL EAGLE",
+      slotCapacity: 45,
+      slotTaken: 17,
+      scheduleTime: '1000 - 1230',
+    ),
+  ]..forEach((element) {
+      element.color = Color(0xFFE7B1B1);
+    }),
 ];
